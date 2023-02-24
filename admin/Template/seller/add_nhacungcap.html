@@ -1,0 +1,45 @@
+﻿<div style="width:100%">
+    <form id="formProducer">
+        <div class="row">
+            <label class="control-label col-sm-2">
+                <span>Tên</span>
+            </label>
+            <div class="form-group col-sm-10">
+                <input type="text" required class="form-control" name="name" ng-model="dataProducer.name" placeholder="Nhập tên nhà cung cấp">
+            </div>
+        </div>
+        <div class="row">
+            <label class="control-label col-sm-2">
+                <span>Mã số thuế</span>
+            </label>
+            <div class="form-group col-sm-10">
+                <input type="text" required class="form-control" data-bv-message="Vui lòng nhập mã số thuế" name="taxcode" ng-model="dataProducer.taxcode" placeholder="Nhập mã số thuế">
+            </div>
+        </div>
+        <div class="row">
+            <label class="control-label col-sm-2">
+                <span>Địa chỉ</span>
+            </label>
+            <div class="form-group col-sm-10">
+                <input type="text" required class="form-control" data-bv-message="Vui lòng nhập địa chỉ" name="address" ng-model="dataProducer.address" placeholder="Nhập địa chỉ">
+            </div>
+        </div>
+        <div class="row">
+            <label class="control-label col-sm-2">
+                <span>Url</span>
+            </label>
+            <div class="form-group col-sm-10">
+                <input type="text" required class="form-control" data-bv-message="Vui lòng nhập api url" name="api_url" ng-model="dataProducer.api_url" placeholder="Nhập api url">
+            </div>
+        </div>
+
+        <div class="row">
+            <label class="control-label col-sm-2">
+
+            </label>
+            <div class="form-group col-sm-10">
+                <button type="submit" class="btn btn-primary">Thêm</button>
+            </div>
+        </div>
+    </form>
+</div>

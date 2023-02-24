@@ -1,0 +1,62 @@
+    <div class="title">
+        <h3>Thư viện nguồn</h3>
+    </div>
+
+<div class=" row" style="margin:0">
+    <div class="has-search search-date">
+        <div class="form-group has-feedback has-search" style="float:left;width:250px;margin-top: 8px;">
+            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+            <input type="text" class="form-control" ng-model="filter" placeholder="Nhập mã tìm kiếm tại đây" my-enter="searchFilter()">
+        </div>
+        <div class="function">
+            <a class="glyphicon glyphicon-plus icon" href="../#!/them-thu-vien-nguon" ></a>
+        </div>
+    </div>
+<style>
+.function{
+    float: right;
+    margin-top: 7px;
+
+}
+.has-search{
+    margin-bottom: 0;
+}
+
+.icon{
+    color: #0d67b1;;
+    padding: 10px;
+}
+</style>
+  
+</div>
+<div ng-app="">
+    <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
+      <thead>
+        <tr class="panel-info list-group-item-info" style="text-transform: uppercase;font-weight: bold;">
+          <th style="text-align:center;width:60px">STT</th>
+          <th style="width:200px">Nguồn</th>
+          <th>URI</th>
+          <th>Lĩnh vực</th>
+          <th>Loại</th>
+          <th>Trạng thái</th>
+          <th>Ghi chú</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in items">
+          <td style="text-align:center;">{{item.id}}</td>
+          <td>{{item.source}}</td>
+          <td>{{item.uri}}</td>
+          <td>{{item.field}}</td>
+          <td>{{item.type}}</td>
+          <td>{{item.status}}</td>
+          <td>{{item.note}}</td>
+          <td style="text-align:center;">
+            <a class="glyphicon glyphicon-pencil icon" ng-click="editItem(item)"></a>
+            <a class="glyphicon glyphicon-remove icon" ng-click="removeItem(item.stt)"></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

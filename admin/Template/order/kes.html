@@ -1,0 +1,60 @@
+﻿<div class=" row" style="margin:0">
+    <div class="has-search search-date">
+        <div class="form-group has-feedback has-search" style="float:left;width:250px;margin-top: 8px;">
+            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+            <input type="text" class="form-control" ng-model="filter" placeholder="Tìm theo mã sản phẩm hoặc tên công ty" my-enter="searchFilter()">
+        </div>
+        <form class="navbar-form navbar-left" ng-submit="searchFilter()" style="padding:0;padding-left: 15px;">
+            <div class="form-group">
+                <label>Từ ngày</label>
+                <input style="width:100px" type="text" class="form-control dateTimePicker" ng-model="from_date" ng-value="from_date" placeholder="yyyy-mm-dd">
+                <label>đến ngày</label>
+                <input style="width:100px" type="text" class="form-control dateTimePicker" ng-model="to_date" ng-value="to_date" placeholder="yyyy-mm-dd">
+            </div>
+            <div class="form-group">
+                <select class="form-control" ng-model="status" ng-selected="status">
+                    <option value="-1">Chọn trạng thái</option>
+                    <option value="2">Khởi tạo</option>
+                    <option value="1">Kích hoạt</option>
+                    <option value="0">Dừng dịch vụ</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i> Tìm</button>
+        </form>
+    </div>
+
+</div>
+<table class="table table-bordered" style="width:100%;margin-top:10px">
+    <thead>
+        <tr class="panel-info list-group-item-info">
+            <th style="text-align:center;width:60px">STT</th>
+            <th style="width:200px">Thời gian</th>
+            <th>Tên sản phẩm</th>
+            <th>Kênh bán</th>
+            <th>Đơn vị mua</th>
+            <th style="width:150px">Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="data.length == 0"><td colspan="9">{{textloading}}</td></tr>
+        <tr ng-repeat="item in data | filter:filter">
+            <td class="text-center" style="width:60px">{{((page*num)+$index)+1}}</td>
+            <td>{{item.subscribe_date}}</td>
+            <td><span ng-click="invoiceDetail(item.subsInfoId)" style="cursor:pointer">{{item.product_name}}</span></td>
+            <td style="width:150px">{{item.channel}}</td>
+            <td style="width:250px">{{item.comp_name}}</td>        
+            <td>
+                <span ng-if="item.status == 2" class="text-primary" ng-click="fnconfirm(item.subsId)" style="cursor:pointer">{{item.status_desc}}</span>
+                <span ng-if="item.status == 1" class="text-success">{{item.status_desc}}</span>
+                <span ng-if="item.status == 0" class="text-danger">{{item.status_desc}}</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div>
+    <div class="btn-group">
+        <button class="btn btn-default" ng-disabled="page==0" ng-click="prev()">Trước</button>
+        <button class="btn btn-default" ng-disabled="((page + 1)*num) >= totalRow" ng-click="next()">Sau</button>
+    </div>
+    <div style="float:right;margin-right:10px">{{totalRow}} bản ghi</div>
+</div>

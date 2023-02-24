@@ -1,0 +1,48 @@
+﻿<div>
+    <div class="input-group" style="width:40%;float: left;margin-bottom: 10px;">
+        <input class="form-control" type="text" ng-model="filter" my-enter="search()" placeholder="Tìm theo tên tài khoản" />
+        <span class="input-group-btn">
+            <button class="btn btn-primary" type="button" ng-click="search()"><i class="glyphicon glyphicon-search"></i> Tìm</button>
+        </span>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr class="list-group-item-info">
+                <td style="width:60px">
+                    STT
+                </td>
+                <td>
+                    Tài khoản
+                </td>
+                <td>
+                    Họ và tên
+                </td>
+                <td>
+                    Trạng thái
+                </td>
+                <td style="width:150px">
+                    #
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td ng-if="!showRow" colspan="5">{{textloading}}</td>
+            </tr>
+            <tr ng-repeat="item in listAccounts" ng-if='showRow' >
+                <td>{{$index+1}}</td>
+                <td>{{item.username}}</td>
+                <td>{{item.fullname}}</td>
+                <td>
+                    <span class="text-success" ng-if="item.state == 1">Kích hoạt</span>
+                    <span class="text-danger" ng-if="item.state != 1">Ngừng kích hoạt</span>
+                </td>
+                <td >
+                    <a class="glyphicon glyphicon-eye-open text-info" ng-click="detailUser(item.userid,item.refid)" style="cursor:pointer;padding-left:10px"></a>
+                    <a class="glyphicon glyphicon-edit" ui-sref="edit$account({id:item.userid, refid:item.refid})" style="cursor:pointer;padding-left:10px"></a>
+                    <a ng-if="$user.Roles.indexOf('auth_delete') != -1" class="glyphicon glyphicon-trash text-danger" ng-click="deleteUser(item.userid,item.refid)" style="cursor:pointer;padding-left:10px"></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

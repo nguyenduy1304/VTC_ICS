@@ -1,0 +1,49 @@
+<div class="title">
+    <h3>Báo cáo thống kê</h3>
+</div>
+
+<div class=" row" style="margin:0">
+    <div class="has-search search-date">
+        <form class="navbar-form navbar-left" ng-submit="searchFilter()" style="padding:0;padding-left: 15px;">
+            <div class="form-group" style="padding-right: 50px;">
+    <select class="form-control" ng-model="status" ng-selected="status"style="color: #0d67b1; font-weight: bold; ">
+                    <option value="-1">Chọn trạng thái</option>
+                    <option value="2">Báo cáo số lượng bản tin phát thanh đã phát</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Từ ngày </label>
+                <input  type="date" class="form-control dateTimePicker" ng-model="from_date" ng-value="from_date" placeholder="yyyy-mm-dd">
+                <label> đến </label>
+                <input type="date" class="form-control dateTimePicker" ng-model="to_date" ng-value="to_date" placeholder="yyyy-mm-dd">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div ng-app="">
+    <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
+      <thead>
+        <tr class="panel-info list-group-item-info" style="text-transform: uppercase;font-weight: bold;">
+          <th style="text-align:center;width:60px;">STT</th>
+          <th style="width:200px">Tỉnh</th>
+          <th>Huyện</th>
+          <th>Xã</th>
+          <th>Lĩnh vực</th>
+          <th>Bản tin</th>
+          <th>Ghi chú</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="row in data">
+          <td style="text-align: center;">{{row.id}}</td>
+          <td>{{row.province}}</td>
+          <td>{{row.district}}</td>
+          <td>{{row.commune}}</td>
+          <td>{{row.field}}</td>
+          <td>{{row.quantity}}</td>
+          <td>{{row.note}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

@@ -1,0 +1,114 @@
+﻿<h3>Kế hoạch phát thanh</h3>
+<table class="table table-bordered" style="width:100%;margin-top:10px">
+    <thead>
+        <tr class="panel-info list-group-item-info">
+            <th style="text-align:center;width:60px">STT</th>
+            <th>Kế hoạch</th>
+            <th>Trạng thái</th>
+            <th>Lịch sử phát thanh</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="data.length == 0"><td colspan="9">{{textloading}}</td></tr>
+        <tr ng-repeat="item in data | filter:filter">
+            <td class="text-center" style="width:60px">{{((page*num)+$index)+1}}</td>
+            <td>{{item.name}}</td>
+            <td style="width:250px">{{item.c_active == "1" ? "Kích hoạt" : "Tạm ngưng"}}</td>
+            <td>
+            {{item.date_from ? "Từ ngày: " : ""}} {{item.date_from ? (item.date_from * 1000 | date:'dd/MM/yyyy') : ''}}  {{item.date_to ? " - Đến ngày: " : ""}}  {{item.date_to ? (item.date_to * 1000 | date:'dd/MM/yyyy') : ''}} <br ng-show="item.date_to" />
+            {{item.week_day ? "Ngày trong tuần -" : ""}} {{item.week_day ? "[":""}} {{item.week_day | weekday:','}}{{item.week_day ? "]":""}} <br ng-show="item.week_day" />
+            {{item.day ? "Ngày trong tháng -" : ""}} {{item.day ? "[":""}} {{item.day | day:','}}{{item.day ? "]":""}}<br ng-show="item.day" />
+            {{item.month ? "Tháng -" : ""}} {{item.month ? "[":""}} {{item.month | monthday:','}}{{item.month ? "]":""}}<br ng-show="item.month" />
+            <p>Thời gian:</p>
+            {{item.hour_from ? "Đợt 1 :" : ""}} {{item.hour_from ? item.hour_from : ""}} {{item.hour_to ? "-" : ""}} {{item.hour_to ? item.hour_to : ""}}<span ng-show="item.hour_to"> | </span>
+            {{item.hour_from1 ? "Đợt 2 :" : ""}} {{item.hour_from1 ? item.hour_from1 : ""}} {{item.hour_to1 ? "-" : ""}} {{item.hour_to1 ? item.hour_to1 : ""}} <span ng-show="item.hour_to1"> | </span>
+            {{item.c_hour_from2 ? "Đợt 3 :" : ""}} {{item.c_hour_from2 ? item.c_hour_from2 : ""}} {{item.c_hour_to2 ? "-" : ""}} {{item.c_hour_to2 ? item.c_hour_to2 : ""}}<span ng-show="item.c_hour_to2"> | </span> 
+            {{item.c_hour_from3 ? "Đợt 4 :" : ""}} {{item.c_hour_from3 ? item.c_hour_from3 : ""}} {{item.c_hour_to3 ? "-" : ""}} {{item.c_hour_to3 ? item.c_hour_to3 : ""}}<span ng-show="item.c_hour_to3"> | </span> 
+            {{item.c_hour_from4 ? "Đợt 5 :" : ""}} {{item.c_hour_from4 ? item.c_hour_from4 : ""}} {{item.c_hour_to4 ? "-" : ""}} {{item.c_hour_to4 ? item.c_hour_to4 : ""}}<span ng-show="item.c_hour_to4"> | </span> 
+            {{item.c_hour_from5 ? "Đợt 6 :" : ""}} {{item.c_hour_from5 ? item.c_hour_from5 : ""}} {{item.c_hour_to5 ? "-" : ""}} {{item.c_hour_to5 ? item.c_hour_to5 : ""}} <br ng-show="item.c_hour_to5" />           
+            </td>            
+            <!--- {{item.endtime * 1000 | date:'HH:mm:ss dd/MM/yyyy'}}-->
+        </tr>
+    </tbody>
+</table>
+<div>
+    <div style="margin-bottom:10px;">
+        <ul style="margin:0" uib-pagination ng-change="pageChanged()" next-text="Tiếp theo" previous-text="Quay về" items-per-page="maxSize" total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" rotate="false"></ul>
+        <div style="float:right;margin-right:10px">{{bigTotalItems}} bản ghi</div>
+    </div>
+    
+</div>
+
+<h3>Danh sách loa</h3>
+<div style="float:left">
+    <span>Trạngt thái: </span>
+    <label for="status1" style="font-weight:500;margin-right: 15px;">
+        <input id="status1" type="checkbox" name="status[]" value="-1" ng-click="checkLoa()" />Loa OFFLINE <span style="color:blue" ng-repeat="item in dataTotalStatus | filter:{status:'-1'}" ng-if="item.status == '-1'">({{(item.total)}})</span>
+    </label>
+    <label for="status2" style="font-weight:500;margin-right: 15px;">
+        <input id="status2" type="checkbox" checked name="status[]" value="'',0" ng-click="checkLoa()" />Loa ONLINE <span style="color:blue" ng-repeat="item in dataTotalStatus " ng-if="item.status == '0'">({{(sttOnline | number)}})</span>
+    </label>
+    <label for="status3" style="font-weight:500;margin-right: 15px;">
+        <input id="status3" type="checkbox" name="status[]" value="4" ng-click="checkLoa()" />Loa đang phát <span style="color:blue" ng-repeat="item in dataTotalStatus | filter:{status:'4'}" ng-if="item.status == '4'">({{(item.total)}})</span>
+    </label>
+    <label for="status4" style="font-weight:500;margin-right: 15px;">
+        <input id="status4" type="checkbox" name="status[]" value="100" ng-click="checkLoa()" />Thiết bị giả lập <span style="color:blue" ng-repeat="item in dataTotalStatus | filter:{status:'100'}" ng-if="item.status == '100'">({{(item.total)}})</span>
+    </label>
+    <label for="status5" style="font-weight:500;margin-right: 15px;">
+        <input id="status5" type="checkbox" name="status[]" value="5" ng-click="checkLoa()" />ONLINE-Sleep<span style="color:blue" ng-repeat="item in dataTotalStatus | filter:{status:'5'}" ng-if="item.status == '5'">({{(item.total)}})</span>
+    </label>
+
+</div>
+<div style="float:left;margin-bottom:15px;margin-right:5px;">
+    <select  ng-model="filters.tinh" ng-change="loadHuyens()" class="select2" style="width:200px;">
+        <option value="">Chọn tỉnh thành</option>
+        <option ng-repeat="item in dataProvinces" ng-value="item.nameId" >{{item.name}}</option>
+    </select>
+</div>
+
+<div style="float:left;margin-bottom:15px;margin-right:5px;">
+    <select ng-model="filters.huyen" ng-change="loadXas()" class="select2" style="width:200px;">
+        <option value="">Chọn Huyện</option>
+        <option ng-repeat="item in dataDistricts" ng-value="item.nameId">{{item.name}}</option>
+    </select>
+</div>
+<div style="float:left;margin-bottom:15px">
+    <select ng-model="filters.xa" class="select2" style="width:200px;">
+        <option value="">Chọn Xã</option>
+        <option ng-repeat="item in dataWards" ng-value="item.nameId">{{item.name}}</option>
+    </select>
+</div>
+<table class="table table-bordered" style="width:100%;margin-top:10px">
+    <thead>
+        <tr class="panel-info list-group-item-info">
+            <th style="text-align:center;width:60px">STT</th>
+            <th>Tỉnh</th>
+            <th>Huyện</th>
+            <th>Xã</th>
+            <th>Tên</th>
+            <th>Phát thanh viên</th>
+            <th>Trạng thái</th>
+            <th>#</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="data_loa.length == 0"><td colspan="9">{{textloading}}</td></tr>
+        <tr ng-repeat="item in data_loa | filter:filter">
+            <td class="text-center" style="width:60px">{{((page2*num2)+$index)+1}}</td>
+            <td>{{item.city | split:'_':0}}</td>
+            <td>{{item.district | split:'_':0}}</td>
+            <td>{{item.ward | split:'_':0}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.broadcaster == 1 ? "Có" : "Không" }}</td>
+            <td style="width:250px">{{item.status == "-1" ? "OFFLINE" : item.status == "1" ? "INCOMING" : item.status == "3" ? "CONNECTING" : item.status == "4" ? "CALLING" : item.status == "10" ? "ESTABLISH" : item.status == "5" ? "ONLINE-Sleep" : item.status == "100" ? "Thiết bị giả lập" : "ONLINE"}}</td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<div>
+    <div style="margin-bottom:10px;">
+        <ul style="margin:0" uib-pagination ng-change="pageChanged2()" next-text="Tiếp theo" previous-text="Quay về" items-per-page="maxSize2" total-items="bigTotalItems2" ng-model="bigCurrentPage2" max-size="maxSize2" class="pagination-sm" boundary-link-numbers="true" rotate="false"></ul>
+        <div style="float:right;margin-right:10px">{{bigTotalItems2}} bản ghi</div>
+    </div>
+    
+</div>

@@ -1,0 +1,49 @@
+<div class="title">
+    <h3>Quản trị nhóm người dùng</h3>
+</div>
+
+<div class=" row" style="margin:0">
+<div class="has-search search-date">
+    <div class="form-group has-feedback has-search" style="float:left;width:250px;margin-top: 8px;">
+        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+        <input type="text" class="form-control" ng-model="filter" placeholder="Nhập mã tìm kiếm tại đây" my-enter="searchFilter()">
+    </div>
+    <div class="function">
+        <a class="glyphicon glyphicon-plus icon" href="#" ></a>
+        <a class="glyphicon glyphicon-pencil icon"href="#" ></a>
+        <a class="glyphicon glyphicon-remove icon"href="#" ></a>
+    </div>
+</div>
+<style>
+.function{
+float: right;
+margin-top: 7px;
+}
+.has-search{
+margin-bottom: 0;
+}
+.icon{
+color: #0d67b1;;
+padding: 10px;
+}
+</style>
+
+</div>
+<div ng-app="">
+    <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
+      <thead>
+          <tr class="panel-info list-group-item-info" style="text-transform: uppercase;font-weight: bold;">
+              <th style="text-align:center;width:120px">STT</th>
+              <th>Tên nhóm</th>
+              <th>Ghi chú</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr ng-repeat="group in groups">
+              <td style="text-align: center;">{{group.id}}</td>
+              <td>{{group.groupName}}</td>
+              <td>{{group.note}}</td>
+          </tr>
+      </tbody>
+    </table>
+  </div>

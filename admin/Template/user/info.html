@@ -1,0 +1,86 @@
+﻿<div>
+    <div class="row" style="margin:0">
+        <div class="col-xs-12">
+            <h3>Thông tin khách hàng</h3>
+        </div>
+    </div>
+
+    <form class="form-horizontal" id="enableForm">
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <label class="col-xs-5 col-md-3 col-lg-3  control-label" for="inputSuccess">Họ và tên</label>
+            <div class="col-xs-7 col-md-6 col-lg-6">
+                <input type="text" data-bv-message="Vui lòng nhập đầy đủ họ và tên" ng-model="dataForm.FullName" id="fullname" name="fullname_account" class="form-control" placeholder="Nhập đầy đủ họ và tên" required>
+            </div>
+        </div>
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <label class="col-xs-5 col-md-3 col-lg-3 control-label" for="inputSuccess">Ngày sinh</label>
+            <div class="col-xs-7 col-md-6 col-lg-6">
+                <input type="text" data-bv-message="Vui lòng nhập ngày sinh" ng-model="dataForm.Birthday" id="Birthday" name="Birthday" class="form-control" placeholder="Nhập ngày sinh" required>
+            </div>
+        </div>
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <label class="col-xs-5 col-md-3 col-lg-3 control-label" for="inputSuccess">Giới tính</label>
+            <div class="col-xs-7 col-md-6 col-lg-6">
+                <select class="form-control" name="gender" ng-selected="dataForm.Sex" ng-model="dataForm.Sex" id="gender_account" data-bv-message="Vui lòng chọn giới tính" required>
+                    <option value="">Chọn giới tính</option>
+                    <option value="0">Nam</option>
+                    <option value="1">Nữ</option>
+                    <option value="2">Không xác định</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" style="margin:0;margin-bottom:15px">
+            <label class="col-xs-5 col-md-3 col-lg-3 control-label" for="inputError">Số CCCD/Passport</label>
+            <div class="col-xs-7 col-md-6 col-lg-6">
+                <input type="tel" id="cccd" ng-model="dataForm.cccd" name="cccd" class="form-control" data-bv-message="Vui lòng nhập số cccd" placeholder="Nhập số cccd" required>
+            </div>
+        </div>
+        <div class="form-group" style="margin:0;margin-bottom:15px">
+            <label class="col-xs-5 col-md-3 col-lg-3 control-label" for="inputError">Ảnh CCCD</label>
+            <div class="col-xs-7 col-md-6 col-lg-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        
+                        <div class="cccd_first">
+                            <p>Mặt trước</p>
+                            <div class="picture"><span class="lnr lnr-picture"></span></div>
+                            <button ng-click="showCamera('cccd_first')" type="button" class="btn btn-primary"><span class="lnr lnr-camera"></span> <span>Chụp hình</span></button>
+                            <div class="upload">
+                                <button type="button" class="btn btn-primary"><span class="lnr lnr-picture"></span></button>
+                                <input type="file" name="upload" id="file_upload">
+                                <span class="fileName">Chọn ảnh từ bộ sưu tập</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p>Mặt sau</p>
+                        <div class="picture"><span class="lnr lnr-picture"></span></div>
+                        <div class="cccd_last">
+                            <button type="button" class="btn btn-primary"><span class="lnr lnr-camera"></span> <span>Chụp hình</span></button>
+                            <button type="button" class="btn btn-primary"><span class="lnr lnr-picture"></span> <span>Chọn từ bộ sưu tập ảnh</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="margin:0;margin-bottom:15px">
+            <label class="col-xs-5 col-md-3 col-lg-3 control-label" for="inputError">Ảnh gương mặt</label>
+            <div class="col-xs-7 col-md-6 col-lg-6">
+                <div class="col-md-6">
+                    <div class="picture"><span class="lnr lnr-user"></span></div>
+                    <div class="user_avatar">
+                        <button type="button" class="btn btn-primary"><span class="lnr lnr-camera"></span> <span>Chụp hình</span></button>                        
+                        <button type="button" class="btn btn-primary"><span class="lnr lnr-picture"></span> <span>Chọn từ bộ sưu tập ảnh</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-6">
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </div>
+        </div>
+    </form>
+</div>

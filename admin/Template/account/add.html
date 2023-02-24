@@ -1,0 +1,76 @@
+﻿<div>
+    <div class="row" style="margin:0">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-6">
+            <h3>Thêm mới tài khoản </h3>
+        </div>
+    </div>
+    
+    <form class="form-horizontal" id="enableForm" >
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="inputSuccess">Tên đăng nhập</label>
+            <div class="col-xs-6">
+                <input type="text" data-bv-message="Vui lòng nhập tên đăng nhập" id="account" ng-model="dataForm.UserName" name="account" class="form-control" placeholder="Nhập tên tài khoản" required>
+            </div>
+        </div>
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="inputSuccess">Họ và tên</label>
+            <div class="col-xs-6">
+                <input type="text" data-bv-message="Vui lòng nhập đầy đủ họ và tên" ng-model="dataForm.FullName" id="fullname" name="fullname_account" class="form-control" placeholder="Nhập đầy đủ họ và tên" required>
+            </div>
+        </div>
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="inputSuccess">Giới tính</label>
+            <div class="col-xs-6">
+                <select class="form-control" name="gender" ng-model="dataForm.Sex" id="gender_account" data-bv-message="Vui lòng chọn giới tính" required>
+                    <option value="">Chọn giới tính</option>
+                    <option value="0">Nam</option>
+                    <option value="1">Nữ</option>
+                    <option value="2">Không xác định</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="inputError">Email</label>
+            <div class="col-xs-6">
+                <input type="email" id="email" ng-model="dataForm.Email" name="email_account" class="form-control" data-bv-message="Vui lòng nhập email" placeholder="Nhập email" required>
+            </div>
+        </div>
+        <div class="form-group" style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="inputError">Số điện thoại</label>
+            <div class="col-xs-6">
+                <input type="tel" id="phone" ng-model="dataForm.Phone" name="phone_account" class="form-control" data-bv-message="Vui lòng nhập số điện thoại" placeholder="Nhập số điện thoại" required>
+            </div>
+        </div>
+        <div class="form-group" style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="inputWarning">Mật khẩu</label>
+            <div class="col-xs-6">
+                <input type="password" class="form-control" ng-model="dataForm.Password" name="password" id="password"  placeholder="nhập mật khẩu" required>
+            </div>
+        </div>
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="inputWarning">Xác nhận mật khẩu</label>
+            <div class="col-xs-6">
+                <input type="password" class="form-control" ng-model="dataForm.RePassword" name="confirm_password" placeholder="xác nhận lại mật khẩu" required>
+            </div>
+        </div>
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="inputWarning">Vai trò</label>
+            <div class="col-xs-6">
+                <div class="checkbox" ng-repeat="item in selectRoles">
+                    <label>
+                        <input type="checkbox" name="rolle[]" id="{{item.code}}" ng-model="selectedList[item.code]" />{{item.name}} [{{item.description}}]
+                    </label>
+                </div>
+                
+            </div>
+        </div>
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-6">
+                <button type="submit" class="btn btn-primary">Thêm</button>
+            </div>
+        </div>
+    </form>
+</div>

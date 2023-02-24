@@ -1,0 +1,53 @@
+<div class="title">
+    <h3>Quản trị tài khoản người dùng</h3>
+</div>
+
+<div class=" row" style="margin:0">
+<div class="has-search search-date">
+    <div class="form-group has-feedback has-search" style="float:left;width:250px;margin-top: 8px;">
+        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+        <input type="text" class="form-control" ng-model="filter" placeholder="Nhập mã tìm kiếm tại đây" my-enter="searchFilter()">
+    </div>
+    <div class="function">
+        <a class="glyphicon glyphicon-plus icon" href="#" ></a>
+        <a class="glyphicon glyphicon-pencil icon"href="#" ></a>
+        <a class="glyphicon glyphicon-remove icon"href="#" ></a>
+    </div>
+</div>
+<style>
+.function{
+float: right;
+margin-top: 7px;
+
+}
+.has-search{
+margin-bottom: 0;
+}
+
+.icon{
+color: #0d67b1;;
+padding: 10px;
+}
+</style>
+
+</div>
+<div ng-app="myApp" ng-controller="managergroupuserCtrl">
+    <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
+      <thead>
+        <tr class="panel-info list-group-item-info" style="text-transform: uppercase;font-weight: bold;">
+          <th style="text-align:center;width:60px">STT</th>
+          <th>Tên người dùng</th>
+          <th>Tài khoản</th>
+          <th>Nhóm</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in users">
+          <td style="text-align: center;">{{user.id}}</td>
+          <td>{{user.name}}</td>
+          <td>{{user.account}}</td>
+          <td>{{user.group}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

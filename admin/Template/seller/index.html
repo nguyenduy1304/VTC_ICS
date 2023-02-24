@@ -1,0 +1,86 @@
+﻿ <!-- Doanh thu theo kênh bán -->
+<div class="panel panel-headline">
+    <div class="panel-heading" style="margin-bottom:0;padding-bottom:0">
+        <h3 class="panel-title">Doanh thu theo kênh bán(tỉ đồng)</h3>
+        <p class="panel-subtitle">Tháng {{data.channel[0].time}}</p>
+    </div>
+    <div class="panel-body">       
+        <div class="row">
+            <div class="col-md-3 " ng-repeat="item in data.channel" style="margin-top:15px;">
+                <div class="bg-info bg_box{{$index}} small-box"  style="height:120px;">
+                    <div class="inner" ng-click="dtDetail(item.code,item.name,'channel')">
+                        <h3 class="number">{{formatNumbers(item.value)}}</h3>
+                        <p class="title">Kênh {{item.name}}</p>
+                    </div>
+                    <div class="icon">
+                        <i class="lnr lnr-store"></i>
+                    </div>
+                </div>
+            </div>           
+        </div>
+        
+    </div>
+</div>
+ <!-- Doanh thu theo nhà cung cấp -->
+<div class="panel panel-headline">
+    <div class="panel-heading" style="margin-bottom:0;padding-bottom:0">
+        <h3 class="panel-title">Doanh thu theo nhà cung cấp(tỉ đồng)</h3>
+        <p class="panel-subtitle">Tháng {{data.producer[0].time}}</p>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3" ng-repeat="item in data.producer">
+                <div class="bg-info bg_box{{$index}} small-box" style="height:120px;">                                          
+                    <div class="inner"  ng-click="dtDetail(item.code,item.name,'producer')">
+                        <h3 class="number">{{formatNumbers(item.value)}}</h3>
+                        <p class="title">Công ty {{item.name}}</p>
+                    </div>
+                    <div class="icon">
+                        <!--<span class="icon-image">
+                            <img src="./content/images/{{item.name}}-logo.png" width="60px" />
+                        </span>-->
+                        <i class="lnr lnr-apartment"></i>
+                    </div>                       
+                </div>                   
+            </div>           
+        </div>      
+    </div>
+</div>
+<!-- Doanh thu theo loại bảo hiểm -->
+<div class="panel panel-headline">
+    <div class="panel-heading" style="margin-bottom:0;padding-bottom:0">
+        <h3 class="panel-title">Doanh thu theo loại bảo hiểm(tỉ đồng)</h3>
+        <p class="panel-subtitle">Tháng {{data.product[0].time}}</p>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3" ng-repeat="item in data.product">
+                <div class="bg-info bg_box{{$index}} small-box" style="height:120px;">
+                    
+                    <div class="inner"  ng-click="dtDetail(item.code,item.name,'product')">
+                        <h3 class="number">{{formatNumbers(item.value)}}</h3>
+                        <p class="title">{{item.name}}</p>
+                    </div>
+                    <div class="icon">
+                        <i class="lnr lnr-heart-pulse"></i>
+                    </div>
+                   
+                </div>                    
+            </div>            
+        </div>
+
+    </div>
+</div>
+
+<!--Biểu đồ tăng trưởng doanh thu-->
+<div class="panel panel-headline">
+    <div class="panel-body">
+        <div class="row">
+            <div class="box-hight-chart ">
+                <div class="col col-lg-12 col-md-12">
+                    <div id="lineChartDashboard"></div>
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>
