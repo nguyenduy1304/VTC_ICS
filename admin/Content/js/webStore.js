@@ -5,20 +5,32 @@
     const domain_api = 'http://127.0.0.1:5500/';
     const listapi ={
         sourcelibrary:{
+            getlist: domain_api + 'admin/Template/17-22/data_json/sourcelibrary.json',
+            getedit: domain_api + 'admin/Template/17-22/data_json/detail/sourcelibratydetail.json',
             getsourcelibrarycopy: domain_api + 'admin/Template/17-22/data_json/sourcelibrarycopy.json'
         },
         recommend:{
+            getlist: domain_api +'admin/Template/17-22/data_json/recommend.json',
+            getedit: domain_api +'',
             getrecommendcopy: domain_api +'admin/Template/17-22/data_json/recommendcopy.json'
         },
         managergroupuser:{
+            getlist: domain_api +'admin/Template/17-22/data_json/managergroupuser.json',
+            getedit: domain_api +'admin/Template/17-22/data_json/detail/managergroupuserdetail.json',
             getmanagergroupusercopy: domain_api +'admin/Template/17-22/data_json/managergroupusercopy.json'
         },
         manageruser:{
+            getlist: domain_api +'admin/Template/17-22/data_json/manageruser.json',
+            getedit: domain_api +'admin/Template/17-22/data_json/detail/manageruserdetail.json',
             getmanagerusercopy: domain_api +'admin/Template/17-22/data_json/managerusercopy.json'
         },
         userlog:{
+            getlist: domain_api +'admin/Template/17-22/data_json/userlog.json',
+            getedit: domain_api +'admin/Template/17-22/data_json/detail/userlogdetail.json',
             getuserlogcopy: domain_api +'admin/Template/17-22/data_json/userlogcopy.json'
         }
+
+
     }
     var formatNumbers = function (amount, decimalCount, decimal , thousands) {
         decimalCount = decimalCount || 0;
@@ -403,7 +415,7 @@
         //$scope.data = [];
         $http({
             method: 'GET',
-            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/sourcelibrary.json',
+            url: listapi.sourcelibrary.getlist,
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
@@ -485,7 +497,7 @@
       app.controller('edit_sourcelibraryCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
         $http({
             method: 'GET',
-            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/detail/sourcelibratydetail.json ',
+            url: listapi.sourcelibrary.getedit,
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
@@ -533,7 +545,7 @@
       app.controller('managergroupuserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
         $http({
             method: 'GET',
-            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/managergroupuser.json ',
+            url: listapi.managergroupuser.getlist,
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
@@ -610,7 +622,7 @@
         $scope.dataForm = {};
         $http({
             method: 'GET',
-            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/detail/managergroupuserdetail.json ',
+            url: listapi.managergroupuser.getedit,
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
@@ -654,7 +666,8 @@
       app.controller('manageruserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
         $http({
             method: 'GET',
-            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/manageruser.json ',
+
+            url: listapi.manageruser.getlist,
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
@@ -711,7 +724,7 @@
         // $scope.dataForm = {};
          $http({
              method: 'GET',
-             url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/detail/manageruserdetail.json',
+             url: listapi.manageruser.getedit,
              headers: {
                  'Authorization': "Bearer " + $window.localStorage.token
              }
@@ -758,7 +771,7 @@
       app.controller('recommendCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
         $http({
             method: 'GET',
-            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/recommend.json ',
+            url: listapi.recommend.getlist,
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
@@ -856,7 +869,7 @@
     app.controller('userlogCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
         $http({
             method: 'GET',
-            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/userlog.json ',
+            url: listapi.userlog.getlist,
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
@@ -917,7 +930,7 @@
     app.controller('edituserlogCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
          $http({
              method: 'GET',
-             url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/detail/userlogdetail.json',
+             url: listapi.userlog.getedit,
              headers: {
                  'Authorization': "Bearer " + $window.localStorage.token
              }
@@ -946,7 +959,7 @@
                  if (res.result > 0) {
                      //console.log(res);
                      $dialogAlert("Cập nhật thư viện nguồn thành côngi", "Thông báo!", "success", function (res) {
-                         $state.go("manageruserCtrl");
+                         $state.go("userlogCtrl");
                      });
      
                  } else {
