@@ -1,0 +1,65 @@
+[
+    {
+    "id": 1,
+    "function_id": "QLTB_EDIT",
+    "function_name": "Quản lý thiết bị",
+    "crud": "Chỉnh sửa",
+    "username": "hoangphuj_hoanghoa",
+    "time": "09:28 12/12/2022",
+    "ip": "123.35.210.98"
+    },
+    {
+    "id": 2,
+    "function_id": "QLTB_EDIT",
+    "function_name": "Quản lý thiết bị",
+    "crud": "Chỉnh sửa",
+    "username": "hoangphuj_hoanghoa",
+    "time": "10:01 12/12/2022",
+    "ip": "123.35.210.98"
+    },
+    {
+    "id": 3,
+    "function_id": "QLTB_EDIT",
+    "function_name": "Quản lý thiết bị",
+    "crud": "Chỉnh sửa",
+    "username": "hoangphuj_hoanghoa",
+    "time": "10:05 12/12/2022",
+    "ip": "123.35.210.98"
+    },
+    {
+    "id": 4,
+    "function_id": "QLTB_EDIT",
+    "function_name": "Quản lý thiết bị",
+    "crud": "Chỉnh sửa",
+    "username": "hoangphuj_hoanghoa",
+    "time": "14:14 12/12/2022",
+    "ip": "123.35.210.98"
+    },
+    {
+    "id": 5,
+    "function_id": "QLTB_EDIT",
+    "function_name": "Quản lý thiết bị",
+    "crud": "Chỉnh sửa",
+    "username": "hoangphuj_hoanghoa",
+    "time": "09:17 13/01/2023",
+    "ip": "173.243.227.214"
+    },
+    {
+    "id": 6,
+    "function_id": "QLTB_EDIT",
+    "function_name": "Quản lý thiết bị",
+    "crud": "Chỉnh sửa",
+    "username": "hoangphuj_hoanghoa",
+    "time": "09:22 13/01/2023",
+    "ip": "173.243.227.214"
+    },
+    {
+    "id": 7,
+    "function_id": "QLTB_EDIT",
+    "function_name": "Quản lý thiết bị",
+    "crud": "Chỉnh sửa",
+    "username": "hoangphuj_hoanghoa",
+    "time": "09:30 13/01/2023",
+    "ip": "173.243.227.214"
+    }
+    ]

@@ -1,4 +1,3 @@
-
     var host = window.host;
     var host_api = window.host_api; 
     var timer = 10000;
@@ -148,6 +147,12 @@
                 controller: 'add_sourcelibraryCtrl',
                 templateUrl: window.templateUrl + "/17-22/addsourcelibrary.html"
             })
+            .state('17-22-edit_sourcelibrary', {
+                url: '/cap-nhat-thu-vien-nguon/:id',
+                allowAnonymous: true,
+                controller: 'edit_sourcelibraryCtrl',
+                templateUrl: window.templateUrl + "/17-22/editsourcelibrary.html"
+            })
             .state('17-22-reportstatistical', {
                 url: '/bao-cao-thong-ke',
                 allowAnonymous: true,
@@ -179,18 +184,46 @@
                 controller: 'manageruserCtrl',
                 templateUrl: window.templateUrl + "/17-22/manageruser.html"
             })
+            .state('17-22-edit-manageruser', {
+                url: '/cap-nhat-tai-khoan-nguoi-dung/:id',
+                //allowAnonymous: true,
+                cache: false,
+                controller: 'editmanageruserCtrl',
+                templateUrl: window.templateUrl + "/17-22/editmanageruser.html"
+            })
+
             .state('17-22-managergroupuser', {
                 url: '/quan-tri-nhom-nguoi-dung',
                 allowAnonymous: true,
                 controller: 'managergroupuserCtrl',
                 templateUrl: window.templateUrl + "/17-22/managergroupuser.html"
             })
+            .state('17-22-add-managergroupuser', {
+                url: '/them-nhom-nguoi-dung',
+                allowAnonymous: true,
+                controller: 'addmanagergroupuserCtrl',
+                templateUrl: window.templateUrl + "/17-22/addmanagergroupuser.html"
+            })
+            .state('17-22-edit-managergroupuser', {
+                url: '/cap-nhat-nhom-nguoi-dung/:id',
+                allowAnonymous: true,
+                controller: 'editmanagergroupuserCtrl',
+                templateUrl: window.templateUrl + "/17-22/editmanagergroupuser.html"
+            })
+
             .state('17-22-userlog', {
                 url: '/nhat-ky-nguoi-su-dung',
                 allowAnonymous: true,
                 controller: 'userlogCtrl',
                 templateUrl: window.templateUrl + "/17-22/userlog.html"
             })
+            .state('17-22-edit-userlog', {
+                url: '/nhat-ky-nguoi-su-dung/cap-nhat/:id',
+                allowAnonymous: true,
+                controller: 'edituserlogCtrl',
+                templateUrl: window.templateUrl + "/17-22/edituserlog.html"
+            })
+
 
 
 
@@ -335,114 +368,415 @@
         }
     })
 
-    app.controller('sourcelibraryCtrl', function($scope) {
-        $scope.items = [
-          { id: 1, source: 'Trung ương', uri: 'VOV', field: 'Tuyên truyền', type: 'Âm thanh/ hình ảnh', status: 'Active', note: '' },
-          { id: 2, source: 'Huyện', uri: 'VOV-Huyen', field: 'Tuyên truyền', type: 'Âm thanh/ hình ảnh', status: 'Active', note: '' },
-          { id: 3, source: 'Xã', uri: 'VOV-Xa', field: 'Tuyên truyền', type: 'Âm thanh/ hình ảnh', status: 'Active', note: '' }
-        ];
-        // $scope.editItem = function(item) {
-        //   // code to edit item
-        // };
-        // $scope.removeItem = function(item) {
-        //     for (var i = 0; i < $scope.items.length; i++) {
-        //         if ($scope.items[i].stt === stt) {
-        //             $scope.items.splice(i, 1);
-        //             break;
-        //         }
-        //     }
-        // };
-      });
-
-      app.controller('managergroupuserCtrl', function($scope) {
-        $scope.groups = [
-          {id: "1", groupName : "Admin", note: ""},
-          {id : "2", groupName : "Biên tập viên", note: ""},
-          {id : "3", groupName : "Người theo dõi", note: ""}
-        ];
-      });
-      app.controller('manageruserCtrl', function($scope) {
-        $scope.users = [
-          {id: "1", name: 'Xã Thiệu Trung, Huyện Thiệu Thóa', account: 'thieutrung_thanhhoa', group: 'Thanh Hóa' },
-          {id: "2",name: 'Xã Hoằng Phụ, Huyện Hoằng Hóa', account: 'hoangphu_hoanghoa', group: 'Thanh Hóa' },
-          {id: "3", name: 'Xã Hoằng Tiến, Huyện Hoằng Hóa', account: 'hoangtien_hoanghoa', group: 'Thanh Hóa' }
-        ];
-      });
-      app.controller('recommendCtrl', function($scope) {
-        $scope.items = [
-          {
-            id: "1",
-            time: '10:25 - 24/12/2022',
-            request: 'Phản ánh gây ô nhiễm',
-            response: 'Ủy ban tiếp nhận kiến nghị',
-            status: 'Đã xử lý'
-          },
-          {
-            id: "2",
-            time: '15:22 - 18/01/2023',
-            request: 'Kiến nghị nâng cấp đường xá',
-            response: '',
-            status: 'Đã tiếp nhận'
-          }
-        ];
-      });
-      app.controller('reportnewsCtrl', function($scope) {
-        $scope.data = [
-            { id: "1", province: "Thanh Hóa", district: "Hoằng Hóa", commune: "Hoằng Phụ", field: "TUYÊN TRUYỀN", quantity: "80", note: "" },
-            { id: "2", province: "Thanh Hóa", district: "Hoằng Hóa", commune: "Hoằng Tuyến", field: "TUYÊN TRUYỀN", quantity: "120", note: "" },
-            { id: "3", province: "Thanh Hóa", district: "Thiệu hóa", commune: "Thiệu Trung", field: "TUYÊN TRUYỀN", quantity: "80", note: "" }
-          ];
-    });
-    app.controller('reportnewsmediaCtrl', function($scope) {
-        $scope.data = [
-          {id: 1, province: 'Thanh Hóa', district: 'Hoằng Hóa', commune: 'Hoằng Phụ', field: 'TUYÊN TRUYỀN', quantity: 8, note: ''},
-          {id: 2, province: 'Thanh Hóa', district: 'Hoằng Hóa', commune: 'Hoằng Tuyến', field: 'TUYÊN TRUYỀN', quantity: 4, note: ''},
-          {id: 3, province: 'Thanh Hóa', district: 'Thiệu hóa', commune: 'Thiệu Trung', field: 'TUYÊN TRUYỀN', quantity: 4, note: ''}
-        ];
-      });
-
-    app.controller('reportstatisticalCtrl', function($scope) {
-        $scope.data = [
-            {
-                id: 1,
-                province: 'Thanh Hóa',
-                district: 'Hoằng Hóa',
-                commune: 'Hoằng Phụ',
-                quantity: 3,
-                active: 3,
-                inactive: 0
-            },
-            {
-                id: 2,
-                province: 'Thanh Hóa',
-                district: 'Hoằng Hóa',
-                commune: 'Hoằng Tuyến',
-                quantity: 7,
-                active: 5,
-                inactive: 2
-            },
-            {
-                id: 3,
-                province: 'Thanh Hóa',
-                district: 'Thiệu hóa',
-                commune: 'Thiệu Trung',
-                quantity: 10,
-                active: 10,
-                inactive: 0
+    app.controller('sourcelibraryCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        //$scope.data = [];
+        $http({
+            method: 'GET',
+            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/sourcelibrary.json',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
             }
-        ];
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.items = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.deletesourcelibrary = function (id) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: host_api + 'api/auth/delete',
+                        data: {
+                            UserId: id,
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    })
+                }
+
+            })
+            
+        }
+        
+      });
+      app.controller('edit_sourcelibraryCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/detail/sourcelibratydetail.json ',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.sourcelibrarydetail = res.data;
+            console.log($scope.sourcelibrarydetail);
+
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.editsourcelibrary = function () {
+            console.log($scope.sourcelibrarydetail);
+            $http({
+                method: 'POST',
+                url: host_api + 'cap-nhat-thư-vien-nguon',
+                data: $scope.sourcelibrarydetail,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Cập nhật thư viện nguồn thành côngi", "Thông báo!", "success", function (res) {
+                        $state.go("manageDevice");
+                    });
+    
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+    
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+
+       
+      });
+      
+      app.controller('managergroupuserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/managergroupuser.json ',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.groups = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.deletegroupuser = function (id) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: host_api + 'api/auth/delete',
+                        data: {
+                            groupid: id,
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    })
+                }
+
+            })
+            
+        }
+      });
+      app.controller('editmanagergroupuserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $scope.dataForm = {};
+        $http({
+            method: 'GET',
+            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/detail/managergroupuserdetail.json ',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.dataForm = res.data;
+                console.log(res);
+                console.log($scope.dataForm);
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.editgroupuser = function () {
+            console.log($scope.dataForm);
+            $http({
+                method: 'POST',
+                url: host_api + 'cap-nhat',
+                data: $scope.dataForm,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Cập nhật thư viện nguồn thành côngi", "Thông báo!", "success", function (res) {
+                        $state.go("managergroupuserCtrl");
+                    });
+    
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+    
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+      });
+
+      app.controller('manageruserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/manageruser.json ',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.users = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+      });
+      app.controller('editmanageruserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        // $scope.dataForm = {};
+         $http({
+             method: 'GET',
+             url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/detail/manageruserdetail.json',
+             headers: {
+                 'Authorization': "Bearer " + $window.localStorage.token
+             }
+         }).then(function (res) {
+             if (res.status != 404) {
+                 $scope.manageruser = res.data;
+                 console.log($scope.manageruser);
+             } else {
+                 $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+             }
+             
+         }, function err(e) {
+             $rootScope.checkError(e, $dialogAlert);
+         })
+         $scope.edituser = function () {
+             console.log($scope.manageruser);
+             $http({
+                 method: 'POST',
+                 url: host_api + 'cap-nhat',
+                 data: $scope.manageruser,
+                 headers: {
+                     'Authorization': "Bearer " + $window.localStorage.token
+                 }
+             }).then(function (res) {
+                 //console.log(res);
+                 if (res.result > 0) {
+                     //console.log(res);
+                     $dialogAlert("Cập nhật thư viện nguồn thành côngi", "Thông báo!", "success", function (res) {
+                         $state.go("manageruserCtrl");
+                     });
+     
+                 } else {
+                     $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                 }
+     
+             }, function err(e) {
+                 $rootScope.checkError(e, $dialogAlert);
+             })
+         };
+       });
+
+
+
+      app.controller('recommendCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/recommend.json ',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.items = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+      });
+
+      app.controller('reportnewsCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/reportnews.json ',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.data = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
     });
-    app.controller('userlogCtrl', function($scope) {
-        $scope.items = [
-            { id: 1, function_id: "QLTB_EDIT", function_name: "Quản lý thiết bị", crud: "Chỉnh sửa", username: "hoangphuj_hoanghoa", time: "09:28 12/12/2022", ip: "123.35.210.98" },
-            { id: 2, function_id: "QLTB_EDIT", function_name: "Quản lý thiết bị", crud: "Chỉnh sửa", username: "hoangphuj_hoanghoa", time: "10:01 12/12/2022", ip: "123.35.210.98" },
-            { id: 3, function_id: "QLTB_EDIT", function_name: "Quản lý thiết bị", crud: "Chỉnh sửa", username: "hoangphuj_hoanghoa", time: "10:05 12/12/2022", ip: "123.35.210.98" },
-            { id: 4, function_id: "QLTB_EDIT", function_name: "Quản lý thiết bị", crud: "Chỉnh sửa", username: "hoangphuj_hoanghoa", time: "14:14 12/12/2022", ip: "123.35.210.98" },
-            { id: 5, function_id: "QLTB_EDIT", function_name: "Quản lý thiết bị", crud: "Chỉnh sửa", username: "hoangphuj_hoanghoa", time: "09:17 13/01/2023", ip: "173.243.227.214" },
-            { id: 6, function_id: "QLTB_EDIT", function_name: "Quản lý thiết bị", crud: "Chỉnh sửa", username: "hoangphuj_hoanghoa", time: "09:22 13/01/2023", ip: "173.243.227.214"},
-            { id: 7, function_id: "QLTB_EDIT", function_name: "Quản lý thiết bị", crud: "Chỉnh sửa", username: "hoangphuj_hoanghoa", time: "09:30 13/01/2023", ip: "173.243.227.214"},
-        ];
+
+
+    app.controller('reportnewsmediaCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/reportnewsmedia.json ',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.data = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+      });
+
+    app.controller('reportstatisticalCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/reportstatistical.json ',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.data = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
     });
+
+    app.controller('userlogCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/userlog.json ',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.items = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.deleteuserlog = function (id) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: host_api + 'api/auth/delete',
+                        data: {
+                            groupid: id,
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    })
+                }
+
+            })
+        }
+    });
+    app.controller('edituserlogCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+         $http({
+             method: 'GET',
+             url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/detail/userlogdetail.json',
+             headers: {
+                 'Authorization': "Bearer " + $window.localStorage.token
+             }
+         }).then(function (res) {
+             if (res.status != 404) {
+                 $scope.dataForm = res.data;
+                 console.log($scope.dataForm);
+             } else {
+                 $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+             }
+             
+         }, function err(e) {
+             $rootScope.checkError(e, $dialogAlert);
+         })
+         $scope.edituserlog = function () {
+             console.log($scope.dataForm);
+             $http({
+                 method: 'POST',
+                 url: host_api + 'cap-nhat',
+                 data: $scope.dataForm,
+                 headers: {
+                     'Authorization': "Bearer " + $window.localStorage.token
+                 }
+             }).then(function (res) {
+                 //console.log(res);
+                 if (res.result > 0) {
+                     //console.log(res);
+                     $dialogAlert("Cập nhật thư viện nguồn thành côngi", "Thông báo!", "success", function (res) {
+                         $state.go("manageruserCtrl");
+                     });
+     
+                 } else {
+                     $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                 }
+     
+             }, function err(e) {
+                 $rootScope.checkError(e, $dialogAlert);
+             })
+         };
+       });
 
 
 

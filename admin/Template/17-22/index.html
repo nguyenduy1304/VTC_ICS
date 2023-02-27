@@ -29,7 +29,7 @@
 </style>
   
 </div>
-<div ng-app="">
+<div>
     <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
       <thead>
         <tr class="panel-info list-group-item-info" style="text-transform: uppercase;font-weight: bold;">
@@ -53,8 +53,8 @@
           <td>{{item.status}}</td>
           <td>{{item.note}}</td>
           <td style="text-align:center;">
-            <a class="glyphicon glyphicon-pencil icon" ng-click="editItem(item)"></a>
-            <a class="glyphicon glyphicon-remove icon" ng-click="removeItem(item.stt)"></a>
+            <a class="glyphicon glyphicon-pencil icon" href="http://127.0.0.1:5500/#!/cap-nhat-thu-vien-nguon/id={{item.id}}"></a>
+            <a class="glyphicon glyphicon-remove icon" ng-click="deletesourcelibrary(item.stt)"></a>
           </td>
         </tr>
       </tbody>

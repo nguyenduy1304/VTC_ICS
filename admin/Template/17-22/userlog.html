@@ -19,8 +19,6 @@
         </form>
         <div class="function">
             <a class="glyphicon glyphicon-plus icon" href="#" ></a>
-            <a class="glyphicon glyphicon-pencil icon"href="#" ></a>
-            <a class="glyphicon glyphicon-remove icon"href="#" ></a>
         </div>
     </div>
 </div>
@@ -45,6 +43,8 @@
           <th>người tác động</th>
           <th>thời gian tác động</th>
           <th>IP thực hiện</th>
+          <th></th>
+
         </tr>
       </thead>
       <tbody>
@@ -56,6 +56,10 @@
           <td>{{item.username}}</td>
           <td>{{item.time}}</td>
           <td>{{item.ip}}</td>
+          <td style="text-align:center;">
+            <a class="glyphicon glyphicon-pencil icon" href="http://127.0.0.1:5500/#!/nhat-ky-nguoi-su-dung/cap-nhat/id={{item.id}}"></a>
+            <a class="glyphicon glyphicon-remove icon" ng-click="deleteuserlog(item.stt)"></a>
+          </td>
         </tr>
       </tbody>
     </table>

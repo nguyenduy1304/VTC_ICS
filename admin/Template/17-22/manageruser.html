@@ -10,8 +10,6 @@
     </div>
     <div class="function">
         <a class="glyphicon glyphicon-plus icon" href="#" ></a>
-        <a class="glyphicon glyphicon-pencil icon"href="#" ></a>
-        <a class="glyphicon glyphicon-remove icon"href="#" ></a>
     </div>
 </div>
 <style>
@@ -39,6 +37,7 @@ padding: 10px;
           <th>Tên người dùng</th>
           <th>Tài khoản</th>
           <th>Nhóm</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -47,6 +46,10 @@ padding: 10px;
           <td>{{user.name}}</td>
           <td>{{user.account}}</td>
           <td>{{user.group}}</td>
+          <td style="text-align:center;">
+            <a class="glyphicon glyphicon-pencil icon" href="http://127.0.0.1:5500/#!/cap-nhat-tai-khoan-nguoi-dung/id={{user.id}}"></a>
+            <a class="glyphicon glyphicon-remove icon" ng-click="edituser(item.stt)"></a>
+          </td>
         </tr>
       </tbody>
     </table>

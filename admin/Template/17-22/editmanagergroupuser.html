@@ -1,0 +1,32 @@
+<div>
+    <div class="row" style="margin:0">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-6">
+            <h3>Cập nhật nhóm người dùng</h3>
+        </div>
+    </div>
+    
+    <form class="form-horizontal" id="enableForm" ng-submit="editgroupuser()">
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="groupName">Tên nhóm</label>
+            <div class="col-xs-6">
+                <input type="text" data-bv-message="Vui lòng nhập tên nhóm" id="groupName" ng-model="dataForm.groupName" name="groupName" class="form-control" required>
+            </div>
+        </div>
+       
+     
+        <div class="form-group" style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="note">Ghi chú</label>
+            <div class="col-xs-6">
+                <input type="text" id="note" ng-model="dataForm.note" name="note" class="form-control">
+            </div>
+        </div>
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-6">
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            </div>
+        </div>
+    </form>
+</div>

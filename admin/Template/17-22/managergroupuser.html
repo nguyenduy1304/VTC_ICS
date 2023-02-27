@@ -9,9 +9,8 @@
         <input type="text" class="form-control" ng-model="filter" placeholder="Nhập mã tìm kiếm tại đây" my-enter="searchFilter()">
     </div>
     <div class="function">
-        <a class="glyphicon glyphicon-plus icon" href="#" ></a>
-        <a class="glyphicon glyphicon-pencil icon"href="#" ></a>
-        <a class="glyphicon glyphicon-remove icon"href="#" ></a>
+        <a class="glyphicon glyphicon-plus icon" href="../#!/them-nhom-nguoi-dung" ></a>
+
     </div>
 </div>
 <style>
@@ -36,6 +35,8 @@ padding: 10px;
               <th style="text-align:center;width:120px">STT</th>
               <th>Tên nhóm</th>
               <th>Ghi chú</th>
+              <th></th>
+
           </tr>
       </thead>
       <tbody>
@@ -43,6 +44,10 @@ padding: 10px;
               <td style="text-align: center;">{{group.id}}</td>
               <td>{{group.groupName}}</td>
               <td>{{group.note}}</td>
+              <td style="text-align:center;">
+                <a class="glyphicon glyphicon-pencil icon" href="http://127.0.0.1:5500/#!/cap-nhat-nhom-nguoi-dung/id={{group.id}}"></a>
+                <a class="glyphicon glyphicon-remove icon" ng-click="deletegroupuser(item.stt)"></a>
+              </td>
           </tr>
       </tbody>
     </table>
