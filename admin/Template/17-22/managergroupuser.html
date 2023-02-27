@@ -5,8 +5,10 @@
 <div class=" row" style="margin:0">
 <div class="has-search search-date">
     <div class="form-group has-feedback has-search" style="float:left;width:250px;margin-top: 8px;">
-        <span class="glyphicon glyphicon-search form-control-feedback"></span>
-        <input type="text" class="form-control" ng-model="filter" placeholder="Nhập mã tìm kiếm tại đây" my-enter="searchFilter()">
+        <form ng-submit="searchFilter()">
+            <input ng-model="filter" type="text" placeholder="Nhập mã tìm kiếm tại đây" name="search" required>
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
     </div>
     <div class="function">
         <a class="glyphicon glyphicon-plus icon" href="../#!/them-nhom-nguoi-dung" ></a>
@@ -28,7 +30,7 @@ padding: 10px;
 </style>
 
 </div>
-<div ng-app="">
+<div >
     <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
       <thead>
           <tr class="panel-info list-group-item-info" style="text-transform: uppercase;font-weight: bold;">

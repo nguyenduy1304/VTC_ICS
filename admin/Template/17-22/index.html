@@ -5,9 +5,11 @@
 <div class=" row" style="margin:0">
     <div class="has-search search-date">
         <div class="form-group has-feedback has-search" style="float:left;width:250px;margin-top: 8px;">
-            <span class="glyphicon glyphicon-search form-control-feedback"></span>
-            <input type="text" class="form-control" ng-model="filter" placeholder="Nhập mã tìm kiếm tại đây" my-enter="searchFilter()">
-        </div>
+          <form class="search-click" ng-submit="filtersourcelibrary()" style="max-width:300px">
+            <input ng-model="filter" type="text" placeholder="Nhập mã tìm kiếm tại đây" name="search2" required>
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+      </div>
         <div class="function">
             <a class="glyphicon glyphicon-plus icon" href="../#!/them-thu-vien-nguon" ></a>
         </div>

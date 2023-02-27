@@ -1,6 +1,25 @@
     var host = window.host;
     var host_api = window.host_api; 
     var timer = 10000;
+
+    const domain_api = 'http://127.0.0.1:5500/';
+    const listapi ={
+        sourcelibrary:{
+            getsourcelibrarycopy: domain_api + 'admin/Template/17-22/data_json/sourcelibrarycopy.json'
+        },
+        recommend:{
+            getrecommendcopy: domain_api +'admin/Template/17-22/data_json/recommendcopy.json'
+        },
+        managergroupuser:{
+            getmanagergroupusercopy: domain_api +'admin/Template/17-22/data_json/managergroupusercopy.json'
+        },
+        manageruser:{
+            getmanagerusercopy: domain_api +'admin/Template/17-22/data_json/managerusercopy.json'
+        },
+        userlog:{
+            getuserlogcopy: domain_api +'admin/Template/17-22/data_json/userlogcopy.json'
+        }
+    }
     var formatNumbers = function (amount, decimalCount, decimal , thousands) {
         decimalCount = decimalCount || 0;
         decimal = decimal || '.';
@@ -184,6 +203,12 @@
                 controller: 'manageruserCtrl',
                 templateUrl: window.templateUrl + "/17-22/manageruser.html"
             })
+            .state('17-22-add-manageruser', {
+                url: '/quan-tri-tai-khoan-nguoi-dung/them-moi',
+                allowAnonymous: true,
+                controller: 'addmanageruserCtrl',
+                templateUrl: window.templateUrl + "/17-22/addmanageruser.html"
+            })
             .state('17-22-edit-manageruser', {
                 url: '/cap-nhat-tai-khoan-nguoi-dung/:id',
                 //allowAnonymous: true,
@@ -216,6 +241,12 @@
                 allowAnonymous: true,
                 controller: 'userlogCtrl',
                 templateUrl: window.templateUrl + "/17-22/userlog.html"
+            })
+            .state('17-22-add-userlog', {
+                url: '/nhat-ky-nguoi-su-dung/them-moi',
+                allowAnonymous: true,
+                controller: 'adduserlogCtrl',
+                templateUrl: window.templateUrl + "/17-22/adduserlog.html"
             })
             .state('17-22-edit-userlog', {
                 url: '/nhat-ky-nguoi-su-dung/cap-nhat/:id',
@@ -406,12 +437,51 @@
                         }
                     })
                 }
-
             })
-            
+        }
+        $scope.filtersourcelibrary = function () {
+            console.log('filter=' + $scope.filter);
+            $http({
+                method: 'GET',
+                //url: host_api + 'api/search',
+                url: listapi.sourcelibrary.getsourcelibrarycopy,
+                data: {
+                    filter: $scope.filter
+                },
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res);
+                console.log('ddaay la filter' + $scope.filter);
+                if (res.status != 404 && res.status != 405) {
+                    $scope.items = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
         }
         
       });
+      app.controller('add_sourcelibraryCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'POST',
+            url: host_api + 'them-lich-phat',
+            data: dataForm,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.data.result > 0) {
+                $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+            } else {
+                $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+            }
+        })
+      });
+
       app.controller('edit_sourcelibraryCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
         $http({
             method: 'GET',
@@ -497,10 +567,44 @@
                         }
                     })
                 }
-
             })
-            
         }
+        $scope.searchFilter = function () {
+            $http({
+                method: 'GET',
+                url: listapi.managergroupuser.getmanagergroupusercopy,
+                data: {
+                    filter: $scope.filter
+                },
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.status != 404 && res.status != 405) {
+                    $scope.groups = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+      });
+      app.controller('addmanagergroupuserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'POST',
+            url: host_api + 'them-nhom',
+            data: dataForm,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.data.result > 0) {
+                $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+            } else {
+                $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+            }
+        })
       });
       app.controller('editmanagergroupuserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
         $scope.dataForm = {};
@@ -532,9 +636,7 @@
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
             }).then(function (res) {
-                //console.log(res);
                 if (res.result > 0) {
-                    //console.log(res);
                     $dialogAlert("Cập nhật thư viện nguồn thành côngi", "Thông báo!", "success", function (res) {
                         $state.go("managergroupuserCtrl");
                     });
@@ -565,6 +667,44 @@
             
         }, function err(e) {
             $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.searchFilter = function () {
+            console.log($scope.filter);
+            $http({
+                method: 'GET',
+                url: listapi.manageruser.getmanagerusercopy,
+                data: {
+                    filter: $scope.filter
+                },
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.status != 404 && res.status != 405) {
+                    $scope.users = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+
+      });
+      app.controller('addmanageruserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'POST',
+            url: host_api + 'them-tai-khoan',
+            data: manageruser,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.data.result > 0) {
+                $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+            } else {
+                $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+            }
         })
       });
       app.controller('editmanageruserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
@@ -632,6 +772,27 @@
         }, function err(e) {
             $rootScope.checkError(e, $dialogAlert);
         })
+        $scope.searchFilter = function () {
+            console.log($scope.filter);
+            $http({
+                method: 'GET',
+                url: listapi.recommend.getrecommendcopy,
+                data: {
+                    filter: $scope.filter
+                },
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.status != 404 && res.status != 405) {
+                    $scope.items = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
       });
 
       app.controller('reportnewsCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
@@ -730,6 +891,26 @@
                     })
                 }
 
+            })
+        }
+        $scope.searchFilter = function () {
+            $http({
+                method: 'GET',
+                url: listapi.userlog.getuserlogcopy,
+                data: {
+                    filter: $scope.filter
+                },
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.status != 404 && res.status != 405) {
+                    $scope.items = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
             })
         }
     });

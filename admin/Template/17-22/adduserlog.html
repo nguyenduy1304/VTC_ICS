@@ -1,0 +1,64 @@
+<div>
+    <div class="row" style="margin:0">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-6">
+            <h3>Thêm nhật ký người dùng</h3>
+        </div>
+    </div>
+    
+    <form class="form-horizontal" id="enableForm" ng-submit="edituserlog()">
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="function_id">Mã chức năng</label>
+            <div class="col-xs-6">
+                <input type="text" data-bv-message="Vui lòng nhập mã chức năng" id="function_id" ng-model="dataForm.function_id" name="function_id" class="form-control" placeholder="Nhập mã chức năng" required>
+            </div>
+        </div>
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="function_name">Tên chức năng</label>
+            <div class="col-xs-6">
+                <input type="text" data-bv-message="Vui lòng nhập tên chức năng" ng-model="dataForm.function_name" id="function_name" name="function_name" class="form-control" placeholder="Nhập tên chức năng" required>
+            </div>
+        </div>
+        <div class="form-group" style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="crud">Thao tác</label>
+            <div class="col-xs-6">
+                <select class="form-control" ng-selected="dataForm.crud" name="crud" ng-model="dataForm.crud" id="crud" data-bv-message="Vui lòng chọn thao tác" required>
+                    <option >Chọn loại</option>
+                    <option value="Thêm mới">Thêm mới</option>
+                    <option value="Chỉnh sửa">Chỉnh sửa</option>
+                    <option value="Xóa">Xóa</option>
+
+                </select>
+            </div>
+        </div>
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="username">Người tác động</label>
+            <div class="col-xs-6">
+                <input type="text" id="username" ng-model="dataForm.username" name="username" class="form-control" data-bv-message="Vui lòng nhập Loại" required>
+            </div>
+           
+        </div>
+
+        <div class="form-group" style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="time">Thời gian tác động</label>
+            <div class="col-xs-6">
+                <input type="date" id="time" ng-model="dataForm.time" name="time" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group" style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="ip">IP tác động</label>
+            <div class="col-xs-6">
+                <input type="text" id="ip" ng-model="dataForm.ip" name="ip" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group " style="margin:0;margin-bottom:15px">
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-6">
+                <button type="submit" class="btn btn-primary">Thêm mới nhật ký</button>
+            </div>
+        </div>
+    </form>
+</div>
