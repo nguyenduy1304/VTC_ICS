@@ -2,32 +2,31 @@
     var host_api = window.host_api; 
     var timer = 10000;
 
-    const domain_api = 'http://127.0.0.1:5500/';
     const listapi ={
         sourcelibrary:{
-            getlist: domain_api + 'admin/Template/17-22/data_json/sourcelibrary.json',
-            getedit: domain_api + 'admin/Template/17-22/data_json/detail/sourcelibratydetail.json',
-            getsourcelibrarycopy: domain_api + 'admin/Template/17-22/data_json/sourcelibrarycopy.json'
+            getlist: host_api + 'admin/Template/17-22/data_json/sourcelibrary.json',
+            getedit: host_api + 'admin/Template/17-22/data_json/detail/sourcelibratydetail.json',
+            getsourcelibrarycopy: host_api + 'admin/Template/17-22/data_json/sourcelibrarycopy.json'
         },
         recommend:{
-            getlist: domain_api +'admin/Template/17-22/data_json/recommend.json',
-            getedit: domain_api +'',
-            getrecommendcopy: domain_api +'admin/Template/17-22/data_json/recommendcopy.json'
+            getlist: host_api +'admin/Template/17-22/data_json/recommend.json',
+            getedit: host_api +'',
+            getrecommendcopy: host_api +'admin/Template/17-22/data_json/recommendcopy.json'
         },
         managergroupuser:{
-            getlist: domain_api +'admin/Template/17-22/data_json/managergroupuser.json',
-            getedit: domain_api +'admin/Template/17-22/data_json/detail/managergroupuserdetail.json',
-            getmanagergroupusercopy: domain_api +'admin/Template/17-22/data_json/managergroupusercopy.json'
+            getlist: host_api +'admin/Template/17-22/data_json/managergroupuser.json',
+            getedit: host_api +'admin/Template/17-22/data_json/detail/managergroupuserdetail.json',
+            getmanagergroupusercopy: host_api +'admin/Template/17-22/data_json/managergroupusercopy.json'
         },
         manageruser:{
-            getlist: domain_api +'admin/Template/17-22/data_json/manageruser.json',
-            getedit: domain_api +'admin/Template/17-22/data_json/detail/manageruserdetail.json',
-            getmanagerusercopy: domain_api +'admin/Template/17-22/data_json/managerusercopy.json'
+            getlist: host_api +'admin/Template/17-22/data_json/manageruser.json',
+            getedit: host_api +'admin/Template/17-22/data_json/detail/manageruserdetail.json',
+            getmanagerusercopy: host_api +'admin/Template/17-22/data_json/managerusercopy.json'
         },
         userlog:{
-            getlist: domain_api +'admin/Template/17-22/data_json/userlog.json',
-            getedit: domain_api +'admin/Template/17-22/data_json/detail/userlogdetail.json',
-            getuserlogcopy: domain_api +'admin/Template/17-22/data_json/userlogcopy.json'
+            getlist: host_api +'admin/Template/17-22/data_json/userlog.json',
+            getedit: host_api +'admin/Template/17-22/data_json/detail/userlogdetail.json',
+            getuserlogcopy: host_api +'admin/Template/17-22/data_json/userlogcopy.json'
         }
 
 
@@ -173,13 +172,13 @@
                 templateUrl: window.templateUrl + "/17-22/index.html"
             })
             .state('17-22-add_sourcelibrary', {
-                url: '/them-thu-vien-nguon',
+                url: '/thu-vien-nguon/them-moi',
                 allowAnonymous: true,
                 controller: 'add_sourcelibraryCtrl',
                 templateUrl: window.templateUrl + "/17-22/addsourcelibrary.html"
             })
             .state('17-22-edit_sourcelibrary', {
-                url: '/cap-nhat-thu-vien-nguon/:id',
+                url: '/thu-vien-nguon/cap-nhat/:id',
                 allowAnonymous: true,
                 controller: 'edit_sourcelibraryCtrl',
                 templateUrl: window.templateUrl + "/17-22/editsourcelibrary.html"
@@ -222,7 +221,7 @@
                 templateUrl: window.templateUrl + "/17-22/addmanageruser.html"
             })
             .state('17-22-edit-manageruser', {
-                url: '/cap-nhat-tai-khoan-nguoi-dung/:id',
+                url: '/quan-tri-tai-khoan-nguoi-dung/cap-nhat/:id',
                 //allowAnonymous: true,
                 cache: false,
                 controller: 'editmanageruserCtrl',
@@ -236,13 +235,13 @@
                 templateUrl: window.templateUrl + "/17-22/managergroupuser.html"
             })
             .state('17-22-add-managergroupuser', {
-                url: '/them-nhom-nguoi-dung',
+                url: '/quan-tri-nhom-nguoi-dung/them-moi',
                 allowAnonymous: true,
                 controller: 'addmanagergroupuserCtrl',
                 templateUrl: window.templateUrl + "/17-22/addmanagergroupuser.html"
             })
             .state('17-22-edit-managergroupuser', {
-                url: '/cap-nhat-nhom-nguoi-dung/:id',
+                url: '/quan-tri-nhom-nguoi-dung/cap-nhat/:id',
                 allowAnonymous: true,
                 controller: 'editmanagergroupuserCtrl',
                 templateUrl: window.templateUrl + "/17-22/editmanagergroupuser.html"
