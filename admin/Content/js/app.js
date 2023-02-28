@@ -1,4 +1,4 @@
-﻿var app = angular.module('ngAdmin', ['ui.router', 'WebStore', 'modalCustom', 'Login', 'ui.bootstrap', 'naif.base64']);
+﻿var app = angular.module('ngAdmin', ['ui.router', 'WebStore','modalCustom', 'Login', 'ui.bootstrap', 'naif.base64']);
 $.fn.datetimepicker.dates['en'] = {
     months: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
     monthsShort: ["Thg1", "Thg2", "Thg3", "Thg4", "Thg5", "Thg6", "Thg7", "Thg8", "Thg9", "Thg10", "Thg11", "Thg12"],
@@ -92,23 +92,23 @@ app.factory('$dialogConfirm', function ($uibModal) {
     }
 });
 app.factory('$dialogAlert', function ($uibModal) {
-    return function (message, title, type, callback) {
+    return function (message, title,type,callback) {
 
         var modal = $uibModal.open({
             size: 'sm',
             template: '<div class="modal-header label-' + type + '">\
                     <h4 class="modal-title" style="color:#fff" ng-bind-html="title"></h4></div>\
-                    <div class="modal-body alert alert-'+ type + '" ng-bind-html="message"></div>\
+                    <div class="modal-body alert alert-'+type+'" ng-bind-html="message"></div>\
                     <div class="modal-footer">\
-                        <button class="btn btn-'+ type + '" ng-click="modal.close()">OK</button>\
+                        <button class="btn btn-'+ type +'" ng-click="modal.close()">OK</button>\
                     </div>',
-            controller: function ($scope, $uibModalInstance, $sce) {
+            controller: function ($scope, $uibModalInstance,$sce) {
                 $scope.modal = $uibModalInstance;
                 if (angular.isObject(message)) {
                     angular.extend($scope, message);
                 } else {
-                    $scope.message = $sce.trustAsHtml(message);
-                    $scope.title = angular.isUndefined(title) ? 'Mensagem' : $sce.trustAsHtml(title);
+                    $scope.message =  $sce.trustAsHtml(message);
+                    $scope.title = angular.isUndefined(title) ? 'Mensagem' :  $sce.trustAsHtml(title);
                 }
             },
             resolve: {
@@ -119,8 +119,8 @@ app.factory('$dialogAlert', function ($uibModal) {
         });
         modal.result.then(function () {
             //console.log(callback)
-            if (callback === undefined) return true;
-            return callback(true)
+            if(callback === undefined) return true;
+            return callback(true)        
         });
     }
 })
@@ -138,7 +138,7 @@ app.factory('$dialogShowForm', function ($uibModal) {
                             <button class="btn btn-primary btnAddKey" ng-click="modal.ok()" >${btnName}</button>\
                             <button class="btn btn-default" ng-click="modal.dismiss()" >Đóng</button>\
                         </div>`,
-            controller: function ($scope, $uibModalInstance, $sce) {
+            controller: function ($scope, $uibModalInstance,$sce) {
                 $scope.content = $sce.trustAsHtml(content);
                 $scope.modal = $uibModalInstance;
                 $scope.title = angular.isUndefined(title) ? 'Mensagem' : $sce.trustAsHtml(title);
@@ -151,7 +151,7 @@ app.factory('$dialogShowForm', function ($uibModal) {
         modal.result.then(function (ck) {
             if (ck) {
                 return callbackFn(true);
-            }
+            }         
         }, function (err) {
             return err;
         });
@@ -182,26 +182,26 @@ app.run(function ($browser, $window, $rootScope, $q, $http, $location, $log, $ti
     //     //$location.path('/');
     // }
 
-
+    
 })
 
 app.directive('ckEditor', function ($window) {
     return {
         require: '?ngModel',
         link: function (scope, elm, attr, ngModel) {
-            //  CKEDITOR.replace(elm[0]);
+           //  CKEDITOR.replace(elm[0]);
             var ck = CKEDITOR.replace(elm[0], {
                 Toolbar: [{
                     name: 'insert',
                     items: ['Image', 'Table']
                 }],
                 height: 200,
-
-                // Adding drag and drop image upload.
+               
+               // Adding drag and drop image upload.
                 extraPlugins: 'print,format,font,colorbutton,justify,uploadimage',
-                uploadUrl: window.host + `api/common/ckeditor?token=${$window.localStorage.token}`
+                uploadUrl: window.host+`api/common/ckeditor?token=${$window.localStorage.token}`
             });
-
+  
 
             if (!ngModel) return;
 
@@ -249,11 +249,11 @@ app.filter('weekday', function () {
         if (input === "" || input == null) return;
         var days = { "1": "Chủ nhật", "2": "Thứ 2", "3": "Thứ 3", "4": "Thứ 4", "5": "Thứ 5", "6": "Thứ 6", "7": "Thứ 7" };
         var input = input.substr(1);
-        var input2 = input.substr(0, input.length - 1)
+        var input2 = input.substr(0,input.length - 1)
         var _txt = input2.split(splitChar);
         var _e = "";
         _txt.forEach(function (val, key, array) {
-            _e += days[val] + ((key === array.length - 1) ? " " : ", ");
+            _e += days[val] + ((key === array.length - 1) ? " ": ", ");           
         })
         //_e = _e.substr(0, _e.length - 1)
         return _e

@@ -1,311 +1,84 @@
-var host = window.host;
-var host_api = window.host_api;
-var timer = 10000;
-const url_host_api = 'http://127.0.0.1:5500/';
-const listAPI = {
-    device: {
-        getListDevice1: url_host_api + 'admin/data/thietBi1.json',
-        getListDevice: url_host_api + 'admin/data/thietBi.json',
-        getDevice: url_host_api + 'admin/data/editDevice.json',
-        deleteDevice: url_host_api + 'xoa-thiet-bi-cum-loa',
-        editDevice: url_host_api + 'cap-nhat-thiet-bi-cum-loa',
-        addDevice: url_host_api + 'them-thiet-bi-cum-loa'
-    },
-    radioApp: {
-        getListRadioApp: url_host_api + 'admin/data/truyenThanh.json',
-        getListRadioApp1: url_host_api + 'admin/data/truyenThanh1.json',
-        getRadioApp: url_host_api + 'admin/data/editRadioApp.json',
-        deleteRadioApp: url_host_api + 'xoa-truyen-thanh-va-ung-dung',
-        editRadioApp: url_host_api + 'cap-nhat-dai-truyen-thanh-va-ung-dung',
-        addRadioApp: url_host_api + 'them-dai-truyen-thanh-va-ung-dung'
-    },
-    lichPhat: {
-        getListLichPhat: url_host_api + 'admin/data/lichPhat.json',
-        getListLichPhat1: url_host_api + 'admin/data/lichPhat1.json',
-        getLichPhat: url_host_api + 'admin/data/editLichPhat.json',
-        deleteLichPhat: url_host_api + 'xoa-lich-phat',
-        editLichPhat: url_host_api + 'cap-nhat-lich-phat',
-        addLichPhat: url_host_api + 'them-lich-phat'
-    },
-    publicNews: {
-        getListPublicNews: url_host_api + 'admin/data/publicNews.json',
-        getListPublicNews1: url_host_api + 'admin/data/publicNews1.json',
-        getPublicNews: url_host_api + 'admin/data/editPublicNews.json',
-        deletePublicNews: url_host_api + 'xoa-bang-thong-tin-dien-tu',
-        editPublicNews: url_host_api + 'cap-nhat-bang-thong-tin-dien-tu',
-        addPublicNews: url_host_api + 'them-bang-thong-tin-dien-tu'
-    }
-}
-const listapi = {
-    sourcelibrary: {
-        getlist: host_api + 'admin/Template/17-22/data_json/sourcelibrary.json',
-        getedit: host_api + 'admin/Template/17-22/data_json/detail/sourcelibratydetail.json',
-        getsourcelibrarycopy: host_api + 'admin/Template/17-22/data_json/sourcelibrarycopy.json'
-    },
-    recommend: {
-        getlist: host_api + 'admin/Template/17-22/data_json/recommend.json',
-        getedit: host_api + '',
-        getrecommendcopy: host_api + 'admin/Template/17-22/data_json/recommendcopy.json'
-    },
-    managergroupuser: {
-        getlist: host_api + 'admin/Template/17-22/data_json/managergroupuser.json',
-        getedit: host_api + 'admin/Template/17-22/data_json/detail/managergroupuserdetail.json',
-        getmanagergroupusercopy: host_api + 'admin/Template/17-22/data_json/managergroupusercopy.json'
-    },
-    manageruser: {
-        getlist: host_api + 'admin/Template/17-22/data_json/manageruser.json',
-        getedit: host_api + 'admin/Template/17-22/data_json/detail/manageruserdetail.json',
-        getmanagerusercopy: host_api + 'admin/Template/17-22/data_json/managerusercopy.json'
-    },
-    userlog: {
-        getlist: host_api + 'admin/Template/17-22/data_json/userlog.json',
-        getedit: host_api + 'admin/Template/17-22/data_json/detail/userlogdetail.json',
-        getuserlogcopy: host_api + 'admin/Template/17-22/data_json/userlogcopy.json'
-    }
+    var host = window.host;
+    var host_api = window.host_api; 
+    var timer = 10000;
 
-
-}
-var formatNumbers = function (amount, decimalCount, decimal, thousands) {
-    decimalCount = decimalCount || 0;
-    decimal = decimal || '.';
-    thousands = thousands || '.';
-    try {
-        decimalCount = Math.abs(decimalCount);
-        decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
-
-        const negativeSign = amount < 0 ? "-" : "";
-
-        let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
-        let j = (i.length > 3) ? i.length % 3 : 0;
-
-        return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
-    } catch (e) {
-        console.log(e)
-    }
-};
-function roundNumber(num, scale) {
-    if (!("" + num).includes("e")) {
-        return +(Math.round(num + "e+" + scale) + "e-" + scale);
-    } else {
-        var arr = ("" + num).split("e");
-        var sig = ""
-        if (+arr[1] + scale > 0) {
-            sig = "+";
+    const domain_api = 'http://127.0.0.1:5500/';
+    const listapi ={
+        sourcelibrary:{
+            getlist: domain_api + 'admin/Template/17-22/data_json/sourcelibrary.json',
+            getedit: domain_api + 'admin/Template/17-22/data_json/detail/sourcelibratydetail.json',
+            getsourcelibrarycopy: domain_api + 'admin/Template/17-22/data_json/sourcelibrarycopy.json'
+        },
+        recommend:{
+            getlist: domain_api +'admin/Template/17-22/data_json/recommend.json',
+            getedit: domain_api +'',
+            getrecommendcopy: domain_api +'admin/Template/17-22/data_json/recommendcopy.json'
+        },
+        managergroupuser:{
+            getlist: domain_api +'admin/Template/17-22/data_json/managergroupuser.json',
+            getedit: domain_api +'admin/Template/17-22/data_json/detail/managergroupuserdetail.json',
+            getmanagergroupusercopy: domain_api +'admin/Template/17-22/data_json/managergroupusercopy.json'
+        },
+        manageruser:{
+            getlist: domain_api +'admin/Template/17-22/data_json/manageruser.json',
+            getedit: domain_api +'admin/Template/17-22/data_json/detail/manageruserdetail.json',
+            getmanagerusercopy: domain_api +'admin/Template/17-22/data_json/managerusercopy.json'
+        },
+        userlog:{
+            getlist: domain_api +'admin/Template/17-22/data_json/userlog.json',
+            getedit: domain_api +'admin/Template/17-22/data_json/detail/userlogdetail.json',
+            getuserlogcopy: domain_api +'admin/Template/17-22/data_json/userlogcopy.json'
         }
-        return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + scale)) + "e-" + scale);
+
+
     }
-}
-function disableAtrr(self) {
-    //console.log($(self).is(':checked'))
-    if ($(self).is(':checked')) {
-        $(self).prop('checked', false);
-        $(self).bootstrapToggle('off');
-    } else {
-        $(self).prop('checked', true);
-        $(self).bootstrapToggle('on');
+    var formatNumbers = function (amount, decimalCount, decimal , thousands) {
+        decimalCount = decimalCount || 0;
+        decimal = decimal || '.';
+        thousands = thousands || '.';
+        try {
+            decimalCount = Math.abs(decimalCount);
+            decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+
+            const negativeSign = amount < 0 ? "-" : "";
+
+            let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+            let j = (i.length > 3) ? i.length % 3 : 0;
+
+            return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+        } catch (e) {
+            console.log(e)
+        }
+    };
+    function roundNumber(num, scale) {
+        if (!("" + num).includes("e")) {
+            return +(Math.round(num + "e+" + scale) + "e-" + scale);
+        } else {
+            var arr = ("" + num).split("e");
+            var sig = ""
+            if (+arr[1] + scale > 0) {
+                sig = "+";
+            }
+            return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + scale)) + "e-" + scale);
+        }
     }
-}
-
-
-var app = angular.module('WebStore', ['ui.router', 'ui.bootstrap', 'angular.filter', 'ckeditor']);
-app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
-    $urlRouterProvider.otherwise('/');
-    //$urlMatcherFactoryProvider.caseInsensitive(true);
-    //$urlMatcherFactoryProvider.strictMode(false);
-    $stateProvider
-        .state('seller', {
-            url: '/',
-            allowAnonymous: true,
-            controller: 'sellerCtrl',
-            templateUrl: window.templateUrl + "/order/index.html"
-        })
-        .state('selList', {
-            url: '/don-vi-ban-hang/quan-ly',
-            cache: false,
-            controller: 'selList$Ctrl',
-            templateUrl: window.templateUrl + "/seller/mProduct.html"
-        })
-        .state('selStatistic', {
-            url: '/don-vi-ban-hang/thong-ke',
-            cache: false,
-            controller: 'selStatistic$Ctrl',
-            templateUrl: window.templateUrl + "/seller/revStatistic.html"
-        })
-
-        .state('add$account', {
-            url: '/account/add',
-            cache: false,
-            controller: 'add$account$Ctrl',
-            templateUrl: window.templateUrl + "/account/add.html"
-        })
-        .state('list$account', {
-            url: '/account/list',
-            cache: false,
-            controller: 'list$account$Ctrl',
-            templateUrl: window.templateUrl + "/account/list.html"
-        })
-        .state('edit$account', {
-            url: '/account/edit/:id/:refid',
-            cache: false,
-            controller: 'edit$account$Ctrl',
-            templateUrl: window.templateUrl + "/account/edit.html"
-        })
-        .state('statictis$account', {
-            url: '/account/statictis',
-            cache: false,
-            controller: 'statictis$account$Ctrl',
-            templateUrl: window.templateUrl + "/account/statictis.html"
-        })
-        .state('change$password', {
-            url: '/account/changepassword',
-            cache: false,
-            controller: 'change$password$Ctrl',
-            templateUrl: window.templateUrl + "/account/changePassword.html"
-        })
-        .state('pmcs', {
-            url: '/quan-ly-don-hang/microsoft',
-            cache: false,
-            controller: 'pmcs$Ctrl',
-            templateUrl: window.templateUrl + "/order/microsoft.html"
-        })
-        .state('pkes', {
-            url: '/quan-ly-don-hang/kaspersky-endpoint-security',
-            cache: false,
-            controller: 'pkes$Ctrl',
-            templateUrl: window.templateUrl + "/order/kes.html"
-        })
-        .state('pmoza', {
-            url: '/quan-ly-don-hang/moza',
-            cache: false,
-            controller: 'pmoza$Ctrl',
-            templateUrl: window.templateUrl + "/order/moza.html"
-        })
-        .state('ptiki', {
-            url: '/quan-ly-don-hang/tiki',
-            cache: false,
-            controller: 'ptiki$Ctrl',
-            templateUrl: window.templateUrl + "/order/tiki.html"
-        })
-        .state('ponesme', {
-            url: '/quan-ly-don-hang/onesme',
-            cache: false,
-            controller: 'ponesme$Ctrl',
-            templateUrl: window.templateUrl + "/order/onesme.html"
-        })
-        .state('mdKYCmobile', {
-            url: '/thong-tin-khach-hang/user/:id',
-            cache: false,
-            controller: 'mdKYCmobile$Ctrl',
-            templateUrl: window.templateUrl + "/user/info.html"
-        })
-
-        .state('17-22-sourcelibrary', {
-            url: '/thu-vien-nguon',
-            allowAnonymous: true,
-            controller: 'sourcelibraryCtrl',
-            templateUrl: window.templateUrl + "/17-22/index.html"
-        })
-        .state('17-22-add_sourcelibrary', {
-            url: '/thu-vien-nguon/them-moi',
-            allowAnonymous: true,
-            controller: 'add_sourcelibraryCtrl',
-            templateUrl: window.templateUrl + "/17-22/addsourcelibrary.html"
-        })
-        .state('17-22-edit_sourcelibrary', {
-            url: '/thu-vien-nguon/cap-nhat/:id',
-            allowAnonymous: true,
-            controller: 'edit_sourcelibraryCtrl',
-            templateUrl: window.templateUrl + "/17-22/editsourcelibrary.html"
-        })
-        .state('17-22-reportstatistical', {
-            url: '/bao-cao-thong-ke',
-            allowAnonymous: true,
-            controller: 'reportstatisticalCtrl',
-            templateUrl: window.templateUrl + "/17-22/reportstatistical.html"
-        })
-        .state('17-22-reportnews', {
-            url: '/bao-cao-thong-ke-ban-tin',
-            allowAnonymous: true,
-            controller: 'reportnewsCtrl',
-            templateUrl: window.templateUrl + "/17-22/reportnews.html"
-        })
-        .state('17-22-reportnewsmedia', {
-            url: '/bao-cao-thong-ke-ban-tin-media',
-            allowAnonymous: true,
-            controller: 'reportnewsmediaCtrl',
-            templateUrl: window.templateUrl + "/17-22/reportnewsmedia.html"
-        })
-
-        .state('17-22-recommend', {
-            url: '/kien-nghi-cua-nguoi-dan',
-            allowAnonymous: true,
-            controller: 'recommendCtrl',
-            templateUrl: window.templateUrl + "/17-22/recommend.html"
-        }) 
-        .state('17-22-manageruser', {
-            url: '/quan-tri-tai-khoan-nguoi-dung',
-            allowAnonymous: true,
-            controller: 'manageruserCtrl',
-            templateUrl: window.templateUrl + "/17-22/manageruser.html"
-        })
-        .state('17-22-add-manageruser', {
-            url: '/quan-tri-tai-khoan-nguoi-dung/them-moi',
-            allowAnonymous: true,
-            controller: 'addmanageruserCtrl',
-            templateUrl: window.templateUrl + "/17-22/addmanageruser.html"
-        })
-        .state('17-22-edit-manageruser', {
-            url: '/quan-tri-tai-khoan-nguoi-dung/cap-nhat/:id',
-            //allowAnonymous: true,
-            cache: false,
-            controller: 'editmanageruserCtrl',
-            templateUrl: window.templateUrl + "/17-22/editmanageruser.html"
-        })
-
-        .state('17-22-managergroupuser', {
-            url: '/quan-tri-nhom-nguoi-dung',
-            allowAnonymous: true,
-            controller: 'managergroupuserCtrl',
-            templateUrl: window.templateUrl + "/17-22/managergroupuser.html"
-        })
-        .state('17-22-add-managergroupuser', {
-            url: '/quan-tri-nhom-nguoi-dung/them-moi',
-            allowAnonymous: true,
-            controller: 'addmanagergroupuserCtrl',
-            templateUrl: window.templateUrl + "/17-22/addmanagergroupuser.html"
-        })
-        .state('17-22-edit-managergroupuser', {
-            url: '/quan-tri-nhom-nguoi-dung/cap-nhat/:id',
-            allowAnonymous: true,
-            controller: 'editmanagergroupuserCtrl',
-            templateUrl: window.templateUrl + "/17-22/editmanagergroupuser.html"
-        })
-
-        .state('17-22-userlog', {
-            url: '/nhat-ky-nguoi-su-dung',
-            allowAnonymous: true,
-            controller: 'userlogCtrl',
-            templateUrl: window.templateUrl + "/17-22/userlog.html"
-        })
-        .state('17-22-add-userlog', {
-            url: '/nhat-ky-nguoi-su-dung/them-moi',
-            allowAnonymous: true,
-            controller: 'adduserlogCtrl',
-            templateUrl: window.templateUrl + "/17-22/adduserlog.html"
-        })
-        .state('17-22-edit-userlog', {
-            url: '/nhat-ky-nguoi-su-dung/cap-nhat/:id',
-            allowAnonymous: true,
-            controller: 'edituserlogCtrl',
-            templateUrl: window.templateUrl + "/17-22/edituserlog.html"
-        })
-
+    function disableAtrr(self){
+        //console.log($(self).is(':checked'))
+        if($(self).is(':checked')){
+            $(self).prop('checked', false);
+            $(self).bootstrapToggle('off'); 
+        }else{
+            $(self).prop('checked', true);
+            $(self).bootstrapToggle('on');  
+        }            
+    }
+        
 
     var app = angular.module('WebStore', ['ui.router', 'ui.bootstrap', 'angular.filter', 'ckeditor']);
     app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
         $urlRouterProvider.otherwise('/');
-        // $urlMatcherFactoryProvider.caseInsensitive(true);
-        // $urlMatcherFactoryProvider.strictMode(false); 
+        //$urlMatcherFactoryProvider.caseInsensitive(true);
+        //$urlMatcherFactoryProvider.strictMode(false); 
         $stateProvider
             .state('seller', {
                 url: '/',
@@ -313,102 +86,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 controller: 'sellerCtrl',
                 templateUrl: window.templateUrl + "/order/index.html"
             })
-            .state('api', {
-                url: '/api/report/danh-sach-thiet-bi-cum-loa',
-                allowAnonymous: true,
-                controller: 'api',
-            })
             .state('selList', {
                 url: '/don-vi-ban-hang/quan-ly',
                 cache: false,
                 controller: 'selList$Ctrl',
-                //templateUrl: window.templateUrl + "/seller/mProduct.html"
                 templateUrl: window.templateUrl + "/seller/mProduct.html"
-            })
-            //mới thêm vô 4 đường route
-            .state('manageRadioApp', {
-                url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung',
-                cache: false,
-                controller: 'manageRadioApp',
-                //templateUrl: window.templateUrl + "/seller/mProduct.html"
-                templateUrl: window.templateUrl + "/manageDevice/radioApp.html"
-            })
-            .state('editRadioApp', {
-                url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung/cap-nhat/:id',
-                cache: false,
-                controller: 'editRadioApp',
-                //templateUrl: window.templateUrl + "/seller/mProduct.html"
-                templateUrl: window.templateUrl + "/manageDevice/editRadioApp.html"
-            })
-            .state('addRadioApp', {
-                url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung/them',
-                cache: false,
-                controller: 'addRadioApp',
-                //templateUrl: window.templateUrl + "/seller/mProduct.html"
-                templateUrl: window.templateUrl + "/manageDevice/addRadioApp.html"
-            })
-            .state('manageDevice', {
-                url: '/quan-ly-thiet-bi/thiet-bi',
-                cache: false,
-                controller: 'manageDevice',
-                //templateUrl: window.templateUrl + "/seller/mProduct.html"
-                templateUrl: window.templateUrl + "/manageDevice/device.html"
-            })
-            .state('editDevice', {
-                url: '/quan-ly-thiet-bi/thiet-bi/cap-nhat/:id',
-                cache: false,
-                controller: 'editDevice',
-                //templateUrl: window.templateUrl + "/seller/mProduct.html"
-                templateUrl: window.templateUrl + "/manageDevice/editDevice.html"
-            })
-            .state('addDevice', {
-                url: '/quan-ly-thiet-bi/thiet-bi/them',
-                cache: false,
-                controller: 'addDevice',
-                //templateUrl: window.templateUrl + "/seller/mProduct.html"
-                templateUrl: window.templateUrl + "/manageDevice/addDevice.html"
-            })
-            .state('manageLichPhat', {
-                url: '/quan-ly-thiet-bi/lich-phat',
-                cache: false,
-                controller: 'manageLichPhat',
-                //templateUrl: window.templateUrl + "/seller/mProduct.html"
-                templateUrl: window.templateUrl + "/manageDevice/lichPhat.html"
-            })
-            .state('editLichPhat', {
-                url: '/quan-ly-thiet-bi/lich-phat/cap-nhat/:id',
-                cache: false,
-                controller: 'editLichPhat',
-                //templateUrl: window.templateUrl + "/seller/mProduct.html"
-                templateUrl: window.templateUrl + "/manageDevice/editLichPhat.html"
-            })
-            .state('addLichPhat', {
-                url: '/quan-ly-thiet-bi/lich-phat/them',
-                cache: false,
-                controller: 'addLichPhat',
-                //templateUrl: window.templateUrl + "/seller/mProduct.html"
-                templateUrl: window.templateUrl + "/manageDevice/addLichPhat.html"
-            })
-            .state('managePublicNews', {
-                url: '/quan-ly-thiet-bi/bang-tin-cong-cong',
-                cache: false,
-                controller: 'managePublicNews',
-                //templateUrl: window.templateUrl + "/seller/mProduct.html"
-                templateUrl: window.templateUrl + "/manageDevice/publicNews.html"
-            })
-            .state('editPublicNews', {
-                url: '/quan-ly-thiet-bi/bang-tin-cong-cong/cap-nhat/:id',
-                cache: false,
-                controller: 'editPublicNews',
-                //templateUrl: window.templateUrl + "/seller/mProduct.html"
-                templateUrl: window.templateUrl + "/manageDevice/editPublicNews.html"
-            })
-            .state('addPublicNews', {
-                url: '/quan-ly-thiet-bi/bang-tin-cong-cong/them',
-                cache: false,
-                controller: 'addPublicNews',
-                //templateUrl: window.templateUrl + "/seller/mProduct.html"
-                templateUrl: window.templateUrl + "/manageDevice/addPublicNews.html"
             })
             .state('selStatistic', {
                 url: '/don-vi-ban-hang/thong-ke',
@@ -416,7 +98,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 controller: 'selStatistic$Ctrl',
                 templateUrl: window.templateUrl + "/seller/revStatistic.html"
             })
-
+ 
             .state('add$account', {
                 url: '/account/add',
                 cache: false,
@@ -483,7 +165,115 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 controller: 'mdKYCmobile$Ctrl',
                 templateUrl: window.templateUrl + "/user/info.html"
             })
-        // $locationProvider.html5Mode(true);
+
+            .state('17-22-sourcelibrary', {
+                url: '/thu-vien-nguon',
+                allowAnonymous: true,
+                controller: 'sourcelibraryCtrl',
+                templateUrl: window.templateUrl + "/17-22/index.html"
+            })
+            .state('17-22-add_sourcelibrary', {
+                url: '/them-thu-vien-nguon',
+                allowAnonymous: true,
+                controller: 'add_sourcelibraryCtrl',
+                templateUrl: window.templateUrl + "/17-22/addsourcelibrary.html"
+            })
+            .state('17-22-edit_sourcelibrary', {
+                url: '/cap-nhat-thu-vien-nguon/:id',
+                allowAnonymous: true,
+                controller: 'edit_sourcelibraryCtrl',
+                templateUrl: window.templateUrl + "/17-22/editsourcelibrary.html"
+            })
+            .state('17-22-reportstatistical', {
+                url: '/bao-cao-thong-ke',
+                allowAnonymous: true,
+                controller: 'reportstatisticalCtrl',
+                templateUrl: window.templateUrl + "/17-22/reportstatistical.html"
+            })
+            .state('17-22-reportnews', {
+                url: '/bao-cao-thong-ke-ban-tin',
+                allowAnonymous: true,
+                controller: 'reportnewsCtrl',
+                templateUrl: window.templateUrl + "/17-22/reportnews.html"
+            })
+            .state('17-22-reportnewsmedia', {
+                url: '/bao-cao-thong-ke-ban-tin-media',
+                allowAnonymous: true,
+                controller: 'reportnewsmediaCtrl',
+                templateUrl: window.templateUrl + "/17-22/reportnewsmedia.html"
+            })
+
+            .state('17-22-recommend', {
+                url: '/kien-nghi-cua-nguoi-dan',
+                allowAnonymous: true,
+                controller: 'recommendCtrl',
+                templateUrl: window.templateUrl + "/17-22/recommend.html"
+            })
+            .state('17-22-manageruser', {
+                url: '/quan-tri-tai-khoan-nguoi-dung',
+                allowAnonymous: true,
+                controller: 'manageruserCtrl',
+                templateUrl: window.templateUrl + "/17-22/manageruser.html"
+            })
+            .state('17-22-add-manageruser', {
+                url: '/quan-tri-tai-khoan-nguoi-dung/them-moi',
+                allowAnonymous: true,
+                controller: 'addmanageruserCtrl',
+                templateUrl: window.templateUrl + "/17-22/addmanageruser.html"
+            })
+            .state('17-22-edit-manageruser', {
+                url: '/cap-nhat-tai-khoan-nguoi-dung/:id',
+                //allowAnonymous: true,
+                cache: false,
+                controller: 'editmanageruserCtrl',
+                templateUrl: window.templateUrl + "/17-22/editmanageruser.html"
+            })
+
+            .state('17-22-managergroupuser', {
+                url: '/quan-tri-nhom-nguoi-dung',
+                allowAnonymous: true,
+                controller: 'managergroupuserCtrl',
+                templateUrl: window.templateUrl + "/17-22/managergroupuser.html"
+            })
+            .state('17-22-add-managergroupuser', {
+                url: '/them-nhom-nguoi-dung',
+                allowAnonymous: true,
+                controller: 'addmanagergroupuserCtrl',
+                templateUrl: window.templateUrl + "/17-22/addmanagergroupuser.html"
+            })
+            .state('17-22-edit-managergroupuser', {
+                url: '/cap-nhat-nhom-nguoi-dung/:id',
+                allowAnonymous: true,
+                controller: 'editmanagergroupuserCtrl',
+                templateUrl: window.templateUrl + "/17-22/editmanagergroupuser.html"
+            })
+
+            .state('17-22-userlog', {
+                url: '/nhat-ky-nguoi-su-dung',
+                allowAnonymous: true,
+                controller: 'userlogCtrl',
+                templateUrl: window.templateUrl + "/17-22/userlog.html"
+            })
+            .state('17-22-add-userlog', {
+                url: '/nhat-ky-nguoi-su-dung/them-moi',
+                allowAnonymous: true,
+                controller: 'adduserlogCtrl',
+                templateUrl: window.templateUrl + "/17-22/adduserlog.html"
+            })
+            .state('17-22-edit-userlog', {
+                url: '/nhat-ky-nguoi-su-dung/cap-nhat/:id',
+                allowAnonymous: true,
+                controller: 'edituserlogCtrl',
+                templateUrl: window.templateUrl + "/17-22/edituserlog.html"
+            })
+
+
+
+
+
+
+            
+        //$locationProvider.html5Mode(true);
     });
     app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $state, $interval) {
         $rootScope.$watch('$user', function () {
@@ -503,7 +293,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             return formatNumbers(number)
         };
         //bieu do highchart pie
-        $rootScope.loadChartPie = function (datas, idName, title, options) {
+        $rootScope.loadChartPie = function(datas, idName, title,options) {
             //setTimeout(function () {
             $(document).ready(function () {
                 Highcharts.chart(idName, {
@@ -527,7 +317,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                         pie: {
                             allowPointSelect: true,
                             cursor: 'pointer',
-                            colors: options.colors,
+                            colors: options.colors ,
                             dataLabels: options.dataLabels,
                             showInLegend: options.showlegend
                         }
@@ -553,17 +343,17 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             //},0)
         }
         //bieu do highchart line
-        $rootScope.loadChartLine = function (datas, idName, title, options) {
+        $rootScope.loadChartLine = function (datas, idName, title,options) {
             setTimeout(function () {
                 $(document).ready(function () {
                     Highcharts.setOptions({
-                        colors: options.colors
+                        colors: options.colors 
                     });
                     Highcharts.chart(idName, {//'lineChart'
                         chart: {
                             type: 'spline',
-                            widthscrollablePlotArea: {
-                                width, minWidth: 600,
+                            scrollablePlotArea: {
+                                minWidth: 600,
                                 scrollPositionX: 1
                             }
                         },
@@ -574,7 +364,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                             text: ''
                         },
                         xAxis: {
-                            categories: options.dataY
+                            categories: options.dataY 
                         },
                         yAxis: {
                             title: {
@@ -611,7 +401,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 })
             }, 100)
         }
-        $rootScope.checkError = function (data, callback) {
+        $rootScope.checkError = function (data,callback) {
             if (data.data.result == -401) {
                 $rootScope.$user = null;
             }
@@ -620,6 +410,571 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             }
         }
     })
+
+    app.controller('sourcelibraryCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        //$scope.data = [];
+        $http({
+            method: 'GET',
+            url: listapi.sourcelibrary.getlist,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.items = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.deletesourcelibrary = function (id) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: host_api + 'api/auth/delete',
+                        data: {
+                            UserId: id,
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    })
+                }
+            })
+        }
+        $scope.filtersourcelibrary = function () {
+            console.log('filter=' + $scope.filter);
+            $http({
+                method: 'GET',
+                //url: host_api + 'api/search',
+                url: listapi.sourcelibrary.getsourcelibrarycopy,
+                data: {
+                    filter: $scope.filter
+                },
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res);
+                console.log('ddaay la filter' + $scope.filter);
+                if (res.status != 404 && res.status != 405) {
+                    $scope.items = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+        
+      });
+      app.controller('add_sourcelibraryCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'POST',
+            url: host_api + 'them-lich-phat',
+            data: dataForm,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.data.result > 0) {
+                $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+            } else {
+                $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+            }
+        })
+      });
+
+      app.controller('edit_sourcelibraryCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+            url: listapi.sourcelibrary.getedit,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.sourcelibrarydetail = res.data;
+            console.log($scope.sourcelibrarydetail);
+
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.editsourcelibrary = function () {
+            console.log($scope.sourcelibrarydetail);
+            $http({
+                method: 'POST',
+                url: host_api + 'cap-nhat-thư-vien-nguon',
+                data: $scope.sourcelibrarydetail,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Cập nhật thư viện nguồn thành côngi", "Thông báo!", "success", function (res) {
+                        $state.go("manageDevice");
+                    });
+    
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+    
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+
+       
+      });
+      
+      app.controller('managergroupuserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+            url: listapi.managergroupuser.getlist,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.groups = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.deletegroupuser = function (id) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: host_api + 'api/auth/delete',
+                        data: {
+                            groupid: id,
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    })
+                }
+            })
+        }
+        $scope.searchFilter = function () {
+            $http({
+                method: 'GET',
+                url: listapi.managergroupuser.getmanagergroupusercopy,
+                data: {
+                    filter: $scope.filter
+                },
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.status != 404 && res.status != 405) {
+                    $scope.groups = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+      });
+      app.controller('addmanagergroupuserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'POST',
+            url: host_api + 'them-nhom',
+            data: dataForm,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.data.result > 0) {
+                $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+            } else {
+                $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+            }
+        })
+      });
+      app.controller('editmanagergroupuserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $scope.dataForm = {};
+        $http({
+            method: 'GET',
+            url: listapi.managergroupuser.getedit,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.dataForm = res.data;
+                console.log(res);
+                console.log($scope.dataForm);
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.editgroupuser = function () {
+            console.log($scope.dataForm);
+            $http({
+                method: 'POST',
+                url: host_api + 'cap-nhat',
+                data: $scope.dataForm,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.result > 0) {
+                    $dialogAlert("Cập nhật thư viện nguồn thành côngi", "Thông báo!", "success", function (res) {
+                        $state.go("managergroupuserCtrl");
+                    });
+    
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+    
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+      });
+
+      app.controller('manageruserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+
+            url: listapi.manageruser.getlist,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.users = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.searchFilter = function () {
+            console.log($scope.filter);
+            $http({
+                method: 'GET',
+                url: listapi.manageruser.getmanagerusercopy,
+                data: {
+                    filter: $scope.filter
+                },
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.status != 404 && res.status != 405) {
+                    $scope.users = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+
+      });
+      app.controller('addmanageruserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'POST',
+            url: host_api + 'them-tai-khoan',
+            data: manageruser,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.data.result > 0) {
+                $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+            } else {
+                $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+            }
+        })
+      });
+      app.controller('editmanageruserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        // $scope.dataForm = {};
+         $http({
+             method: 'GET',
+             url: listapi.manageruser.getedit,
+             headers: {
+                 'Authorization': "Bearer " + $window.localStorage.token
+             }
+         }).then(function (res) {
+             if (res.status != 404) {
+                 $scope.manageruser = res.data;
+                 console.log($scope.manageruser);
+             } else {
+                 $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+             }
+             
+         }, function err(e) {
+             $rootScope.checkError(e, $dialogAlert);
+         })
+         $scope.edituser = function () {
+             console.log($scope.manageruser);
+             $http({
+                 method: 'POST',
+                 url: host_api + 'cap-nhat',
+                 data: $scope.manageruser,
+                 headers: {
+                     'Authorization': "Bearer " + $window.localStorage.token
+                 }
+             }).then(function (res) {
+                 //console.log(res);
+                 if (res.result > 0) {
+                     //console.log(res);
+                     $dialogAlert("Cập nhật thư viện nguồn thành côngi", "Thông báo!", "success", function (res) {
+                         $state.go("manageruserCtrl");
+                     });
+     
+                 } else {
+                     $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                 }
+     
+             }, function err(e) {
+                 $rootScope.checkError(e, $dialogAlert);
+             })
+         };
+       });
+
+
+
+      app.controller('recommendCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+            url: listapi.recommend.getlist,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.items = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.searchFilter = function () {
+            console.log($scope.filter);
+            $http({
+                method: 'GET',
+                url: listapi.recommend.getrecommendcopy,
+                data: {
+                    filter: $scope.filter
+                },
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.status != 404 && res.status != 405) {
+                    $scope.items = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+      });
+
+      app.controller('reportnewsCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/reportnews.json ',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.data = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+    });
+
+
+    app.controller('reportnewsmediaCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/reportnewsmedia.json ',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.data = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+      });
+
+    app.controller('reportstatisticalCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+            url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/reportstatistical.json ',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.data = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+    });
+
+    app.controller('userlogCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $http({
+            method: 'GET',
+            url: listapi.userlog.getlist,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.items = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+            
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.deleteuserlog = function (id) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: host_api + 'api/auth/delete',
+                        data: {
+                            groupid: id,
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    })
+                }
+
+            })
+        }
+        $scope.searchFilter = function () {
+            $http({
+                method: 'GET',
+                url: listapi.userlog.getuserlogcopy,
+                data: {
+                    filter: $scope.filter
+                },
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.status != 404 && res.status != 405) {
+                    $scope.items = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+    });
+    app.controller('edituserlogCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+         $http({
+             method: 'GET',
+             url: listapi.userlog.getedit,
+             headers: {
+                 'Authorization': "Bearer " + $window.localStorage.token
+             }
+         }).then(function (res) {
+             if (res.status != 404) {
+                 $scope.dataForm = res.data;
+                 console.log($scope.dataForm);
+             } else {
+                 $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+             }
+             
+         }, function err(e) {
+             $rootScope.checkError(e, $dialogAlert);
+         })
+         $scope.edituserlog = function () {
+             console.log($scope.dataForm);
+             $http({
+                 method: 'POST',
+                 url: host_api + 'cap-nhat',
+                 data: $scope.dataForm,
+                 headers: {
+                     'Authorization': "Bearer " + $window.localStorage.token
+                 }
+             }).then(function (res) {
+                 //console.log(res);
+                 if (res.result > 0) {
+                     //console.log(res);
+                     $dialogAlert("Cập nhật thư viện nguồn thành côngi", "Thông báo!", "success", function (res) {
+                         $state.go("userlogCtrl");
+                     });
+     
+                 } else {
+                     $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                 }
+     
+             }, function err(e) {
+                 $rootScope.checkError(e, $dialogAlert);
+             })
+         };
+       });
+
+
+
+
     //function dashboard seller
     app.controller('sellerCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
         if ($rootScope.$user && $rootScope.$user.Roles.indexOf('seller') < 0) {
@@ -804,9 +1159,9 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
 
         };
         // Chi tiet doanh thu trong tháng
-        $scope.dtDetail = function (code, pName, type) {
+        $scope.dtDetail = function (code, pName,type) {
             var $titlle = 'Doanh thu chi tiết loại bảo hiểm ' + pName;
-            switch (type) {
+            switch(type) {
                 case 'channel':
                     $titlle = 'Doanh thu chi tiết kênh bán ' + pName;
                     break;
@@ -819,7 +1174,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             $("div.overlay").addClass("show");
             $http({
                 method: 'GET',
-                url: host_api + 'api/report/seller?action=dashboarddetail&code=' + code + '&type=' + type + '&num=999&page=0',
+                url: host_api + 'api/report/seller?action=dashboarddetail&code=' + code + '&type='+type+'&num=999&page=0',
                 headers: {
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
@@ -899,7 +1254,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             status: "'','0'",
             tinh: '',
             huyen: '',
-            xa: ''
+            xa:''
         };
         $(".select2").select2();
         $scope.pageChanged2 = function () {
@@ -911,16 +1266,18 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         $scope.checkLoa = function () {
             var checkboxes = document.getElementsByName('status[]');
             var vals = "";
-            for (var i = 0, n = checkboxes.length; i < n; i++) {
-                if (checkboxes[i].checked) {
+            for (var i=0, n=checkboxes.length;i<n;i++) 
+            {
+                if (checkboxes[i].checked) 
+                {
                     if (checkboxes[i].value != "") {
                         vals += "," + checkboxes[i].value;
-                    }
+                    }                    
                 }
             }
             if (vals) vals = vals.substring(1);
             $scope.filters = {
-                status: vals
+                status:vals
             };
             loadDataLoa($scope.filters);
         }
@@ -1013,10 +1370,10 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         }
     });
     // function seller quản lý sản phẩm seller
-    app.controller('selList$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $dialogShowForm, $uibModalStack, $timeout, $stateParams, $window) {
-
+    app.controller('selList$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert,$dialogShowForm,$uibModalStack,$timeout, $stateParams, $window) {
+    
         loadDatachannel();
-        function loadDatachannel() {
+        function loadDatachannel(){
             $http({
                 method: 'GET',
                 url: host_api + 'api/channel/get?action=list',
@@ -1025,9 +1382,9 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 }
             }).then(function (res) {
                 //console.log(res);
-                if (res.data.result > 0) {
-                    $scope.dataListChannel = res.data.data;
-                } else {
+                if(res.data.result > 0){
+                    $scope.dataListChannel = res.data.data;                   
+                }else{
                     $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
                 }
 
@@ -1042,9 +1399,9 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 }
             }).then(function (res) {
                 //console.log(res);
-                if (res.data.result > 0) {
-                    $scope.dataListProducer = res.data.data;
-                } else {
+                if(res.data.result > 0){
+                    $scope.dataListProducer = res.data.data;                   
+                }else{
                     $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
                 }
 
@@ -1065,6 +1422,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             $location.path('/account/signin');
             return;
         }
+        
+
         fndata($http, $scope, 'product')
         function fndata($http, $scope, action) {
             search()
@@ -1090,8 +1449,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             $scope.selectedCls = function (column) {
                 return column == $scope.sort.column && 'sort-' + $scope.sort.descending;
             };
-
-
+            
+   
             // search theo date, search theo productName or productCode
             $scope.searchFilter = function () {
                 $scope.page = 0;
@@ -1109,7 +1468,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 $scope.totalRow = 0;
                 $http({
                     method: 'GET',
-                    url: host_api + 'api/report/seller?action=' + action + '&filter=' + ($scope.filter || '') + '&producer=' + ($scope.filter_producer || '') + '&channel=' + ($scope.filter_channel || '') + '&num=' + $scope.maxSize + '&page=' + ($scope.page || ''),
+                    url: host_api + 'api/report/seller?action=' + action + '&filter=' + ($scope.filter || '') + '&producer=' + ($scope.filter_producer || '') + '&channel=' + ($scope.filter_channel || '')  + '&num=' + $scope.maxSize + '&page=' + ($scope.page || ''),
                     headers: {
                         'Authorization': "Bearer " + $window.localStorage.token
                     }
@@ -1119,12 +1478,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                         $scope.data = res.data.data.detail;
                         $scope.totalRow = res.data.data.total_row;
                         $scope.bigTotalItems = res.data.data.total_row;
-                        $(document).ready(function () {
+                        $(document).ready(function(){
                             $('.btnProductToggle').bootstrapToggle({
                                 on: 'Kích hoạt',
                                 off: 'Ngừng kích hoạt',
-                                size: "mini",
-                                style: "btnToggleCustom"
+                                size:"mini",
+                                style:"btnToggleCustom"
                             });
                         })
                     } else {
@@ -1137,963 +1496,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 })
             }
         }
-
+            
     })
-    app.controller('manageDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-        $scope.filter = '';
-        $scope.data = [];
-        $http({
-            method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            url: listAPI.device.getListDevice,
-            data: {
-                filter: $scope.filter
-            },
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res);
-            if (res.status != 404 && res.status != 405) {
-                $scope.data = res.data;
-                //console.log($scope.data);
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-        //pagination
-        $scope.currentPage = 0;
-        $scope.pageSize = 15;
-        $scope.size = 0;
-        $scope.first = function () {
-            $scope.currentPage = 0;
-        }
-        $scope.next = function () {
-            $scope.currentPage += 1;
-        }
-        $scope.previous = function () {
-            $scope.currentPage -= 1;
-        }
-        $scope.last = function (last) {
-            $scope.currentPage = last;
-        }
-        $scope.thisPage = function (i) {
-            $scope.currentPage = i;
-        }
-        $scope.totalPage = function (size, pageSize) {
-            $scope.size = $window.Math.ceil(size / pageSize);
-            return $window.Math.ceil(size / pageSize);
-        }
-        $scope.filterDevice = function () {
-            console.log('filter=' + $scope.filter);
-            $http({
-                method: 'GET',
-                //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-                url: listAPI.device.getListDevice1,
-                data: {
-                    filter: $scope.filter
-                },
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                //console.log(res);
-                console.log('ddaay la filter' + $scope.filter);
-                if (res.status != 404 && res.status != 405) {
-                    $scope.data = res.data;
-                    //console.log($scope.data);
-                } else {
-                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-                }
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        }
-        $scope.deleteDevice = function (ID) {
-            //id
-            $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
-                if (res) {
-                    $http({
-                        method: 'POST',
-                        //url: host_api + 'xoa-thiet-bi-cum-loa',
-                        url: listAPI.device.deleteDevice,
-                        data: {
-                            id: ID
-                        },
-                        headers: {
-                            'Authorization': "Bearer " + $window.localStorage.token
-                        }
-                    }).then(function (res) {
-                        if (res.data.result > 0) {
-                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
-                        } else {
-                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
-                        }
-                    }, function err(e) {
-                        $rootScope.checkError(e, $dialogAlert);
-                    })
-                }
-
-            })
-
-        }
-    })
-    app.filter('startFrom', ['$timeout', function ($timeout) {
-        return function (input, start) {
-            start += start;
-            if (start != 1)
-                start = start / 2;
-            if (!input)
-                return;
-            return input.slice(start);
-        }
-    }])
-    app.filter('range', function () {
-        return function (input, total) {
-            total = parseInt(total);
-
-            for (var i = 0; i < total; i++) {
-                input.push(i);
-            }
-
-            return input;
-        };
-    })
-    app.controller('editDevice', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-        $scope.formData = {};
-        $http({
-            method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            //url: 'http://127.0.0.1:5500/admin/data/thiet-bi-cum-loa' + '&id=' + $stateParams.id,
-            url: listAPI.device.getDevice,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res);
-            // if (res.result > 0) {
-            if (res.status != 404 && res.status != 405) {
-                $scope.formData = res.data;
-                //console.log(res);
-                $scope.formData.date_set = new Date($scope.formData.date_set);
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-        $scope.editDevice = function () {
-            ($scope.formData);
-            $http({
-                method: 'POST',
-                //url: host_api + 'cap-nhat-thiet-bi-cum-loa',
-                url: listAPI.device.editDevice,
-                data: $scope.formData,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.result > 0) {
-                    //console.log(res);
-                    $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
-                        $state.go("manageDevice");
-                    });
-
-                } else {
-                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-                }
-
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        };
-    })
-    app.controller('addDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-        $scope.formData = {};
-        $scope.addDevice = function () {
-            //console.log($scope.formData);
-            $http({
-                method: 'POST',
-                //url: host_api + 'them-thiet-bi-cum-loa',
-                url: listAPI.device.addDevice,
-                data: $scope.formData,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.result > 0) {
-                    //console.log(res);
-                    $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
-                        $state.go("manageDevice");
-                    });
-
-                } else {
-                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-                }
-
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        };
-    })
-    app.controller('manageLichPhat', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-        $scope.filter = '';
-        $http({
-            method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            //url: 'http://127.0.0.1:5500/admin/data/lichPhat.json',
-            url: listAPI.lichPhat.getListLichPhat,
-            data: {
-                filter: $scope.filter
-            },
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            if (res.status != 404) {
-                $scope.data = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-        //pagination
-        $scope.currentPage = 0;
-        $scope.pageSize = 15;
-        $scope.size = 0;
-        $scope.first = function () {
-            $scope.currentPage = 0;
-        }
-        $scope.next = function () {
-            $scope.currentPage += 1;
-        }
-        $scope.previous = function () {
-            $scope.currentPage -= 1;
-        }
-        $scope.last = function (last) {
-            $scope.currentPage = last;
-        }
-        $scope.thisPage = function (i) {
-            $scope.currentPage = i;
-        }
-        $scope.totalPage = function (size, pageSize) {
-            $scope.size = $window.Math.ceil(size / pageSize);
-            return $window.Math.ceil(size / pageSize);
-        }
-        $scope.filterLichPhat = function () {
-            //console.log('filter=' + $scope.filter);
-            if ($scope.filter != '') {
-                $http({
-                    method: 'GET',
-                    //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-                    url: listAPI.lichPhat.getListLichPhat1,
-                    data: {
-                        filter: $scope.filter
-                    },
-                    headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token
-                    }
-                }).then(function (res) {
-                    //console.log(res);
-                    console.log('ddaay la filter' + $scope.filter);
-                    if (res.status != 404 && res.status != 405) {
-                        $scope.data = res.data;
-                    } else {
-                        $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-                    }
-                }, function err(e) {
-                    $rootScope.checkError(e, $dialogAlert);
-                })
-            }
-            $scope.filter = '';
-        }
-        $scope.deleteLichPhat = function (ID) {
-            //id
-            $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
-                if (res) {
-                    $http({
-                        method: 'POST',
-                        //url: host_api + 'xoa-lich-phat',
-                        url: listAPI.lichPhat.deleteLichPhat,
-                        data: {
-                            id: ID
-                        },
-                        headers: {
-                            'Authorization': "Bearer " + $window.localStorage.token
-                        }
-                    }).then(function (res) {
-                        if (res.data.result > 0) {
-                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
-                        } else {
-                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
-                        }
-                    }, function err(e) {
-                        $rootScope.checkError(e, $dialogAlert);
-                    })
-                }
-
-            })
-
-        }
-    })
-    app.controller('editLichPhat', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-        $scope.formData = {};
-        $http({
-            method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            //url: 'http://127.0.0.1:5500/admin/data/editLichPhat.json',
-            url: listAPI.lichPhat.getLichPhat,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res);
-            // if (res.result > 0) {
-            if (res.status != 404 && res.status != 405) {
-                $scope.formData = res.data;
-                $scope.formData.date_set = new Date($scope.formData.date_set);
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-
-        $scope.editLichPhat = function () {
-            //console.log($scope.formData);
-            $http({
-                method: 'POST',
-                //url: host_api + 'cap-nhat-lich-phat',
-                url: listAPI.lichPhat.editLichPhat,
-                data: $scope.formData,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.result > 0) {
-                    //console.log(res);
-                    $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
-                        $state.go("manageLichPhat");
-                    });
-
-                } else {
-                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-                }
-
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        };
-    })
-    app.controller('addLichPhat', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-        $scope.formData = {};
-        $scope.addLichPhat = function () {
-            //console.log($scope.formData);
-            $http({
-                method: 'POST',
-                //url: host_api + 'them-lich-phat',
-                url: listAPI.lichPhat.addLichPhat,
-                data: $scope.formData,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.result > 0) {
-                    //console.log(res);
-                    $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
-                        $state.go("manageLichPhat");
-                    });
-
-                } else {
-                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-                }
-
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        };
-    })
-    app.controller('managePublicNews', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-        $scope.filter = '';
-        $http({
-            method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            //url: 'http://127.0.0.1:5500/admin/data/publicNews.json',
-            data: {
-                filter: $scope.filter
-            },
-            url: listAPI.publicNews.getListPublicNews,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            if (res.status != 404) {
-                $scope.data = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-        //pagination
-        $scope.currentPage = 0;
-        $scope.pageSize = 15;
-        $scope.size = 0;
-        $scope.first = function () {
-            $scope.currentPage = 0;
-        }
-        $scope.next = function () {
-            $scope.currentPage += 1;
-        }
-        $scope.previous = function () {
-            $scope.currentPage -= 1;
-        }
-        $scope.last = function (last) {
-            $scope.currentPage = last;
-        }
-        $scope.thisPage = function (i) {
-            $scope.currentPage = i;
-        }
-        $scope.totalPage = function (size, pageSize) {
-            $scope.size = $window.Math.ceil(size / pageSize);
-            return $window.Math.ceil(size / pageSize);
-        }
-        $scope.filterPublicNews = function () {
-            console.log('filter=' + $scope.filter);
-            $http({
-                method: 'GET',
-                //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-                url: listAPI.publicNews.getListPublicNews1,
-                data: {
-                    filter: $scope.filter
-                },
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                //console.log(res);
-                console.log('ddaay la filter' + $scope.filter);
-                if (res.status != 404 && res.status != 405) {
-                    $scope.data = res.data;
-                } else {
-                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-                }
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        }
-        $scope.deletePublicNews = function (ID) {
-            //id
-            $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
-                if (res) {
-                    $http({
-                        method: 'POST',
-                        //url: host_api + 'xoa-bang-thong-tin-dien-tu',
-                        url: listAPI.publicNews.deletePublicNews,
-                        data: {
-                            id: ID
-                        },
-                        headers: {
-                            'Authorization': "Bearer " + $window.localStorage.token
-                        }
-                    }).then(function (res) {
-                        if (res.data.result > 0) {
-                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
-                        } else {
-                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
-                        }
-                    }, function err(e) {
-                        $rootScope.checkError(e, $dialogAlert);
-                    })
-                }
-
-            })
-
-        }
-    })
-    app.controller('editPublicNews', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-        $scope.formData = {};
-        $http({
-            method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            //url: 'http://127.0.0.1:5500/admin/data/editPublicNews.json',
-            url: listAPI.publicNews.getPublicNews,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res);
-            // if (res.result > 0) {
-            if (res.status != 404 && res.status != 405) {
-                $scope.formData = res.data;
-                $scope.formData.date_set = new Date($scope.formData.date_set);
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-
-        $scope.editPublicNews = function () {
-            // console.log($scope.formData);
-            $http({
-                method: 'POST',
-                //url: host_api + 'cap-nhat-bang-thong-tin-dien-tu',
-                url: listAPI.publicNews.editPublicNews,
-                data: $scope.formData,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.result > 0) {
-                    //console.log(res);
-                    $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
-                        $state.go("managePublicNews");
-                    });
-
-                } else {
-                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-                }
-
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        };
-    })
-    app.controller('addPublicNews', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-        $scope.formData = {};
-        $scope.addPublicNews = function () {
-            //console.log($scope.formData);
-            $http({
-                method: 'POST',
-                //url: host_api + 'them-bang-thong-tin-dien-tu',
-                url: listAPI.publicNews.addPublicNews,
-                data: $scope.formData,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.result > 0) {
-                    //console.log(res);
-                    $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
-                        $state.go("managePublicNews");
-                    });
-
-                } else {
-                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-                }
-
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        };
-    })
-    app.controller('manageRadioApp', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-        $scope.filter = '';
-        $http({
-            method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            //url: 'http://127.0.0.1:5500/admin/data/truyenThanh.json',
-            data: {
-                filter: $scope.filter
-            },
-            url: listAPI.radioApp.getListRadioApp,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            if (res.status != 404) {
-                $scope.data = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-        //pagination
-        $scope.currentPage = 0;
-        $scope.pageSize = 15;
-        $scope.size = 0;
-        $scope.first = function () {
-            $scope.currentPage = 0;
-        }
-        $scope.next = function () {
-            $scope.currentPage += 1;
-        }
-        $scope.previous = function () {
-            $scope.currentPage -= 1;
-        }
-        $scope.last = function (last) {
-            $scope.currentPage = last;
-        }
-        $scope.thisPage = function (i) {
-            $scope.currentPage = i;
-        }
-        $scope.totalPage = function (size, pageSize) {
-            $scope.size = $window.Math.ceil(size / pageSize);
-            return $window.Math.ceil(size / pageSize);
-        }
-        $scope.filterRadioApp = function () {
-            console.log('filter=' + $scope.filter);
-            $http({
-                method: 'GET',
-                //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-                url: listAPI.radioApp.getListRadioApp1,
-                data: {
-                    filter: $scope.filter
-                },
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                //console.log(res);
-                console.log('ddaay la filter' + $scope.filter);
-                if (res.status != 404 && res.status != 405) {
-                    $scope.data = res.data;
-                } else {
-                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-                }
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        }
-        $scope.deleteRadioApp = function (ID) {
-            //id
-            $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
-                if (res) {
-                    $http({
-                        method: 'POST',
-                        //url: host_api + '/xoa-dai-truyen-thanh-va-ung-dung',
-                        url: listAPI.radioApp.deleteRadioApp,
-                        data: {
-                            id: ID
-                        },
-                        headers: {
-                            'Authorization': "Bearer " + $window.localStorage.token
-                        }
-                    }).then(function (res) {
-                        if (res.data.result > 0) {
-                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
-                        } else {
-                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
-                        }
-                    }, function err(e) {
-                        $rootScope.checkError(e, $dialogAlert);
-                    })
-                }
-
-            })
-
-        }
-    })
-    app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-        $scope.formData = {};
-        $http({
-            method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            //url: 'http://127.0.0.1:5500/admin/data/editRadioApp.json',
-            url: listAPI.radioApp.getRadioApp,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res);
-            // if (res.result > 0) {
-            if (res.status != 404 && res.status != 405) {
-                $scope.formData = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-        //form tỉnh huyện xã
-        $scope.cities = [];
-        $scope.districts = [];
-        $scope.wards = [];
-        $http({
-            method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            //url: 'http://127.0.0.1:5500/admin/data/editRadioApp.json',
-            url: 'http://127.0.0.1:5500/admin/data/data.json',
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res);
-            // if (res.result > 0) {
-            if (res.status != 404 && res.status != 405) {
-                $scope.cities = res.data;
-                //console.log($scope.cities);
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-        $scope.listDistricts = function () {
-            if ($scope.formData.province != '') {
-                for (i in $scope.cities) {
-                    //console.log($scope.cities[i]);
-                    if ($scope.formData.province == $scope.cities[i].Name) {
-                        $scope.districts = $scope.cities[i].Districts;
-                        //console.log('dis' + $scope.districts);
-                        break;
-                    }
-                }
-            }
-        }
-        $scope.listWards = function () {
-            if ($scope.formData.district != '') {
-                for (i in $scope.districts) {
-                    //console.log($scope.districts[i]);
-                    if ($scope.formData.district == $scope.districts[i].Name) {
-                        $scope.wards = $scope.districts[i].Wards;
-                        //console.log($scope.wards);
-                        break;
-                    }
-                }
-            }
-        }
-        $scope.editRadioApp = function () {
-            console.log($scope.formData);
-            $http({
-                method: 'POST',
-                //url: host_api + 'cap-nhat-dai-truyen-thanh-va-ung-dung',
-                url: listAPI.radioApp.editRadioApp,
-                data: $scope.formData,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.result > 0) {
-                    //console.log(res);
-                    $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
-                        $state.go("manageRadioApp");
-                    });
-
-                } else {
-                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-                }
-
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        };
-    })
-    app.controller('addRadioApp', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-        $scope.formData = {};
-        $scope.cities = [];
-        $scope.districts = [];
-        $scope.wards = [];
-        $http({
-            method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            //url: 'http://127.0.0.1:5500/admin/data/editRadioApp.json',
-            url: 'http://127.0.0.1:5500/admin/data/data.json',
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res);
-            // if (res.result > 0) {
-            if (res.status != 404 && res.status != 405) {
-                $scope.cities = res.data;
-                //console.log($scope.cities);
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-        $scope.listDistricts = function () {
-            if ($scope.formData.province != '') {
-                for (i in $scope.cities) {
-                    //console.log($scope.cities[i]);
-                    if ($scope.formData.province == $scope.cities[i].Name) {
-                        $scope.districts = $scope.cities[i].Districts;
-                        //console.log('dis' + $scope.districts);
-                        break;
-                    }
-                }
-            }
-        }
-        $scope.listWards = function () {
-            if ($scope.formData.district != '') {
-                for (i in $scope.districts) {
-                    //console.log($scope.districts[i]);
-                    if ($scope.formData.district == $scope.districts[i].Name) {
-                        $scope.wards = $scope.districts[i].Wards;
-                        //console.log($scope.wards);
-                        break;
-                    }
-                }
-            }
-        }
-        $scope.addRadioApp = function () {
-            console.log($scope.formData);
-            $http({
-                method: 'POST',
-                //url: host_api + 'them-thiet-bi-cum-loa',
-                url: listAPI.radioApp.addRadioApp,
-                data: $scope.formData,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.result > 0) {
-                    //console.log(res);
-                    $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
-                        $state.go("manageRadioApp");
-                    });
-
-                } else {
-                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-                }
-
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        };
-    })
-    app.controller('selList$Ctrll', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $dialogShowForm, $uibModalStack, $timeout, $stateParams, $window) {
-
-        loadDatachannel();
-        function loadDatachannel() {
-            $http({
-                method: 'GET',
-                url: host_api + 'api/channel/get?action=list',
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                //console.log(res);
-                if (res.data.result > 0) {
-                    $scope.dataListChannel = res.data.data;
-                } else {
-                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-                }
-
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-            $http({
-                method: 'GET',
-                url: host_api + 'api/channel/get?action=producer',
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                //console.log(res);
-                if (res.data.result > 0) {
-                    $scope.dataListProducer = res.data.data;
-                } else {
-                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-                }
-
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        }
-        $rootScope.headTitle = 'Đơn vị bán hàng > Quản lý sản phẩm';
-        $scope.textloading = "Đang tải dữ liệu ...";
-        $scope.page = 0;
-        $scope.totalRow = 0;
-        $scope.maxSize = 10;
-        $scope.bigTotalItems = 0;
-        $scope.bigCurrentPage = 1;
-        $scope.flag = false;
-        if ($rootScope.$user === null || $rootScope.$user === undefined) {
-            $log.info('redirect to login');
-            $location.path('/account/signin');
-            return;
-        }
-        fndata($http, $scope, 'product')
-        function fndata($http, $scope, action) {
-            search()
-            $scope.search = search;
-            // sort
-            $scope.sort = {
-                column: '',
-                descending: false
-            };
-
-            $scope.changeSorting = function (column) {
-
-                var sort = $scope.sort;
-
-                if (sort.column == column) {
-                    sort.descending = !sort.descending;
-                } else {
-                    sort.column = column;
-                    sort.descending = false;
-                }
-            };
-            // thay đổi class khi sort
-            $scope.selectedCls = function (column) {
-                return column == $scope.sort.column && 'sort-' + $scope.sort.descending;
-            };
-
-
-            // search theo date, search theo productName or productCode
-            $scope.searchFilter = function () {
-                $scope.page = 0;
-                search();
-            }
-            // paging
-            $scope.pageChanged = function () {
-                $scope.page = $scope.bigCurrentPage - 1;
-                console.log('Page changed to: ' + $scope.bigCurrentPage);
-                search();
-            };
-            // load data api
-            function search() {
-                $scope.data = [];
-                $scope.totalRow = 0;
-                $http({
-                    method: 'GET',
-                    url: host_api + 'api/report/seller?action=' + action + '&filter=' + ($scope.filter || '') + '&producer=' + ($scope.filter_producer || '') + '&channel=' + ($scope.filter_channel || '') + '&num=' + $scope.maxSize + '&page=' + ($scope.page || ''),
-                    headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token
-                    }
-                }).then(function (res) {
-                    //console.log(res)                  
-                    if (res.data.result > 0) {
-                        $scope.data = res.data.data.detail;
-                        $scope.totalRow = res.data.data.total_row;
-                        $scope.bigTotalItems = res.data.data.total_row;
-                        $(document).ready(function () {
-                            $('.btnProductToggle').bootstrapToggle({
-                                on: 'Kích hoạt',
-                                off: 'Ngừng kích hoạt',
-                                size: "mini",
-                                style: "btnToggleCustom"
-                            });
-                        })
-                    } else {
-                        //$scope.textloading = "Dữ liệu trống.";
-                        $scope.textloading = res.data.message;
-                        //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
-                    }
-                }, function err(e) {
-                    $rootScope.checkError(e, $dialogAlert);
-                })
-            }
-        }
-
-    })
-
     // function seller quản lý thống kê doanh thu seller
     app.controller('selStatistic$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
         if ($rootScope.$user && $rootScope.$user.Roles.indexOf('seller') < 0) {
@@ -2214,7 +1618,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
 
                 })
             }
-
+            
         }
         const width = 320; // We will scale the photo width to this
         let height = 0; // This will be computed based on the input stream
@@ -2222,21 +1626,21 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         // |streaming| indicates whether or not we're currently streaming
         // video from the camera. Obviously, we start at false.
 
-
+       
 
         // The various HTML elements we need to configure or control. These
         // will be set by the startup() function.
 
-
-
+       
+       
         // Capture a photo by fetching the current contents of the video
         // and drawing it into a canvas, then converting that to a PNG
         // format data URL. By drawing it on an offscreen canvas and then
         // drawing that to the screen, we can change its size and/or apply
         // other changes before drawing it.
         // vars
-
-
+      
+        
         //show seller detail
         $scope.productDetail = function (code) {
             $http({
@@ -2289,7 +1693,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
 
 
         };
-
+       
         $(document).ready(function () {
             let streaming = false;
             let video = null;
@@ -2298,15 +1702,15 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             let startbutton = null;
             // vars
             let result = document.querySelector('.result'),
-                img_result = document.querySelector('.img-result'),
-                img_w = document.querySelector('.img-w'),
-                img_h = document.querySelector('.img-h'),
-                options = document.querySelector('.options'),
-                save = document.querySelector('.save'),
-                cropped = document.querySelector('.cropped'),
-                dwn = document.querySelector('.download'),
-                upload = document.querySelector('#file-input'),
-                cropper = '';
+            img_result = document.querySelector('.img-result'),
+            img_w = document.querySelector('.img-w'),
+            img_h = document.querySelector('.img-h'),
+            options = document.querySelector('.options'),
+            save = document.querySelector('.save'),
+            cropped = document.querySelector('.cropped'),
+            dwn = document.querySelector('.download'),
+            upload = document.querySelector('#file-input'),
+            cropper = '';
 
             // on change show image with crop options
             upload.addEventListener('change', (e) => {
@@ -2358,45 +1762,45 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 startbutton = document.getElementById("startbutton");
 
                 navigator.mediaDevices
-                    .getUserMedia({ video: true, audio: true })
-                    .then((stream) => {
-                        video.srcObject = stream;
-                        video.play();
-                    })
-                    .catch((err) => {
-                        console.error(`An error occurred: ${err}`);
-                    });
+                  .getUserMedia({ video: true, audio: true })
+                  .then((stream) => {
+                      video.srcObject = stream;
+                      video.play();
+                  })
+                  .catch((err) => {
+                      console.error(`An error occurred: ${err}`);
+                  });
 
                 video.addEventListener(
-                    "canplay",
-                    (ev) => {
-                        if (!streaming) {
-                            height = video.videoHeight / (video.videoWidth / width);
+                  "canplay",
+                  (ev) => {
+                      if (!streaming) {
+                          height = video.videoHeight / (video.videoWidth / width);
 
-                            // Firefox currently has a bug where the height can't be read from
-                            // the video, so we will make assumptions if this happens.
+                          // Firefox currently has a bug where the height can't be read from
+                          // the video, so we will make assumptions if this happens.
 
-                            if (isNaN(height)) {
-                                height = width / (4 / 3);
-                            }
+                          if (isNaN(height)) {
+                              height = width / (4 / 3);
+                          }
 
-                            video.setAttribute("width", width);
-                            video.setAttribute("height", height);
-                            canvas.setAttribute("width", width);
-                            canvas.setAttribute("height", height);
-                            streaming = true;
-                        }
-                    },
-                    false
+                          video.setAttribute("width", width);
+                          video.setAttribute("height", height);
+                          canvas.setAttribute("width", width);
+                          canvas.setAttribute("height", height);
+                          streaming = true;
+                      }
+                  },
+                  false
                 );
 
                 startbutton.addEventListener(
-                    "click",
-                    (ev) => {
-                        takepicture();
-                        ev.preventDefault();
-                    },
-                    false
+                  "click",
+                  (ev) => {
+                      takepicture();
+                      ev.preventDefault();
+                  },
+                  false
                 );
 
                 clearphoto();
@@ -2439,7 +1843,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
 
             }
         })
-
+        
         //$scope.dataHc = groupBy($scope.dataHc, pet => pet.producer.product_code);
         function groupBy(list, keyGetter) {
             const map = new Map();
@@ -2455,8 +1859,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             return map;
         }
     })
-
-    // function them moi tai khoan
+    
+// function them moi tai khoan
     app.controller('add$account$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
         //default states
         $scope.selectRoles = [];
@@ -2476,7 +1880,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                             validators: {
                                 notEmpty: {
                                     message: 'Mật khẩu không được để trống'
-                                }
+                                }        
                             }
                         },
                         confirm_password: {
@@ -2579,7 +1983,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                         $dialogAlert("Thêm tài khoản thành công", "Thông báo!", "success", function (res) {
                             $state.go("list$account");
                         });
-
+                        
                     } else {
                         $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
                     }
@@ -2587,8 +1991,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 }, function err(e) {
                     $rootScope.checkError(e, $dialogAlert);
                 })
-            }, 1000)
-
+            },1000)
+            
         };
     });
     // function danh sach tai khoan
@@ -2597,7 +2001,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         $scope.filter = "";
         $scope.textloading = "Đang tải dữ liệu";
         $scope.showRow = false;
-
+        
         //api get list account
 
         $scope.search = function () {
@@ -2630,11 +2034,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             })
         }
 
-        $scope.detailUser = function (id, refid) {
+        $scope.detailUser = function (id,refid) {
             //api get detail user follow id,refid
             $http({
                 method: 'GET',
-                url: host_api + 'api/auth/get?action=userbyid&userid=' + id + '&refid=' + refid,
+                url: host_api + 'api/auth/get?action=userbyid&userid=' + id + '&refid='+refid,
                 headers: {
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
@@ -2704,7 +2108,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 }
 
             })
-
+            
         }
     });
     // function chinh sua tai khoan
@@ -2811,7 +2215,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                             Sex: _data.sex.toString(),
                             Email: _data.email,
                             RefId: $scope.refid,
-                            UserId: $scope.uid
+                            UserId: $scope.uid 
                         }
                         console.log($scope.dataForm);
                         angular.forEach(_data.roles, function (val) {
@@ -2832,7 +2236,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         }, function err(e) {
             $rootScope.checkError(e, $dialogAlert);
         })
-
+        
         /**
             * Action
             */
@@ -2945,7 +2349,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         /**
             * Action
             */
-        $scope.submit = function () {
+        $scope.submit = function () {            
             //console.log($scope.dataForm);
             setTimeout(function () {
                 // return;
@@ -2975,8 +2379,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
 
         };
     });
-    // function quan ly don hang microsoft
-    app.controller('pmcs$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
+// function quan ly don hang microsoft
+    app.controller('pmcs$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {      
         if ($rootScope.$user && $rootScope.$user.Roles.indexOf('info') < 0) {
             $rootScope.$user = null;
             $rootScope.login_active = true;
@@ -3015,7 +2419,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 day = date.getDate(),
                 hour = date.getHours();
             month = month < 10 ? "0" + month : month,
-                day = day < 10 ? "0" + day : day;
+            day = day < 10 ? "0" + day : day;
             return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
         }
         var _timeFromdate = function () {
@@ -3026,7 +2430,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 day = date.getDate(),
                 hour = date.getHours();
             month = month < 10 ? "0" + month : month,
-                day = '01';///day < 10 ? "0" + day : day;
+            day = '01';///day < 10 ? "0" + day : day;
             return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
         }
         $scope.from_date = _timeFromdate();
@@ -3072,7 +2476,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         $scope.invoiceDetail = function (dataInvoice) {
             $http({
                 method: 'GET',
-                url: window.host_api + 'api/common/get?action=kesdetail&subsInfoId=' + dataInvoice + '&type=ms',
+                url: window.host_api + 'api/common/get?action=kesdetail&subsInfoId=' + dataInvoice+'&type=ms',
                 headers: {
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
@@ -3139,7 +2543,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 console.log(res);
                 $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
             });
-
+            
         };
 
         // paging
@@ -3175,9 +2579,9 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 }
             }).then(function (res) {
                 //console.log(res)                  
-                if (res.data.result > 0) {
+                if (res.data.result > 0) { 
                     $scope.data = res.data.data.detail;
-                    $scope.totalRow = res.data.data.total_row;
+                    $scope.totalRow = res.data.data.total_row;   
                 } else {
                     //$scope.textloading = "Dữ liệu trống.";
                     $scope.textloading = res.data.message;
@@ -3381,7 +2785,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             $scope.totalRow = 0;
             $http({
                 method: 'GET',
-                url: window.host_api + 'api/common/get?action=productkes&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date + '&status=' + $scope.status + "&type=kes",
+                url: window.host_api + 'api/common/get?action=productkes&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date + '&status=' + $scope.status+"&type=kes",
                 headers: {
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
@@ -3498,7 +2902,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         }
         //show order detail
         //console.log(window.dataJson);
-
+  
         $scope.invoiceDetail = function (dataInvoice) {
             return $modalTemplate.detail(dataInvoice);
         };
@@ -3521,7 +2925,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 title: 'Hoàn thành đơn hàng ',
                 type: 2, // action dành cho api hoàn thành đơn hàng
                 id: id,
-                module: module, // nhóm sản phẩm
+                module:module, // nhóm sản phẩm
                 refid: refid
             }
             $modalTemplate.form(option2, function (res) {
@@ -3546,7 +2950,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             $scope.totalRow = 0;
             $http({
                 method: 'GET',
-                url: window.host_api + 'api/common/get?action=productkes&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date + '&status=' + $scope.status + "&type=onesme",
+                url: window.host_api + 'api/common/get?action=productkes&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date + '&status=' + $scope.status+"&type=onesme",
                 headers: {
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
@@ -3567,7 +2971,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         }
     });
     // danh sach don vi nha cung cap
-    app.controller('producerList$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $dialogShowForm, $stateParams, $window) {
+    app.controller('producerList$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert,$dialogShowForm, $stateParams, $window) {
         if ($rootScope.$user && $rootScope.$user.Roles.indexOf('seller') < 0) {
             $rootScope.$user = null;
             $rootScope.login_active = true;
@@ -3588,7 +2992,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             $location.path('/account/signin');
             return;
         }
-
+        
 
         fndata($http, $scope, 'list')
         function fndata($http, $scope, action) {
@@ -3615,8 +3019,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             $scope.selectedCls = function (column) {
                 return column == $scope.sort.column && 'sort-' + $scope.sort.descending;
             };
-
-
+            
+   
             // search theo date, search theo productName or productCode
             $scope.searchFilter = function () {
                 $scope.page = 0;
@@ -3644,12 +3048,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                         $scope.data = res.data.data;
                         $scope.totalRow = res.data.data.total_row;
                         $scope.bigTotalItems = res.data.data.total_row;
-                        $(document).ready(function () {
+                        $(document).ready(function(){
                             $('.btnProductToggle').bootstrapToggle({
                                 on: 'Kích hoạt',
                                 off: 'Ngừng kích hoạt',
-                                size: "mini",
-                                style: "btnToggleCustom"
+                                size:"mini",
+                                style:"btnToggleCustom"
                             });
                         })
                     } else {
@@ -3664,7 +3068,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         }
         // bieu do doi tac cung cap dich 
         // biểu đồ hình tròn
-
+        
         var options_pie = {
             colors: ['#4572A7', '#AA4643', '#89A54E', '#80699B', '#3D96AE', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],
             showlegend: true,
@@ -3683,32 +3087,32 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 }
             }
         }
-
+        
         $http({
             method: 'GET',
             url: host_api + 'api/producer/get?action=statisticcharts&type=pie',
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
-        }).then(function (res) {
+        }).then(function (res) { 
             console.log(res);
-            if (res.data.result > 0) {
+            if(res.data.result > 0){
                 var _datas = res.data.data;
                 $rootScope.loadChartPie(_datas.total, "chartdvncc1", "Thống kê doanh thu bảo hiểm (tỉ đồng)", options_pie);
                 $rootScope.loadChartPie(_datas.total_last, "chartdvncc2", "Thống kê lợi nhuận (tỉ đồng)", options_pie);
-                _datas.calim.forEach(function (val) {
-                    if (val.y == 0) {
+                _datas.calim.forEach(function(val){
+                    if(val.y == 0){
                         val.visible = false
                     }
                 })
                 $rootScope.loadChartPie(_datas.calim, "chartdvncc3", "Khiếu nại khách hàng", options_pie);
-                _datas.suspend.forEach(function (val) {
-                    if (val.y == 0) {
+                _datas.suspend.forEach(function(val){
+                    if(val.y == 0){
                         val.visible = false
                     }
                 })
-                $rootScope.loadChartPie(_datas.suspend, "chartdvncc4", "Khách hàng tạm ngưng dịch vụ", options_pie);
-            } else {
+                $rootScope.loadChartPie( _datas.suspend, "chartdvncc4", "Khách hàng tạm ngưng dịch vụ", options_pie);           
+            }else{
                 $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
             }
 
@@ -3724,16 +3128,16 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         };
         var data_line = [
             {
-                name: "Công ty bảo hiểm BIC",
-                data: [2100, 2550, 3000, 3200, 4100, 4120, 5500, 5900, 8000, 9600, 20000, 36000]
+                name:"Công ty bảo hiểm BIC",
+                data:[2100,2550,3000,3200,4100,4120,5500,5900,8000,9600,20000,36000]
             },
             {
-                name: "Công ty bảo hiểm PVI",
-                data: [3600, 4000, 6000, 9000, 15000, 15500, 22000, 26000, 29000, 32000, 33000, 35900]
+                name:"Công ty bảo hiểm PVI",
+                data:[3600,4000,6000,9000,15000,15500,22000,26000,29000,32000,33000,35900]
             },
             {
-                name: "Công ty bảo hiểm MC",
-                data: [2000, 2500, 3000, 4500, 6500, 8000, 7500, 7600, 10000, 15000, 19000, 23000]
+                name:"Công ty bảo hiểm MC",
+                data:[2000,2500,3000,4500,6500,8000,7500,7600,10000,15000,19000,23000]
             }
         ]
         $http({
@@ -3742,22 +3146,22 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
-        }).then(function (res) {
+        }).then(function (res) { 
             console.log(res);
-            if (res.data.result > 0) {
+            if(res.data.result > 0){
                 var _datas = res.data.data;
-                $rootScope.loadChartLine(_datas.total, "line_chartdvncc", "Thống kê tăng trưởng khách hàng", option_line);
-            } else {
+                $rootScope.loadChartLine(_datas.total, "line_chartdvncc", "Thống kê tăng trưởng khách hàng", option_line);      
+            }else{
                 $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
             }
 
         }, function err(e) {
             $rootScope.checkError(e, $dialogAlert);
         })
-
+        
     })
     // Them khuyen mai
-    app.controller("addPromotion$Ctrl", function ($http, $scope, $rootScope, $dialogAlert, $dialogConfirm, $state, $dialogShowForm, $log, $uibModal, $window) {
+    app.controller("addPromotion$Ctrl", function ($http, $scope, $rootScope, $dialogAlert,$dialogConfirm,$state, $dialogShowForm, $log, $uibModal, $window) {
         $scope.data = {
             textInput: '',
             options: {
@@ -3767,7 +3171,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             }
         };
         $scope.dataProduct = {
-            target: 0
+            target:0
         }
         $(document).ready(function () {
             $('.select_promotion').select2({
@@ -3789,24 +3193,24 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                                 message: 'Tiêu đề không được bỏ trống.'
                             }
                         }
-                    },
+                    },                    
                 }
             })
-                .on('success.field.bv', function (e, data) {
-                    var $parent = data.element.parents('.form-group');
-                    // Hide the success icon
-                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-                })
-                .on('error.field.bv', function (e, data) {
-                    // Hide the success icon
-                    var $parent = data.element.parents('.form-group');
-                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-                })
-                .on('success.form.bv', function (e) {
-                    // Prevent form submission
-                    e.preventDefault();
-                    postData();
-                });
+            .on('success.field.bv', function (e, data) {
+                var $parent = data.element.parents('.form-group');
+                // Hide the success icon
+                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+            })
+            .on('error.field.bv', function (e, data) {
+                // Hide the success icon
+                var $parent = data.element.parents('.form-group');
+                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+            })
+            .on('success.form.bv', function (e) {
+                // Prevent form submission
+                e.preventDefault();
+                postData();
+            });
             setTimeout(function () {
                 $(".dateTimePicker").datetimepicker({
                     isRTL: false,
@@ -3822,7 +3226,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             function numberWithCommas(x) {
                 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
-
+        
         })
         var _timeTodate = function () {
             var date = new Date();
@@ -3831,7 +3235,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 day = date.getDate(),
                 hour = date.getHours();
             month = month < 10 ? "0" + month : month,
-                day = day < 10 ? "0" + day : day;
+            day = day < 10 ? "0" + day : day;
 
 
             return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
@@ -3857,10 +3261,10 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
-        }).then(function (res) {
-            if (res.data.result > 0) {
-                $scope.dataListChannel = res.data.data;
-            } else {
+        }).then(function (res) { 
+            if(res.data.result > 0){
+                $scope.dataListChannel = res.data.data;               
+            }else{
                 $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
             }
 
@@ -3871,18 +3275,18 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         $scope.dataProduct.productId = [];
         //danh sách sản phẩm theo id kênh bán
         $scope.flag_product = true;
-        $scope.loadProducts = function (pid) {
+        $scope.loadProducts = function(pid){
             $http({
                 method: 'GET',
-                url: host_api + 'api/product/get?action=listbychannelid&channelId=' + pid,
+                url: host_api + 'api/product/get?action=listbychannelid&channelId='+pid,
                 headers: {
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
-            }).then(function (res) {
-                if (res.data.result > 0) {
+            }).then(function (res) { 
+                if(res.data.result > 0){
                     $scope.flag_product = false;
-                    $scope.dataListProduct = res.data.data;
-                } else {
+                    $scope.dataListProduct = res.data.data;               
+                }else{
                     $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
                 }
 
@@ -3903,25 +3307,25 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             });
         $scope.$watch("myFile", function () {
             //console.log($scope.myFile);
-            if ($scope.myFile) {
+            if($scope.myFile){
                 $scope.fileName = $scope.myFile.filename;
-            }
+            }            
         });
-
+       
         $scope.addFiles = function () {
             //console.log($scope.myFile)
             if ($scope.myFile === undefined || $scope.myFile === "") {
                 $scope.error = "Vui lòng chọn 1 ảnh đại diện của bài viết";
                 return;
             }
-
+            
             if ($scope.myFile) {
                 $scope.error = undefined;
                 //console.log($scope.myFile)
                 if ($scope.myFile.filesize <= 0) return;
                 $scope.dataImage = {
                     Name: $scope.myFile.filename,
-                    Content: "data:" + $scope.myFile.filetype + ";base64," + $scope.myFile.base64
+                    Content: "data:" + $scope.myFile.filetype +";base64," +$scope.myFile.base64
                 };
                 ///api upload hình
                 $http({
@@ -3929,7 +3333,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                     url: window.host_api + 'api/common/upload',
                     data: $scope.dataImage,
                     headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token,
+                        'Authorization':"Bearer " + $window.localStorage.token,
                     }
                 }).then(function (response) {
                     //console.log(response);
@@ -3962,8 +3366,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             }).then(function (response) {
                 //console.log(response);
                 if (response.data.result > 0) {
-                    $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function (res) {
-                        if (res) {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "success",function(res){
+                        if(res){
                             $state.go("selkhuyenmai");
                         }
                     });
@@ -3979,7 +3383,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
 
     })
     // Them khuyen mai
-    app.controller("editPromotion$Ctrl", function ($http, $scope, $state, $rootScope, $stateParams, $dialogAlert, $dialogConfirm, $dialogShowForm, $log, $uibModal, $window) {
+    app.controller("editPromotion$Ctrl", function ($http, $scope,$state, $rootScope,$stateParams, $dialogAlert, $dialogConfirm, $dialogShowForm, $log, $uibModal, $window) {
         $scope.pid = $stateParams.id;
         console.log($scope.pid);
         $scope.dataProduct = {};
@@ -4007,25 +3411,25 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                                 message: 'Tiêu đề không được bỏ trống.'
                             }
                         }
-                    },
+                    },                    
                 }
             })
-                .on('success.field.bv', function (e, data) {
-                    var $parent = data.element.parents('.form-group');
-                    // Hide the success icon
-                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-                })
-                .on('error.field.bv', function (e, data) {
-                    // Hide the success icon
-                    var $parent = data.element.parents('.form-group');
-                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-                })
-                .on('success.form.bv', function (e) {
-                    // Prevent form submission
-                    e.preventDefault();
-                    postData();
-                });
-
+            .on('success.field.bv', function (e, data) {
+                var $parent = data.element.parents('.form-group');
+                // Hide the success icon
+                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+            })
+            .on('error.field.bv', function (e, data) {
+                // Hide the success icon
+                var $parent = data.element.parents('.form-group');
+                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+            })
+            .on('success.form.bv', function (e) {
+                // Prevent form submission
+                e.preventDefault();
+                postData();
+            });
+            
         })
         var _timeTodate = function () {
             var date = new Date();
@@ -4034,7 +3438,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 day = date.getDate(),
                 hour = date.getHours();
             month = month < 10 ? "0" + month : month,
-                day = day < 10 ? "0" + day : day;
+            day = day < 10 ? "0" + day : day;
 
 
             return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
@@ -4056,26 +3460,26 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         // $scope.to_date = _timeTodate();
         $http({
             method: 'GET',
-            url: host_api + 'api/promotion/get?action=detail&id=' + $scope.pid,
+            url: host_api + 'api/promotion/get?action=detail&id='+$scope.pid,
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
-        }).then(function (res) {
+        }).then(function (res) { 
             //console.log(res)
-            if (res.data.result > 0) {
-                $scope.dataListChannel = res.data.data;
-
+            if(res.data.result > 0){
+                $scope.dataListChannel = res.data.data;         
+                
                 $scope.dataProduct = {
-                    title: res.data.data.name,
-                    channelId: res.data.data.channel.code,
-                    type: res.data.data.type,
+                    title:res.data.data.name,
+                    channelId:res.data.data.channel.code,
+                    type:res.data.data.type,
                     scale: res.data.data.scale,
-                    fromdate: res.data.data.start_time,
-                    todate: res.data.data.end_time,
+                    fromdate:res.data.data.start_time,
+                    todate:res.data.data.end_time,
                     description: res.data.data.description,
-                    refId: res.data.data.refId
+                    refId:res.data.data.refId
                 }
-
+                
                 $scope.loadProducts(res.data.data.channel.code)
                 setTimeout(function () {
                     $(".dateTimePicker").datetimepicker({
@@ -4087,13 +3491,13 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                         //pickTime: false, //tat thoi gian
                         todayBtn: true,
                     });
-                    res.data.data.product.forEach(function (val) {
+                    res.data.data.product.forEach(function(val){
                         productId.push(val.code);
                     })
                     $scope.dataProduct.productId = productId;
-                    $(document).ready(function () {
+                    $(document).ready(function() {
                         $('.select_promotion').val(productId);
-                        $('.select_promotion').trigger('change');
+                        $('.select_promotion').trigger('change'); 
                     });
                 }, 500);
                 $http({
@@ -4102,17 +3506,17 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                     headers: {
                         'Authorization': "Bearer " + $window.localStorage.token
                     }
-                }).then(function (res) {
-                    if (res.data.result > 0) {
-                        $scope.dataListChannel = res.data.data;
-                    } else {
+                }).then(function (res) { 
+                    if(res.data.result > 0){
+                        $scope.dataListChannel = res.data.data;               
+                    }else{
                         $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
                     }
 
                 }, function err(e) {
                     $rootScope.checkError(e, $dialogAlert);
                 })
-            } else {
+            }else{
                 $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
             }
 
@@ -4120,21 +3524,21 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             $rootScope.checkError(e, $dialogAlert);
         })
 
-
+        
         //danh sách sản phẩm theo id kênh bán
         $scope.flag_product = true;
-        $scope.loadProducts = function (pid) {
+        $scope.loadProducts = function(pid){
             $http({
                 method: 'GET',
-                url: host_api + 'api/product/get?action=listbychannelid&channelId=' + pid,
+                url: host_api + 'api/product/get?action=listbychannelid&channelId='+pid,
                 headers: {
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
-            }).then(function (res) {
-                if (res.data.result > 0) {
+            }).then(function (res) { 
+                if(res.data.result > 0){
                     $scope.flag_product = false;
-                    $scope.dataListProduct = res.data.data;
-                } else {
+                    $scope.dataListProduct = res.data.data;               
+                }else{
                     $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
                 }
 
@@ -4155,25 +3559,25 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             });
         $scope.$watch("myFile", function () {
             //console.log($scope.myFile);
-            if ($scope.myFile) {
+            if($scope.myFile){
                 $scope.fileName = $scope.myFile.filename;
-            }
+            }            
         });
-
+       
         $scope.addFiles = function () {
             //console.log($scope.myFile)
             if ($scope.myFile === undefined || $scope.myFile === "") {
                 $scope.error = "Vui lòng chọn 1 ảnh đại diện của bài viết";
                 return;
             }
-
+            
             if ($scope.myFile) {
                 $scope.error = undefined;
                 //console.log($scope.myFile)
                 if ($scope.myFile.filesize <= 0) return;
                 $scope.dataImage = {
                     Name: $scope.myFile.filename,
-                    Content: "data:" + $scope.myFile.filetype + ";base64," + $scope.myFile.base64
+                    Content: "data:" + $scope.myFile.filetype +";base64," +$scope.myFile.base64
                 };
                 ///api upload hình
                 $http({
@@ -4181,7 +3585,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                     url: window.host_api + 'api/common/upload',
                     data: $scope.dataImage,
                     headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token,
+                        'Authorization':"Bearer " + $window.localStorage.token,
                     }
                 }).then(function (response) {
                     //console.log(response);
@@ -4203,8 +3607,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             // $scope.dataProduct.todate = $scope.to_date;
             $scope.dataProduct.action = "update";
             //console.log($scope.dataProduct);
-            $dialogConfirm("Vui lòng kiểm tra lại thông tin và ấn xác nhận để hoàn tất.", "Xác nhận thay đổi", function (res) {
-                if (res) {
+            $dialogConfirm("Vui lòng kiểm tra lại thông tin và ấn xác nhận để hoàn tất.","Xác nhận thay đổi", function(res){
+                if(res){
                     //return;
                     $http({
                         method: 'POST',
@@ -4216,8 +3620,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                     }).then(function (response) {
                         //console.log(response);
                         if (response.data.result > 0) {
-                            $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function (res) {
-                                if (res) {
+                            $dialogAlert("\n " + response.data.message, "Thông báo!", "success",function(res){
+                                if(res){
                                     $state.go("selkhuyenmai");
                                 }
                             });
@@ -4229,12 +3633,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                         //console.log(res);
                         $dialogAlert("\n " + res.data.message ? res.data.message : "", "Thông báo!", "warning");
                     });
-                }
-            })
+                }            
+            })            
         }
     })
     // Them nha cung cap
-    app.controller("addProducer$Ctrl", function ($http, $scope, $rootScope, $dialogAlert, $dialogConfirm, $state, $dialogShowForm, $log, $uibModal, $window) {
+    app.controller("addProducer$Ctrl", function ($http, $scope, $rootScope, $dialogAlert,$dialogConfirm,$state, $dialogShowForm, $log, $uibModal, $window) {
         $scope.data = {
             textInput: '',
             options: {
@@ -4243,7 +3647,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 entities: false
             }
         };
-
+        
         $(document).ready(function () {
 
             $('#formProducer').bootstrapValidator({
@@ -4259,37 +3663,37 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                                 message: 'Tên không được bỏ trống.'
                             }
                         }
-                    },
+                    },                    
                 }
             })
-                .on('success.field.bv', function (e, data) {
-                    var $parent = data.element.parents('.form-group');
-                    // Hide the success icon
-                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-                })
-                .on('error.field.bv', function (e, data) {
-                    // Hide the success icon
-                    var $parent = data.element.parents('.form-group');
-                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-                })
-                .on('success.form.bv', function (e) {
-                    // Prevent form submission
-                    e.preventDefault();
-                    postData();
-                });
-
+            .on('success.field.bv', function (e, data) {
+                var $parent = data.element.parents('.form-group');
+                // Hide the success icon
+                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+            })
+            .on('error.field.bv', function (e, data) {
+                // Hide the success icon
+                var $parent = data.element.parents('.form-group');
+                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+            })
+            .on('success.form.bv', function (e) {
+                // Prevent form submission
+                e.preventDefault();
+                postData();
+            });
+           
         })
-
+        
         $http({
             method: 'GET',
             url: host_api + 'api/channel/get?action=list',
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
-        }).then(function (res) {
-            if (res.data.result > 0) {
-                $scope.dataListChannel = res.data.data;
-            } else {
+        }).then(function (res) { 
+            if(res.data.result > 0){
+                $scope.dataListChannel = res.data.data;               
+            }else{
                 $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
             }
 
@@ -4297,21 +3701,21 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             $rootScope.checkError(e, $dialogAlert);
         })
         $scope.dataProducer = {};
-
+        
         //danh sách nhà cung cấp
         $scope.flag_product = true;
-        $scope.loadProducts = function (pid) {
+        $scope.loadProducts = function(pid){
             $http({
                 method: 'GET',
-                url: host_api + 'api/product/get?action=listbychannelid&channelId=' + pid,
+                url: host_api + 'api/product/get?action=listbychannelid&channelId='+pid,
                 headers: {
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
-            }).then(function (res) {
-                if (res.data.result > 0) {
+            }).then(function (res) { 
+                if(res.data.result > 0){
                     $scope.flag_product = false;
-                    $scope.dataListProduct = res.data.data;
-                } else {
+                    $scope.dataListProduct = res.data.data;               
+                }else{
                     $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
                 }
 
@@ -4335,8 +3739,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             }).then(function (response) {
                 //console.log(response);
                 if (response.data.result > 0) {
-                    $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function (res) {
-                        if (res) {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "success",function(res){
+                        if(res){
                             $state.go("selList");
                         }
                     });
@@ -4352,7 +3756,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
 
     })
     // Them sản phẩm nha cung cap
-    app.controller("addSptProducer$Ctrl", function ($http, $scope, $rootScope, $stateParams, $dialogAlert, $dialogConfirm, $state, $dialogShowForm, $log, $uibModal, $window) {
+    app.controller("addSptProducer$Ctrl", function ($http, $scope, $rootScope,$stateParams, $dialogAlert,$dialogConfirm,$state, $dialogShowForm, $log, $uibModal, $window) {
         var code = $stateParams.code;
         $(document).ready(function () {
             $('.select_product').select2({
@@ -4374,25 +3778,25 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                                 message: 'Tên không được bỏ trống.'
                             }
                         }
-                    },
+                    },                    
                 }
             })
-                .on('success.field.bv', function (e, data) {
-                    var $parent = data.element.parents('.form-group');
-                    // Hide the success icon
-                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-                })
-                .on('error.field.bv', function (e, data) {
-                    // Hide the success icon
-                    var $parent = data.element.parents('.form-group');
-                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-                })
-                .on('success.form.bv', function (e) {
-                    // Prevent form submission
-                    e.preventDefault();
-                    postData();
-                });
-
+            .on('success.field.bv', function (e, data) {
+                var $parent = data.element.parents('.form-group');
+                // Hide the success icon
+                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+            })
+            .on('error.field.bv', function (e, data) {
+                // Hide the success icon
+                var $parent = data.element.parents('.form-group');
+                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+            })
+            .on('success.form.bv', function (e) {
+                // Prevent form submission
+                e.preventDefault();
+                postData();
+            });
+           
         })
         $scope.dataProducer = {};
         //
@@ -4404,9 +3808,9 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             }
         }).then(function (res) {
             //console.log(res);
-            if (res.data.result > 0) {
-                $scope.dataListChannel = res.data.data;
-            } else {
+            if(res.data.result > 0){
+                $scope.dataListChannel = res.data.data;                   
+            }else{
                 $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
             }
 
@@ -4421,15 +3825,15 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 'Authorization': "Bearer " + $window.localStorage.token
             }
         }).then(function (res) {
-            if (res.data.result > 0) {
-                res.data.data.forEach(function (val) {
-                    if (val.code == code) {
+            if(res.data.result > 0){
+                res.data.data.forEach(function(val){
+                    if(val.code == code){
                         $scope.title = val.name;
                         $scope.dataProducer.code = val.code;
                         $scope.dataProducer.secretkey = val.secretkey;
                     }
                 })
-            } else {
+            }else{
                 $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
             }
         }, function err(e) {
@@ -4442,32 +3846,32 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
-        }).then(function (res) {
-            if (res.data.result > 0) {
-                $scope.dataInsugroup = res.data.data;
-            } else {
+        }).then(function (res) { 
+            if(res.data.result > 0){
+                $scope.dataInsugroup = res.data.data;               
+            }else{
                 $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
             }
 
         }, function err(e) {
             $rootScope.checkError(e, $dialogAlert);
         })
-
-
+        
+        
         //danh sách nhà cung cấp
         $scope.flag_product = true;
-        $scope.loadProducts = function (pid) {
+        $scope.loadProducts = function(pid){
             $http({
                 method: 'GET',
-                url: host_api + 'api/producer/get?action=insutype&code=' + pid,
+                url: host_api + 'api/producer/get?action=insutype&code='+pid,
                 headers: {
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
-            }).then(function (res) {
-                if (res.data.result > 0) {
+            }).then(function (res) { 
+                if(res.data.result > 0){
                     $scope.flag_product = false;
-                    $scope.dataListProduct = res.data.data;
-                } else {
+                    $scope.dataListProduct = res.data.data;               
+                }else{
                     $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
                 }
 
@@ -4491,8 +3895,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             }).then(function (response) {
                 //console.log(response);
                 if (response.data.result > 0) {
-                    $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function (res) {
-                        if (res) {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "success",function(res){
+                        if(res){
                             $state.go("selProducer");
                         }
                     });
@@ -4507,72 +3911,72 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         }
 
     })
-    app.controller("chienluocbanhang$Ctrl", function ($http, $scope, $rootScope, $stateParams, $dialogAlert, $dialogConfirm, $state, $dialogShowForm, $log, $uibModal, $window) {
+    app.controller("chienluocbanhang$Ctrl", function ($http, $scope, $rootScope,$stateParams, $dialogAlert,$dialogConfirm,$state, $dialogShowForm, $log, $uibModal, $window) {
         //bieu do thong ke chien luoc ban hang
-        $(document).ready(function () {
+        $(document).ready(function(){
             var options_column = {
-                colors: ['#5B9BD5', '#ED7D31', '#89A54E', '#80699B', '#3D96AE', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],
+                colors: ['#5B9BD5', '#ED7D31', '#89A54E', '#80699B', '#3D96AE', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],               
             }
             var data1 = {
-                category: ["Truyền thông sms", "Truyền thông mạng xã hội", "Truyền thông Telesale"],
-                series: [
+                category:["Truyền thông sms","Truyền thông mạng xã hội","Truyền thông Telesale"],
+                series:[
                     {
-                        name: "Mục tiêu",
-                        data: [20000, 50000, 30000]
+                        name:"Mục tiêu",
+                        data:[20000,50000,30000]
                     },
                     {
-                        name: "Đạt được",
-                        data: [15000, 80000, 1000]
+                        name:"Đạt được",
+                        data:[15000,80000,1000]
                     }
                 ]
             };
             var data2 = {
-                category: ["Truyền thông sms", "Truyền thông mạng xã hội", "Truyền thông Telesale"],
-                series: [
+                category:["Truyền thông sms","Truyền thông mạng xã hội","Truyền thông Telesale"],
+                series:[
                     {
-                        name: "Mục tiêu",
-                        data: [100, 50, 30]
+                        name:"Mục tiêu",
+                        data:[100,50,30]
                     },
                     {
-                        name: "Đạt được",
-                        data: [20, 80, 10]
+                        name:"Đạt được",
+                        data:[20,80,10]
                     }
                 ]
             }
             var data3 = {
-                category: ["SMS tới KH VIP", "SMS tới KH HSSV", "SMS tới KH Phổ thông"],
-                series: [
+                category:["SMS tới KH VIP","SMS tới KH HSSV","SMS tới KH Phổ thông"],
+                series:[
                     {
-                        name: "Mục tiêu",
-                        data: [10000, 10000, 50000]
+                        name:"Mục tiêu",
+                        data:[10000,10000,50000]
                     },
                     {
-                        name: "Đạt được",
-                        data: [15000, 6000, 80000]
+                        name:"Đạt được",
+                        data:[15000,6000,80000]
                     }
                 ]
             };
             var data4 = {
-                category: ["SMS tới KH VIP", "SMS tới KH HSSV", "SMS tới KH Phổ thông"],
-                series: [
+                category:["SMS tới KH VIP","SMS tới KH HSSV","SMS tới KH Phổ thông"],
+                series:[
                     {
-                        name: "Mục tiêu",
-                        data: [25, 15, 50]
+                        name:"Mục tiêu",
+                        data:[25,15,50]
                     },
                     {
-                        name: "Đạt được",
-                        data: [32, 9, 80]
+                        name:"Đạt được",
+                        data:[32,9,80]
                     }
                 ]
             }
-            load_bieudocot("chartclbh1", data1, "Chiến lược bán hàng", options_column);
-            load_bieudocot("chartclbh2", data2, "Thống kê doanh thu(tỉ đồng)", options_column);
-            load_bieudocot("chartclbh3", data3, "Phân tích khách hàng", options_column);
-            load_bieudocot("chartclbh4", data4, "Thống kê doanh thu(tỉ đồng)", options_column);
-
-            function load_bieudocot(id, data, title, options) {
+            load_bieudocot("chartclbh1",data1,"Chiến lược bán hàng",options_column);   
+            load_bieudocot("chartclbh2",data2,"Thống kê doanh thu(tỉ đồng)",options_column);   
+            load_bieudocot("chartclbh3",data3,"Phân tích khách hàng",options_column);   
+            load_bieudocot("chartclbh4",data4,"Thống kê doanh thu(tỉ đồng)",options_column);   
+           
+            function load_bieudocot(id,data,title,options){
                 Highcharts.setOptions({
-                    colors: options.colors
+                    colors: options.colors 
                 });
                 Highcharts.chart(id, {
                     chart: {
@@ -4596,13 +4000,13 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                         labels: {
                             overflow: 'justify'
                         }
-                    },
+                    },                   
                     tooltip: {
                         formatter: function () {
                             var _html = "";
-                            _html += `<h4>${this.x}</h4>`;
-                            this.points.forEach(function (val) {
-                                _html += `<p style="margin-bottom:0"><span style="color:${val.color}"> ${val.series.name}</span> : ${formatNumbers(val.y)}</p>`;
+                            _html  += `<h4>${this.x}</h4>`;
+                            this.points.forEach(function(val){
+                                _html  += `<p style="margin-bottom:0"><span style="color:${val.color}"> ${val.series.name}</span> : ${formatNumbers(val.y)}</p>`;
                             })
                             return _html;
                         },
@@ -4615,7 +4019,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                             dataLabels: {
                                 enabled: true,
                                 formatter: function () {
-                                    return formatNumbers(this.y)
+                                    return formatNumbers(this.y) 
                                 }
                             }
                         }
@@ -4627,17 +4031,17 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 });
             }
 
-
+            
         })
-
+    
     })
-    app.controller("phantichhanhvi$Ctrl", function ($http, $scope, $rootScope, $stateParams, $dialogAlert, $dialogConfirm, $state, $dialogShowForm, $log, $uibModal, $window) {
+    app.controller("phantichhanhvi$Ctrl", function ($http, $scope, $rootScope,$stateParams, $dialogAlert,$dialogConfirm,$state, $dialogShowForm, $log, $uibModal, $window) {
         //bieu do thong ke chien luoc ban hang
-        $(document).ready(function () {
+        $(document).ready(function(){
             var options_column = {
-                colors: ['#ED7D31', '#5B9BD5', '#89A54E', '#80699B', '#763c3c', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],
+                colors: [ '#ED7D31','#5B9BD5', '#89A54E', '#80699B', '#763c3c', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],               
             }
-            var data1 = {}, data2 = {};
+            var data1 = {},data2 = {};
             $http({
                 method: 'GET',
                 url: host_api + 'api/report/seller?action=customerchart&type=column',
@@ -4652,8 +4056,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                     data1.series = res.data.data.customer.series;
                     data2.category = res.data.data.subscription.category;
                     data2.series = res.data.data.subscription.series;
-                    load_bieudocot("charthvkh1", data1, "Thống kê tăng trưởng khách hàng", options_column);
-                    load_bieudocot("charthvkh2", data2, "Thống kê thuê bao", options_column);
+                    load_bieudocot("charthvkh1",data1,"Thống kê tăng trưởng khách hàng",options_column);   
+                    load_bieudocot("charthvkh2",data2,"Thống kê thuê bao",options_column);
                 } else {
                     $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
                 }
@@ -4661,10 +4065,10 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             }, function err(e) {
                 $rootScope.checkError(e, $dialogAlert);
             })
-
-            function load_bieudocot(id, data, title, options) {
+           
+            function load_bieudocot(id,data,title,options){
                 Highcharts.setOptions({
-                    colors: options.colors
+                    colors: options.colors 
                 });
                 Highcharts.chart(id, {
                     chart: {
@@ -4688,13 +4092,13 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                         labels: {
                             overflow: 'justify'
                         }
-                    },
+                    },                   
                     tooltip: {
                         formatter: function () {
                             var _html = "";
-                            _html += `<h4>${this.x}</h4>`;
-                            this.points.forEach(function (val) {
-                                _html += `<p style="margin-bottom:0"><span style="color:${val.color}"> ${val.series.name}</span> : ${formatNumbers(val.y)}</p>`;
+                            _html  += `<h4>${this.x}</h4>`;
+                            this.points.forEach(function(val){
+                                _html  += `<p style="margin-bottom:0"><span style="color:${val.color}"> ${val.series.name}</span> : ${formatNumbers(val.y)}</p>`;
                             })
                             return _html;
                         },
@@ -4719,12 +4123,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 });
             }
 
-
+            
         })
-
+    
     })
-
-    // function quan ly don hang moza
+    
+// function quan ly don hang moza
     app.controller('pmoza$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
         if ($rootScope.$user && $rootScope.$user.Roles.indexOf('info') < 0) {
             $rootScope.$user = null;
@@ -4809,7 +4213,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                     var _matkhau = $("input[name='matkhau']").val();
                     var _key = $("input[name='key']").val();
                     var _note = $("input[name='bankingRef']").val();
-                    if ($.trim(_taikhoan) === "" || $.trim(_matkhau) === "" || $.trim(_key) === "" || $.trim(_note) === "") {
+                    if ($.trim(_taikhoan) === "" || $.trim(_matkhau) === "" || $.trim(_key) === "" || $.trim(_note) === "" ) {
                         $dialogAlert("Thông tin không được bỏ trống, vui lòng thực hiện lại!", "Thông báo", "warning", function (res) {
                             $scope.fnconfirm(subid);
                         });
@@ -4939,7 +4343,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             $scope.totalRow = 0;
             $http({
                 method: 'GET',
-                url: window.host_api + 'api/common/get?action=productkes&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date + '&status=' + $scope.status + "&type=moza",
+                url: window.host_api + 'api/common/get?action=productkes&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date + '&status=' + $scope.status+"&type=moza",
                 headers: {
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
@@ -4957,7 +4361,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 $rootScope.checkError(e, $dialogAlert);
             })
         }
-
+        
         // demo json
         var _json = {
             "result": 1,
@@ -5327,56 +4731,56 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         //$scope.dataMoza = _json.data.detail;
         function groupByKey(array, key) {
             return array
-                .reduce((hash, obj) => {
-                    if (obj[key] === undefined) return hash;
-                    return Object.assign(hash, { [obj[key]]: (hash[obj[key]] || []).concat(obj) })
-                }, {})
+              .reduce((hash, obj) => {
+                  if(obj[key] === undefined) return hash; 
+                  return Object.assign(hash, { [obj[key]]:( hash[obj[key]] || [] ).concat(obj)})
+              }, {})
         }
         var demo_data = _json.data.detail;
 
         // group theo tháng
-        var ar_date = groupByKey(demo_data, 'mmyy');
+        var ar_date = groupByKey(demo_data,'mmyy');
         ar_date = Object.keys(ar_date);
         //console.log(ar_date);
         var _arrdate2 = []
-        ar_date.forEach(function (val) {
+        ar_date.forEach(function(val){
             var _val = val.split("/");
             _arrdate2.push({
-                'month': _val[0],
-                'year': _val[1]
+                'month':_val[0],
+                'year':_val[1]
             })
         })
         //group theo tên sản phẩm
-        var ar_name = groupByKey(demo_data, 'name');
-
+        var ar_name = groupByKey(demo_data,'name');
+        
         ar_name = Object.values(ar_name);
         //console.log(ar_name);
 
         var _arrdate = []
-        ar_name.forEach(function (val) {
+        ar_name.forEach(function(val){
             var valName = val[0].name;
             _arrdate.push({
-                'name': valName,
-                'datas2': val
+                'name':valName,
+                'datas2':val
             })
         })
-
+        
         $scope.dataMoza = _arrdate;
         //console.log(_arrdate);
 
         //function sum value
-        $scope.sumValue = function (arr) {
+        $scope.sumValue =  function(arr){
             var _e = 0;
-            arr.forEach(function (val) {
+            arr.forEach(function(val){
                 _e += val.qty;
             });
             return _e
         }
-        const months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+        const months = ['1', '2', '3', '4', '5', '6','7', '8', '9', '10', '11', '12'];
         const sorter = (a, b) => {
-            if (a.year !== b.year) {
+            if(a.year !== b.year){
                 return a.year - b.year;
-            } else {
+            }else{
                 return months.indexOf(a.month) - months.indexOf(b.month);
             };
         };
@@ -5384,31 +4788,31 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
 
         //console.log(_arrdate2);
         var _arryDate = [];
-        _arrdate2.forEach(function (val) {
-            _arryDate.push(val.month + '/' + val.year)
+        _arrdate2.forEach(function(val){
+            _arryDate.push(val.month+'/'+val.year)
         })
         var _series = [];
-        var data2 = [];
-        _arrdate.forEach(function (item, key) {
+        var data2= [];
+        _arrdate.forEach(function(item,key){
             item.data2 = [];
             item.datas = cvobject(item.datas2);
-            item.datas.forEach(function (val) {
+            item.datas.forEach(function(val){
                 item.data2.push(val.qty)
             })
             _series.push({
-                'name': item.name,
-                'data': item.data2
+                'name':item.name,
+                'data':item.data2
             })
 
         });
         //console.log(_series)
-        setTimeout(function () {
+        setTimeout(function(){
             // return;
             $("#imgLoading").remove();
             //console.log(_arrdate);
             $(document).ready(function () {
                 var colors = ['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce',
-                    '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a', "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1"];
+                '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a',"#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1"];
                 Highcharts.setOptions({
                     colors: colors
                 });
@@ -5446,36 +4850,36 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                                 enabled: true
                             }
                         }
-
+                       
                     },
                     series: _series,
                     credits: {
                         enabled: false
                     },
                 });
-
+              
             })
-
-        }, 3000);
-
-        function cvobject(arr) {
+            
+        },3000);
+       
+        function cvobject(arr){
             const result = _arryDate.map(person => {
                 var e = {}
-                const addressItem = arr.find(address => address.mmyy === person)
-                e.key = person;
-                e.qty = addressItem ? addressItem.qty : null;
+                const addressItem = arr.find(address => address.mmyy === person )
+                e.key =  person;
+                e.qty = addressItem ? addressItem.qty: null;
                 return e
             })
             return result;
         }
-        $scope.rowHighilited = function (group, row) {
-            $scope.selectedGroup = group;
-            $scope.selectedRow = row;
+        $scope.rowHighilited = function(group, row){
+            $scope.selectedGroup=  group;
+            $scope.selectedRow = row; 
         };
-        var data_jsondashboard = { "result": 1, "message": "Thành công", "data": [{ "ordi_num": 1, "product": { "name": "Bảo hiểm  học sinh sinh viên" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 1, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 2, "product": { "name": "Bảo hiểm Mô tô- xe máy (1 năm)" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 33, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 3, "product": { "name": "Bảo hiểm TNDS ô tô" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 1, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 4, "product": { "name": "Kapersky Anti Virus - 1 DT" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 1, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 5, "product": { "name": "Kaspersky Endpoint Security cho Doanh nghiệp | Standard" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 1, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 6, "product": { "name": "Kaspersky Internet Security - Multi-Device - 1 DVC" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 13, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 7, "product": { "name": "Kaspersky Internet Security - Multi-Device - 3 DVC" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 60, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 8, "product": { "name": "Kaspersky Internet Security - Multi-Device - 5 DVC" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 70, "curr": 1, "1": 0, "2": 0, "3": 0, "4": 0, "5": 1, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 9, "product": { "name": "Kaspersky Internet Security for Android - 1 MD" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 4, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 10, "product": { "name": "Kaspersky Safe Kids - 1 DT" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 1, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }], "requestId": 148265 };
+        var data_jsondashboard = {"result":1,"message":"Thành công","data":[{"ordi_num":1,"product":{"name":"Bảo hiểm  học sinh sinh viên"},"partner":{"id":20210002,"name":"Store VTC"},"qty":{"ago":1,"curr":0,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0}},{"ordi_num":2,"product":{"name":"Bảo hiểm Mô tô- xe máy (1 năm)"},"partner":{"id":20210002,"name":"Store VTC"},"qty":{"ago":33,"curr":0,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0}},{"ordi_num":3,"product":{"name":"Bảo hiểm TNDS ô tô"},"partner":{"id":20210002,"name":"Store VTC"},"qty":{"ago":1,"curr":0,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0}},{"ordi_num":4,"product":{"name":"Kapersky Anti Virus - 1 DT"},"partner":{"id":20210002,"name":"Store VTC"},"qty":{"ago":1,"curr":0,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0}},{"ordi_num":5,"product":{"name":"Kaspersky Endpoint Security cho Doanh nghiệp | Standard"},"partner":{"id":20210002,"name":"Store VTC"},"qty":{"ago":1,"curr":0,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0}},{"ordi_num":6,"product":{"name":"Kaspersky Internet Security - Multi-Device - 1 DVC"},"partner":{"id":20210002,"name":"Store VTC"},"qty":{"ago":13,"curr":0,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0}},{"ordi_num":7,"product":{"name":"Kaspersky Internet Security - Multi-Device - 3 DVC"},"partner":{"id":20210002,"name":"Store VTC"},"qty":{"ago":60,"curr":0,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0}},{"ordi_num":8,"product":{"name":"Kaspersky Internet Security - Multi-Device - 5 DVC"},"partner":{"id":20210002,"name":"Store VTC"},"qty":{"ago":70,"curr":1,"1":0,"2":0,"3":0,"4":0,"5":1,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0}},{"ordi_num":9,"product":{"name":"Kaspersky Internet Security for Android - 1 MD"},"partner":{"id":20210002,"name":"Store VTC"},"qty":{"ago":4,"curr":0,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0}},{"ordi_num":10,"product":{"name":"Kaspersky Safe Kids - 1 DT"},"partner":{"id":20210002,"name":"Store VTC"},"qty":{"ago":1,"curr":0,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0}}],"requestId":148265};
         $scope.data_jsondashboard = data_jsondashboard.data;
         $scope.month_cur = new Date();
-        $scope.month_ago = (new Date().getMonth() < 10 ? '0' + new Date().getMonth() : new Date().getMonth()) + '/' + (new Date().getFullYear().toString().substr(-2));
+        $scope.month_ago = (new Date().getMonth() < 10 ? '0'+new Date().getMonth() : new Date().getMonth())  +'/'+ (new Date().getFullYear().toString().substr(-2));
     });
     // function quan ly don hang tiki
     app.controller('ptiki$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
@@ -5501,22 +4905,22 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         $scope.showRow = false;
         $scope.status = "-1";
         $scope.dataList = [];
-
-        var selectText = `<select id="selectText" name='productTiki' class="form-control" >
+        
+        var selectText =`<select id="selectText" name='productTiki' class="form-control" >
                             <option value=''>Chọn sản phẩm</option>
-                          </select>`;
+                          </select>`;        
         // xac nhan don hang da khoi tao thong tin cho khach hang thanh cong        
         $scope.fnconfirm = function () {
             $http({
                 method: 'GET',
-                url: window.host_api + 'api/tiki/get?action=item',
+                url: window.host_api + 'api/tiki/get?action=item' ,
                 headers: {
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
             }).then(function (res) {
                 if (res.data.result > 0) {
                     $scope.dataList = res.data.data;
-                    res.data.data.forEach(function (val) {
+                    res.data.data.forEach(function(val){
                         $('#selectText').append(`<option value='${val.code}'>${val.name}</option>`);
                     })
                 } else {
@@ -5554,21 +4958,21 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                         return;
                     }
                     var data = {
-                        "action": "activate",
+                        "action":"activate",
                         "qty": qty,
-                        "ProductId": ProductId
+                        "ProductId":ProductId
                     }
-
+                    
                     $http({
                         method: 'POST',
                         url: window.host_api + 'api/tiki/asu',
                         headers: {
                             'Authorization': "Bearer " + $window.localStorage.token
                         },
-                        data: data
+                        data:data
                     }).then(function (response) {
                         //console.log(response);
-
+                        
                         if (response.data.result > 0) {
                             $dialogAlert("Lấy key thành công!", "Thông báo!", "success", function () {
                                 //window.location.reload();
@@ -5613,9 +5017,9 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                                         $scope.dataKeys = response.data.data;
                                         $scope.nameT = getName(ProductId);
                                         //console.log($scope.nameT)
-                                        var nameFile = $scope.nameT.replaceAll(' ', '-');
-                                        nameFile = nameFile.replaceAll("--", "")
-                                        $scope.exportExcel = function () {
+                                        var nameFile = $scope.nameT.replaceAll(' ','-');
+                                        nameFile = nameFile.replaceAll("--","")
+                                        $scope.exportExcel = function(){
                                             $("#printKey").table2excel({
                                                 exclude: ".excludeThisClass",
                                                 name: $scope.nameT,
@@ -5623,7 +5027,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                                                 preserveColors: false // set to true if you want background colors and font colors preserved
                                             });
                                         }
-
+                                        
                                     },
                                     size: 'xs',//size,   
                                     windowClass: 'your-modal-class',
@@ -5636,10 +5040,10 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                             $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
                         }
                         $("div.overlay").removeClass("show");
-                        function getName(code) {
+                        function getName(code){
                             var _name = "";
-                            $scope.dataList.forEach(function (val) {
-                                if (val.code === parseInt(code)) {
+                            $scope.dataList.forEach(function(val){
+                                if(val.code === parseInt(code)){
                                     return _name = val.name;
                                 }
                             });
@@ -5649,13 +5053,13 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                         console.log(res);
                         $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
                     });
-
+                    
                 }
             })
         }
         // huy key theo time or tung key rieng le
         $scope.fnCancelKey = function () {
-
+            
             $scope.datakh = {};
             $dialogConfirm(`<p style="font-size:14px">Vui lòng chọn sản phẩm và nhập số lượng để lấy key</p>
                 <form class="form-auth-small" name="signinForm" id="signinForm">
@@ -5679,7 +5083,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             </div>`, "Hủy key theo sản phẩm", function (res) {
                 if (res) {
                     $("div.overlay").addClass("show");
-                    var type = $("select[name='typeKey']").val();
+                    var type =  $("select[name='typeKey']").val();
                     var _key = $("input[name='key']").val();
                     var _date = $("input[name='dateTime']").val();
                     if (($.trim(type) === "1" && $.trim(_key) === "") || ($.trim(type) === "0" && $.trim(_date) === "")) {
@@ -5690,13 +5094,13 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                         return;
                     }
                     var data = {
-                        "action": "suspend",
-                        "activateDate": _date
+                        "action":"suspend",
+                        "activateDate":_date
                     }
-                    if (type === "1") {
+                    if(type === "1"){
                         data = {
-                            "action": "suspendbycode",
-                            "code": _key
+                            "action":"suspendbycode",
+                            "code":_key
                         }
                     }
                     $http({
@@ -5705,7 +5109,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                         headers: {
                             'Authorization': "Bearer " + $window.localStorage.token
                         },
-                        data: data
+                        data:data
                     }).then(function (response) {
                         //console.log(response);
                         $("div.overlay").removeClass("show");
@@ -5754,22 +5158,22 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                     });
                 }
             });
-            setTimeout(function () {
-                $("select[name='typeKey']").on('change', function () {
-                    if (this.value === "1") {
+            setTimeout(function(){
+                $("select[name='typeKey']").on('change', function() {
+                    if(this.value === "1"){
                         $(".haskey").show();
                         $(".hasdate").hide();
-                    } else if (this.value === "0") {
+                    }else if(this.value === "0"){
                         $(".haskey").hide();
                         $(".hasdate").show();
                     }
-                });
-            }, 1000)
+                });               
+            },1000)             
         }
 
         //show order detail moza product
         $scope.invoiceDetail = function (refId) {
-
+            
             var modal = $uibModal.open({
                 animation: 1000,
                 backdrop: 'static',
@@ -5808,17 +5212,17 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                         <button class ="btn btn-default" ng-click="cancel()" data-dismiss="modal" >Đóng</button>\
                         <button class ="btn btn-primary" ng-click="update()"  >Cập nhật</button>\
                     </div>`,
-                controller: function ($scope, $uibModalInstance, $uibModalStack) {
+                controller: function ($scope, $uibModalInstance,$uibModalStack) {
                     $scope.cancel = function () {
                         $uibModalInstance.close(false);
                     };
                     $scope.data = {
-                        "action": "update",
+                        "action":"update",
                         "refId": refId,
-                        "custName": '',
+                        "custName":'',
                         "address": '',
-                        "orderId": '',
-                        "orderDate": '',
+                        "orderId":'',
+                        "orderDate":'',
                         "isInvoice": false
                     }
                     var _timeTodate = function () {
@@ -5827,7 +5231,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                             month = date.getMonth() + 1,
                             day = date.getDate(),
                             hour = date.getHours();
-                        month = month < 10 ? "0" + month : month,
+                            month = month < 10 ? "0" + month : month,
                             day = day < 10 ? "0" + day : day;
                         return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
                     }
@@ -5840,17 +5244,17 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                                 autoclose: true,
                                 language: 'en',
                                 //minView: 2, //tat thoi gian
-                                // pickTime: false, //tat thoi gian
+                               // pickTime: false, //tat thoi gian
                                 todayBtn: true,
                             });
-                        }, 1000);
+                        },1000);
                     });
-                    $scope.update = function () {
+                    $scope.update = function(){
                         //console.log($scope.data);
                         $("div.overlay").addClass("show");
                         //return;
-                        if ($.trim($scope.data.custName) === '' || $.trim($scope.data.address) === '' || $.trim($scope.data.orderId) === '' || $.trim($scope.data.orderDate) === '') {
-                            $dialogAlert("\n Thông tin khách hàng không được để trống, vui lòng nhập đầy đủ và thử lại", "Lỗi!", "warning");
+                        if($.trim($scope.data.custName) === '' || $.trim($scope.data.address) === '' || $.trim($scope.data.orderId) === '' || $.trim($scope.data.orderDate) === ''){
+                            $dialogAlert("\n Thông tin khách hàng không được để trống, vui lòng nhập đầy đủ và thử lại", "Lỗi!", "warning");  
                             $("div.overlay").removeClass("show");
                             return;
                         }
@@ -5860,16 +5264,16 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                             headers: {
                                 'Authorization': "Bearer " + $window.localStorage.token
                             },
-                            data: $scope.data
+                            data:$scope.data
                         }).then(function (response) {
                             $("div.overlay").removeClass("show");
                             //console.log(response.data.data);
                             if (response.data.result > 0) {
-                                $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function (res) {
+                                $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function(res){
                                     search();
                                     $uibModalStack.dismissAll();
-                                });
-
+                                });    
+                               
                             } else {
                                 $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
                             }
@@ -5885,7 +5289,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 windowClass: 'your-modal-class',
 
             });
-
+            
 
         };
 
@@ -5925,9 +5329,9 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             })
         }
         $scope.month_cur = new Date();
-        $scope.month_ago = (new Date().getMonth() < 10 ? '0' + new Date().getMonth() : new Date().getMonth()) + '/' + (new Date().getFullYear().toString().substr(-2));
+        $scope.month_ago = (new Date().getMonth() < 10 ? '0'+new Date().getMonth() : new Date().getMonth())  +'/'+ (new Date().getFullYear().toString().substr(-2));
     });
-    app.controller('mdKYCmobile$Ctrl', function ($http, $scope, $uibModal, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
+    app.controller('mdKYCmobile$Ctrl', function ($http, $scope,$uibModal, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
         //default states
         $scope.uid = $stateParams.id;
         $scope.selectRoles = [];
@@ -6002,10 +5406,10 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
         });
 
         //show modal camera
-
+       
         $scope.showCamera = function (clss) {
             var modal = $uibModal.open({
-
+               
                 backdrop: 'static',
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
@@ -6027,58 +5431,58 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                         startbutton = document.getElementById("startbutton");
                         // vars
                         let result = document.querySelector('.result'),
-                            img_result = document.querySelector('.img-result'),
-                            img_w = document.querySelector('.img-w'),
-                            img_h = document.querySelector('.img-h'),
-                            options = document.querySelector('.options'),
-                            save = document.querySelector('.save'),
-                            cropped = document.querySelector('.cropped'),
-                            dwn = document.querySelector('.download'),
-                            upload = document.querySelector('#file-input'),
-                            cropper = '';
+                        img_result = document.querySelector('.img-result'),
+                        img_w = document.querySelector('.img-w'),
+                        img_h = document.querySelector('.img-h'),
+                        options = document.querySelector('.options'),
+                        save = document.querySelector('.save'),
+                        cropped = document.querySelector('.cropped'),
+                        dwn = document.querySelector('.download'),
+                        upload = document.querySelector('#file-input'),
+                        cropper = '';
                         checkCamera();
-
+                       
                         function checkCamera() {
                             const streams = navigator.mediaDevices
-                                .getUserMedia({ video: true, audio: false })
-                                .then((stream) => {
-                                    window.localStream = stream;
-                                    video.srcObject = stream
-                                    video.play();
-                                })
-                                .catch((err) => {
-                                    console.error(`An error occurred: ${err}`);
-                                });
+                             .getUserMedia({ video: true, audio: false })
+                             .then((stream) => {
+                                 window.localStream = stream;
+                                 video.srcObject = stream
+                                 video.play();
+                             })
+                             .catch((err) => {
+                                 console.error(`An error occurred: ${err}`);
+                             });
                             video.addEventListener(
-                                "canplay",
-                                (ev) => {
-                                    if (!streaming) {
-                                        height = video.videoHeight / (video.videoWidth / width);
+                              "canplay",
+                              (ev) => {
+                                  if (!streaming) {
+                                      height = video.videoHeight / (video.videoWidth / width);
 
-                                        // Firefox currently has a bug where the height can't be read from
-                                        // the video, so we will make assumptions if this happens.
+                                      // Firefox currently has a bug where the height can't be read from
+                                      // the video, so we will make assumptions if this happens.
 
-                                        if (isNaN(height)) {
-                                            height = width / (4 / 3);
-                                        }
+                                      if (isNaN(height)) {
+                                          height = width / (4 / 3);
+                                      }
 
-                                        video.setAttribute("width", width);
-                                        video.setAttribute("height", height);
-                                        canvas.setAttribute("width", width);
-                                        canvas.setAttribute("height", height);
-                                        streaming = true;
-                                    }
-                                },
-                                false
+                                      video.setAttribute("width", width);
+                                      video.setAttribute("height", height);
+                                      canvas.setAttribute("width", width);
+                                      canvas.setAttribute("height", height);
+                                      streaming = true;
+                                  }
+                              },
+                              false
                             );
 
                             startbutton.addEventListener(
-                                "click",
-                                (ev) => {
-                                    takepicture();
-                                    ev.preventDefault();
-                                },
-                                false
+                              "click",
+                              (ev) => {
+                                  takepicture();
+                                  ev.preventDefault();
+                              },
+                              false
                             );
 
                             clearphoto();
@@ -6139,7 +5543,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                             return takepicture();
                         }
                     })
-
+                    
                     $scope.modal.close = function () {
                         $uibModalInstance.dismiss(true);
                         var streams = video.srcObject;
@@ -6152,7 +5556,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
                 },
                 size: 'md',
             });
-
+            
         }
 
 
@@ -6252,5 +5656,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             }, 1000)
 
         };
+
+
     });
-})
