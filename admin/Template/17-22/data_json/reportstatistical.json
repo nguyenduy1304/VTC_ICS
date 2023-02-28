@@ -1,0 +1,5 @@
+[
+    {"id": 1, "province": "Thanh Hóa", "district": "Hoằng Hóa", "commune": "Hoằng Phụ", "quantity": 3, "active": 3, "inactive": 0},
+    {"id": 2, "province": "Thanh Hóa", "district": "Hoằng Hóa", "commune": "Hoằng Tuyến", "quantity": 7, "active": 5, "inactive": 2},
+    {"id": 3, "province": "Thanh Hóa", "district": "Thiệu hóa", "commune": "Thiệu Trung", "quantity": 10, "active": 10, "inactive": 0}
+    ]

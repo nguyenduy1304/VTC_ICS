@@ -1,0 +1,113 @@
+﻿<div style="width:100%">
+    <form id="formProduct">
+        <div class="row">
+            <label class="control-label col-sm-2">
+                <span>Tên</span>
+            </label>
+            <div class="form-group col-sm-10">
+                <input type="text" required class="form-control" name="title" ng-model="dataProduct.title" placeholder="Nhập tên chương trình khuyến mãi" >
+            </div>
+        </div>
+        <div class="row">
+            <label class="control-label col-sm-2">
+                <span>Kênh bán</span>
+            </label>
+            <div class="form-group col-sm-10">
+                <select class="form-control" name="category" data-bv-message="Vui lòng chọn kênh bán" ng-model="dataProduct.channelId" ng-change="loadProducts(dataProduct.channelId)" required>
+                    <option value="">Chọn 1 kênh bán</option>
+                    <option ng-repeat="item in dataListChannel" ng-value="item.code">{{item.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <label class="control-label col-sm-2">
+                <span>Sản phẩm</span>
+            </label>
+            <div class="form-group col-sm-10">
+                <select size="3" ng-disabled="flag_product" data-bv-message="Vui lòng chọn ít nhất 1 sản phẩm" class="form-control select_promotion" name="dataProduct.productId[]" ng-model="dataProduct.productId" multiple required>
+                    <option value="">Chọn ít nhất 1 sản phẩm</option>
+                    <option ng-repeat="item in dataListProduct" ng-value="item.code">{{item.name}}({{(item.code)}})</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <label class="control-label col-sm-2">
+                <span>Mô tả ngắn</span>
+            </label>
+            <div class="form-group col-sm-10">
+                <textarea required placeholder="Mô tả ngắn" name="description" data-bv-message="Vui lòng nhập mô tả" ng-model="dataProduct.description" style="width:100%" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <label class="control-label col-sm-2">
+                <span>Loại</span>
+            </label>
+            <div class="form-group col-sm-10">
+                <input id="dataProducttype" type="radio" value="1" name="dataProduct.type" ng-model="dataProduct.type" /><label style="font-weight:inherit" for="dataProducttype"> Giá trị</label>
+                <input id="dataProducttype2" type="radio" value="2" name="dataProduct.type" ng-model="dataProduct.type" /> <label style="font-weight:inherit" for="dataProducttype2"> Phần trăm(%)</label>
+            </div>
+        </div>
+        <div class="row">
+            <label class="control-label col-sm-2">
+                <span>Chiết khấu</span>
+            </label>
+            <div class="form-group col-sm-10">
+                <input type="number" required class="form-control" name="dataProduct.scale" ng-model="dataProduct.scale" data-bv-message="Vui lòng nhập tỉ lệ khuyến mãi" placeholder="Nhập mức khuyến mãi">
+            </div>
+        </div>
+        <div class="row">
+            <label class="control-label col-sm-2">
+                <span>Mục tiêu</span>
+            </label>
+            <div class="form-group col-sm-10">
+                <input type="text" id="number"  required class="form-control" ng-model="dataProduct.target" pattern="[0-9]+([\.,][0-9]+)*" format name="dataProduct.target"  data-bv-message="Vui lòng nhập mục tiêu mong muốn đạt được" placeholder="Nhập mục tiêu">
+            </div>
+        </div>
+        <div class="row">
+            <label class="control-label col-sm-2">
+                <span>Thời gian bắt đầu & kết thúc</span>
+            </label>
+            <div class="form-group input-group col-sm-4" style="padding-left:15px;box-shadow:none">
+                <span class="input-group-addon">Từ ngày</span>
+                <input type="text" class="form-control dateTimePicker" name="from_date" data-bv-message="Vui lòng nhập ngày bắt đầu" ng-model="from_date"  placeholder="yyyy-mm-dd" required>
+                <span class="input-group-addon">đến ngày</span>
+                <input type="text" class="form-control dateTimePicker" name="to_date" data-bv-message="Vui lòng nhập ngày kết thúc" ng-model="to_date"  placeholder="yyyy-mm-dd" required>
+            </div>
+        </div>
+        
+        <!--<div class=" form-group" style="display:none">
+            <label class="control-label col-sm-2">
+                <span>Nội dung</span>
+            </label>
+            <div class="form-group col-sm-10" id="area">
+                <textarea required class="form-control" id="descricao" ck-editor ng-model="dataProduct.content" placeholder="Nhập nội dung"></textarea>
+                <div ckeditor="data.options" ng-model="dataProduct_old.content"></div>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+
+        <div class="form-group" style="display:none">
+            <label class="control-label col-sm-2">
+                <span>Ảnh đại diện</span>
+            </label>
+            <div class="form-group col-sm-10">
+
+                <span style="position: absolute;margin-left: 15px;left: 0;border: 1px solid #ccc;height: 34px;line-height: 2.4;padding: 0 15px;width: 130px;"><i style="color:#005ba9" class="glyphicon glyphicon-plus"></i> Thêm file ... </span>
+                <input required ng-model="myFile" accept=".png, .jpg" class="input-upload" type="file" name="fileTickets" style="float:left" base-sixty-four-input="">
+                <button style="margin-left: 129px;" ng-click="addFiles()" class="btn btn-primary" type="button">Tải lên</button>
+                <span ng-if="fileName">{{fileName}}</span>
+                <p> <br /></p>
+                <p class="alert alert-danger" role="alert" ng-if="error">{{error}}</p>
+                <p ng-if="imagesUrl"><img src="{{imagesUrl}}" width="350" /></p>
+            </div>
+        </div>-->
+        <div class="row">
+            <label class="control-label col-sm-2">
+
+            </label>
+            <div class="form-group col-sm-10">
+                <button type="submit" class="btn btn-primary">Thêm</button>
+            </div>
+        </div>
+    </form>
+</div>

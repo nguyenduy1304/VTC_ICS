@@ -1,0 +1,68 @@
+<div class="title">
+    <h3>Nhật ký người sử dụng</h3>
+</div>
+
+<div class=" row" style="margin:0">
+    <div class="has-search search-date">
+        <div class="form-group has-feedback has-search" style="float:left;width:250px;margin-top: 8px;">
+          <form ng-submit="searchFilter()">
+            <input ng-model="filter" type="text" placeholder="Nhập mã tìm kiếm tại đây" name="search" required>
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+        </div>
+        <form class="navbar-form navbar-left" ng-submit="searchFilter()" style="padding:0;padding-left: 15px;">
+            <div class="form-group">
+                <label>Từ ngày </label>
+                <input  type="date" class="form-control dateTimePicker" ng-model="from_date" ng-value="from_date" placeholder="yyyy-mm-dd">
+                <label> đến </label>
+                <input type="date" class="form-control dateTimePicker" ng-model="to_date" ng-value="to_date" placeholder="yyyy-mm-dd">
+            </div>
+            
+        </form>
+        <div class="function">
+            <a class="glyphicon glyphicon-plus icon" href="../#!/nhat-ky-nguoi-su-dung/them-moi" ></a>
+        </div>
+    </div>
+</div>
+<style>
+    .function{
+    float: right;
+    margin-top: 7px;
+    }
+    .icon{
+        color: #0d67b1;;
+        padding: 10px;
+    }
+</style>
+<div>
+    <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
+      <thead>
+        <tr class="panel-info list-group-item-info" style="text-transform: uppercase;font-weight: bold;">
+          <th style="text-align:center;width:60px;">STT</th>
+          <th>mã chức năng</th>
+          <th>tên chức năng</th>
+          <th>thao tác thực hiện</th>
+          <th>người tác động</th>
+          <th>thời gian tác động</th>
+          <th>IP thực hiện</th>
+          <th></th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in items">
+          <td style="text-align: center;">{{item.id}}</td>
+          <td>{{item.function_id}}</td>
+          <td>{{item.function_name}}</td>
+          <td>{{item.crud}}</td>
+          <td>{{item.username}}</td>
+          <td>{{item.time}}</td>
+          <td>{{item.ip}}</td>
+          <td style="text-align:center;">
+            <a class="glyphicon glyphicon-pencil icon" href="http://127.0.0.1:5500/#!/nhat-ky-nguoi-su-dung/cap-nhat/id={{item.id}}"></a>
+            <a class="glyphicon glyphicon-remove icon" ng-click="deleteuserlog(item.stt)"></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

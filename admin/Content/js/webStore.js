@@ -241,7 +241,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             allowAnonymous: true,
             controller: 'recommendCtrl',
             templateUrl: window.templateUrl + "/17-22/recommend.html"
-        })
+        }) 
         .state('17-22-manageruser', {
             url: '/quan-tri-tai-khoan-nguoi-dung',
             allowAnonymous: true,

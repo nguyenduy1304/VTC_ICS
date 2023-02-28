@@ -1,0 +1,71 @@
+﻿<div style="width:100%">
+    <div class="box-hight-chart row" style="margin-bottom:30px">
+        <div class="col col-lg-6 col-md-6">
+            <div id="chartdvncc1"></div>
+        </div>
+        <div class="col col-lg-6 col-md-6">
+            <div id="chartdvncc2"></div>
+        </div>
+    </div>
+    <div class="box-hight-chart row" style="margin-bottom:30px">
+        <div class="col col-lg-6 col-md-6">
+            <div id="chartdvncc3"></div>
+        </div>
+        <div class="col col-lg-6 col-md-6">
+            <div id="chartdvncc4"></div>
+        </div>
+    </div>
+    <div class="box-hight-chart row" style="margin-bottom:30px">
+        <div class="col col-lg-12 col-md-12">
+            <div id="line_chartdvncc"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-1">
+            <a ui-sref="addProducer" class="btn btn-primary">Thêm mới</a>
+        </div>
+        <div class="col col-md-11">
+            <div class="input-group" style="width:40%;float: left;margin-bottom: 10px;">
+                <input class="form-control" type="text" ng-model="filter" my-enter="searchFilter()" placeholder="Tìm theo tên sản phẩm hoặc mã sản phẩm" />
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-click="searchFilter()"><i class="glyphicon glyphicon-search"></i> Tìm</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="panel-info list-group-item-info">
+                <th style="width:50px">STT</th>
+                <th style="width:100px">Mã</th>
+                <th style="width:250px">Tên</th>
+                <th >Secretkey</th>
+                <th style="width:50px">Trạng thái</th>
+                <th style="width:50px;text-align:center;">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="data.length == 0"><td colspan="9">{{textloading}}</td></tr>
+            <!--<tr ng-if="data.length == 0"><td colspan="9">Dữ liệu trống</td></tr>-->
+
+            <tr ng-repeat="item in data | filter:filter | orderBy:sort.column:sort.descending">
+                <td class="text-center">{{((page*maxSize)+$index)+1}}</td>
+                <td>{{item.code}}</td>
+                <td>{{item.name}}</td>      
+                <td>{{item.secretkey}}</td>         
+                <td class="text-center" style="vertical-align:middle">                    
+                    <input disabled type="checkbox" ng-checked="item.status == 1" data-toggle="toggle" class="btnProductToggle">
+                </td>             
+                <td style="text-align:center;">
+                    <a  href="javascript:void(0)" ui-sref="addSptProducer({code:item.code})"><span style="font-size:18px;vertical-align:middle" title="Thêm sản phẩm" class="lnr lnr-plus-circle "></span></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!--PAGING SC-->
+    <div style="margin-bottom:10px;display:none">
+        <ul uib-pagination ng-change="pageChanged()" next-text="Tiếp theo" previous-text="Quay về" items-per-page="maxSize" total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" rotate="false"></ul>
+    </div>
+</div>
