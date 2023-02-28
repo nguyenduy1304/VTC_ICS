@@ -1,0 +1,32 @@
+[
+    {
+        "id": 3,
+        "dth_id": "TDU_DHO_12",
+        "date_set": "20/12/2022",
+        "name": "Nguyễn Văn A",
+        "address": "123°212`12``N 31°221`111``E",
+        "status": "onine",
+        "device_type": "AUDIO BOX",
+        "note": ""
+    },
+    {
+        "id": 4,
+        "dth_id": "TDU_DHO_12",
+        "date_set": "20/12/2022",
+        "name": "Nguyễn Văn A",
+        "address": "123°212`12``N 31°221`111``E",
+        "status": "onine",
+        "device_type": "Máy tính",
+        "note": ""
+    },
+    {
+        "id": 5,
+        "dth_id": "TDU_DHO_12",
+        "date_set": "20/12/2022",
+        "name": "Nguyễn Văn A",
+        "address": "123°212`12``N 31°221`111``E",
+        "status": "onine",
+        "device_type": "Máy tính",
+        "note": ""
+    }
+]

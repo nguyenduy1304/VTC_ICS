@@ -1,0 +1,75 @@
+<div style="min-height: 750px;" id="input-invalid">
+    <h1 style="text-align: center;margin-bottom: 40px;color: #0D67B1;">Cập nhật thiết bị
+    </h1>
+    <div>
+        <form ng-submit="editDevice()" class="form-horizontal">
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Mã_ĐTH CNTT-VT</label>
+                <div class="col-sm-8">
+                    <input ng-model="formData.dth_id" name="dth_id" type="text" class="form-control" id="inputPassword3"
+                        placeholder="THA_HPU_01" pattern="[A-Za-z0-9_]{10,}" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" pattern="\d{2}-\d{4}-\d{2}" class="col-sm-2 control-label">Ngày lắp</label>
+                <div class="col-sm-8">
+                    <input ng-model="formData.date_set" name="date_set" type="date" class="form-control"
+                        id="inputEmail3" placeholder="20/12/2022" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label form-label">Tên</label>
+                <div class="col-sm-8">
+                    <input ng-model="formData.name" name="name" type="text" class="form-control form-label" id="name"
+                        placeholder="LOA_HPU_01" pattern="[^0-9]{1,50}" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Vị trí</label>
+                <div class="col-sm-8">
+                    <input ng-model="formData.address" name="address" type="text" class="form-control"
+                        id="inputPassword3" placeholder="19`45`45``N 106`54`54``E"
+                        pattern="\d{1,3}°\d{1,3}`\d{1,3}``N\s\d{1,3}°\d{1,3}`\d{1,3}``E" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Trạng thái</label>
+                <div class="col-sm-8">
+                    <select class="form-control" name="" ng-selected="formData.status" ng-model="formData.status" id=""
+                        required>
+                        <option value="ONLINE">ONLINE</option>
+                        <option value="OFFLINE">OFFLINE</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">Loại thiết bị</label>
+                <div class="col-sm-8">
+                    <input required ng-model="formData.device_type" name="device_type" type="text" class="form-control"
+                        id="inputEmail3" placeholder="AUDIO BOX" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Ghi chú</label>
+                <div class="col-sm-8">
+                    <input data-bv-message="Vui lòng nhập ngày sinh" ng-model="formData.note" name="note" type="text"
+                        class="form-control" id="inputPassword3" placeholder="">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-8">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> Remember
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-8">
+                    <button type="submit" class="btn btn-default">Cập nhật</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
