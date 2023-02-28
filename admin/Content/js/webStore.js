@@ -35,7 +35,36 @@ const listAPI = {
         editPublicNews: url_host_api + 'cap-nhat-bang-thong-tin-dien-tu',
         addPublicNews: url_host_api + 'them-bang-thong-tin-dien-tu'
     }
-};
+}
+const listapi = {
+    sourcelibrary: {
+        getlist: host_api + 'admin/Template/17-22/data_json/sourcelibrary.json',
+        getedit: host_api + 'admin/Template/17-22/data_json/detail/sourcelibratydetail.json',
+        getsourcelibrarycopy: host_api + 'admin/Template/17-22/data_json/sourcelibrarycopy.json'
+    },
+    recommend: {
+        getlist: host_api + 'admin/Template/17-22/data_json/recommend.json',
+        getedit: host_api + '',
+        getrecommendcopy: host_api + 'admin/Template/17-22/data_json/recommendcopy.json'
+    },
+    managergroupuser: {
+        getlist: host_api + 'admin/Template/17-22/data_json/managergroupuser.json',
+        getedit: host_api + 'admin/Template/17-22/data_json/detail/managergroupuserdetail.json',
+        getmanagergroupusercopy: host_api + 'admin/Template/17-22/data_json/managergroupusercopy.json'
+    },
+    manageruser: {
+        getlist: host_api + 'admin/Template/17-22/data_json/manageruser.json',
+        getedit: host_api + 'admin/Template/17-22/data_json/detail/manageruserdetail.json',
+        getmanagerusercopy: host_api + 'admin/Template/17-22/data_json/managerusercopy.json'
+    },
+    userlog: {
+        getlist: host_api + 'admin/Template/17-22/data_json/userlog.json',
+        getedit: host_api + 'admin/Template/17-22/data_json/detail/userlogdetail.json',
+        getuserlogcopy: host_api + 'admin/Template/17-22/data_json/userlogcopy.json'
+    }
+
+
+}
 var formatNumbers = function (amount, decimalCount, decimal, thousands) {
     decimalCount = decimalCount || 0;
     decimal = decimal || '.';
@@ -81,8 +110,8 @@ function disableAtrr(self) {
 var app = angular.module('WebStore', ['ui.router', 'ui.bootstrap', 'angular.filter', 'ckeditor']);
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
     $urlRouterProvider.otherwise('/');
-    // $urlMatcherFactoryProvider.caseInsensitive(true);
-    // $urlMatcherFactoryProvider.strictMode(false); 
+    //$urlMatcherFactoryProvider.caseInsensitive(true);
+    //$urlMatcherFactoryProvider.strictMode(false);
     $stateProvider
         .state('seller', {
             url: '/',
@@ -90,102 +119,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             controller: 'sellerCtrl',
             templateUrl: window.templateUrl + "/order/index.html"
         })
-        .state('api', {
-            url: '/api/report/danh-sach-thiet-bi-cum-loa',
-            allowAnonymous: true,
-            controller: 'api',
-        })
         .state('selList', {
             url: '/don-vi-ban-hang/quan-ly',
             cache: false,
             controller: 'selList$Ctrl',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
             templateUrl: window.templateUrl + "/seller/mProduct.html"
-        })
-        //mới thêm vô 4 đường route
-        .state('manageRadioApp', {
-            url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung',
-            cache: false,
-            controller: 'manageRadioApp',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
-            templateUrl: window.templateUrl + "/manageDevice/radioApp.html"
-        })
-        .state('editRadioApp', {
-            url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung/cap-nhat/:id',
-            cache: false,
-            controller: 'editRadioApp',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
-            templateUrl: window.templateUrl + "/manageDevice/editRadioApp.html"
-        })
-        .state('addRadioApp', {
-            url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung/them',
-            cache: false,
-            controller: 'addRadioApp',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
-            templateUrl: window.templateUrl + "/manageDevice/addRadioApp.html"
-        })
-        .state('manageDevice', {
-            url: '/quan-ly-thiet-bi/thiet-bi',
-            cache: false,
-            controller: 'manageDevice',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
-            templateUrl: window.templateUrl + "/manageDevice/device.html"
-        })
-        .state('editDevice', {
-            url: '/quan-ly-thiet-bi/thiet-bi/cap-nhat/:id',
-            cache: false,
-            controller: 'editDevice',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
-            templateUrl: window.templateUrl + "/manageDevice/editDevice.html"
-        })
-        .state('addDevice', {
-            url: '/quan-ly-thiet-bi/thiet-bi/them',
-            cache: false,
-            controller: 'addDevice',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
-            templateUrl: window.templateUrl + "/manageDevice/addDevice.html"
-        })
-        .state('manageLichPhat', {
-            url: '/quan-ly-thiet-bi/lich-phat',
-            cache: false,
-            controller: 'manageLichPhat',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
-            templateUrl: window.templateUrl + "/manageDevice/lichPhat.html"
-        })
-        .state('editLichPhat', {
-            url: '/quan-ly-thiet-bi/lich-phat/cap-nhat/:id',
-            cache: false,
-            controller: 'editLichPhat',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
-            templateUrl: window.templateUrl + "/manageDevice/editLichPhat.html"
-        })
-        .state('addLichPhat', {
-            url: '/quan-ly-thiet-bi/lich-phat/them',
-            cache: false,
-            controller: 'addLichPhat',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
-            templateUrl: window.templateUrl + "/manageDevice/addLichPhat.html"
-        })
-        .state('managePublicNews', {
-            url: '/quan-ly-thiet-bi/bang-tin-cong-cong',
-            cache: false,
-            controller: 'managePublicNews',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
-            templateUrl: window.templateUrl + "/manageDevice/publicNews.html"
-        })
-        .state('editPublicNews', {
-            url: '/quan-ly-thiet-bi/bang-tin-cong-cong/cap-nhat/:id',
-            cache: false,
-            controller: 'editPublicNews',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
-            templateUrl: window.templateUrl + "/manageDevice/editPublicNews.html"
-        })
-        .state('addPublicNews', {
-            url: '/quan-ly-thiet-bi/bang-tin-cong-cong/them',
-            cache: false,
-            controller: 'addPublicNews',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
-            templateUrl: window.templateUrl + "/manageDevice/addPublicNews.html"
         })
         .state('selStatistic', {
             url: '/don-vi-ban-hang/thong-ke',
@@ -260,116 +198,338 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             controller: 'mdKYCmobile$Ctrl',
             templateUrl: window.templateUrl + "/user/info.html"
         })
-    // $locationProvider.html5Mode(true);
-});
-app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $state, $interval) {
-    $rootScope.$watch('$user', function () {
-        if ($rootScope.$user === null || $rootScope.$user === undefined) {
-            $log.info('redirect to login');
-            $location.path('/account/signin');
-            return;
-        }
-    })
 
-    $rootScope.logOut = function () {
-        $rootScope.$user = null;
-        $rootScope.login_active = true;
-        $state.go('account$signout');
-    }
-    $rootScope.formatNumbers = function (number) {
-        return formatNumbers(number)
-    };
-    //bieu do highchart pie
-    $rootScope.loadChartPie = function (datas, idName, title, options) {
-        //setTimeout(function () {
-        $(document).ready(function () {
-            Highcharts.chart(idName, {
-                chart: {
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false,
-                    type: 'pie'
-
-                },
-                title: {
-                    text: title
-                },
-
-                accessibility: {
-                    point: {
-                        valueSuffix: '%'
-                    }
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        colors: options.colors,
-                        dataLabels: options.dataLabels,
-                        showInLegend: options.showlegend
-                    }
-                },
-                tooltip: {
-                    //pointFormat: "Tổng: {point.y:,.0f}",
-                    formatter: function () {
-                        //console.log(this)
-                        return this.key +
-                            '<br/>Tổng:' + formatNumbers(this.y);
-                    }
-                },
-                series: [{
-                    name: 'Tổng',
-                    colorByPoint: true,
-                    data: datas
-                }],
-                credits: {
-                    enabled: false
-                },
-            });
+        .state('17-22-sourcelibrary', {
+            url: '/thu-vien-nguon',
+            allowAnonymous: true,
+            controller: 'sourcelibraryCtrl',
+            templateUrl: window.templateUrl + "/17-22/index.html"
         })
-        //},0)
-    }
-    //bieu do highchart line
-    $rootScope.loadChartLine = function (datas, idName, title, options) {
-        setTimeout(function () {
+        .state('17-22-add_sourcelibrary', {
+            url: '/thu-vien-nguon/them-moi',
+            allowAnonymous: true,
+            controller: 'add_sourcelibraryCtrl',
+            templateUrl: window.templateUrl + "/17-22/addsourcelibrary.html"
+        })
+        .state('17-22-edit_sourcelibrary', {
+            url: '/thu-vien-nguon/cap-nhat/:id',
+            allowAnonymous: true,
+            controller: 'edit_sourcelibraryCtrl',
+            templateUrl: window.templateUrl + "/17-22/editsourcelibrary.html"
+        })
+        .state('17-22-reportstatistical', {
+            url: '/bao-cao-thong-ke',
+            allowAnonymous: true,
+            controller: 'reportstatisticalCtrl',
+            templateUrl: window.templateUrl + "/17-22/reportstatistical.html"
+        })
+        .state('17-22-reportnews', {
+            url: '/bao-cao-thong-ke-ban-tin',
+            allowAnonymous: true,
+            controller: 'reportnewsCtrl',
+            templateUrl: window.templateUrl + "/17-22/reportnews.html"
+        })
+        .state('17-22-reportnewsmedia', {
+            url: '/bao-cao-thong-ke-ban-tin-media',
+            allowAnonymous: true,
+            controller: 'reportnewsmediaCtrl',
+            templateUrl: window.templateUrl + "/17-22/reportnewsmedia.html"
+        })
+
+        .state('17-22-recommend', {
+            url: '/kien-nghi-cua-nguoi-dan',
+            allowAnonymous: true,
+            controller: 'recommendCtrl',
+            templateUrl: window.templateUrl + "/17-22/recommend.html"
+        })
+        .state('17-22-manageruser', {
+            url: '/quan-tri-tai-khoan-nguoi-dung',
+            allowAnonymous: true,
+            controller: 'manageruserCtrl',
+            templateUrl: window.templateUrl + "/17-22/manageruser.html"
+        })
+        .state('17-22-add-manageruser', {
+            url: '/quan-tri-tai-khoan-nguoi-dung/them-moi',
+            allowAnonymous: true,
+            controller: 'addmanageruserCtrl',
+            templateUrl: window.templateUrl + "/17-22/addmanageruser.html"
+        })
+        .state('17-22-edit-manageruser', {
+            url: '/quan-tri-tai-khoan-nguoi-dung/cap-nhat/:id',
+            //allowAnonymous: true,
+            cache: false,
+            controller: 'editmanageruserCtrl',
+            templateUrl: window.templateUrl + "/17-22/editmanageruser.html"
+        })
+
+        .state('17-22-managergroupuser', {
+            url: '/quan-tri-nhom-nguoi-dung',
+            allowAnonymous: true,
+            controller: 'managergroupuserCtrl',
+            templateUrl: window.templateUrl + "/17-22/managergroupuser.html"
+        })
+        .state('17-22-add-managergroupuser', {
+            url: '/quan-tri-nhom-nguoi-dung/them-moi',
+            allowAnonymous: true,
+            controller: 'addmanagergroupuserCtrl',
+            templateUrl: window.templateUrl + "/17-22/addmanagergroupuser.html"
+        })
+        .state('17-22-edit-managergroupuser', {
+            url: '/quan-tri-nhom-nguoi-dung/cap-nhat/:id',
+            allowAnonymous: true,
+            controller: 'editmanagergroupuserCtrl',
+            templateUrl: window.templateUrl + "/17-22/editmanagergroupuser.html"
+        })
+
+        .state('17-22-userlog', {
+            url: '/nhat-ky-nguoi-su-dung',
+            allowAnonymous: true,
+            controller: 'userlogCtrl',
+            templateUrl: window.templateUrl + "/17-22/userlog.html"
+        })
+        .state('17-22-add-userlog', {
+            url: '/nhat-ky-nguoi-su-dung/them-moi',
+            allowAnonymous: true,
+            controller: 'adduserlogCtrl',
+            templateUrl: window.templateUrl + "/17-22/adduserlog.html"
+        })
+        .state('17-22-edit-userlog', {
+            url: '/nhat-ky-nguoi-su-dung/cap-nhat/:id',
+            allowAnonymous: true,
+            controller: 'edituserlogCtrl',
+            templateUrl: window.templateUrl + "/17-22/edituserlog.html"
+        })
+
+
+    var app = angular.module('WebStore', ['ui.router', 'ui.bootstrap', 'angular.filter', 'ckeditor']);
+    app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
+        $urlRouterProvider.otherwise('/');
+        // $urlMatcherFactoryProvider.caseInsensitive(true);
+        // $urlMatcherFactoryProvider.strictMode(false); 
+        $stateProvider
+            .state('seller', {
+                url: '/',
+                allowAnonymous: true,
+                controller: 'sellerCtrl',
+                templateUrl: window.templateUrl + "/order/index.html"
+            })
+            .state('api', {
+                url: '/api/report/danh-sach-thiet-bi-cum-loa',
+                allowAnonymous: true,
+                controller: 'api',
+            })
+            .state('selList', {
+                url: '/don-vi-ban-hang/quan-ly',
+                cache: false,
+                controller: 'selList$Ctrl',
+                //templateUrl: window.templateUrl + "/seller/mProduct.html"
+                templateUrl: window.templateUrl + "/seller/mProduct.html"
+            })
+            //mới thêm vô 4 đường route
+            .state('manageRadioApp', {
+                url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung',
+                cache: false,
+                controller: 'manageRadioApp',
+                //templateUrl: window.templateUrl + "/seller/mProduct.html"
+                templateUrl: window.templateUrl + "/manageDevice/radioApp.html"
+            })
+            .state('editRadioApp', {
+                url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung/cap-nhat/:id',
+                cache: false,
+                controller: 'editRadioApp',
+                //templateUrl: window.templateUrl + "/seller/mProduct.html"
+                templateUrl: window.templateUrl + "/manageDevice/editRadioApp.html"
+            })
+            .state('addRadioApp', {
+                url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung/them',
+                cache: false,
+                controller: 'addRadioApp',
+                //templateUrl: window.templateUrl + "/seller/mProduct.html"
+                templateUrl: window.templateUrl + "/manageDevice/addRadioApp.html"
+            })
+            .state('manageDevice', {
+                url: '/quan-ly-thiet-bi/thiet-bi',
+                cache: false,
+                controller: 'manageDevice',
+                //templateUrl: window.templateUrl + "/seller/mProduct.html"
+                templateUrl: window.templateUrl + "/manageDevice/device.html"
+            })
+            .state('editDevice', {
+                url: '/quan-ly-thiet-bi/thiet-bi/cap-nhat/:id',
+                cache: false,
+                controller: 'editDevice',
+                //templateUrl: window.templateUrl + "/seller/mProduct.html"
+                templateUrl: window.templateUrl + "/manageDevice/editDevice.html"
+            })
+            .state('addDevice', {
+                url: '/quan-ly-thiet-bi/thiet-bi/them',
+                cache: false,
+                controller: 'addDevice',
+                //templateUrl: window.templateUrl + "/seller/mProduct.html"
+                templateUrl: window.templateUrl + "/manageDevice/addDevice.html"
+            })
+            .state('manageLichPhat', {
+                url: '/quan-ly-thiet-bi/lich-phat',
+                cache: false,
+                controller: 'manageLichPhat',
+                //templateUrl: window.templateUrl + "/seller/mProduct.html"
+                templateUrl: window.templateUrl + "/manageDevice/lichPhat.html"
+            })
+            .state('editLichPhat', {
+                url: '/quan-ly-thiet-bi/lich-phat/cap-nhat/:id',
+                cache: false,
+                controller: 'editLichPhat',
+                //templateUrl: window.templateUrl + "/seller/mProduct.html"
+                templateUrl: window.templateUrl + "/manageDevice/editLichPhat.html"
+            })
+            .state('addLichPhat', {
+                url: '/quan-ly-thiet-bi/lich-phat/them',
+                cache: false,
+                controller: 'addLichPhat',
+                //templateUrl: window.templateUrl + "/seller/mProduct.html"
+                templateUrl: window.templateUrl + "/manageDevice/addLichPhat.html"
+            })
+            .state('managePublicNews', {
+                url: '/quan-ly-thiet-bi/bang-tin-cong-cong',
+                cache: false,
+                controller: 'managePublicNews',
+                //templateUrl: window.templateUrl + "/seller/mProduct.html"
+                templateUrl: window.templateUrl + "/manageDevice/publicNews.html"
+            })
+            .state('editPublicNews', {
+                url: '/quan-ly-thiet-bi/bang-tin-cong-cong/cap-nhat/:id',
+                cache: false,
+                controller: 'editPublicNews',
+                //templateUrl: window.templateUrl + "/seller/mProduct.html"
+                templateUrl: window.templateUrl + "/manageDevice/editPublicNews.html"
+            })
+            .state('addPublicNews', {
+                url: '/quan-ly-thiet-bi/bang-tin-cong-cong/them',
+                cache: false,
+                controller: 'addPublicNews',
+                //templateUrl: window.templateUrl + "/seller/mProduct.html"
+                templateUrl: window.templateUrl + "/manageDevice/addPublicNews.html"
+            })
+            .state('selStatistic', {
+                url: '/don-vi-ban-hang/thong-ke',
+                cache: false,
+                controller: 'selStatistic$Ctrl',
+                templateUrl: window.templateUrl + "/seller/revStatistic.html"
+            })
+
+            .state('add$account', {
+                url: '/account/add',
+                cache: false,
+                controller: 'add$account$Ctrl',
+                templateUrl: window.templateUrl + "/account/add.html"
+            })
+            .state('list$account', {
+                url: '/account/list',
+                cache: false,
+                controller: 'list$account$Ctrl',
+                templateUrl: window.templateUrl + "/account/list.html"
+            })
+            .state('edit$account', {
+                url: '/account/edit/:id/:refid',
+                cache: false,
+                controller: 'edit$account$Ctrl',
+                templateUrl: window.templateUrl + "/account/edit.html"
+            })
+            .state('statictis$account', {
+                url: '/account/statictis',
+                cache: false,
+                controller: 'statictis$account$Ctrl',
+                templateUrl: window.templateUrl + "/account/statictis.html"
+            })
+            .state('change$password', {
+                url: '/account/changepassword',
+                cache: false,
+                controller: 'change$password$Ctrl',
+                templateUrl: window.templateUrl + "/account/changePassword.html"
+            })
+            .state('pmcs', {
+                url: '/quan-ly-don-hang/microsoft',
+                cache: false,
+                controller: 'pmcs$Ctrl',
+                templateUrl: window.templateUrl + "/order/microsoft.html"
+            })
+            .state('pkes', {
+                url: '/quan-ly-don-hang/kaspersky-endpoint-security',
+                cache: false,
+                controller: 'pkes$Ctrl',
+                templateUrl: window.templateUrl + "/order/kes.html"
+            })
+            .state('pmoza', {
+                url: '/quan-ly-don-hang/moza',
+                cache: false,
+                controller: 'pmoza$Ctrl',
+                templateUrl: window.templateUrl + "/order/moza.html"
+            })
+            .state('ptiki', {
+                url: '/quan-ly-don-hang/tiki',
+                cache: false,
+                controller: 'ptiki$Ctrl',
+                templateUrl: window.templateUrl + "/order/tiki.html"
+            })
+            .state('ponesme', {
+                url: '/quan-ly-don-hang/onesme',
+                cache: false,
+                controller: 'ponesme$Ctrl',
+                templateUrl: window.templateUrl + "/order/onesme.html"
+            })
+            .state('mdKYCmobile', {
+                url: '/thong-tin-khach-hang/user/:id',
+                cache: false,
+                controller: 'mdKYCmobile$Ctrl',
+                templateUrl: window.templateUrl + "/user/info.html"
+            })
+        // $locationProvider.html5Mode(true);
+    });
+    app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $state, $interval) {
+        $rootScope.$watch('$user', function () {
+            if ($rootScope.$user === null || $rootScope.$user === undefined) {
+                $log.info('redirect to login');
+                $location.path('/account/signin');
+                return;
+            }
+        })
+
+        $rootScope.logOut = function () {
+            $rootScope.$user = null;
+            $rootScope.login_active = true;
+            $state.go('account$signout');
+        }
+        $rootScope.formatNumbers = function (number) {
+            return formatNumbers(number)
+        };
+        //bieu do highchart pie
+        $rootScope.loadChartPie = function (datas, idName, title, options) {
+            //setTimeout(function () {
             $(document).ready(function () {
-                Highcharts.setOptions({
-                    colors: options.colors
-                });
-                Highcharts.chart(idName, {//'lineChart'
+                Highcharts.chart(idName, {
                     chart: {
-                        type: 'spline',
-                        widthscrollablePlotArea: {
-                            width, minWidth: 600,
-                            scrollPositionX: 1
-                        }
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+
                     },
                     title: {
-                        text: title///'Thống kê tăng trưởng doanh thu (VNĐ)'
+                        text: title
                     },
-                    subtitle: {
-                        text: ''
-                    },
-                    xAxis: {
-                        categories: options.dataY
-                    },
-                    yAxis: {
-                        title: {
-                            text: ''
+
+                    accessibility: {
+                        point: {
+                            valueSuffix: '%'
                         }
                     },
                     plotOptions: {
-                        spline: {
-                            lineWidth: 2,
-                            states: {
-                                hover: {
-                                    lineWidth: 3
-                                }
-                            },
-                            marker: {
-                                enabled: false
-                            },
-
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            colors: options.colors,
+                            dataLabels: options.dataLabels,
+                            showInLegend: options.showlegend
                         }
                     },
                     tooltip: {
@@ -380,123 +540,186 @@ app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $st
                                 '<br/>Tổng:' + formatNumbers(this.y);
                         }
                     },
-                    series: datas,
+                    series: [{
+                        name: 'Tổng',
+                        colorByPoint: true,
+                        data: datas
+                    }],
                     credits: {
                         enabled: false
                     },
                 });
             })
-        }, 100)
-    }
-    $rootScope.checkError = function (data, callback) {
-        if (data.data.result == -401) {
-            $rootScope.$user = null;
+            //},0)
         }
-        if (data.data.message) {
-            callback("\n" + data.data.message, "Thông báo!", "warning");
+        //bieu do highchart line
+        $rootScope.loadChartLine = function (datas, idName, title, options) {
+            setTimeout(function () {
+                $(document).ready(function () {
+                    Highcharts.setOptions({
+                        colors: options.colors
+                    });
+                    Highcharts.chart(idName, {//'lineChart'
+                        chart: {
+                            type: 'spline',
+                            widthscrollablePlotArea: {
+                                width, minWidth: 600,
+                                scrollPositionX: 1
+                            }
+                        },
+                        title: {
+                            text: title///'Thống kê tăng trưởng doanh thu (VNĐ)'
+                        },
+                        subtitle: {
+                            text: ''
+                        },
+                        xAxis: {
+                            categories: options.dataY
+                        },
+                        yAxis: {
+                            title: {
+                                text: ''
+                            }
+                        },
+                        plotOptions: {
+                            spline: {
+                                lineWidth: 2,
+                                states: {
+                                    hover: {
+                                        lineWidth: 3
+                                    }
+                                },
+                                marker: {
+                                    enabled: false
+                                },
+
+                            }
+                        },
+                        tooltip: {
+                            //pointFormat: "Tổng: {point.y:,.0f}",
+                            formatter: function () {
+                                //console.log(this)
+                                return this.key +
+                                    '<br/>Tổng:' + formatNumbers(this.y);
+                            }
+                        },
+                        series: datas,
+                        credits: {
+                            enabled: false
+                        },
+                    });
+                })
+            }, 100)
         }
-    }
-})
-//function dashboard seller
-app.controller('sellerCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    if ($rootScope.$user && $rootScope.$user.Roles.indexOf('seller') < 0) {
-        $rootScope.$user = null;
-        $rootScope.login_active = true;
-        $state.go('account$signout');
-        return;
-    }
-
-    $rootScope.headTitle = 'Đơn vị bán hàng > Dashboard';
-    $scope.textloading = "Đang tải dữ liệu ...";
-    $scope.dataOrder = {};
-    $scope.page = 0;
-    $scope.num = 3;
-    $scope.totalRow = 0;
-    $scope.maxSize = 3;
-    $scope.bigTotalItems = 0;
-    $scope.bigCurrentPage = 1;
-    if ($rootScope.$user === null || $rootScope.$user === undefined) {
-        $log.info('redirect to login');
-        $location.path('/account/signin');
-        return;
-    }
-    fndata($http, $scope, 'dashboard')
-    function fndata($http, $scope, action) {
-        search()
-        $scope.search = search;
-        // sort
-        $scope.sort = {
-            column: '',
-            descending: false
-        };
-
-        $scope.changeSorting = function (column) {
-
-            var sort = $scope.sort;
-
-            if (sort.column == column) {
-                sort.descending = !sort.descending;
-            } else {
-                sort.column = column;
-                sort.descending = false;
+        $rootScope.checkError = function (data, callback) {
+            if (data.data.result == -401) {
+                $rootScope.$user = null;
             }
-        };
-        // thay đổi class khi sort
-        $scope.selectedCls = function (column) {
-            return column == $scope.sort.column && 'sort-' + $scope.sort.descending;
-        };
-        // paging
-        // paging
-        $scope.pageChanged = function () {
-            $scope.page = $scope.bigCurrentPage - 1;
-            console.log('Page changed to: ' + $scope.bigCurrentPage);
-            search();
-        };
-        // load data api
-        function search() {
-            $scope.data = [];
-            $scope.priceTotal = [];
-            //host_api + 'api/report/seller?action=' + action + '&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || ''),
+            if (data.data.message) {
+                callback("\n" + data.data.message, "Thông báo!", "warning");
+            }
+        }
+    })
+    //function dashboard seller
+    app.controller('sellerCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        if ($rootScope.$user && $rootScope.$user.Roles.indexOf('seller') < 0) {
+            $rootScope.$user = null;
+            $rootScope.login_active = true;
+            $state.go('account$signout');
+            return;
+        }
+
+        $rootScope.headTitle = 'Đơn vị bán hàng > Dashboard';
+        $scope.textloading = "Đang tải dữ liệu ...";
+        $scope.dataOrder = {};
+        $scope.page = 0;
+        $scope.num = 3;
+        $scope.totalRow = 0;
+        $scope.maxSize = 3;
+        $scope.bigTotalItems = 0;
+        $scope.bigCurrentPage = 1;
+        if ($rootScope.$user === null || $rootScope.$user === undefined) {
+            $log.info('redirect to login');
+            $location.path('/account/signin');
+            return;
+        }
+        fndata($http, $scope, 'dashboard')
+        function fndata($http, $scope, action) {
+            search()
+            $scope.search = search;
+            // sort
+            $scope.sort = {
+                column: '',
+                descending: false
+            };
+
+            $scope.changeSorting = function (column) {
+
+                var sort = $scope.sort;
+
+                if (sort.column == column) {
+                    sort.descending = !sort.descending;
+                } else {
+                    sort.column = column;
+                    sort.descending = false;
+                }
+            };
+            // thay đổi class khi sort
+            $scope.selectedCls = function (column) {
+                return column == $scope.sort.column && 'sort-' + $scope.sort.descending;
+            };
+            // paging
+            // paging
+            $scope.pageChanged = function () {
+                $scope.page = $scope.bigCurrentPage - 1;
+                console.log('Page changed to: ' + $scope.bigCurrentPage);
+                search();
+            };
+            // load data api
+            function search() {
+                $scope.data = [];
+                $scope.priceTotal = [];
+                //host_api + 'api/report/seller?action=' + action + '&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || ''),
+                $http({
+                    method: 'GET',
+                    url: 'http://ics.vtctelecom.com.vn/index.php?api=vtc_api&method=listPlayschedule' + '&num=' + $scope.maxSize + '&page=' + $scope.page,
+                    //headers: {
+                    //    'Authorization': "Bearer " + $window.localStorage.token
+                    //}
+                }).then(function (res) {
+                    console.log(res);
+                    if (res.data.data.length > 0) {
+                        $scope.data = res.data.data;
+                        $scope.bigTotalItems = res.data.totalrow;
+                    } else {
+                        //$scope.textloading = "Dữ liệu trống.";
+                        $scope.textloading = res.data.message;
+                        // $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                    }
+
+                }, function err(e) {
+                    $rootScope.checkError(e, $dialogAlert);
+                })
+            }
+        }
+
+        //show producer detail
+        $scope.productDetail = function (code) {
             $http({
                 method: 'GET',
-                url: 'http://ics.vtctelecom.com.vn/index.php?api=vtc_api&method=listPlayschedule' + '&num=' + $scope.maxSize + '&page=' + $scope.page,
-                //headers: {
-                //    'Authorization': "Bearer " + $window.localStorage.token
-                //}
-            }).then(function (res) {
-                console.log(res);
-                if (res.data.data.length > 0) {
-                    $scope.data = res.data.data;
-                    $scope.bigTotalItems = res.data.totalrow;
-                } else {
-                    //$scope.textloading = "Dữ liệu trống.";
-                    $scope.textloading = res.data.message;
-                    // $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                url: host_api + 'api/report/seller?action=productdetail&productcode=' + code,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
                 }
-
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        }
-    }
-
-    //show producer detail
-    $scope.productDetail = function (code) {
-        $http({
-            method: 'GET',
-            url: host_api + 'api/report/seller?action=productdetail&productcode=' + code,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            if (res.data.result > 0) {
-                var detailProduct = res.data.data;
-                var modal = $uibModal.open({
-                    animation: 1000,
-                    backdrop: 'static',
-                    ariaLabelledBy: 'modal-title',
-                    ariaDescribedBy: 'modal-body',
-                    template: `<div class="modal-header label-primary" style="position:relative">\
+            }).then(function (res) {
+                if (res.data.result > 0) {
+                    var detailProduct = res.data.data;
+                    var modal = $uibModal.open({
+                        animation: 1000,
+                        backdrop: 'static',
+                        ariaLabelledBy: 'modal-title',
+                        ariaDescribedBy: 'modal-body',
+                        template: `<div class="modal-header label-primary" style="position:relative">\
                     <h4 class ="modal-title" style="color:#fff" >${detailProduct.seller.product_name}</h4>\
                     </div>\
                     <div style="" id="print">
@@ -510,43 +733,43 @@ app.controller('sellerCtrl', function ($http, $scope, $state, $rootScope, $dialo
                     <div class ="modal-footer">\                           
                         <button class ="btn btn-default" ng-click="cancel()" >Đóng</button>\
                     </div>`,
-                    controller: function ($scope, $uibModalInstance) {
-                        $scope.cancel = function () {
-                            $uibModalInstance.close(false)
-                        };
-                    },
+                        controller: function ($scope, $uibModalInstance) {
+                            $scope.cancel = function () {
+                                $uibModalInstance.close(false)
+                            };
+                        },
 
-                    size: 'xs',//size sm,xs,lg   
-                    windowClass: 'your-modal-class',
+                        size: 'xs',//size sm,xs,lg   
+                        windowClass: 'your-modal-class',
 
-                });
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
+                    });
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
 
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
 
 
-    };
-    //show seller detail
-    $scope.sellerDetail = function (code) {
-        $http({
-            method: 'GET',
-            url: host_api + 'api/common/get?action=productdetail&productcode=' + code,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            if (res.data.result > 0) {
-                var detailProduct = res.data.data;
-                var modal = $uibModal.open({
-                    animation: 1000,
-                    backdrop: 'static',
-                    ariaLabelledBy: 'modal-title',
-                    ariaDescribedBy: 'modal-body',
-                    template: `<div class="modal-header label-primary" style="position:relative">\
+        };
+        //show seller detail
+        $scope.sellerDetail = function (code) {
+            $http({
+                method: 'GET',
+                url: host_api + 'api/common/get?action=productdetail&productcode=' + code,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.data.result > 0) {
+                    var detailProduct = res.data.data;
+                    var modal = $uibModal.open({
+                        animation: 1000,
+                        backdrop: 'static',
+                        ariaLabelledBy: 'modal-title',
+                        ariaDescribedBy: 'modal-body',
+                        template: `<div class="modal-header label-primary" style="position:relative">\
                     <h4 class ="modal-title" style="color:#fff" >${detailProduct.product_name}</h4>\
                     </div>\
                     <div style="" id="print">
@@ -559,57 +782,57 @@ app.controller('sellerCtrl', function ($http, $scope, $state, $rootScope, $dialo
                     <div class ="modal-footer">\                           
                         <button class ="btn btn-default" ng-click="cancel()"  >Đóng</button>\
                     </div>`,
-                    controller: function ($scope, $uibModalInstance) {
+                        controller: function ($scope, $uibModalInstance) {
 
-                        $scope.cancel = function () {
-                            $uibModalInstance.close(false)
-                        };
-                    },
-                    //controllerAs: $scope,
-                    size: 'xs',//size sm,xs,lg   
-                    windowClass: 'your-modal-class',
+                            $scope.cancel = function () {
+                                $uibModalInstance.close(false)
+                            };
+                        },
+                        //controllerAs: $scope,
+                        size: 'xs',//size sm,xs,lg   
+                        windowClass: 'your-modal-class',
 
-                });
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                    });
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+
+
+        };
+        // Chi tiet doanh thu trong tháng
+        $scope.dtDetail = function (code, pName, type) {
+            var $titlle = 'Doanh thu chi tiết loại bảo hiểm ' + pName;
+            switch (type) {
+                case 'channel':
+                    $titlle = 'Doanh thu chi tiết kênh bán ' + pName;
+                    break;
+                case 'producer':
+                    $titlle = 'Doanh thu chi tiết nhà cung cấp ' + pName;
+                    break;
+                default:
+                    $titlle;
             }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-
-
-    };
-    // Chi tiet doanh thu trong tháng
-    $scope.dtDetail = function (code, pName, type) {
-        var $titlle = 'Doanh thu chi tiết loại bảo hiểm ' + pName;
-        switch (type) {
-            case 'channel':
-                $titlle = 'Doanh thu chi tiết kênh bán ' + pName;
-                break;
-            case 'producer':
-                $titlle = 'Doanh thu chi tiết nhà cung cấp ' + pName;
-                break;
-            default:
-                $titlle;
-        }
-        $("div.overlay").addClass("show");
-        $http({
-            method: 'GET',
-            url: host_api + 'api/report/seller?action=dashboarddetail&code=' + code + '&type=' + type + '&num=999&page=0',
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            $("div.overlay").removeClass("show");
-            if (res.data.result > 0) {
-                var detailProduct = res.data.data.detail;
-                var modal = $uibModal.open({
-                    animation: 0,
-                    backdrop: 'static',
-                    ariaLabelledBy: 'modal-title',
-                    ariaDescribedBy: 'modal-body',
-                    template: `<div class="modal-header label-primary" style="position:relative">\
+            $("div.overlay").addClass("show");
+            $http({
+                method: 'GET',
+                url: host_api + 'api/report/seller?action=dashboarddetail&code=' + code + '&type=' + type + '&num=999&page=0',
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                $("div.overlay").removeClass("show");
+                if (res.data.result > 0) {
+                    var detailProduct = res.data.data.detail;
+                    var modal = $uibModal.open({
+                        animation: 0,
+                        backdrop: 'static',
+                        ariaLabelledBy: 'modal-title',
+                        ariaDescribedBy: 'modal-body',
+                        template: `<div class="modal-header label-primary" style="position:relative">\
                     <h4 class ="modal-title" style="color:#fff" >${$titlle}</h4>\
                     </div>\
                     <div style="max-height:350px;" id="print">
@@ -646,329 +869,283 @@ app.controller('sellerCtrl', function ($http, $scope, $state, $rootScope, $dialo
                     <div class ="modal-footer">\                           
                         <button class ="btn btn-default" ng-click="cancel()" >Đóng</button>\
                     </div>`,
-                    controller: function ($scope, $uibModalInstance) {
-                        $scope.detailProduct = detailProduct;
-                        $scope.cancel = function () {
-                            $uibModalInstance.close(false);
-                        };
-                    },
-                    controllerAs: $scope,
-                    size: 'lg',//size sm,xs,lg   
-                    windowClass: 'your-modal-class',
+                        controller: function ($scope, $uibModalInstance) {
+                            $scope.detailProduct = detailProduct;
+                            $scope.cancel = function () {
+                                $uibModalInstance.close(false);
+                            };
+                        },
+                        controllerAs: $scope,
+                        size: 'lg',//size sm,xs,lg   
+                        windowClass: 'your-modal-class',
 
-                });
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $("div.overlay").removeClass("show");
-            $rootScope.checkError(e, $dialogAlert);
-        });
-    };
-    $scope.page2 = 0;
-    $scope.num2 = 10;
-    $scope.totalRow2 = 0;
-    $scope.maxSize2 = 10;
-    $scope.bigTotalItems2 = 0;
-    $scope.bigCurrentPage2 = 1;
-    $scope.varTinh = "";
-    $scope.filters = {
-        status: "'','0'",
-        tinh: '',
-        huyen: '',
-        xa: ''
-    };
-    $(".select2").select2();
-    $scope.pageChanged2 = function () {
-        $scope.page2 = $scope.bigCurrentPage2 - 1;
-        console.log('Page changed to: ' + $scope.bigCurrentPage2);
-        loadDataLoa($scope.filters);
-    };
-    //loadDataLoa($scope.filters);
-    $scope.checkLoa = function () {
-        var checkboxes = document.getElementsByName('status[]');
-        var vals = "";
-        for (var i = 0, n = checkboxes.length; i < n; i++) {
-            if (checkboxes[i].checked) {
-                if (checkboxes[i].value != "") {
-                    vals += "," + checkboxes[i].value;
+                    });
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $("div.overlay").removeClass("show");
+                $rootScope.checkError(e, $dialogAlert);
+            });
+        };
+        $scope.page2 = 0;
+        $scope.num2 = 10;
+        $scope.totalRow2 = 0;
+        $scope.maxSize2 = 10;
+        $scope.bigTotalItems2 = 0;
+        $scope.bigCurrentPage2 = 1;
+        $scope.varTinh = "";
+        $scope.filters = {
+            status: "'','0'",
+            tinh: '',
+            huyen: '',
+            xa: ''
+        };
+        $(".select2").select2();
+        $scope.pageChanged2 = function () {
+            $scope.page2 = $scope.bigCurrentPage2 - 1;
+            console.log('Page changed to: ' + $scope.bigCurrentPage2);
+            loadDataLoa($scope.filters);
+        };
+        //loadDataLoa($scope.filters);
+        $scope.checkLoa = function () {
+            var checkboxes = document.getElementsByName('status[]');
+            var vals = "";
+            for (var i = 0, n = checkboxes.length; i < n; i++) {
+                if (checkboxes[i].checked) {
+                    if (checkboxes[i].value != "") {
+                        vals += "," + checkboxes[i].value;
+                    }
                 }
             }
+            if (vals) vals = vals.substring(1);
+            $scope.filters = {
+                status: vals
+            };
+            loadDataLoa($scope.filters);
         }
-        if (vals) vals = vals.substring(1);
-        $scope.filters = {
-            status: vals
-        };
-        loadDataLoa($scope.filters);
-    }
-    function loadDataLoa() {
-        ($scope.filters.status == undefined) ? $scope.filters.status = "" : $scope.filters.status;
-        ($scope.filters.tinh == undefined) ? $scope.filters.tinh = "" : $scope.filters.tinh;
-        ($scope.filters.huyen == undefined) ? $scope.filters.huyen = "" : $scope.filters.huyen;
-        ($scope.filters.xa == undefined) ? $scope.filters.xa = "" : $scope.filters.xa;
-        $scope.data_loa = [];
+        function loadDataLoa() {
+            ($scope.filters.status == undefined) ? $scope.filters.status = "" : $scope.filters.status;
+            ($scope.filters.tinh == undefined) ? $scope.filters.tinh = "" : $scope.filters.tinh;
+            ($scope.filters.huyen == undefined) ? $scope.filters.huyen = "" : $scope.filters.huyen;
+            ($scope.filters.xa == undefined) ? $scope.filters.xa = "" : $scope.filters.xa;
+            $scope.data_loa = [];
+            $http({
+                method: 'GET',
+                url: 'http://ics.vtctelecom.com.vn/index.php?api=vtc_api&method=listIppbxextenLocation&tinh=' + $scope.filters.tinh + '&huyen=' + $scope.filters.huyen + '&xa=' + $scope.filters.xa + '&num=' + $scope.maxSize2 + '&page=' + $scope.page2 + "&status=" + $scope.filters.status,
+                //headers: {
+                //    'Authorization': "Bearer " + $window.localStorage.token
+                //}
+            }).then(function (res) {
+                console.log(res);
+                if (res.data.data.length > 0) {
+                    $scope.data_loa = res.data.data;
+                    $scope.bigTotalItems2 = res.data.totalrow;
+                } else {
+                    $scope.textloading = "Dữ liệu trống.";
+                    //$scope.textloading = res.data.message;
+                    // $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+
+        }
+        $scope.$watch("filters", function (newVal, oldVal) {
+            console.log(newVal, oldVal);
+            //$scope.filters.tinh = $scope.varTinh;
+            loadDataLoa(newVal);
+        }, true);
+
         $http({
             method: 'GET',
-            url: 'http://ics.vtctelecom.com.vn/index.php?api=vtc_api&method=listIppbxextenLocation&tinh=' + $scope.filters.tinh + '&huyen=' + $scope.filters.huyen + '&xa=' + $scope.filters.xa + '&num=' + $scope.maxSize2 + '&page=' + $scope.page2 + "&status=" + $scope.filters.status,
+            url: 'http://ics.vtctelecom.com.vn/index.php?api=vtc_api&method=countStatusLoa',
             //headers: {
             //    'Authorization': "Bearer " + $window.localStorage.token
             //}
         }).then(function (res) {
             console.log(res);
-            if (res.data.data.length > 0) {
-                $scope.data_loa = res.data.data;
-                $scope.bigTotalItems2 = res.data.totalrow;
-            } else {
-                $scope.textloading = "Dữ liệu trống.";
-                //$scope.textloading = res.data.message;
-                // $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
-            }
+            var _online = 0;
+            res.data.forEach(function (val) {
+                if (val.status === "" || val.status === "0") {
+                    _online += parseInt(val.total);
+                    $scope.sttOnline = _online;
+                }
+
+            })
+            $scope.dataTotalStatus = res.data;
+
 
         }, function err(e) {
             $rootScope.checkError(e, $dialogAlert);
-        })
-
-    }
-    $scope.$watch("filters", function (newVal, oldVal) {
-        console.log(newVal, oldVal);
-        //$scope.filters.tinh = $scope.varTinh;
-        loadDataLoa(newVal);
-    }, true);
-
-    $http({
-        method: 'GET',
-        url: 'http://ics.vtctelecom.com.vn/index.php?api=vtc_api&method=countStatusLoa',
-        //headers: {
-        //    'Authorization': "Bearer " + $window.localStorage.token
-        //}
-    }).then(function (res) {
-        console.log(res);
-        var _online = 0;
-        res.data.forEach(function (val) {
-            if (val.status === "" || val.status === "0") {
-                _online += parseInt(val.total);
-                $scope.sttOnline = _online;
-            }
-
-        })
-        $scope.dataTotalStatus = res.data;
-
-
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    });
-    $http({
-        method: 'GET',
-        url: 'http://ics.vtctelecom.com.vn/index.php?api=vtc_api&method=getProvinces',
-        //headers: {
-        //    'Authorization': "Bearer " + $window.localStorage.token
-        //}
-    }).then(function (res) {
-        $scope.dataProvinces = res.data;
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-    $scope.loadHuyens = function () {
+        });
         $http({
             method: 'GET',
-            url: 'http://ics.vtctelecom.com.vn/index.php?api=vtc_api&method=getDistricts&proId=' + $scope.filters.tinh,
+            url: 'http://ics.vtctelecom.com.vn/index.php?api=vtc_api&method=getProvinces',
+            //headers: {
+            //    'Authorization': "Bearer " + $window.localStorage.token
+            //}
         }).then(function (res) {
-            $scope.dataDistricts = res.data;
+            $scope.dataProvinces = res.data;
         }, function err(e) {
             $rootScope.checkError(e, $dialogAlert);
         })
-    }
-    $scope.loadXas = function () {
-        $http({
-            method: 'GET',
-            url: 'http://ics.vtctelecom.com.vn/index.php?api=vtc_api&method=getWards&ditId=' + $scope.filters.huyen,
-        }).then(function (res) {
-            $scope.dataWards = res.data;
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
-});
-// function seller quản lý sản phẩm seller
-app.controller('selList$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $dialogShowForm, $uibModalStack, $timeout, $stateParams, $window) {
-
-    loadDatachannel();
-    function loadDatachannel() {
-        $http({
-            method: 'GET',
-            url: host_api + 'api/channel/get?action=list',
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res);
-            if (res.data.result > 0) {
-                $scope.dataListChannel = res.data.data;
-            } else {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-        $http({
-            method: 'GET',
-            url: host_api + 'api/channel/get?action=producer',
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res);
-            if (res.data.result > 0) {
-                $scope.dataListProducer = res.data.data;
-            } else {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
-    $rootScope.headTitle = 'Đơn vị bán hàng > Quản lý sản phẩm';
-    $scope.textloading = "Đang tải dữ liệu ...";
-    $scope.page = 0;
-    $scope.totalRow = 0;
-    $scope.maxSize = 10;
-    $scope.bigTotalItems = 0;
-    $scope.bigCurrentPage = 1;
-    $scope.flag = false;
-    if ($rootScope.$user === null || $rootScope.$user === undefined) {
-        $log.info('redirect to login');
-        $location.path('/account/signin');
-        return;
-    }
-    fndata($http, $scope, 'product')
-    function fndata($http, $scope, action) {
-        search()
-        $scope.search = search;
-        // sort
-        $scope.sort = {
-            column: '',
-            descending: false
-        };
-
-        $scope.changeSorting = function (column) {
-
-            var sort = $scope.sort;
-
-            if (sort.column == column) {
-                sort.descending = !sort.descending;
-            } else {
-                sort.column = column;
-                sort.descending = false;
-            }
-        };
-        // thay đổi class khi sort
-        $scope.selectedCls = function (column) {
-            return column == $scope.sort.column && 'sort-' + $scope.sort.descending;
-        };
-
-
-        // search theo date, search theo productName or productCode
-        $scope.searchFilter = function () {
-            $scope.page = 0;
-            search();
-        }
-        // paging
-        $scope.pageChanged = function () {
-            $scope.page = $scope.bigCurrentPage - 1;
-            console.log('Page changed to: ' + $scope.bigCurrentPage);
-            search();
-        };
-        // load data api
-        function search() {
-            $scope.data = [];
-            $scope.totalRow = 0;
+        $scope.loadHuyens = function () {
             $http({
                 method: 'GET',
-                url: host_api + 'api/report/seller?action=' + action + '&filter=' + ($scope.filter || '') + '&producer=' + ($scope.filter_producer || '') + '&channel=' + ($scope.filter_channel || '') + '&num=' + $scope.maxSize + '&page=' + ($scope.page || ''),
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
+                url: 'http://ics.vtctelecom.com.vn/index.php?api=vtc_api&method=getDistricts&proId=' + $scope.filters.tinh,
             }).then(function (res) {
-                //console.log(res)                  
-                if (res.data.result > 0) {
-                    $scope.data = res.data.data.detail;
-                    $scope.totalRow = res.data.data.total_row;
-                    $scope.bigTotalItems = res.data.data.total_row;
-                    $(document).ready(function () {
-                        $('.btnProductToggle').bootstrapToggle({
-                            on: 'Kích hoạt',
-                            off: 'Ngừng kích hoạt',
-                            size: "mini",
-                            style: "btnToggleCustom"
-                        });
-                    })
-                } else {
-                    //$scope.textloading = "Dữ liệu trống.";
-                    $scope.textloading = res.data.message;
-                    //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
-                }
+                $scope.dataDistricts = res.data;
             }, function err(e) {
                 $rootScope.checkError(e, $dialogAlert);
             })
         }
-    }
+        $scope.loadXas = function () {
+            $http({
+                method: 'GET',
+                url: 'http://ics.vtctelecom.com.vn/index.php?api=vtc_api&method=getWards&ditId=' + $scope.filters.huyen,
+            }).then(function (res) {
+                $scope.dataWards = res.data;
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+    });
+    // function seller quản lý sản phẩm seller
+    app.controller('selList$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $dialogShowForm, $uibModalStack, $timeout, $stateParams, $window) {
 
-})
-app.controller('manageDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.filter = '';
-    $scope.data = [];
-    $http({
-        method: 'GET',
-        //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-        url: listAPI.device.getListDevice,
-        data: {
-            filter: $scope.filter
-        },
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
+        loadDatachannel();
+        function loadDatachannel() {
+            $http({
+                method: 'GET',
+                url: host_api + 'api/channel/get?action=list',
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res);
+                if (res.data.result > 0) {
+                    $scope.dataListChannel = res.data.data;
+                } else {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+            $http({
+                method: 'GET',
+                url: host_api + 'api/channel/get?action=producer',
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res);
+                if (res.data.result > 0) {
+                    $scope.dataListProducer = res.data.data;
+                } else {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
         }
-    }).then(function (res) {
-        //console.log(res);
-        if (res.status != 404 && res.status != 405) {
-            $scope.data = res.data;
-            //console.log($scope.data);
-        } else {
-            $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+        $rootScope.headTitle = 'Đơn vị bán hàng > Quản lý sản phẩm';
+        $scope.textloading = "Đang tải dữ liệu ...";
+        $scope.page = 0;
+        $scope.totalRow = 0;
+        $scope.maxSize = 10;
+        $scope.bigTotalItems = 0;
+        $scope.bigCurrentPage = 1;
+        $scope.flag = false;
+        if ($rootScope.$user === null || $rootScope.$user === undefined) {
+            $log.info('redirect to login');
+            $location.path('/account/signin');
+            return;
         }
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
+        fndata($http, $scope, 'product')
+        function fndata($http, $scope, action) {
+            search()
+            $scope.search = search;
+            // sort
+            $scope.sort = {
+                column: '',
+                descending: false
+            };
+
+            $scope.changeSorting = function (column) {
+
+                var sort = $scope.sort;
+
+                if (sort.column == column) {
+                    sort.descending = !sort.descending;
+                } else {
+                    sort.column = column;
+                    sort.descending = false;
+                }
+            };
+            // thay đổi class khi sort
+            $scope.selectedCls = function (column) {
+                return column == $scope.sort.column && 'sort-' + $scope.sort.descending;
+            };
+
+
+            // search theo date, search theo productName or productCode
+            $scope.searchFilter = function () {
+                $scope.page = 0;
+                search();
+            }
+            // paging
+            $scope.pageChanged = function () {
+                $scope.page = $scope.bigCurrentPage - 1;
+                console.log('Page changed to: ' + $scope.bigCurrentPage);
+                search();
+            };
+            // load data api
+            function search() {
+                $scope.data = [];
+                $scope.totalRow = 0;
+                $http({
+                    method: 'GET',
+                    url: host_api + 'api/report/seller?action=' + action + '&filter=' + ($scope.filter || '') + '&producer=' + ($scope.filter_producer || '') + '&channel=' + ($scope.filter_channel || '') + '&num=' + $scope.maxSize + '&page=' + ($scope.page || ''),
+                    headers: {
+                        'Authorization': "Bearer " + $window.localStorage.token
+                    }
+                }).then(function (res) {
+                    //console.log(res)                  
+                    if (res.data.result > 0) {
+                        $scope.data = res.data.data.detail;
+                        $scope.totalRow = res.data.data.total_row;
+                        $scope.bigTotalItems = res.data.data.total_row;
+                        $(document).ready(function () {
+                            $('.btnProductToggle').bootstrapToggle({
+                                on: 'Kích hoạt',
+                                off: 'Ngừng kích hoạt',
+                                size: "mini",
+                                style: "btnToggleCustom"
+                            });
+                        })
+                    } else {
+                        //$scope.textloading = "Dữ liệu trống.";
+                        $scope.textloading = res.data.message;
+                        //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                    }
+                }, function err(e) {
+                    $rootScope.checkError(e, $dialogAlert);
+                })
+            }
+        }
+
     })
-    //pagination
-    $scope.currentPage = 0;
-    $scope.pageSize = 15;
-    $scope.size = 0;
-    $scope.first = function () {
-        $scope.currentPage = 0;
-    }
-    $scope.next = function () {
-        $scope.currentPage += 1;
-    }
-    $scope.previous = function () {
-        $scope.currentPage -= 1;
-    }
-    $scope.last = function (last) {
-        $scope.currentPage = last;
-    }
-    $scope.thisPage = function (i) {
-        $scope.currentPage = i;
-    }
-    $scope.totalPage = function (size, pageSize) {
-        $scope.size = $window.Math.ceil(size / pageSize);
-        return $window.Math.ceil(size / pageSize);
-    }
-    $scope.filterDevice = function () {
-        console.log('filter=' + $scope.filter);
+    app.controller('manageDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.filter = '';
+        $scope.data = [];
         $http({
             method: 'GET',
             //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            url: listAPI.device.getListDevice1,
+            url: listAPI.device.getListDevice,
             data: {
                 filter: $scope.filter
             },
@@ -977,7 +1154,6 @@ app.controller('manageDevice', function ($scope, $state, $http, $window, $dialog
             }
         }).then(function (res) {
             //console.log(res);
-            console.log('ddaay la filter' + $scope.filter);
             if (res.status != 404 && res.status != 405) {
                 $scope.data = res.data;
                 //console.log($scope.data);
@@ -987,188 +1163,414 @@ app.controller('manageDevice', function ($scope, $state, $http, $window, $dialog
         }, function err(e) {
             $rootScope.checkError(e, $dialogAlert);
         })
-    }
-    $scope.deleteDevice = function (ID) {
-        //id
-        $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
-            if (res) {
+        //pagination
+        $scope.currentPage = 0;
+        $scope.pageSize = 15;
+        $scope.size = 0;
+        $scope.first = function () {
+            $scope.currentPage = 0;
+        }
+        $scope.next = function () {
+            $scope.currentPage += 1;
+        }
+        $scope.previous = function () {
+            $scope.currentPage -= 1;
+        }
+        $scope.last = function (last) {
+            $scope.currentPage = last;
+        }
+        $scope.thisPage = function (i) {
+            $scope.currentPage = i;
+        }
+        $scope.totalPage = function (size, pageSize) {
+            $scope.size = $window.Math.ceil(size / pageSize);
+            return $window.Math.ceil(size / pageSize);
+        }
+        $scope.filterDevice = function () {
+            console.log('filter=' + $scope.filter);
+            $http({
+                method: 'GET',
+                //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+                url: listAPI.device.getListDevice1,
+                data: {
+                    filter: $scope.filter
+                },
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res);
+                console.log('ddaay la filter' + $scope.filter);
+                if (res.status != 404 && res.status != 405) {
+                    $scope.data = res.data;
+                    //console.log($scope.data);
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+        $scope.deleteDevice = function (ID) {
+            //id
+            $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        //url: host_api + 'xoa-thiet-bi-cum-loa',
+                        url: listAPI.device.deleteDevice,
+                        data: {
+                            id: ID
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    }, function err(e) {
+                        $rootScope.checkError(e, $dialogAlert);
+                    })
+                }
+
+            })
+
+        }
+    })
+    app.filter('startFrom', ['$timeout', function ($timeout) {
+        return function (input, start) {
+            start += start;
+            if (start != 1)
+                start = start / 2;
+            if (!input)
+                return;
+            return input.slice(start);
+        }
+    }])
+    app.filter('range', function () {
+        return function (input, total) {
+            total = parseInt(total);
+
+            for (var i = 0; i < total; i++) {
+                input.push(i);
+            }
+
+            return input;
+        };
+    })
+    app.controller('editDevice', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/thiet-bi-cum-loa' + '&id=' + $stateParams.id,
+            url: listAPI.device.getDevice,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            //console.log(res);
+            // if (res.result > 0) {
+            if (res.status != 404 && res.status != 405) {
+                $scope.formData = res.data;
+                //console.log(res);
+                $scope.formData.date_set = new Date($scope.formData.date_set);
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.editDevice = function () {
+            ($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'cap-nhat-thiet-bi-cum-loa',
+                url: listAPI.device.editDevice,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageDevice");
+                    });
+
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+    })
+    app.controller('addDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $scope.addDevice = function () {
+            //console.log($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'them-thiet-bi-cum-loa',
+                url: listAPI.device.addDevice,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageDevice");
+                    });
+
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+    })
+    app.controller('manageLichPhat', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.filter = '';
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/lichPhat.json',
+            url: listAPI.lichPhat.getListLichPhat,
+            data: {
+                filter: $scope.filter
+            },
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.data = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        //pagination
+        $scope.currentPage = 0;
+        $scope.pageSize = 15;
+        $scope.size = 0;
+        $scope.first = function () {
+            $scope.currentPage = 0;
+        }
+        $scope.next = function () {
+            $scope.currentPage += 1;
+        }
+        $scope.previous = function () {
+            $scope.currentPage -= 1;
+        }
+        $scope.last = function (last) {
+            $scope.currentPage = last;
+        }
+        $scope.thisPage = function (i) {
+            $scope.currentPage = i;
+        }
+        $scope.totalPage = function (size, pageSize) {
+            $scope.size = $window.Math.ceil(size / pageSize);
+            return $window.Math.ceil(size / pageSize);
+        }
+        $scope.filterLichPhat = function () {
+            //console.log('filter=' + $scope.filter);
+            if ($scope.filter != '') {
                 $http({
-                    method: 'POST',
-                    //url: host_api + 'xoa-thiet-bi-cum-loa',
-                    url: listAPI.device.deleteDevice,
+                    method: 'GET',
+                    //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+                    url: listAPI.lichPhat.getListLichPhat1,
                     data: {
-                        id: ID
+                        filter: $scope.filter
                     },
                     headers: {
                         'Authorization': "Bearer " + $window.localStorage.token
                     }
                 }).then(function (res) {
-                    if (res.data.result > 0) {
-                        $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                    //console.log(res);
+                    console.log('ddaay la filter' + $scope.filter);
+                    if (res.status != 404 && res.status != 405) {
+                        $scope.data = res.data;
                     } else {
-                        $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
                     }
                 }, function err(e) {
                     $rootScope.checkError(e, $dialogAlert);
                 })
             }
-
-        })
-
-    }
-})
-app.filter('startFrom', ['$timeout', function ($timeout) {
-    return function (input, start) {
-        start += start;
-        if (start != 1)
-            start = start / 2;
-        if (!input)
-            return;
-        return input.slice(start);
-    }
-}])
-app.filter('range', function () {
-    return function (input, total) {
-        total = parseInt(total);
-
-        for (var i = 0; i < total; i++) {
-            input.push(i);
+            $scope.filter = '';
         }
+        $scope.deleteLichPhat = function (ID) {
+            //id
+            $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        //url: host_api + 'xoa-lich-phat',
+                        url: listAPI.lichPhat.deleteLichPhat,
+                        data: {
+                            id: ID
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    }, function err(e) {
+                        $rootScope.checkError(e, $dialogAlert);
+                    })
+                }
 
-        return input;
-    };
-})
-app.controller('editDevice', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.formData = {};
-    $http({
-        method: 'GET',
-        //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-        //url: 'http://127.0.0.1:5500/admin/data/thiet-bi-cum-loa' + '&id=' + $stateParams.id,
-        url: listAPI.device.getDevice,
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
+            })
+
         }
-    }).then(function (res) {
-        //console.log(res);
-        // if (res.result > 0) {
-        if (res.status != 404 && res.status != 405) {
-            $scope.formData = res.data;
+    })
+    app.controller('editLichPhat', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/editLichPhat.json',
+            url: listAPI.lichPhat.getLichPhat,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
             //console.log(res);
-            $scope.formData.date_set = new Date($scope.formData.date_set);
-        } else {
-            $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-        }
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
+            // if (res.result > 0) {
+            if (res.status != 404 && res.status != 405) {
+                $scope.formData = res.data;
+                $scope.formData.date_set = new Date($scope.formData.date_set);
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+
+        $scope.editLichPhat = function () {
+            //console.log($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'cap-nhat-lich-phat',
+                url: listAPI.lichPhat.editLichPhat,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageLichPhat");
+                    });
+
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
     })
-    $scope.editDevice = function () {
-        ($scope.formData);
+    app.controller('addLichPhat', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $scope.addLichPhat = function () {
+            //console.log($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'them-lich-phat',
+                url: listAPI.lichPhat.addLichPhat,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageLichPhat");
+                    });
+
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+    })
+    app.controller('managePublicNews', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.filter = '';
         $http({
-            method: 'POST',
-            //url: host_api + 'cap-nhat-thiet-bi-cum-loa',
-            url: listAPI.device.editDevice,
-            data: $scope.formData,
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/publicNews.json',
+            data: {
+                filter: $scope.filter
+            },
+            url: listAPI.publicNews.getListPublicNews,
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
         }).then(function (res) {
-            // console.log(res);
-            if (res.result > 0) {
-                //console.log(res);
-                $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
-                    $state.go("manageDevice");
-                });
-
+            if (res.status != 404) {
+                $scope.data = res.data;
             } else {
-                $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
             }
-
         }, function err(e) {
             $rootScope.checkError(e, $dialogAlert);
         })
-    };
-})
-app.controller('addDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.formData = {};
-    $scope.addDevice = function () {
-        //console.log($scope.formData);
-        $http({
-            method: 'POST',
-            //url: host_api + 'them-thiet-bi-cum-loa',
-            url: listAPI.device.addDevice,
-            data: $scope.formData,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            // console.log(res);
-            if (res.result > 0) {
-                //console.log(res);
-                $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
-                    $state.go("manageDevice");
-                });
-
-            } else {
-                $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    };
-})
-app.controller('manageLichPhat', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.filter = '';
-    $http({
-        method: 'GET',
-        //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-        //url: 'http://127.0.0.1:5500/admin/data/lichPhat.json',
-        url: listAPI.lichPhat.getListLichPhat,
-        data: {
-            filter: $scope.filter
-        },
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        if (res.status != 404) {
-            $scope.data = res.data;
-        } else {
-            $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-        }
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-    //pagination
-    $scope.currentPage = 0;
-    $scope.pageSize = 15;
-    $scope.size = 0;
-    $scope.first = function () {
+        //pagination
         $scope.currentPage = 0;
-    }
-    $scope.next = function () {
-        $scope.currentPage += 1;
-    }
-    $scope.previous = function () {
-        $scope.currentPage -= 1;
-    }
-    $scope.last = function (last) {
-        $scope.currentPage = last;
-    }
-    $scope.thisPage = function (i) {
-        $scope.currentPage = i;
-    }
-    $scope.totalPage = function (size, pageSize) {
-        $scope.size = $window.Math.ceil(size / pageSize);
-        return $window.Math.ceil(size / pageSize);
-    }
-    $scope.filterLichPhat = function () {
-        //console.log('filter=' + $scope.filter);
-        if ($scope.filter != '') {
+        $scope.pageSize = 15;
+        $scope.size = 0;
+        $scope.first = function () {
+            $scope.currentPage = 0;
+        }
+        $scope.next = function () {
+            $scope.currentPage += 1;
+        }
+        $scope.previous = function () {
+            $scope.currentPage -= 1;
+        }
+        $scope.last = function (last) {
+            $scope.currentPage = last;
+        }
+        $scope.thisPage = function (i) {
+            $scope.currentPage = i;
+        }
+        $scope.totalPage = function (size, pageSize) {
+            $scope.size = $window.Math.ceil(size / pageSize);
+            return $window.Math.ceil(size / pageSize);
+        }
+        $scope.filterPublicNews = function () {
+            console.log('filter=' + $scope.filter);
             $http({
                 method: 'GET',
                 //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-                url: listAPI.lichPhat.getListLichPhat1,
+                url: listAPI.publicNews.getListPublicNews1,
                 data: {
                     filter: $scope.filter
                 },
@@ -1187,850 +1589,671 @@ app.controller('manageLichPhat', function ($scope, $state, $http, $window, $dial
                 $rootScope.checkError(e, $dialogAlert);
             })
         }
-        $scope.filter = '';
-    }
-    $scope.deleteLichPhat = function (ID) {
-        //id
-        $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
-            if (res) {
-                $http({
-                    method: 'POST',
-                    //url: host_api + 'xoa-lich-phat',
-                    url: listAPI.lichPhat.deleteLichPhat,
-                    data: {
-                        id: ID
-                    },
-                    headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token
-                    }
-                }).then(function (res) {
-                    if (res.data.result > 0) {
-                        $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
-                    } else {
-                        $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
-                    }
-                }, function err(e) {
-                    $rootScope.checkError(e, $dialogAlert);
-                })
-            }
-
-        })
-
-    }
-})
-app.controller('editLichPhat', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.formData = {};
-    $http({
-        method: 'GET',
-        //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-        //url: 'http://127.0.0.1:5500/admin/data/editLichPhat.json',
-        url: listAPI.lichPhat.getLichPhat,
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        //console.log(res);
-        // if (res.result > 0) {
-        if (res.status != 404 && res.status != 405) {
-            $scope.formData = res.data;
-            $scope.formData.date_set = new Date($scope.formData.date_set);
-        } else {
-            $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-        }
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-
-    $scope.editLichPhat = function () {
-        //console.log($scope.formData);
-        $http({
-            method: 'POST',
-            //url: host_api + 'cap-nhat-lich-phat',
-            url: listAPI.lichPhat.editLichPhat,
-            data: $scope.formData,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            // console.log(res);
-            if (res.result > 0) {
-                //console.log(res);
-                $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
-                    $state.go("manageLichPhat");
-                });
-
-            } else {
-                $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    };
-})
-app.controller('addLichPhat', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.formData = {};
-    $scope.addLichPhat = function () {
-        //console.log($scope.formData);
-        $http({
-            method: 'POST',
-            //url: host_api + 'them-lich-phat',
-            url: listAPI.lichPhat.addLichPhat,
-            data: $scope.formData,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            // console.log(res);
-            if (res.result > 0) {
-                //console.log(res);
-                $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
-                    $state.go("manageLichPhat");
-                });
-
-            } else {
-                $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    };
-})
-app.controller('managePublicNews', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.filter = '';
-    $http({
-        method: 'GET',
-        //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-        //url: 'http://127.0.0.1:5500/admin/data/publicNews.json',
-        data: {
-            filter: $scope.filter
-        },
-        url: listAPI.publicNews.getListPublicNews,
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        if (res.status != 404) {
-            $scope.data = res.data;
-        } else {
-            $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-        }
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-    //pagination
-    $scope.currentPage = 0;
-    $scope.pageSize = 15;
-    $scope.size = 0;
-    $scope.first = function () {
-        $scope.currentPage = 0;
-    }
-    $scope.next = function () {
-        $scope.currentPage += 1;
-    }
-    $scope.previous = function () {
-        $scope.currentPage -= 1;
-    }
-    $scope.last = function (last) {
-        $scope.currentPage = last;
-    }
-    $scope.thisPage = function (i) {
-        $scope.currentPage = i;
-    }
-    $scope.totalPage = function (size, pageSize) {
-        $scope.size = $window.Math.ceil(size / pageSize);
-        return $window.Math.ceil(size / pageSize);
-    }
-    $scope.filterPublicNews = function () {
-        console.log('filter=' + $scope.filter);
-        $http({
-            method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            url: listAPI.publicNews.getListPublicNews1,
-            data: {
-                filter: $scope.filter
-            },
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res);
-            console.log('ddaay la filter' + $scope.filter);
-            if (res.status != 404 && res.status != 405) {
-                $scope.data = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
-    $scope.deletePublicNews = function (ID) {
-        //id
-        $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
-            if (res) {
-                $http({
-                    method: 'POST',
-                    //url: host_api + 'xoa-bang-thong-tin-dien-tu',
-                    url: listAPI.publicNews.deletePublicNews,
-                    data: {
-                        id: ID
-                    },
-                    headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token
-                    }
-                }).then(function (res) {
-                    if (res.data.result > 0) {
-                        $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
-                    } else {
-                        $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
-                    }
-                }, function err(e) {
-                    $rootScope.checkError(e, $dialogAlert);
-                })
-            }
-
-        })
-
-    }
-})
-app.controller('editPublicNews', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.formData = {};
-    $http({
-        method: 'GET',
-        //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-        //url: 'http://127.0.0.1:5500/admin/data/editPublicNews.json',
-        url: listAPI.publicNews.getPublicNews,
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        //console.log(res);
-        // if (res.result > 0) {
-        if (res.status != 404 && res.status != 405) {
-            $scope.formData = res.data;
-            $scope.formData.date_set = new Date($scope.formData.date_set);
-        } else {
-            $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-        }
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-
-    $scope.editPublicNews = function () {
-        // console.log($scope.formData);
-        $http({
-            method: 'POST',
-            //url: host_api + 'cap-nhat-bang-thong-tin-dien-tu',
-            url: listAPI.publicNews.editPublicNews,
-            data: $scope.formData,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            // console.log(res);
-            if (res.result > 0) {
-                //console.log(res);
-                $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
-                    $state.go("managePublicNews");
-                });
-
-            } else {
-                $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    };
-})
-app.controller('addPublicNews', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.formData = {};
-    $scope.addPublicNews = function () {
-        //console.log($scope.formData);
-        $http({
-            method: 'POST',
-            //url: host_api + 'them-bang-thong-tin-dien-tu',
-            url: listAPI.publicNews.addPublicNews,
-            data: $scope.formData,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            // console.log(res);
-            if (res.result > 0) {
-                //console.log(res);
-                $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
-                    $state.go("managePublicNews");
-                });
-
-            } else {
-                $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    };
-})
-app.controller('manageRadioApp', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.filter = '';
-    $http({
-        method: 'GET',
-        //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-        //url: 'http://127.0.0.1:5500/admin/data/truyenThanh.json',
-        data: {
-            filter: $scope.filter
-        },
-        url: listAPI.radioApp.getListRadioApp,
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        if (res.status != 404) {
-            $scope.data = res.data;
-        } else {
-            $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-        }
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-    //pagination
-    $scope.currentPage = 0;
-    $scope.pageSize = 15;
-    $scope.size = 0;
-    $scope.first = function () {
-        $scope.currentPage = 0;
-    }
-    $scope.next = function () {
-        $scope.currentPage += 1;
-    }
-    $scope.previous = function () {
-        $scope.currentPage -= 1;
-    }
-    $scope.last = function (last) {
-        $scope.currentPage = last;
-    }
-    $scope.thisPage = function (i) {
-        $scope.currentPage = i;
-    }
-    $scope.totalPage = function (size, pageSize) {
-        $scope.size = $window.Math.ceil(size / pageSize);
-        return $window.Math.ceil(size / pageSize);
-    }
-    $scope.filterRadioApp = function () {
-        console.log('filter=' + $scope.filter);
-        $http({
-            method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            url: listAPI.radioApp.getListRadioApp1,
-            data: {
-                filter: $scope.filter
-            },
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res);
-            console.log('ddaay la filter' + $scope.filter);
-            if (res.status != 404 && res.status != 405) {
-                $scope.data = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
-    $scope.deleteRadioApp = function (ID) {
-        //id
-        $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
-            if (res) {
-                $http({
-                    method: 'POST',
-                    //url: host_api + '/xoa-dai-truyen-thanh-va-ung-dung',
-                    url: listAPI.radioApp.deleteRadioApp,
-                    data: {
-                        id: ID
-                    },
-                    headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token
-                    }
-                }).then(function (res) {
-                    if (res.data.result > 0) {
-                        $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
-                    } else {
-                        $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
-                    }
-                }, function err(e) {
-                    $rootScope.checkError(e, $dialogAlert);
-                })
-            }
-
-        })
-
-    }
-})
-app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.formData = {};
-    $http({
-        method: 'GET',
-        //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-        //url: 'http://127.0.0.1:5500/admin/data/editRadioApp.json',
-        url: listAPI.radioApp.getRadioApp,
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        //console.log(res);
-        // if (res.result > 0) {
-        if (res.status != 404 && res.status != 405) {
-            $scope.formData = res.data;
-        } else {
-            $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-        }
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-    //form tỉnh huyện xã
-    $scope.cities = [];
-    $scope.districts = [];
-    $scope.wards = [];
-    $http({
-        method: 'GET',
-        //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-        //url: 'http://127.0.0.1:5500/admin/data/editRadioApp.json',
-        url: 'http://127.0.0.1:5500/admin/data/data.json',
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        //console.log(res);
-        // if (res.result > 0) {
-        if (res.status != 404 && res.status != 405) {
-            $scope.cities = res.data;
-            //console.log($scope.cities);
-        } else {
-            $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-        }
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-    $scope.listDistricts = function () {
-        if ($scope.formData.province != '') {
-            for (i in $scope.cities) {
-                //console.log($scope.cities[i]);
-                if ($scope.formData.province == $scope.cities[i].Name) {
-                    $scope.districts = $scope.cities[i].Districts;
-                    //console.log('dis' + $scope.districts);
-                    break;
-                }
-            }
-        }
-    }
-    $scope.listWards = function () {
-        if ($scope.formData.district != '') {
-            for (i in $scope.districts) {
-                //console.log($scope.districts[i]);
-                if ($scope.formData.district == $scope.districts[i].Name) {
-                    $scope.wards = $scope.districts[i].Wards;
-                    //console.log($scope.wards);
-                    break;
-                }
-            }
-        }
-    }
-    $scope.editRadioApp = function () {
-        console.log($scope.formData);
-        $http({
-            method: 'POST',
-            //url: host_api + 'cap-nhat-dai-truyen-thanh-va-ung-dung',
-            url: listAPI.radioApp.editRadioApp,
-            data: $scope.formData,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            // console.log(res);
-            if (res.result > 0) {
-                //console.log(res);
-                $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
-                    $state.go("manageRadioApp");
-                });
-
-            } else {
-                $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    };
-})
-app.controller('addRadioApp', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.formData = {};
-    $scope.cities = [];
-    $scope.districts = [];
-    $scope.wards = [];
-    $http({
-        method: 'GET',
-        //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-        //url: 'http://127.0.0.1:5500/admin/data/editRadioApp.json',
-        url: 'http://127.0.0.1:5500/admin/data/data.json',
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        //console.log(res);
-        // if (res.result > 0) {
-        if (res.status != 404 && res.status != 405) {
-            $scope.cities = res.data;
-            //console.log($scope.cities);
-        } else {
-            $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-        }
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-    $scope.listDistricts = function () {
-        if ($scope.formData.province != '') {
-            for (i in $scope.cities) {
-                //console.log($scope.cities[i]);
-                if ($scope.formData.province == $scope.cities[i].Name) {
-                    $scope.districts = $scope.cities[i].Districts;
-                    //console.log('dis' + $scope.districts);
-                    break;
-                }
-            }
-        }
-    }
-    $scope.listWards = function () {
-        if ($scope.formData.district != '') {
-            for (i in $scope.districts) {
-                //console.log($scope.districts[i]);
-                if ($scope.formData.district == $scope.districts[i].Name) {
-                    $scope.wards = $scope.districts[i].Wards;
-                    //console.log($scope.wards);
-                    break;
-                }
-            }
-        }
-    }
-    $scope.addRadioApp = function () {
-        console.log($scope.formData);
-        $http({
-            method: 'POST',
-            //url: host_api + 'them-thiet-bi-cum-loa',
-            url: listAPI.radioApp.addRadioApp,
-            data: $scope.formData,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            // console.log(res);
-            if (res.result > 0) {
-                //console.log(res);
-                $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
-                    $state.go("manageRadioApp");
-                });
-
-            } else {
-                $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    };
-})
-app.controller('selList$Ctrll', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $dialogShowForm, $uibModalStack, $timeout, $stateParams, $window) {
-
-    loadDatachannel();
-    function loadDatachannel() {
-        $http({
-            method: 'GET',
-            url: host_api + 'api/channel/get?action=list',
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res);
-            if (res.data.result > 0) {
-                $scope.dataListChannel = res.data.data;
-            } else {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-        $http({
-            method: 'GET',
-            url: host_api + 'api/channel/get?action=producer',
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res);
-            if (res.data.result > 0) {
-                $scope.dataListProducer = res.data.data;
-            } else {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
-    $rootScope.headTitle = 'Đơn vị bán hàng > Quản lý sản phẩm';
-    $scope.textloading = "Đang tải dữ liệu ...";
-    $scope.page = 0;
-    $scope.totalRow = 0;
-    $scope.maxSize = 10;
-    $scope.bigTotalItems = 0;
-    $scope.bigCurrentPage = 1;
-    $scope.flag = false;
-    if ($rootScope.$user === null || $rootScope.$user === undefined) {
-        $log.info('redirect to login');
-        $location.path('/account/signin');
-        return;
-    }
-    fndata($http, $scope, 'product')
-    function fndata($http, $scope, action) {
-        search()
-        $scope.search = search;
-        // sort
-        $scope.sort = {
-            column: '',
-            descending: false
-        };
-
-        $scope.changeSorting = function (column) {
-
-            var sort = $scope.sort;
-
-            if (sort.column == column) {
-                sort.descending = !sort.descending;
-            } else {
-                sort.column = column;
-                sort.descending = false;
-            }
-        };
-        // thay đổi class khi sort
-        $scope.selectedCls = function (column) {
-            return column == $scope.sort.column && 'sort-' + $scope.sort.descending;
-        };
-
-
-        // search theo date, search theo productName or productCode
-        $scope.searchFilter = function () {
-            $scope.page = 0;
-            search();
-        }
-        // paging
-        $scope.pageChanged = function () {
-            $scope.page = $scope.bigCurrentPage - 1;
-            console.log('Page changed to: ' + $scope.bigCurrentPage);
-            search();
-        };
-        // load data api
-        function search() {
-            $scope.data = [];
-            $scope.totalRow = 0;
-            $http({
-                method: 'GET',
-                url: host_api + 'api/report/seller?action=' + action + '&filter=' + ($scope.filter || '') + '&producer=' + ($scope.filter_producer || '') + '&channel=' + ($scope.filter_channel || '') + '&num=' + $scope.maxSize + '&page=' + ($scope.page || ''),
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                //console.log(res)                  
-                if (res.data.result > 0) {
-                    $scope.data = res.data.data.detail;
-                    $scope.totalRow = res.data.data.total_row;
-                    $scope.bigTotalItems = res.data.data.total_row;
-                    $(document).ready(function () {
-                        $('.btnProductToggle').bootstrapToggle({
-                            on: 'Kích hoạt',
-                            off: 'Ngừng kích hoạt',
-                            size: "mini",
-                            style: "btnToggleCustom"
-                        });
+        $scope.deletePublicNews = function (ID) {
+            //id
+            $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        //url: host_api + 'xoa-bang-thong-tin-dien-tu',
+                        url: listAPI.publicNews.deletePublicNews,
+                        data: {
+                            id: ID
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    }, function err(e) {
+                        $rootScope.checkError(e, $dialogAlert);
                     })
+                }
+
+            })
+
+        }
+    })
+    app.controller('editPublicNews', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/editPublicNews.json',
+            url: listAPI.publicNews.getPublicNews,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            //console.log(res);
+            // if (res.result > 0) {
+            if (res.status != 404 && res.status != 405) {
+                $scope.formData = res.data;
+                $scope.formData.date_set = new Date($scope.formData.date_set);
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+
+        $scope.editPublicNews = function () {
+            // console.log($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'cap-nhat-bang-thong-tin-dien-tu',
+                url: listAPI.publicNews.editPublicNews,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("managePublicNews");
+                    });
+
                 } else {
-                    //$scope.textloading = "Dữ liệu trống.";
-                    $scope.textloading = res.data.message;
-                    //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+    })
+    app.controller('addPublicNews', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $scope.addPublicNews = function () {
+            //console.log($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'them-bang-thong-tin-dien-tu',
+                url: listAPI.publicNews.addPublicNews,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("managePublicNews");
+                    });
+
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+    })
+    app.controller('manageRadioApp', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.filter = '';
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/truyenThanh.json',
+            data: {
+                filter: $scope.filter
+            },
+            url: listAPI.radioApp.getListRadioApp,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.data = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        //pagination
+        $scope.currentPage = 0;
+        $scope.pageSize = 15;
+        $scope.size = 0;
+        $scope.first = function () {
+            $scope.currentPage = 0;
+        }
+        $scope.next = function () {
+            $scope.currentPage += 1;
+        }
+        $scope.previous = function () {
+            $scope.currentPage -= 1;
+        }
+        $scope.last = function (last) {
+            $scope.currentPage = last;
+        }
+        $scope.thisPage = function (i) {
+            $scope.currentPage = i;
+        }
+        $scope.totalPage = function (size, pageSize) {
+            $scope.size = $window.Math.ceil(size / pageSize);
+            return $window.Math.ceil(size / pageSize);
+        }
+        $scope.filterRadioApp = function () {
+            console.log('filter=' + $scope.filter);
+            $http({
+                method: 'GET',
+                //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+                url: listAPI.radioApp.getListRadioApp1,
+                data: {
+                    filter: $scope.filter
+                },
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res);
+                console.log('ddaay la filter' + $scope.filter);
+                if (res.status != 404 && res.status != 405) {
+                    $scope.data = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
                 }
             }, function err(e) {
                 $rootScope.checkError(e, $dialogAlert);
             })
         }
-    }
+        $scope.deleteRadioApp = function (ID) {
+            //id
+            $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        //url: host_api + '/xoa-dai-truyen-thanh-va-ung-dung',
+                        url: listAPI.radioApp.deleteRadioApp,
+                        data: {
+                            id: ID
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    }, function err(e) {
+                        $rootScope.checkError(e, $dialogAlert);
+                    })
+                }
 
-})
+            })
 
-// function seller quản lý thống kê doanh thu seller
-app.controller('selStatistic$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
-    if ($rootScope.$user && $rootScope.$user.Roles.indexOf('seller') < 0) {
-        $rootScope.$user = null;
-        $rootScope.login_active = true;
-        $state.go('account$signout');
-        return;
-    }
-    $rootScope.headTitle = "Đơn vị bán hàng > Thống kê doanh thu";
-    $scope.textloading = "Đang tải dữ liệu ...";
-    $(document).ready(function () {
-        setTimeout(function () {
-            $(".dateTimePicker").datetimepicker({
-                isRTL: false,
-                format: 'yyyy-mm-dd',
-                autoclose: true,
-                language: 'en',
-                minView: 2, //tat thoi gian
-                pickTime: false, //tat thoi gian
-                todayBtn: true,
-            });
-        }, 500);
-    });
-
-    var _timeTodate = function () {
-        var date = new Date();
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1,
-            day = date.getDate(),
-            hour = date.getHours();
-        month = month < 10 ? "0" + month : month,
-            day = day < 10 ? "0" + day : day;
-
-
-        return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
-    }
-    var _timeFromdate = function () {
-        //var date = new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000));// lùi 30 ngày
-        var date = new Date();
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1,
-            day = date.getDate(),
-            hour = date.getHours();
-        month = month < 10 ? "0" + month : month,
-            day = '01';///day < 10 ? "0" + day : day;
-
-
-        return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
-    }
-    $scope.from_date = _timeFromdate();
-    $scope.to_date = _timeTodate();
-    $scope.page = 0;
-    $scope.maxSize = 10;
-    $scope.bigTotalItems = 0;
-    $scope.bigCurrentPage = 1;
-    if ($rootScope.$user === null || $rootScope.$user === undefined) {
-        $log.info('redirect to login');
-        $location.path('/account/signin');
-        return;
-    }
-    fndata($http, $scope, 'statistic')
-    function fndata($http, $scope, action) {
-        search();
-        $scope.search = search;
-        // sort
-        $scope.sort = {
-            column: '',
-            descending: false
-        };
-
-        $scope.changeSorting = function (column) {
-
-            var sort = $scope.sort;
-
-            if (sort.column == column) {
-                sort.descending = !sort.descending;
-            } else {
-                sort.column = column;
-                sort.descending = false;
-            }
-        };
-        // thay đổi class khi sort
-        $scope.selectedCls = function (column) {
-            return column == $scope.sort.column && 'sort-' + $scope.sort.descending;
-        };
-
-        // search theo date, search theo productName or productCode
-        $scope.searchFilter = function () {
-            $scope.page = 0;
-            search();
         }
-        // paging
-        $scope.pageChanged = function () {
-            console.log('Page changed to: ' + $scope.bigCurrentPage);
-            $scope.page = $scope.bigCurrentPage - 1;
-            search();
+    })
+    app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/editRadioApp.json',
+            url: listAPI.radioApp.getRadioApp,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            //console.log(res);
+            // if (res.result > 0) {
+            if (res.status != 404 && res.status != 405) {
+                $scope.formData = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        //form tỉnh huyện xã
+        $scope.cities = [];
+        $scope.districts = [];
+        $scope.wards = [];
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/editRadioApp.json',
+            url: 'http://127.0.0.1:5500/admin/data/data.json',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            //console.log(res);
+            // if (res.result > 0) {
+            if (res.status != 404 && res.status != 405) {
+                $scope.cities = res.data;
+                //console.log($scope.cities);
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.listDistricts = function () {
+            if ($scope.formData.province != '') {
+                for (i in $scope.cities) {
+                    //console.log($scope.cities[i]);
+                    if ($scope.formData.province == $scope.cities[i].Name) {
+                        $scope.districts = $scope.cities[i].Districts;
+                        //console.log('dis' + $scope.districts);
+                        break;
+                    }
+                }
+            }
+        }
+        $scope.listWards = function () {
+            if ($scope.formData.district != '') {
+                for (i in $scope.districts) {
+                    //console.log($scope.districts[i]);
+                    if ($scope.formData.district == $scope.districts[i].Name) {
+                        $scope.wards = $scope.districts[i].Wards;
+                        //console.log($scope.wards);
+                        break;
+                    }
+                }
+            }
+        }
+        $scope.editRadioApp = function () {
+            console.log($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'cap-nhat-dai-truyen-thanh-va-ung-dung',
+                url: listAPI.radioApp.editRadioApp,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageRadioApp");
+                    });
+
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
         };
-        // load data api
-        function search() {
-            $scope.data = [];
-            $scope.totalRow = 0;
+    })
+    app.controller('addRadioApp', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $scope.cities = [];
+        $scope.districts = [];
+        $scope.wards = [];
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/editRadioApp.json',
+            url: 'http://127.0.0.1:5500/admin/data/data.json',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            //console.log(res);
+            // if (res.result > 0) {
+            if (res.status != 404 && res.status != 405) {
+                $scope.cities = res.data;
+                //console.log($scope.cities);
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.listDistricts = function () {
+            if ($scope.formData.province != '') {
+                for (i in $scope.cities) {
+                    //console.log($scope.cities[i]);
+                    if ($scope.formData.province == $scope.cities[i].Name) {
+                        $scope.districts = $scope.cities[i].Districts;
+                        //console.log('dis' + $scope.districts);
+                        break;
+                    }
+                }
+            }
+        }
+        $scope.listWards = function () {
+            if ($scope.formData.district != '') {
+                for (i in $scope.districts) {
+                    //console.log($scope.districts[i]);
+                    if ($scope.formData.district == $scope.districts[i].Name) {
+                        $scope.wards = $scope.districts[i].Wards;
+                        //console.log($scope.wards);
+                        break;
+                    }
+                }
+            }
+        }
+        $scope.addRadioApp = function () {
+            console.log($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'them-thiet-bi-cum-loa',
+                url: listAPI.radioApp.addRadioApp,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageRadioApp");
+                    });
+
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+    })
+    app.controller('selList$Ctrll', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $dialogShowForm, $uibModalStack, $timeout, $stateParams, $window) {
+
+        loadDatachannel();
+        function loadDatachannel() {
             $http({
                 method: 'GET',
-                url: host_api + 'api/report/seller?action=statistic&filter=' + ($scope.filter || '') + '&num=' + $scope.maxSize + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date,
+                url: host_api + 'api/channel/get?action=list',
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res);
+                if (res.data.result > 0) {
+                    $scope.dataListChannel = res.data.data;
+                } else {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+            $http({
+                method: 'GET',
+                url: host_api + 'api/channel/get?action=producer',
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res);
+                if (res.data.result > 0) {
+                    $scope.dataListProducer = res.data.data;
+                } else {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+        $rootScope.headTitle = 'Đơn vị bán hàng > Quản lý sản phẩm';
+        $scope.textloading = "Đang tải dữ liệu ...";
+        $scope.page = 0;
+        $scope.totalRow = 0;
+        $scope.maxSize = 10;
+        $scope.bigTotalItems = 0;
+        $scope.bigCurrentPage = 1;
+        $scope.flag = false;
+        if ($rootScope.$user === null || $rootScope.$user === undefined) {
+            $log.info('redirect to login');
+            $location.path('/account/signin');
+            return;
+        }
+        fndata($http, $scope, 'product')
+        function fndata($http, $scope, action) {
+            search()
+            $scope.search = search;
+            // sort
+            $scope.sort = {
+                column: '',
+                descending: false
+            };
+
+            $scope.changeSorting = function (column) {
+
+                var sort = $scope.sort;
+
+                if (sort.column == column) {
+                    sort.descending = !sort.descending;
+                } else {
+                    sort.column = column;
+                    sort.descending = false;
+                }
+            };
+            // thay đổi class khi sort
+            $scope.selectedCls = function (column) {
+                return column == $scope.sort.column && 'sort-' + $scope.sort.descending;
+            };
+
+
+            // search theo date, search theo productName or productCode
+            $scope.searchFilter = function () {
+                $scope.page = 0;
+                search();
+            }
+            // paging
+            $scope.pageChanged = function () {
+                $scope.page = $scope.bigCurrentPage - 1;
+                console.log('Page changed to: ' + $scope.bigCurrentPage);
+                search();
+            };
+            // load data api
+            function search() {
+                $scope.data = [];
+                $scope.totalRow = 0;
+                $http({
+                    method: 'GET',
+                    url: host_api + 'api/report/seller?action=' + action + '&filter=' + ($scope.filter || '') + '&producer=' + ($scope.filter_producer || '') + '&channel=' + ($scope.filter_channel || '') + '&num=' + $scope.maxSize + '&page=' + ($scope.page || ''),
+                    headers: {
+                        'Authorization': "Bearer " + $window.localStorage.token
+                    }
+                }).then(function (res) {
+                    //console.log(res)                  
+                    if (res.data.result > 0) {
+                        $scope.data = res.data.data.detail;
+                        $scope.totalRow = res.data.data.total_row;
+                        $scope.bigTotalItems = res.data.data.total_row;
+                        $(document).ready(function () {
+                            $('.btnProductToggle').bootstrapToggle({
+                                on: 'Kích hoạt',
+                                off: 'Ngừng kích hoạt',
+                                size: "mini",
+                                style: "btnToggleCustom"
+                            });
+                        })
+                    } else {
+                        //$scope.textloading = "Dữ liệu trống.";
+                        $scope.textloading = res.data.message;
+                        //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                    }
+                }, function err(e) {
+                    $rootScope.checkError(e, $dialogAlert);
+                })
+            }
+        }
+
+    })
+
+    // function seller quản lý thống kê doanh thu seller
+    app.controller('selStatistic$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
+        if ($rootScope.$user && $rootScope.$user.Roles.indexOf('seller') < 0) {
+            $rootScope.$user = null;
+            $rootScope.login_active = true;
+            $state.go('account$signout');
+            return;
+        }
+        $rootScope.headTitle = "Đơn vị bán hàng > Thống kê doanh thu";
+        $scope.textloading = "Đang tải dữ liệu ...";
+        $(document).ready(function () {
+            setTimeout(function () {
+                $(".dateTimePicker").datetimepicker({
+                    isRTL: false,
+                    format: 'yyyy-mm-dd',
+                    autoclose: true,
+                    language: 'en',
+                    minView: 2, //tat thoi gian
+                    pickTime: false, //tat thoi gian
+                    todayBtn: true,
+                });
+            }, 500);
+        });
+
+        var _timeTodate = function () {
+            var date = new Date();
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours();
+            month = month < 10 ? "0" + month : month,
+                day = day < 10 ? "0" + day : day;
+
+
+            return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
+        }
+        var _timeFromdate = function () {
+            //var date = new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000));// lùi 30 ngày
+            var date = new Date();
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours();
+            month = month < 10 ? "0" + month : month,
+                day = '01';///day < 10 ? "0" + day : day;
+
+
+            return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
+        }
+        $scope.from_date = _timeFromdate();
+        $scope.to_date = _timeTodate();
+        $scope.page = 0;
+        $scope.maxSize = 10;
+        $scope.bigTotalItems = 0;
+        $scope.bigCurrentPage = 1;
+        if ($rootScope.$user === null || $rootScope.$user === undefined) {
+            $log.info('redirect to login');
+            $location.path('/account/signin');
+            return;
+        }
+        fndata($http, $scope, 'statistic')
+        function fndata($http, $scope, action) {
+            search();
+            $scope.search = search;
+            // sort
+            $scope.sort = {
+                column: '',
+                descending: false
+            };
+
+            $scope.changeSorting = function (column) {
+
+                var sort = $scope.sort;
+
+                if (sort.column == column) {
+                    sort.descending = !sort.descending;
+                } else {
+                    sort.column = column;
+                    sort.descending = false;
+                }
+            };
+            // thay đổi class khi sort
+            $scope.selectedCls = function (column) {
+                return column == $scope.sort.column && 'sort-' + $scope.sort.descending;
+            };
+
+            // search theo date, search theo productName or productCode
+            $scope.searchFilter = function () {
+                $scope.page = 0;
+                search();
+            }
+            // paging
+            $scope.pageChanged = function () {
+                console.log('Page changed to: ' + $scope.bigCurrentPage);
+                $scope.page = $scope.bigCurrentPage - 1;
+                search();
+            };
+            // load data api
+            function search() {
+                $scope.data = [];
+                $scope.totalRow = 0;
+                $http({
+                    method: 'GET',
+                    url: host_api + 'api/report/seller?action=statistic&filter=' + ($scope.filter || '') + '&num=' + $scope.maxSize + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date,
+                    headers: {
+                        'Authorization': "Bearer " + $window.localStorage.token
+                    }
+                }).then(function (res) {
+                    if (res.data.result > 0) {
+                        $scope.data = res.data.data.detail;
+                        $scope.totalRow = res.data.data.total_row;
+                        $scope.bigTotalItems = res.data.data.total_row;
+                    } else {
+                        $scope.textloading = "Dữ liệu trống.";
+                    }
+                }, function err(e) {
+                    $rootScope.checkError(e, $dialogAlert);
+
+                })
+            }
+
+        }
+        const width = 320; // We will scale the photo width to this
+        let height = 0; // This will be computed based on the input stream
+
+        // |streaming| indicates whether or not we're currently streaming
+        // video from the camera. Obviously, we start at false.
+
+
+
+        // The various HTML elements we need to configure or control. These
+        // will be set by the startup() function.
+
+
+
+        // Capture a photo by fetching the current contents of the video
+        // and drawing it into a canvas, then converting that to a PNG
+        // format data URL. By drawing it on an offscreen canvas and then
+        // drawing that to the screen, we can change its size and/or apply
+        // other changes before drawing it.
+        // vars
+
+
+        //show seller detail
+        $scope.productDetail = function (code) {
+            $http({
+                method: 'GET',
+                url: host_api + 'api/common/get?action=productdetail&productcode=' + code,
                 headers: {
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
             }).then(function (res) {
                 if (res.data.result > 0) {
-                    $scope.data = res.data.data.detail;
-                    $scope.totalRow = res.data.data.total_row;
-                    $scope.bigTotalItems = res.data.data.total_row;
-                } else {
-                    $scope.textloading = "Dữ liệu trống.";
-                }
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-
-            })
-        }
-
-    }
-    const width = 320; // We will scale the photo width to this
-    let height = 0; // This will be computed based on the input stream
-
-    // |streaming| indicates whether or not we're currently streaming
-    // video from the camera. Obviously, we start at false.
-
-
-
-    // The various HTML elements we need to configure or control. These
-    // will be set by the startup() function.
-
-
-
-    // Capture a photo by fetching the current contents of the video
-    // and drawing it into a canvas, then converting that to a PNG
-    // format data URL. By drawing it on an offscreen canvas and then
-    // drawing that to the screen, we can change its size and/or apply
-    // other changes before drawing it.
-    // vars
-
-
-    //show seller detail
-    $scope.productDetail = function (code) {
-        $http({
-            method: 'GET',
-            url: host_api + 'api/common/get?action=productdetail&productcode=' + code,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            if (res.data.result > 0) {
-                var detailProduct = res.data.data;
-                var modal = $uibModal.open({
-                    animation: 1000,
-                    backdrop: 'static',
-                    ariaLabelledBy: 'modal-title',
-                    ariaDescribedBy: 'modal-body',
-                    template: `<div class="modal-header label-primary" style="position:relative">\
+                    var detailProduct = res.data.data;
+                    var modal = $uibModal.open({
+                        animation: 1000,
+                        backdrop: 'static',
+                        ariaLabelledBy: 'modal-title',
+                        ariaDescribedBy: 'modal-body',
+                        template: `<div class="modal-header label-primary" style="position:relative">\
                     <h4 class ="modal-title" style="color:#fff" >${detailProduct.product_name}</h4>\
                     </div>\
                     <div style="" id="print">
@@ -2045,387 +2268,387 @@ app.controller('selStatistic$Ctrl', function ($http, $scope, $rootScope, $state,
                     <div class ="modal-footer">\                           
                         <button class ="btn btn-default" ng-click="cancel()"  >Đóng</button>\
                     </div>`,
-                    controller: function ($scope, $uibModalInstance) {
+                        controller: function ($scope, $uibModalInstance) {
 
-                        $scope.cancel = function () {
-                            $uibModalInstance.close(false)
-                        };
-                    },
-                    //controllerAs: $scope,
-                    size: 'xs',//size sm,xs,lg   
-                    windowClass: 'your-modal-class',
+                            $scope.cancel = function () {
+                                $uibModalInstance.close(false)
+                            };
+                        },
+                        //controllerAs: $scope,
+                        size: 'xs',//size sm,xs,lg   
+                        windowClass: 'your-modal-class',
 
-                });
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-
-
-    };
-
-    $(document).ready(function () {
-        let streaming = false;
-        let video = null;
-        let canvas = null;
-        let photo = null;
-        let startbutton = null;
-        // vars
-        let result = document.querySelector('.result'),
-            img_result = document.querySelector('.img-result'),
-            img_w = document.querySelector('.img-w'),
-            img_h = document.querySelector('.img-h'),
-            options = document.querySelector('.options'),
-            save = document.querySelector('.save'),
-            cropped = document.querySelector('.cropped'),
-            dwn = document.querySelector('.download'),
-            upload = document.querySelector('#file-input'),
-            cropper = '';
-
-        // on change show image with crop options
-        upload.addEventListener('change', (e) => {
-            if (e.target.files.length) {
-                // start file reader
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    if (e.target.result) {
-                        // create new image
-                        let img = document.createElement('img');
-                        img.id = 'image';
-                        img.src = e.target.result
-                        // clean result before
-                        result.innerHTML = '';
-                        // append new image
-                        result.appendChild(img);
-                        // show save btn and options
-                        save.classList.remove('hide');
-                        options.classList.remove('hide');
-                        // init cropper
-                        cropper = new Cropper(img);
-                    }
-                };
-                reader.readAsDataURL(e.target.files[0]);
-            }
-        });
-
-        // save on click
-        save.addEventListener('click', (e) => {
-            e.preventDefault();
-            // get result to data uri
-            let imgSrc = cropper.getCroppedCanvas({
-                width: img_w.value // input value
-            }).toDataURL();
-            // remove hide class of img
-            cropped.classList.remove('hide');
-            img_result.classList.remove('hide');
-            // show image cropped
-            cropped.src = imgSrc;
-            dwn.classList.remove('hide');
-            dwn.download = 'imagename.png';
-            dwn.setAttribute('href', imgSrc);
-        });
-
-        $scope.checkCamera = function () {
-            video = document.getElementById("video");
-            canvas = document.getElementById("canvas");
-            photo = document.getElementById("photo");
-            startbutton = document.getElementById("startbutton");
-
-            navigator.mediaDevices
-                .getUserMedia({ video: true, audio: true })
-                .then((stream) => {
-                    video.srcObject = stream;
-                    video.play();
-                })
-                .catch((err) => {
-                    console.error(`An error occurred: ${err}`);
-                });
-
-            video.addEventListener(
-                "canplay",
-                (ev) => {
-                    if (!streaming) {
-                        height = video.videoHeight / (video.videoWidth / width);
-
-                        // Firefox currently has a bug where the height can't be read from
-                        // the video, so we will make assumptions if this happens.
-
-                        if (isNaN(height)) {
-                            height = width / (4 / 3);
-                        }
-
-                        video.setAttribute("width", width);
-                        video.setAttribute("height", height);
-                        canvas.setAttribute("width", width);
-                        canvas.setAttribute("height", height);
-                        streaming = true;
-                    }
-                },
-                false
-            );
-
-            startbutton.addEventListener(
-                "click",
-                (ev) => {
-                    takepicture();
-                    ev.preventDefault();
-                },
-                false
-            );
-
-            clearphoto();
-        }
-        function clearphoto() {
-            const context = canvas.getContext("2d");
-            context.fillStyle = "#AAA";
-            context.fillRect(0, 0, canvas.width, canvas.height);
-
-            const data = canvas.toDataURL("image/png");
-            photo.setAttribute("src", data);
-        }
-
-        function takepicture() {
-            const context = canvas.getContext("2d");
-            if (width && height) {
-                canvas.width = width;
-                canvas.height = height;
-                context.drawImage(video, 0, 0, width, height);
-
-                const data = canvas.toDataURL("image/png");
-                photo.setAttribute("src", data);
-                // create new image
-
-                let img = document.createElement('img');
-                img.id = 'image';
-                img.src = data;
-                // clean result before
-                result.innerHTML = '';
-                // append new image
-                result.appendChild(img);
-                // show save btn and options
-                save.classList.remove('hide');
-                options.classList.remove('hide');
-                // init cropper
-                cropper = new Cropper(img);
-            } else {
-                clearphoto();
-            }
-
-        }
-    })
-
-    //$scope.dataHc = groupBy($scope.dataHc, pet => pet.producer.product_code);
-    function groupBy(list, keyGetter) {
-        const map = new Map();
-        list.forEach((item) => {
-            const key = keyGetter(item);
-            const collection = map.get(key);
-            if (!collection) {
-                map.set(key, [item]);
-            } else {
-                collection.push(item);
-            }
-        });
-        return map;
-    }
-})
-
-// function them moi tai khoan
-app.controller('add$account$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
-    //default states
-    $scope.selectRoles = [];
-    $scope.selectedList = {};
-    $scope.dataForm = {};
-    $(document).ready(function () {
-        $('#enableForm')
-            .bootstrapValidator({
-                feedbackIcons: {
-                    valid: 'glyphicon glyphicon-ok',
-                    invalid: 'glyphicon glyphicon-remove',
-                    validating: 'glyphicon glyphicon-refresh'
-                },
-                fields: {
-                    password: {
-                        enabled: false,
-                        validators: {
-                            notEmpty: {
-                                message: 'Mật khẩu không được để trống'
-                            }
-                        }
-                    },
-                    confirm_password: {
-                        enabled: false,
-                        validators: {
-                            notEmpty: {
-                                message: 'Mật khẩu không được để trống'
-                            },
-                            identical: {
-                                field: 'password',
-                                message: 'Xác nhận mật khẩu không chính xác'
-                            }
-                        }
-                    },
-                    'rolle[]': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Vui lòng chọn ít nhất một vai trò'
-                            }
-                        }
-                    }
-                }
-            })
-            // Enable the password/confirm password validators if the password is not empty
-            .on('keyup', '[name="password"]', function () {
-                var isEmpty = $(this).val() === '';
-                $('#enableForm')
-                    .bootstrapValidator('enableFieldValidators', 'password', !isEmpty)
-                    .bootstrapValidator('enableFieldValidators', 'confirm_password', !isEmpty);
-
-                // Revalidate the field when user start typing in the password field
-                if ($(this).val().length === 1) {
-                    $('#enableForm').bootstrapValidator('validateField', 'password')
-                        .bootstrapValidator('validateField', 'confirm_password');
-                }
-            })
-            .on('success.field.bv', function (e, data) {
-                var $parent = data.element.parents('.form-group');
-                // Hide the success icon
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('error.field.bv', function (e, data) {
-                // Hide the success icon
-                var $parent = data.element.parents('.form-group');
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('success.form.bv', function (e) {
-                // Prevent form submission
-                e.preventDefault();
-                $scope.submit();
-            });
-    });
-    //api get list roles
-    $http({
-        method: 'GET',
-        url: host_api + 'api/auth/get?action=roles',
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        // console.log(res);
-        if (res.data.result > 0) {
-            $scope.selectRoles = res.data.data;
-        }
-
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-
-    /**
-        * Action
-        */
-    $scope.submit = function () {
-        var _rolle = []
-        angular.forEach($scope.selectedList, function (selected, day) {
-            if (selected) {
-                //console.log(day);
-                var role = parseInt(day);
-                _rolle.push(role);
-            }
-        });
-        $scope.dataForm.Roles = _rolle;
-        console.log($scope.dataForm);
-        setTimeout(function () {
-            if (_rolle.length <= 0) {
-                return false;
-            }
-            //api get list roles
-            $http({
-                method: 'POST',
-                url: host_api + 'api/auth/create',
-                data: $scope.dataForm,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.data.result > 0) {
-                    //console.log(res);
-                    $dialogAlert("Thêm tài khoản thành công", "Thông báo!", "success", function (res) {
-                        $state.go("list$account");
                     });
-
                 } else {
-                    $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
                 }
 
             }, function err(e) {
                 $rootScope.checkError(e, $dialogAlert);
             })
-        }, 1000)
 
-    };
-});
-// function danh sach tai khoan
-app.controller('list$account$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
-    //
-    $scope.filter = "";
-    $scope.textloading = "Đang tải dữ liệu";
-    $scope.showRow = false;
 
-    //api get list account
+        };
 
-    $scope.search = function () {
-        search();
-    }
-    search();
-    function search() {
+        $(document).ready(function () {
+            let streaming = false;
+            let video = null;
+            let canvas = null;
+            let photo = null;
+            let startbutton = null;
+            // vars
+            let result = document.querySelector('.result'),
+                img_result = document.querySelector('.img-result'),
+                img_w = document.querySelector('.img-w'),
+                img_h = document.querySelector('.img-h'),
+                options = document.querySelector('.options'),
+                save = document.querySelector('.save'),
+                cropped = document.querySelector('.cropped'),
+                dwn = document.querySelector('.download'),
+                upload = document.querySelector('#file-input'),
+                cropper = '';
+
+            // on change show image with crop options
+            upload.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    // start file reader
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        if (e.target.result) {
+                            // create new image
+                            let img = document.createElement('img');
+                            img.id = 'image';
+                            img.src = e.target.result
+                            // clean result before
+                            result.innerHTML = '';
+                            // append new image
+                            result.appendChild(img);
+                            // show save btn and options
+                            save.classList.remove('hide');
+                            options.classList.remove('hide');
+                            // init cropper
+                            cropper = new Cropper(img);
+                        }
+                    };
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+
+            // save on click
+            save.addEventListener('click', (e) => {
+                e.preventDefault();
+                // get result to data uri
+                let imgSrc = cropper.getCroppedCanvas({
+                    width: img_w.value // input value
+                }).toDataURL();
+                // remove hide class of img
+                cropped.classList.remove('hide');
+                img_result.classList.remove('hide');
+                // show image cropped
+                cropped.src = imgSrc;
+                dwn.classList.remove('hide');
+                dwn.download = 'imagename.png';
+                dwn.setAttribute('href', imgSrc);
+            });
+
+            $scope.checkCamera = function () {
+                video = document.getElementById("video");
+                canvas = document.getElementById("canvas");
+                photo = document.getElementById("photo");
+                startbutton = document.getElementById("startbutton");
+
+                navigator.mediaDevices
+                    .getUserMedia({ video: true, audio: true })
+                    .then((stream) => {
+                        video.srcObject = stream;
+                        video.play();
+                    })
+                    .catch((err) => {
+                        console.error(`An error occurred: ${err}`);
+                    });
+
+                video.addEventListener(
+                    "canplay",
+                    (ev) => {
+                        if (!streaming) {
+                            height = video.videoHeight / (video.videoWidth / width);
+
+                            // Firefox currently has a bug where the height can't be read from
+                            // the video, so we will make assumptions if this happens.
+
+                            if (isNaN(height)) {
+                                height = width / (4 / 3);
+                            }
+
+                            video.setAttribute("width", width);
+                            video.setAttribute("height", height);
+                            canvas.setAttribute("width", width);
+                            canvas.setAttribute("height", height);
+                            streaming = true;
+                        }
+                    },
+                    false
+                );
+
+                startbutton.addEventListener(
+                    "click",
+                    (ev) => {
+                        takepicture();
+                        ev.preventDefault();
+                    },
+                    false
+                );
+
+                clearphoto();
+            }
+            function clearphoto() {
+                const context = canvas.getContext("2d");
+                context.fillStyle = "#AAA";
+                context.fillRect(0, 0, canvas.width, canvas.height);
+
+                const data = canvas.toDataURL("image/png");
+                photo.setAttribute("src", data);
+            }
+
+            function takepicture() {
+                const context = canvas.getContext("2d");
+                if (width && height) {
+                    canvas.width = width;
+                    canvas.height = height;
+                    context.drawImage(video, 0, 0, width, height);
+
+                    const data = canvas.toDataURL("image/png");
+                    photo.setAttribute("src", data);
+                    // create new image
+
+                    let img = document.createElement('img');
+                    img.id = 'image';
+                    img.src = data;
+                    // clean result before
+                    result.innerHTML = '';
+                    // append new image
+                    result.appendChild(img);
+                    // show save btn and options
+                    save.classList.remove('hide');
+                    options.classList.remove('hide');
+                    // init cropper
+                    cropper = new Cropper(img);
+                } else {
+                    clearphoto();
+                }
+
+            }
+        })
+
+        //$scope.dataHc = groupBy($scope.dataHc, pet => pet.producer.product_code);
+        function groupBy(list, keyGetter) {
+            const map = new Map();
+            list.forEach((item) => {
+                const key = keyGetter(item);
+                const collection = map.get(key);
+                if (!collection) {
+                    map.set(key, [item]);
+                } else {
+                    collection.push(item);
+                }
+            });
+            return map;
+        }
+    })
+
+    // function them moi tai khoan
+    app.controller('add$account$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
+        //default states
+        $scope.selectRoles = [];
+        $scope.selectedList = {};
+        $scope.dataForm = {};
+        $(document).ready(function () {
+            $('#enableForm')
+                .bootstrapValidator({
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        password: {
+                            enabled: false,
+                            validators: {
+                                notEmpty: {
+                                    message: 'Mật khẩu không được để trống'
+                                }
+                            }
+                        },
+                        confirm_password: {
+                            enabled: false,
+                            validators: {
+                                notEmpty: {
+                                    message: 'Mật khẩu không được để trống'
+                                },
+                                identical: {
+                                    field: 'password',
+                                    message: 'Xác nhận mật khẩu không chính xác'
+                                }
+                            }
+                        },
+                        'rolle[]': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Vui lòng chọn ít nhất một vai trò'
+                                }
+                            }
+                        }
+                    }
+                })
+                // Enable the password/confirm password validators if the password is not empty
+                .on('keyup', '[name="password"]', function () {
+                    var isEmpty = $(this).val() === '';
+                    $('#enableForm')
+                        .bootstrapValidator('enableFieldValidators', 'password', !isEmpty)
+                        .bootstrapValidator('enableFieldValidators', 'confirm_password', !isEmpty);
+
+                    // Revalidate the field when user start typing in the password field
+                    if ($(this).val().length === 1) {
+                        $('#enableForm').bootstrapValidator('validateField', 'password')
+                            .bootstrapValidator('validateField', 'confirm_password');
+                    }
+                })
+                .on('success.field.bv', function (e, data) {
+                    var $parent = data.element.parents('.form-group');
+                    // Hide the success icon
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('error.field.bv', function (e, data) {
+                    // Hide the success icon
+                    var $parent = data.element.parents('.form-group');
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('success.form.bv', function (e) {
+                    // Prevent form submission
+                    e.preventDefault();
+                    $scope.submit();
+                });
+        });
+        //api get list roles
         $http({
             method: 'GET',
-            url: host_api + 'api/auth/get?action=userlist&filter=' + $scope.filter,
+            url: host_api + 'api/auth/get?action=roles',
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
         }).then(function (res) {
             // console.log(res);
             if (res.data.result > 0) {
-                $scope.listAccounts = res.data.data.detail;
-                $scope.showRow = true;
-            } else {
-                $scope.listAccounts = [];
-                $scope.showRow = false;
-                $scope.textloading = res.data.message;
+                $scope.selectRoles = res.data.data;
             }
 
         }, function err(e) {
-            console.log(e);
-            $scope.showRow = false;
-            $scope.textloading = e.data.message;
             $rootScope.checkError(e, $dialogAlert);
         })
-    }
 
-    $scope.detailUser = function (id, refid) {
-        //api get detail user follow id,refid
-        $http({
-            method: 'GET',
-            url: host_api + 'api/auth/get?action=userbyid&userid=' + id + '&refid=' + refid,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            console.log(res);
-            if (res.data.result > 0) {
-                //$scope.selectRoles = res.data.data;
-                var dataInfo = res.data.data;
-                var modal = $uibModal.open({
-                    animation: 1000,
-                    backdrop: 'static',
-                    ariaLabelledBy: 'modal-title',
-                    ariaDescribedBy: 'modal-body',
-                    template: `<div class="modal-header label-primary" style="position:relative">\
+        /**
+            * Action
+            */
+        $scope.submit = function () {
+            var _rolle = []
+            angular.forEach($scope.selectedList, function (selected, day) {
+                if (selected) {
+                    //console.log(day);
+                    var role = parseInt(day);
+                    _rolle.push(role);
+                }
+            });
+            $scope.dataForm.Roles = _rolle;
+            console.log($scope.dataForm);
+            setTimeout(function () {
+                if (_rolle.length <= 0) {
+                    return false;
+                }
+                //api get list roles
+                $http({
+                    method: 'POST',
+                    url: host_api + 'api/auth/create',
+                    data: $scope.dataForm,
+                    headers: {
+                        'Authorization': "Bearer " + $window.localStorage.token
+                    }
+                }).then(function (res) {
+                    // console.log(res);
+                    if (res.data.result > 0) {
+                        //console.log(res);
+                        $dialogAlert("Thêm tài khoản thành công", "Thông báo!", "success", function (res) {
+                            $state.go("list$account");
+                        });
+
+                    } else {
+                        $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                    }
+
+                }, function err(e) {
+                    $rootScope.checkError(e, $dialogAlert);
+                })
+            }, 1000)
+
+        };
+    });
+    // function danh sach tai khoan
+    app.controller('list$account$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
+        //
+        $scope.filter = "";
+        $scope.textloading = "Đang tải dữ liệu";
+        $scope.showRow = false;
+
+        //api get list account
+
+        $scope.search = function () {
+            search();
+        }
+        search();
+        function search() {
+            $http({
+                method: 'GET',
+                url: host_api + 'api/auth/get?action=userlist&filter=' + $scope.filter,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.data.result > 0) {
+                    $scope.listAccounts = res.data.data.detail;
+                    $scope.showRow = true;
+                } else {
+                    $scope.listAccounts = [];
+                    $scope.showRow = false;
+                    $scope.textloading = res.data.message;
+                }
+
+            }, function err(e) {
+                console.log(e);
+                $scope.showRow = false;
+                $scope.textloading = e.data.message;
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+
+        $scope.detailUser = function (id, refid) {
+            //api get detail user follow id,refid
+            $http({
+                method: 'GET',
+                url: host_api + 'api/auth/get?action=userbyid&userid=' + id + '&refid=' + refid,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                console.log(res);
+                if (res.data.result > 0) {
+                    //$scope.selectRoles = res.data.data;
+                    var dataInfo = res.data.data;
+                    var modal = $uibModal.open({
+                        animation: 1000,
+                        backdrop: 'static',
+                        ariaLabelledBy: 'modal-title',
+                        ariaDescribedBy: 'modal-body',
+                        template: `<div class="modal-header label-primary" style="position:relative">\
                     <h4 class="modal-title" style="color:#fff" >Thông tin tài khoản </h4>\
                     </div>\
                     <div style="max-height:500px;overflow-y:scroll" id="print">
@@ -2439,430 +2662,430 @@ app.controller('list$account$Ctrl', function ($http, $scope, $rootScope, $state,
                     <div class ="modal-footer">\
                         <button class ="btn btn-default" ng-click="cancel()" data-dismiss="modal" >Đóng</button>\
                     </div>`,
-                    controller: function ($scope, $uibModalInstance) {
-                        $scope.cancel = function () {
-                            $uibModalInstance.close(false);
-                        };
-                        $scope.dataInfoUser = dataInfo;
-                    },
-                    controllerAs: $scope,
-                    size: 'xs',//size,   
-                    windowClass: 'your-modal-class',
+                        controller: function ($scope, $uibModalInstance) {
+                            $scope.cancel = function () {
+                                $uibModalInstance.close(false);
+                            };
+                            $scope.dataInfoUser = dataInfo;
+                        },
+                        controllerAs: $scope,
+                        size: 'xs',//size,   
+                        windowClass: 'your-modal-class',
 
+                    });
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+
+        $scope.deleteUser = function (id, refid) {
+            //id, refid
+            $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: host_api + 'api/auth/delete',
+                        data: {
+                            UserId: id,
+                            RefId: refid
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    })
+                }
+
+            })
+
+        }
+    });
+    // function chinh sua tai khoan
+    app.controller('edit$account$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
+        //default states
+        $scope.uid = $stateParams.id;
+        $scope.refid = $stateParams.refid;
+        $scope.selectRoles = [];
+        $scope.selectedList = [];
+        $scope.dataForm = {};
+        $(document).ready(function () {
+            $('#enableForm')
+                .bootstrapValidator({
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        password: {
+                            enabled: false,
+                            validators: {
+                                notEmpty: {
+                                    message: 'Mật khẩu không được để trống'
+                                }
+                            }
+                        },
+                        confirm_password: {
+                            enabled: false,
+                            validators: {
+                                notEmpty: {
+                                    message: 'Mật khẩu không được để trống'
+                                },
+                                identical: {
+                                    field: 'password',
+                                    message: 'Xác nhận mật khẩu không chính xác'
+                                }
+                            }
+                        },
+                        'rolle[]': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Vui lòng chọn ít nhất một vai trò'
+                                }
+                            }
+                        }
+                    }
+                })
+                // Enable the password/confirm password validators if the password is not empty
+                .on('keyup', '[name="password"]', function () {
+                    var isEmpty = $(this).val() === '';
+                    $('#enableForm')
+                        .bootstrapValidator('enableFieldValidators', 'password', !isEmpty)
+                        .bootstrapValidator('enableFieldValidators', 'confirm_password', !isEmpty);
+
+                    // Revalidate the field when user start typing in the password field
+                    if ($(this).val().length === 1) {
+                        $('#enableForm').bootstrapValidator('validateField', 'password')
+                            .bootstrapValidator('validateField', 'confirm_password');
+                    }
+                })
+                .on('success.field.bv', function (e, data) {
+                    var $parent = data.element.parents('.form-group');
+                    // Hide the success icon
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('error.field.bv', function (e, data) {
+                    // Hide the success icon
+                    var $parent = data.element.parents('.form-group');
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('success.form.bv', function (e) {
+                    // Prevent form submission
+                    e.preventDefault();
+                    $scope.submit();
                 });
+        });
+        //api get list roles
+        $http({
+            method: 'GET',
+            url: host_api + 'api/auth/get?action=roles',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            // console.log(res);
+            if (res.data.result > 0) {
+                $scope.selectRoles = res.data.data;
+                //api get detail user follow id,refid
+                $http({
+                    method: 'GET',
+                    url: host_api + 'api/auth/get?action=userbyid&userid=' + $scope.uid + '&refid=' + $scope.refid,
+                    headers: {
+                        'Authorization': "Bearer " + $window.localStorage.token
+                    }
+                }).then(function (res) {
+                    // console.log(res);
+                    if (res.data.result > 0) {
+                        var _data = res.data.data;
+                        $scope.accountName = _data.username;
+                        $scope.dataForm = {
+                            FullName: _data.fullname,
+                            Phone: _data.phone,
+                            Sex: _data.sex.toString(),
+                            Email: _data.email,
+                            RefId: $scope.refid,
+                            UserId: $scope.uid
+                        }
+                        console.log($scope.dataForm);
+                        angular.forEach(_data.roles, function (val) {
+                            angular.forEach($scope.selectRoles, function (item) {
+                                if (val.code === item.code) {
+                                    $scope.selectedList[item.code] = true;
+                                }
+                            });
+
+                        });
+
+                    }
+                }, function err(e) {
+                    $rootScope.checkError(e, $dialogAlert);
+                })
             }
 
         }, function err(e) {
             $rootScope.checkError(e, $dialogAlert);
         })
-    }
 
-    $scope.deleteUser = function (id, refid) {
-        //id, refid
-        $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
-            if (res) {
+        /**
+            * Action
+            */
+        $scope.submit = function () {
+            var _rolle = []
+            angular.forEach($scope.selectedList, function (selected, day) {
+                if (selected) {
+                    //console.log(day);
+                    var role = parseInt(day);
+                    _rolle.push(role);
+                }
+            });
+            $scope.dataForm.Roles = _rolle;
+            console.log($scope.dataForm);
+            setTimeout(function () {
+                if (_rolle.length <= 0) {
+                    return false;
+                }
+                //api get list roles
+                // return;
                 $http({
                     method: 'POST',
-                    url: host_api + 'api/auth/delete',
-                    data: {
-                        UserId: id,
-                        RefId: refid
-                    },
+                    url: host_api + 'api/auth/update',
+                    data: $scope.dataForm,
                     headers: {
                         'Authorization': "Bearer " + $window.localStorage.token
                     }
                 }).then(function (res) {
+                    // console.log(res);
                     if (res.data.result > 0) {
-                        $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
-                    } else {
-                        $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
-                    }
-                })
-            }
-
-        })
-
-    }
-});
-// function chinh sua tai khoan
-app.controller('edit$account$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
-    //default states
-    $scope.uid = $stateParams.id;
-    $scope.refid = $stateParams.refid;
-    $scope.selectRoles = [];
-    $scope.selectedList = [];
-    $scope.dataForm = {};
-    $(document).ready(function () {
-        $('#enableForm')
-            .bootstrapValidator({
-                feedbackIcons: {
-                    valid: 'glyphicon glyphicon-ok',
-                    invalid: 'glyphicon glyphicon-remove',
-                    validating: 'glyphicon glyphicon-refresh'
-                },
-                fields: {
-                    password: {
-                        enabled: false,
-                        validators: {
-                            notEmpty: {
-                                message: 'Mật khẩu không được để trống'
-                            }
-                        }
-                    },
-                    confirm_password: {
-                        enabled: false,
-                        validators: {
-                            notEmpty: {
-                                message: 'Mật khẩu không được để trống'
-                            },
-                            identical: {
-                                field: 'password',
-                                message: 'Xác nhận mật khẩu không chính xác'
-                            }
-                        }
-                    },
-                    'rolle[]': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Vui lòng chọn ít nhất một vai trò'
-                            }
-                        }
-                    }
-                }
-            })
-            // Enable the password/confirm password validators if the password is not empty
-            .on('keyup', '[name="password"]', function () {
-                var isEmpty = $(this).val() === '';
-                $('#enableForm')
-                    .bootstrapValidator('enableFieldValidators', 'password', !isEmpty)
-                    .bootstrapValidator('enableFieldValidators', 'confirm_password', !isEmpty);
-
-                // Revalidate the field when user start typing in the password field
-                if ($(this).val().length === 1) {
-                    $('#enableForm').bootstrapValidator('validateField', 'password')
-                        .bootstrapValidator('validateField', 'confirm_password');
-                }
-            })
-            .on('success.field.bv', function (e, data) {
-                var $parent = data.element.parents('.form-group');
-                // Hide the success icon
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('error.field.bv', function (e, data) {
-                // Hide the success icon
-                var $parent = data.element.parents('.form-group');
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('success.form.bv', function (e) {
-                // Prevent form submission
-                e.preventDefault();
-                $scope.submit();
-            });
-    });
-    //api get list roles
-    $http({
-        method: 'GET',
-        url: host_api + 'api/auth/get?action=roles',
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        // console.log(res);
-        if (res.data.result > 0) {
-            $scope.selectRoles = res.data.data;
-            //api get detail user follow id,refid
-            $http({
-                method: 'GET',
-                url: host_api + 'api/auth/get?action=userbyid&userid=' + $scope.uid + '&refid=' + $scope.refid,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.data.result > 0) {
-                    var _data = res.data.data;
-                    $scope.accountName = _data.username;
-                    $scope.dataForm = {
-                        FullName: _data.fullname,
-                        Phone: _data.phone,
-                        Sex: _data.sex.toString(),
-                        Email: _data.email,
-                        RefId: $scope.refid,
-                        UserId: $scope.uid
-                    }
-                    console.log($scope.dataForm);
-                    angular.forEach(_data.roles, function (val) {
-                        angular.forEach($scope.selectRoles, function (item) {
-                            if (val.code === item.code) {
-                                $scope.selectedList[item.code] = true;
-                            }
+                        //console.log(res);
+                        $dialogAlert("Cập nhật tài khoản thành công", "Thông báo!", "success", function (res) {
+                            $state.go("list$account");
                         });
 
-                    });
+                    } else {
+                        $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                    }
 
-                }
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        }
+                }, function err(e) {
+                    $rootScope.checkError(e, $dialogAlert);
+                })
+            }, 1000)
 
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-
-    /**
-        * Action
-        */
-    $scope.submit = function () {
-        var _rolle = []
-        angular.forEach($scope.selectedList, function (selected, day) {
-            if (selected) {
-                //console.log(day);
-                var role = parseInt(day);
-                _rolle.push(role);
-            }
-        });
-        $scope.dataForm.Roles = _rolle;
-        console.log($scope.dataForm);
-        setTimeout(function () {
-            if (_rolle.length <= 0) {
-                return false;
-            }
-            //api get list roles
-            // return;
-            $http({
-                method: 'POST',
-                url: host_api + 'api/auth/update',
-                data: $scope.dataForm,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.data.result > 0) {
-                    //console.log(res);
-                    $dialogAlert("Cập nhật tài khoản thành công", "Thông báo!", "success", function (res) {
-                        $state.go("list$account");
-                    });
-
-                } else {
-                    $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
-                }
-
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        }, 1000)
-
-    };
-});
-// function doi mat khau
-app.controller('change$password$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
-    $scope.dataForm = {};
-    $(document).ready(function () {
-        $('#enableForm')
-            .bootstrapValidator({
-                feedbackIcons: {
-                    valid: 'glyphicon glyphicon-ok',
-                    invalid: 'glyphicon glyphicon-remove',
-                    validating: 'glyphicon glyphicon-refresh'
-                },
-                fields: {
-                    Password: {
-                        enabled: false,
-                        validators: {
-                            notEmpty: {
-                                message: 'Mật khẩu không được để trống'
-                            }
-                        }
+        };
+    });
+    // function doi mat khau
+    app.controller('change$password$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
+        $scope.dataForm = {};
+        $(document).ready(function () {
+            $('#enableForm')
+                .bootstrapValidator({
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
                     },
-                    RePassword: {
-                        enabled: false,
-                        validators: {
-                            notEmpty: {
-                                message: 'Mật khẩu không được để trống'
-                            },
-                            identical: {
-                                field: 'Password',
-                                message: 'Xác nhận mật khẩu không chính xác'
+                    fields: {
+                        Password: {
+                            enabled: false,
+                            validators: {
+                                notEmpty: {
+                                    message: 'Mật khẩu không được để trống'
+                                }
+                            }
+                        },
+                        RePassword: {
+                            enabled: false,
+                            validators: {
+                                notEmpty: {
+                                    message: 'Mật khẩu không được để trống'
+                                },
+                                identical: {
+                                    field: 'Password',
+                                    message: 'Xác nhận mật khẩu không chính xác'
+                                }
                             }
                         }
                     }
-                }
-            })
-            // Enable the password/confirm password validators if the password is not empty
-            .on('keyup', '[name="Password"]', function () {
-                var isEmpty = $(this).val() === '';
-                $('#enableForm')
-                    .bootstrapValidator('enableFieldValidators', 'Password', !isEmpty)
-                    .bootstrapValidator('enableFieldValidators', 'RePassword', !isEmpty);
+                })
+                // Enable the password/confirm password validators if the password is not empty
+                .on('keyup', '[name="Password"]', function () {
+                    var isEmpty = $(this).val() === '';
+                    $('#enableForm')
+                        .bootstrapValidator('enableFieldValidators', 'Password', !isEmpty)
+                        .bootstrapValidator('enableFieldValidators', 'RePassword', !isEmpty);
 
-                // Revalidate the field when user start typing in the password field
-                if ($(this).val().length === 1) {
-                    $('#enableForm').bootstrapValidator('validateField', 'Password')
-                        .bootstrapValidator('validateField', 'RePassword');
-                }
-            })
-            .on('success.field.bv', function (e, data) {
-                var $parent = data.element.parents('.form-group');
-                // Hide the success icon
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('error.field.bv', function (e, data) {
-                // Hide the success icon
-                var $parent = data.element.parents('.form-group');
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('success.form.bv', function (e) {
-                // Prevent form submission
-                e.preventDefault();
-                $scope.submit();
-            });
-    });
-    /**
-        * Action
-        */
-    $scope.submit = function () {
-        //console.log($scope.dataForm);
-        setTimeout(function () {
-            // return;
-            $http({
-                method: 'POST',
-                url: host_api + 'api/auth/reset',
-                data: $scope.dataForm,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.data.result > 0) {
-                    //console.log(res);
-                    $dialogAlert("Cập nhật mật khẩu thành công", "Thông báo!", "success", function (res) {
-                        $state.go("list$account");
-                    });
-
-                } else {
-                    $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
-                }
-
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        }, 1000)
-
-    };
-});
-// function quan ly don hang microsoft
-app.controller('pmcs$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
-    if ($rootScope.$user && $rootScope.$user.Roles.indexOf('info') < 0) {
-        $rootScope.$user = null;
-        $rootScope.login_active = true;
-        $state.go('account$signout');
-        return;
-    }
-    if ($rootScope.$user === null || $rootScope.$user === undefined) {
-        $log.info('redirect to login');
-        $location.path('/account/signin');
-        return;
-    }
-    $rootScope.headTitle = 'Quản lý đơn hàng  > Microsoft';
-    $scope.textloading = "Đang tải dữ liệu ...";
-    $scope.page = 0;
-    $scope.num = 10;
-    $scope.totalRow = 0;
-    $scope.status = "-1";
-    $(document).ready(function () {
-        setTimeout(function () {
-            $(".dateTimePicker").datetimepicker({
-                isRTL: false,
-                format: 'yyyy-mm-dd',
-                autoclose: true,
-                language: 'en',
-                minView: 2, //tat thoi gian
-                pickTime: false, //tat thoi gian
-                todayBtn: true,
-            });
-        }, 500);
-    });
-
-    var _timeTodate = function () {
-        var date = new Date();
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1,
-            day = date.getDate(),
-            hour = date.getHours();
-        month = month < 10 ? "0" + month : month,
-            day = day < 10 ? "0" + day : day;
-        return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
-    }
-    var _timeFromdate = function () {
-        //var date = new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000));/ / lùi 30 ngày
-        var date = new Date();
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1,
-            day = date.getDate(),
-            hour = date.getHours();
-        month = month < 10 ? "0" + month : month,
-            day = '01';///day < 10 ? "0" + day : day;
-        return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
-    }
-    $scope.from_date = _timeFromdate();
-    $scope.to_date = _timeTodate();
-    // xac nhan don hang da khoi tao thong tin cho khach hang thanh cong
-    $scope.fnconfirm = function (subid) {
-        $dialogConfirm(`<p style="font-size:14px">Xác nhận đã khởi tạo thông tin cho khách hàng thành công?</p>
-            <input class ="form-control" ng-model="bankingRef" name="bankingRef" placeholder="Nhập ghi chú xác nhận thông tin" required>
-            </div>`, "Xác nhận", function (res) {
-            if (res) {
-                var _note = $("input[name='bankingRef']").val();
-                if ($.trim(_note) === "") {
-                    $dialogAlert("Ghi chú không được bỏ trống, vui lòng thực hiện lại!", "Thông báo", "warning", function (res) {
-                        $scope.fnconfirm(subid);
-                    });
-                    return;
-                }
+                    // Revalidate the field when user start typing in the password field
+                    if ($(this).val().length === 1) {
+                        $('#enableForm').bootstrapValidator('validateField', 'Password')
+                            .bootstrapValidator('validateField', 'RePassword');
+                    }
+                })
+                .on('success.field.bv', function (e, data) {
+                    var $parent = data.element.parents('.form-group');
+                    // Hide the success icon
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('error.field.bv', function (e, data) {
+                    // Hide the success icon
+                    var $parent = data.element.parents('.form-group');
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('success.form.bv', function (e) {
+                    // Prevent form submission
+                    e.preventDefault();
+                    $scope.submit();
+                });
+        });
+        /**
+            * Action
+            */
+        $scope.submit = function () {
+            //console.log($scope.dataForm);
+            setTimeout(function () {
+                // return;
                 $http({
-                    method: 'GET',
-                    url: window.host_api + 'api/common/get?action=kesconfirm&subsId=' + subid + '&note=' + _note,
+                    method: 'POST',
+                    url: host_api + 'api/auth/reset',
+                    data: $scope.dataForm,
                     headers: {
                         'Authorization': "Bearer " + $window.localStorage.token
                     }
-                }).then(function (response) {
-                    //console.log(response);
-                    if (response.data.result > 0) {
-                        $dialogAlert("Xác nhận thành công!", "Thông báo!", "success", function () {
-                            window.location.reload();
+                }).then(function (res) {
+                    // console.log(res);
+                    if (res.data.result > 0) {
+                        //console.log(res);
+                        $dialogAlert("Cập nhật mật khẩu thành công", "Thông báo!", "success", function (res) {
+                            $state.go("list$account");
                         });
+
                     } else {
-                        $scope.textloading = response.data.message;
-                        //$dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                        $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
                     }
 
-                }, function (res) {
-                    console.log(res);
-                    $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
+                }, function err(e) {
+                    $rootScope.checkError(e, $dialogAlert);
+                })
+            }, 1000)
+
+        };
+    });
+    // function quan ly don hang microsoft
+    app.controller('pmcs$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
+        if ($rootScope.$user && $rootScope.$user.Roles.indexOf('info') < 0) {
+            $rootScope.$user = null;
+            $rootScope.login_active = true;
+            $state.go('account$signout');
+            return;
+        }
+        if ($rootScope.$user === null || $rootScope.$user === undefined) {
+            $log.info('redirect to login');
+            $location.path('/account/signin');
+            return;
+        }
+        $rootScope.headTitle = 'Quản lý đơn hàng  > Microsoft';
+        $scope.textloading = "Đang tải dữ liệu ...";
+        $scope.page = 0;
+        $scope.num = 10;
+        $scope.totalRow = 0;
+        $scope.status = "-1";
+        $(document).ready(function () {
+            setTimeout(function () {
+                $(".dateTimePicker").datetimepicker({
+                    isRTL: false,
+                    format: 'yyyy-mm-dd',
+                    autoclose: true,
+                    language: 'en',
+                    minView: 2, //tat thoi gian
+                    pickTime: false, //tat thoi gian
+                    todayBtn: true,
                 });
-            }
-        })
-    }
-    //show order detail
-    $scope.invoiceDetail = function (dataInvoice) {
-        $http({
-            method: 'GET',
-            url: window.host_api + 'api/common/get?action=kesdetail&subsInfoId=' + dataInvoice + '&type=ms',
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (response) {
-            // console.log(response.data.data);
-            if (response.data.result > 0) {
-                var dataInvoice = response.data.data;
-                var modal = $uibModal.open({
-                    animation: 1000,
-                    backdrop: 'static',
-                    ariaLabelledBy: 'modal-title',
-                    ariaDescribedBy: 'modal-body',
-                    template: `<div class="modal-header label-primary" style="position:relative">\
+            }, 500);
+        });
+
+        var _timeTodate = function () {
+            var date = new Date();
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours();
+            month = month < 10 ? "0" + month : month,
+                day = day < 10 ? "0" + day : day;
+            return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
+        }
+        var _timeFromdate = function () {
+            //var date = new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000));/ / lùi 30 ngày
+            var date = new Date();
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours();
+            month = month < 10 ? "0" + month : month,
+                day = '01';///day < 10 ? "0" + day : day;
+            return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
+        }
+        $scope.from_date = _timeFromdate();
+        $scope.to_date = _timeTodate();
+        // xac nhan don hang da khoi tao thong tin cho khach hang thanh cong
+        $scope.fnconfirm = function (subid) {
+            $dialogConfirm(`<p style="font-size:14px">Xác nhận đã khởi tạo thông tin cho khách hàng thành công?</p>
+            <input class ="form-control" ng-model="bankingRef" name="bankingRef" placeholder="Nhập ghi chú xác nhận thông tin" required>
+            </div>`, "Xác nhận", function (res) {
+                if (res) {
+                    var _note = $("input[name='bankingRef']").val();
+                    if ($.trim(_note) === "") {
+                        $dialogAlert("Ghi chú không được bỏ trống, vui lòng thực hiện lại!", "Thông báo", "warning", function (res) {
+                            $scope.fnconfirm(subid);
+                        });
+                        return;
+                    }
+                    $http({
+                        method: 'GET',
+                        url: window.host_api + 'api/common/get?action=kesconfirm&subsId=' + subid + '&note=' + _note,
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (response) {
+                        //console.log(response);
+                        if (response.data.result > 0) {
+                            $dialogAlert("Xác nhận thành công!", "Thông báo!", "success", function () {
+                                window.location.reload();
+                            });
+                        } else {
+                            $scope.textloading = response.data.message;
+                            //$dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                        }
+
+                    }, function (res) {
+                        console.log(res);
+                        $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
+                    });
+                }
+            })
+        }
+        //show order detail
+        $scope.invoiceDetail = function (dataInvoice) {
+            $http({
+                method: 'GET',
+                url: window.host_api + 'api/common/get?action=kesdetail&subsInfoId=' + dataInvoice + '&type=ms',
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (response) {
+                // console.log(response.data.data);
+                if (response.data.result > 0) {
+                    var dataInvoice = response.data.data;
+                    var modal = $uibModal.open({
+                        animation: 1000,
+                        backdrop: 'static',
+                        ariaLabelledBy: 'modal-title',
+                        ariaDescribedBy: 'modal-body',
+                        template: `<div class="modal-header label-primary" style="position:relative">\
                     <h4 class ="modal-title" style="color:#fff" >Thông tin chi tiết đơn hàng </h4>\
                     </div>\
                     <div style="max-height:500px;overflow-y:scroll" id="print">
@@ -2897,184 +3120,184 @@ app.controller('pmcs$Ctrl', function ($http, $scope, $rootScope, $state, $dialog
                     <div class ="modal-footer">\
                         <button class ="btn btn-default" ng-click="cancel()" data-dismiss="modal" >Đóng</button>\
                     </div>`,
-                    controller: function ($scope, $uibModalInstance) {
-                        $scope.cancel = function () {
-                            $uibModalInstance.close(false);
-                        };
-                    },
-                    controllerAs: $scope,
-                    size: 'xs',//size,   
-                    windowClass: 'your-modal-class',
+                        controller: function ($scope, $uibModalInstance) {
+                            $scope.cancel = function () {
+                                $uibModalInstance.close(false);
+                            };
+                        },
+                        controllerAs: $scope,
+                        size: 'xs',//size,   
+                        windowClass: 'your-modal-class',
 
-                });
+                    });
 
-            } else {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                } else {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                }
+
+            }, function (res) {
+                console.log(res);
+                $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
+            });
+
+        };
+
+        // paging
+        $scope.prev = function () {
+            $scope.page--;
+            if ($scope.page < 0) {
+                $scope.page = 0;
+                search();
+                return;
             }
-
-        }, function (res) {
-            console.log(res);
-            $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
-        });
-
-    };
-
-    // paging
-    $scope.prev = function () {
-        $scope.page--;
-        if ($scope.page < 0) {
+            search();
+        }
+        $scope.next = function () {
+            if ((($scope.page + 1) * $scope.num) > $scope.totalRow) return;
+            $scope.page++;
+            search();
+        }
+        // search theo date, search theo productName or productCode
+        $scope.searchFilter = function () {
             $scope.page = 0;
             search();
+        }
+        // list order kes
+        search();
+        function search() {
+            $scope.data = [];
+            $scope.totalRow = 0;
+            $http({
+                method: 'GET',
+                url: window.host_api + 'api/common/get?action=productkes&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date + '&status=' + $scope.status + "&type=ms",
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res)                  
+                if (res.data.result > 0) {
+                    $scope.data = res.data.data.detail;
+                    $scope.totalRow = res.data.data.total_row;
+                } else {
+                    //$scope.textloading = "Dữ liệu trống.";
+                    $scope.textloading = res.data.message;
+                    //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+    });
+    // function quan ly don hang kaspersky endpoint security
+    app.controller('pkes$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
+        if ($rootScope.$user && $rootScope.$user.Roles.indexOf('info') < 0) {
+            $rootScope.$user = null;
+            $rootScope.login_active = true;
+            $state.go('account$signout');
             return;
         }
-        search();
-    }
-    $scope.next = function () {
-        if ((($scope.page + 1) * $scope.num) > $scope.totalRow) return;
-        $scope.page++;
-        search();
-    }
-    // search theo date, search theo productName or productCode
-    $scope.searchFilter = function () {
+        if ($rootScope.$user === null || $rootScope.$user === undefined) {
+            $log.info('redirect to login');
+            $location.path('/account/signin');
+            return;
+        }
+        $rootScope.headTitle = 'Quản lý đơn hàng  > Kaspersky endpoint security';
+        $scope.textloading = "Đang tải dữ liệu ...";
         $scope.page = 0;
-        search();
-    }
-    // list order kes
-    search();
-    function search() {
-        $scope.data = [];
+        $scope.num = 10;
         $scope.totalRow = 0;
-        $http({
-            method: 'GET',
-            url: window.host_api + 'api/common/get?action=productkes&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date + '&status=' + $scope.status + "&type=ms",
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res)                  
-            if (res.data.result > 0) {
-                $scope.data = res.data.data.detail;
-                $scope.totalRow = res.data.data.total_row;
-            } else {
-                //$scope.textloading = "Dữ liệu trống.";
-                $scope.textloading = res.data.message;
-                //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
-});
-// function quan ly don hang kaspersky endpoint security
-app.controller('pkes$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
-    if ($rootScope.$user && $rootScope.$user.Roles.indexOf('info') < 0) {
-        $rootScope.$user = null;
-        $rootScope.login_active = true;
-        $state.go('account$signout');
-        return;
-    }
-    if ($rootScope.$user === null || $rootScope.$user === undefined) {
-        $log.info('redirect to login');
-        $location.path('/account/signin');
-        return;
-    }
-    $rootScope.headTitle = 'Quản lý đơn hàng  > Kaspersky endpoint security';
-    $scope.textloading = "Đang tải dữ liệu ...";
-    $scope.page = 0;
-    $scope.num = 10;
-    $scope.totalRow = 0;
-    $scope.status = "-1";
-    $(document).ready(function () {
-        setTimeout(function () {
-            $(".dateTimePicker").datetimepicker({
-                isRTL: false,
-                format: 'yyyy-mm-dd',
-                autoclose: true,
-                language: 'en',
-                minView: 2, //tat thoi gian
-                pickTime: false, //tat thoi gian
-                todayBtn: true,
-            });
-        }, 500);
-    });
+        $scope.status = "-1";
+        $(document).ready(function () {
+            setTimeout(function () {
+                $(".dateTimePicker").datetimepicker({
+                    isRTL: false,
+                    format: 'yyyy-mm-dd',
+                    autoclose: true,
+                    language: 'en',
+                    minView: 2, //tat thoi gian
+                    pickTime: false, //tat thoi gian
+                    todayBtn: true,
+                });
+            }, 500);
+        });
 
-    var _timeTodate = function () {
-        var date = new Date();
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1,
-            day = date.getDate(),
-            hour = date.getHours();
-        month = month < 10 ? "0" + month : month,
-            day = day < 10 ? "0" + day : day;
-        return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
-    }
-    var _timeFromdate = function () {
-        //var date = new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000));/ / lùi 30 ngày
-        var date = new Date();
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1,
-            day = date.getDate(),
-            hour = date.getHours();
-        month = month < 10 ? "0" + month : month,
-            day = '01';///day < 10 ? "0" + day : day;
-        return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
-    }
-    $scope.from_date = _timeFromdate();
-    $scope.to_date = _timeTodate();
-    // xac nhan don hang da khoi tao thong tin cho khach hang thanh cong
-    $scope.fnconfirm = function (subid) {
-        $dialogConfirm(`<p style="font-size:14px">Xác nhận đã khởi tạo thông tin cho khách hàng thành công?</p>
+        var _timeTodate = function () {
+            var date = new Date();
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours();
+            month = month < 10 ? "0" + month : month,
+                day = day < 10 ? "0" + day : day;
+            return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
+        }
+        var _timeFromdate = function () {
+            //var date = new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000));/ / lùi 30 ngày
+            var date = new Date();
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours();
+            month = month < 10 ? "0" + month : month,
+                day = '01';///day < 10 ? "0" + day : day;
+            return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
+        }
+        $scope.from_date = _timeFromdate();
+        $scope.to_date = _timeTodate();
+        // xac nhan don hang da khoi tao thong tin cho khach hang thanh cong
+        $scope.fnconfirm = function (subid) {
+            $dialogConfirm(`<p style="font-size:14px">Xác nhận đã khởi tạo thông tin cho khách hàng thành công?</p>
             <input class ="form-control" ng-model="bankingRef" name="bankingRef" placeholder="Nhập ghi chú xác nhận thông tin" required>
             </div>`, "Xác nhận", function (res) {
-            if (res) {
-                var _note = $("input[name='bankingRef']").val();
-                if ($.trim(_note) === "") {
-                    $dialogAlert("Ghi chú không được bỏ trống, vui lòng thực hiện lại!", "Thông báo", "warning", function (res) {
-                        $scope.fnconfirm(subid);
-                    });
-                    return;
-                }
-                $http({
-                    method: 'GET',
-                    url: window.host_api + 'api/common/get?action=kesconfirm&subsId=' + subid + '&note=' + _note,
-                    headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token
-                    }
-                }).then(function (response) {
-                    //console.log(response);
-                    if (response.data.result > 0) {
-                        $dialogAlert("Xác nhận thành công!", "Thông báo!", "success", function () {
-                            window.location.reload();
+                if (res) {
+                    var _note = $("input[name='bankingRef']").val();
+                    if ($.trim(_note) === "") {
+                        $dialogAlert("Ghi chú không được bỏ trống, vui lòng thực hiện lại!", "Thông báo", "warning", function (res) {
+                            $scope.fnconfirm(subid);
                         });
-                    } else {
-                        $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                        return;
                     }
+                    $http({
+                        method: 'GET',
+                        url: window.host_api + 'api/common/get?action=kesconfirm&subsId=' + subid + '&note=' + _note,
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (response) {
+                        //console.log(response);
+                        if (response.data.result > 0) {
+                            $dialogAlert("Xác nhận thành công!", "Thông báo!", "success", function () {
+                                window.location.reload();
+                            });
+                        } else {
+                            $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                        }
 
-                }, function (res) {
-                    console.log(res);
-                    $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
-                });
-            }
-        })
-    }
-    //show order detail
-    $scope.invoiceDetail = function (dataInvoice) {
-        $http({
-            method: 'GET',
-            url: window.host_api + 'api/common/get?action=kesdetail&subsInfoId=' + dataInvoice + '&type=kes',
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (response) {
-            //console.log(response.data.data);
-            if (response.data.result > 0) {
-                var dataInvoice = response.data.data;
-                var modal = $uibModal.open({
-                    animation: 1000,
-                    backdrop: 'static',
-                    ariaLabelledBy: 'modal-title',
-                    ariaDescribedBy: 'modal-body',
-                    template: `<div class="modal-header label-primary" style="position:relative">\
+                    }, function (res) {
+                        console.log(res);
+                        $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
+                    });
+                }
+            })
+        }
+        //show order detail
+        $scope.invoiceDetail = function (dataInvoice) {
+            $http({
+                method: 'GET',
+                url: window.host_api + 'api/common/get?action=kesdetail&subsInfoId=' + dataInvoice + '&type=kes',
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (response) {
+                //console.log(response.data.data);
+                if (response.data.result > 0) {
+                    var dataInvoice = response.data.data;
+                    var modal = $uibModal.open({
+                        animation: 1000,
+                        backdrop: 'static',
+                        ariaLabelledBy: 'modal-title',
+                        ariaDescribedBy: 'modal-body',
+                        template: `<div class="modal-header label-primary" style="position:relative">\
                     <h4 class ="modal-title" style="color:#fff" >Thông tin chi tiết đơn hàng </h4>\
                     </div>\
                     <div style="max-height:500px;overflow-y:scroll" id="print">
@@ -3109,326 +3332,64 @@ app.controller('pkes$Ctrl', function ($http, $scope, $rootScope, $state, $dialog
                     <div class ="modal-footer">\
                         <button class ="btn btn-default" ng-click="cancel()" data-dismiss="modal" >Đóng</button>\
                     </div>`,
-                    controller: function ($scope, $uibModalInstance) {
-                        $scope.cancel = function () {
-                            $uibModalInstance.close(false);
-                        };
-                    },
-                    controllerAs: $scope,
-                    size: 'xs',//size,   
-                    windowClass: 'your-modal-class',
+                        controller: function ($scope, $uibModalInstance) {
+                            $scope.cancel = function () {
+                                $uibModalInstance.close(false);
+                            };
+                        },
+                        controllerAs: $scope,
+                        size: 'xs',//size,   
+                        windowClass: 'your-modal-class',
 
-                });
-
-            } else {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-            }
-
-        }, function (res) {
-            console.log(res);
-            $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
-        });
-
-    };
-
-    // paging
-    $scope.prev = function () {
-        $scope.page--;
-        if ($scope.page < 0) {
-            $scope.page = 0;
-            search();
-            return;
-        }
-        search();
-    }
-    $scope.next = function () {
-        if ((($scope.page + 1) * $scope.num) > $scope.totalRow) return;
-        $scope.page++;
-        search();
-    }
-    // search theo date, search theo productName or productCode
-    $scope.searchFilter = function () {
-        $scope.page = 0;
-        search();
-    }
-    // list order kes
-    search();
-    function search() {
-        $scope.data = [];
-        $scope.totalRow = 0;
-        $http({
-            method: 'GET',
-            url: window.host_api + 'api/common/get?action=productkes&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date + '&status=' + $scope.status + "&type=kes",
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res)                  
-            if (res.data.result > 0) {
-                $scope.data = res.data.data.detail;
-                $scope.totalRow = res.data.data.total_row;
-            } else {
-                //$scope.textloading = "Dữ liệu trống.";
-                $scope.textloading = res.data.message;
-                //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
-});
-// quan ly don hang onesme
-app.controller('ponesme$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $modalTemplate, $uibModalStack, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
-    if ($rootScope.$user && $rootScope.$user.Roles.indexOf('info') < 0) {
-        $rootScope.$user = null;
-        $rootScope.login_active = true;
-        $state.go('account$signout');
-        return;
-    }
-    if ($rootScope.$user === null || $rootScope.$user === undefined) {
-        $log.info('redirect to login');
-        $location.path('/account/signin');
-        return;
-    }
-    $rootScope.headTitle = 'Quản lý đơn hàng  > oneSME';
-    $scope.textloading = "Đang tải dữ liệu ...";
-    $scope.page = 0;
-    $scope.num = 10;
-    $scope.totalRow = 0;
-    $scope.maxSize = 5;
-    $scope.bigTotalItems = 0;
-    $scope.bigCurrentPage = 1;
-    $scope.showRow = false;
-    $scope.status = "-1";
-    $(document).ready(function () {
-        setTimeout(function () {
-            $(".dateTimePicker").datetimepicker({
-                isRTL: false,
-                format: 'yyyy-mm-dd',
-                autoclose: true,
-                language: 'en',
-                minView: 2, //tat thoi gian
-                pickTime: false, //tat thoi gian
-                todayBtn: true,
-            });
-        }, 500);
-    });
-
-    var _timeTodate = function () {
-        var date = new Date();
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1,
-            day = date.getDate(),
-            hour = date.getHours();
-        month = month < 10 ? "0" + month : month,
-            day = day < 10 ? "0" + day : day;
-        return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
-    }
-    var _timeFromdate = function () {
-        //var date = new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000));/ / lùi 30 ngày
-        var date = new Date();
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1,
-            day = date.getDate(),
-            hour = date.getHours();
-        month = month < 10 ? "0" + month : month,
-            day = '01';///day < 10 ? "0" + day : day;
-        return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
-    }
-    $scope.from_date = _timeFromdate();
-    $scope.to_date = _timeTodate();
-    // xac nhan don hang da khoi tao thong tin cho khach hang thanh cong
-    $scope.fnconfirm = function (subid) {
-        $dialogConfirm(`<p style="font-size:14px">Xác nhận đã khởi tạo thông tin cho khách hàng thành công?</p>
-            <input class ="form-control" ng-model="bankingRef" name="bankingRef" placeholder="Nhập ghi chú xác nhận thông tin" required>
-            </div>`, "Xác nhận", function (res) {
-            if (res) {
-                var _note = $("input[name='bankingRef']").val();
-                if ($.trim(_note) === "") {
-                    $dialogAlert("Ghi chú không được bỏ trống, vui lòng thực hiện lại!", "Thông báo", "warning", function (res) {
-                        $scope.fnconfirm(subid);
                     });
-                    return;
+
+                } else {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
                 }
-                $http({
-                    method: 'GET',
-                    url: window.host_api + 'api/common/get?action=kesconfirm&subsId=' + subid + '&note=' + _note,
-                    headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token
-                    }
-                }).then(function (response) {
-                    //console.log(response);
-                    if (response.data.result > 0) {
-                        $dialogAlert("Xác nhận thành công!", "Thông báo!", "success", function () {
-                            window.location.reload();
-                        });
-                    } else {
-                        $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-                    }
 
-                }, function (res) {
-                    console.log(res);
-                    $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
-                });
+            }, function (res) {
+                console.log(res);
+                $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
+            });
+
+        };
+
+        // paging
+        $scope.prev = function () {
+            $scope.page--;
+            if ($scope.page < 0) {
+                $scope.page = 0;
+                search();
+                return;
             }
-        })
-    }
-    //show order detail
-    //console.log(window.dataJson);
-
-    $scope.invoiceDetail = function (dataInvoice) {
-        return $modalTemplate.detail(dataInvoice);
-    };
-    // form mail template
-    //console.log(window.dataJson);
-    $scope.sendMailTemp = function (module, id, refid) {
-        var option1 = {
-            title: 'Cập nhật thông tin đơn hàng <span class ="lnr lnr-pencil" style="font-size: 15px;"></span>',
-            module: module,// nhóm sản phẩm
-            type: 1,// action dành cho api cập nhật đơn hàng
-            id: id,
-            refid: refid
+            search();
         }
-        $modalTemplate.form(option1, function (res) {
-            return search();
-        });
-    };
-    $scope.updateInfoOder = function (module, id, refid) {
-        var option2 = {
-            title: 'Hoàn thành đơn hàng ',
-            type: 2, // action dành cho api hoàn thành đơn hàng
-            id: id,
-            module: module, // nhóm sản phẩm
-            refid: refid
+        $scope.next = function () {
+            if ((($scope.page + 1) * $scope.num) > $scope.totalRow) return;
+            $scope.page++;
+            search();
         }
-        $modalTemplate.form(option2, function (res) {
-            return search();
-        });
-    };
-    // paging
-    $scope.pageChanged = function () {
-        $scope.page = $scope.bigCurrentPage - 1;
-        search();
-    };
-    // search theo date, search theo productName or productCode
-    $scope.searchFilter = function () {
-        $scope.page = 0;
-        search();
-    }
-    // list order kes
-    search();
-    function search() {
-        $scope.textloading = "Đang tải dữ liệu...";
-        $scope.data = [];
-        $scope.totalRow = 0;
-        $http({
-            method: 'GET',
-            url: window.host_api + 'api/common/get?action=productkes&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date + '&status=' + $scope.status + "&type=onesme",
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res)                  
-            if (res.data.result > 0) {
-                $scope.data = res.data.data.detail;
-                $scope.bigTotalItems = res.data.data.total_row;
-
-            } else {
-                //$scope.textloading = "Dữ liệu trống.";
-                $scope.textloading = res.data.message;
-                //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
-});
-// danh sach don vi nha cung cap
-app.controller('producerList$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $dialogShowForm, $stateParams, $window) {
-    if ($rootScope.$user && $rootScope.$user.Roles.indexOf('seller') < 0) {
-        $rootScope.$user = null;
-        $rootScope.login_active = true;
-        $state.go('account$signout');
-        return;
-    }
-
-    $rootScope.headTitle = 'Nhà cung cấp > Danh sách';
-    $scope.textloading = "Đang tải dữ liệu ...";
-    $scope.page = 0;
-    $scope.totalRow = 0;
-    $scope.maxSize = 10;
-    $scope.bigTotalItems = 0;
-    $scope.bigCurrentPage = 1;
-    $scope.flag = false;
-    if ($rootScope.$user === null || $rootScope.$user === undefined) {
-        $log.info('redirect to login');
-        $location.path('/account/signin');
-        return;
-    }
-
-
-    fndata($http, $scope, 'list')
-    function fndata($http, $scope, action) {
-        search()
-        $scope.search = search;
-        // sort
-        $scope.sort = {
-            column: '',
-            descending: false
-        };
-
-        $scope.changeSorting = function (column) {
-
-            var sort = $scope.sort;
-
-            if (sort.column == column) {
-                sort.descending = !sort.descending;
-            } else {
-                sort.column = column;
-                sort.descending = false;
-            }
-        };
-        // thay đổi class khi sort
-        $scope.selectedCls = function (column) {
-            return column == $scope.sort.column && 'sort-' + $scope.sort.descending;
-        };
-
-
         // search theo date, search theo productName or productCode
         $scope.searchFilter = function () {
             $scope.page = 0;
             search();
         }
-        // paging
-        $scope.pageChanged = function () {
-            $scope.page = $scope.bigCurrentPage - 1;
-            console.log('Page changed to: ' + $scope.bigCurrentPage);
-            search();
-        };
-        // load data api
+        // list order kes
+        search();
         function search() {
             $scope.data = [];
             $scope.totalRow = 0;
             $http({
                 method: 'GET',
-                url: window.host_api + 'api/producer/get?action=' + action + '&filter=' + ($scope.filter || '') + '&num=' + $scope.maxSize + '&page=' + ($scope.page || ''),
+                url: window.host_api + 'api/common/get?action=productkes&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date + '&status=' + $scope.status + "&type=kes",
                 headers: {
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
             }).then(function (res) {
                 //console.log(res)                  
                 if (res.data.result > 0) {
-                    $scope.data = res.data.data;
+                    $scope.data = res.data.data.detail;
                     $scope.totalRow = res.data.data.total_row;
-                    $scope.bigTotalItems = res.data.data.total_row;
-                    $(document).ready(function () {
-                        $('.btnProductToggle').bootstrapToggle({
-                            on: 'Kích hoạt',
-                            off: 'Ngừng kích hoạt',
-                            size: "mini",
-                            style: "btnToggleCustom"
-                        });
-                    })
                 } else {
                     //$scope.textloading = "Dữ liệu trống.";
                     $scope.textloading = res.data.message;
@@ -3438,422 +3399,414 @@ app.controller('producerList$Ctrl', function ($http, $scope, $rootScope, $state,
                 $rootScope.checkError(e, $dialogAlert);
             })
         }
-    }
-    // bieu do doi tac cung cap dich 
-    // biểu đồ hình tròn
-
-    var options_pie = {
-        colors: ['#4572A7', '#AA4643', '#89A54E', '#80699B', '#3D96AE', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],
-        showlegend: true,
-        dataLabels: {
-            enabled: true,
-            formatter: function () {
-                //console.log(this)
-                return formatNumbers(this.y) +
-                    '<br/>' + roundNumber(this.percentage, 1) + ' %';
-            },
-            distance: -70,
-            filter: {
-                property: 'percentage',
-                operator: '>',
-                value: 4
-            }
+    });
+    // quan ly don hang onesme
+    app.controller('ponesme$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $modalTemplate, $uibModalStack, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
+        if ($rootScope.$user && $rootScope.$user.Roles.indexOf('info') < 0) {
+            $rootScope.$user = null;
+            $rootScope.login_active = true;
+            $state.go('account$signout');
+            return;
         }
-    }
-
-    $http({
-        method: 'GET',
-        url: host_api + 'api/producer/get?action=statisticcharts&type=pie',
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
+        if ($rootScope.$user === null || $rootScope.$user === undefined) {
+            $log.info('redirect to login');
+            $location.path('/account/signin');
+            return;
         }
-    }).then(function (res) {
-        console.log(res);
-        if (res.data.result > 0) {
-            var _datas = res.data.data;
-            $rootScope.loadChartPie(_datas.total, "chartdvncc1", "Thống kê doanh thu bảo hiểm (tỉ đồng)", options_pie);
-            $rootScope.loadChartPie(_datas.total_last, "chartdvncc2", "Thống kê lợi nhuận (tỉ đồng)", options_pie);
-            _datas.calim.forEach(function (val) {
-                if (val.y == 0) {
-                    val.visible = false
-                }
-            })
-            $rootScope.loadChartPie(_datas.calim, "chartdvncc3", "Khiếu nại khách hàng", options_pie);
-            _datas.suspend.forEach(function (val) {
-                if (val.y == 0) {
-                    val.visible = false
-                }
-            })
-            $rootScope.loadChartPie(_datas.suspend, "chartdvncc4", "Khách hàng tạm ngưng dịch vụ", options_pie);
-        } else {
-            $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
-        }
-
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-
-    // bieu do thong ke tang truong
-    // biểu đồ đường kẻ
-    var option_line = {
-        colors: ['#4572A7', '#AA4643', '#89A54E', '#80699B', '#3D96AE', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],
-        dataY: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12']
-    };
-    var data_line = [
-        {
-            name: "Công ty bảo hiểm BIC",
-            data: [2100, 2550, 3000, 3200, 4100, 4120, 5500, 5900, 8000, 9600, 20000, 36000]
-        },
-        {
-            name: "Công ty bảo hiểm PVI",
-            data: [3600, 4000, 6000, 9000, 15000, 15500, 22000, 26000, 29000, 32000, 33000, 35900]
-        },
-        {
-            name: "Công ty bảo hiểm MC",
-            data: [2000, 2500, 3000, 4500, 6500, 8000, 7500, 7600, 10000, 15000, 19000, 23000]
-        }
-    ]
-    $http({
-        method: 'GET',
-        url: host_api + 'api/producer/get?action=statisticcharts&type=line',
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        console.log(res);
-        if (res.data.result > 0) {
-            var _datas = res.data.data;
-            $rootScope.loadChartLine(_datas.total, "line_chartdvncc", "Thống kê tăng trưởng khách hàng", option_line);
-        } else {
-            $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
-        }
-
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-
-})
-// Them khuyen mai
-app.controller("addPromotion$Ctrl", function ($http, $scope, $rootScope, $dialogAlert, $dialogConfirm, $state, $dialogShowForm, $log, $uibModal, $window) {
-    $scope.data = {
-        textInput: '',
-        options: {
-            language: 'en',
-            allowedContent: true,
-            entities: false
-        }
-    };
-    $scope.dataProduct = {
-        target: 0
-    }
-    $(document).ready(function () {
-        $('.select_promotion').select2({
-            placeholder: {
-                id: '-1', // the value of the option
-                text: 'Chọn ít nhất 1 sản phẩm'
-            }
+        $rootScope.headTitle = 'Quản lý đơn hàng  > oneSME';
+        $scope.textloading = "Đang tải dữ liệu ...";
+        $scope.page = 0;
+        $scope.num = 10;
+        $scope.totalRow = 0;
+        $scope.maxSize = 5;
+        $scope.bigTotalItems = 0;
+        $scope.bigCurrentPage = 1;
+        $scope.showRow = false;
+        $scope.status = "-1";
+        $(document).ready(function () {
+            setTimeout(function () {
+                $(".dateTimePicker").datetimepicker({
+                    isRTL: false,
+                    format: 'yyyy-mm-dd',
+                    autoclose: true,
+                    language: 'en',
+                    minView: 2, //tat thoi gian
+                    pickTime: false, //tat thoi gian
+                    todayBtn: true,
+                });
+            }, 500);
         });
-        $('#formProduct').bootstrapValidator({
-            feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                title: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Tiêu đề không được bỏ trống.'
-                        }
+
+        var _timeTodate = function () {
+            var date = new Date();
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours();
+            month = month < 10 ? "0" + month : month,
+                day = day < 10 ? "0" + day : day;
+            return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
+        }
+        var _timeFromdate = function () {
+            //var date = new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000));/ / lùi 30 ngày
+            var date = new Date();
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours();
+            month = month < 10 ? "0" + month : month,
+                day = '01';///day < 10 ? "0" + day : day;
+            return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
+        }
+        $scope.from_date = _timeFromdate();
+        $scope.to_date = _timeTodate();
+        // xac nhan don hang da khoi tao thong tin cho khach hang thanh cong
+        $scope.fnconfirm = function (subid) {
+            $dialogConfirm(`<p style="font-size:14px">Xác nhận đã khởi tạo thông tin cho khách hàng thành công?</p>
+            <input class ="form-control" ng-model="bankingRef" name="bankingRef" placeholder="Nhập ghi chú xác nhận thông tin" required>
+            </div>`, "Xác nhận", function (res) {
+                if (res) {
+                    var _note = $("input[name='bankingRef']").val();
+                    if ($.trim(_note) === "") {
+                        $dialogAlert("Ghi chú không được bỏ trống, vui lòng thực hiện lại!", "Thông báo", "warning", function (res) {
+                            $scope.fnconfirm(subid);
+                        });
+                        return;
                     }
-                },
+                    $http({
+                        method: 'GET',
+                        url: window.host_api + 'api/common/get?action=kesconfirm&subsId=' + subid + '&note=' + _note,
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (response) {
+                        //console.log(response);
+                        if (response.data.result > 0) {
+                            $dialogAlert("Xác nhận thành công!", "Thông báo!", "success", function () {
+                                window.location.reload();
+                            });
+                        } else {
+                            $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                        }
+
+                    }, function (res) {
+                        console.log(res);
+                        $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
+                    });
+                }
+            })
+        }
+        //show order detail
+        //console.log(window.dataJson);
+
+        $scope.invoiceDetail = function (dataInvoice) {
+            return $modalTemplate.detail(dataInvoice);
+        };
+        // form mail template
+        //console.log(window.dataJson);
+        $scope.sendMailTemp = function (module, id, refid) {
+            var option1 = {
+                title: 'Cập nhật thông tin đơn hàng <span class ="lnr lnr-pencil" style="font-size: 15px;"></span>',
+                module: module,// nhóm sản phẩm
+                type: 1,// action dành cho api cập nhật đơn hàng
+                id: id,
+                refid: refid
             }
-        })
-            .on('success.field.bv', function (e, data) {
-                var $parent = data.element.parents('.form-group');
-                // Hide the success icon
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('error.field.bv', function (e, data) {
-                // Hide the success icon
-                var $parent = data.element.parents('.form-group');
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('success.form.bv', function (e) {
-                // Prevent form submission
-                e.preventDefault();
-                postData();
+            $modalTemplate.form(option1, function (res) {
+                return search();
             });
-        setTimeout(function () {
-            $(".dateTimePicker").datetimepicker({
-                isRTL: false,
-                format: 'yyyy-mm-dd hh:ii:00',
-                autoclose: true,
-                language: 'en',
-                //minView: 2, //tat thoi gian
-                //pickTime: false, //tat thoi gian
-                todayBtn: true,
+        };
+        $scope.updateInfoOder = function (module, id, refid) {
+            var option2 = {
+                title: 'Hoàn thành đơn hàng ',
+                type: 2, // action dành cho api hoàn thành đơn hàng
+                id: id,
+                module: module, // nhóm sản phẩm
+                refid: refid
+            }
+            $modalTemplate.form(option2, function (res) {
+                return search();
             });
-        }, 500);
+        };
+        // paging
+        $scope.pageChanged = function () {
+            $scope.page = $scope.bigCurrentPage - 1;
+            search();
+        };
+        // search theo date, search theo productName or productCode
+        $scope.searchFilter = function () {
+            $scope.page = 0;
+            search();
+        }
+        // list order kes
+        search();
+        function search() {
+            $scope.textloading = "Đang tải dữ liệu...";
+            $scope.data = [];
+            $scope.totalRow = 0;
+            $http({
+                method: 'GET',
+                url: window.host_api + 'api/common/get?action=productkes&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date + '&status=' + $scope.status + "&type=onesme",
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res)                  
+                if (res.data.result > 0) {
+                    $scope.data = res.data.data.detail;
+                    $scope.bigTotalItems = res.data.data.total_row;
 
-        function numberWithCommas(x) {
-            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                } else {
+                    //$scope.textloading = "Dữ liệu trống.";
+                    $scope.textloading = res.data.message;
+                    //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+    });
+    // danh sach don vi nha cung cap
+    app.controller('producerList$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $dialogShowForm, $stateParams, $window) {
+        if ($rootScope.$user && $rootScope.$user.Roles.indexOf('seller') < 0) {
+            $rootScope.$user = null;
+            $rootScope.login_active = true;
+            $state.go('account$signout');
+            return;
         }
 
-    })
-    var _timeTodate = function () {
-        var date = new Date();
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1,
-            day = date.getDate(),
-            hour = date.getHours();
-        month = month < 10 ? "0" + month : month,
-            day = day < 10 ? "0" + day : day;
-
-
-        return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
-    }
-    var _timeFromdate = function () {
-        //var date = new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000));// lùi 30 ngày
-        var date = new Date();
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1,
-            day = date.getDate(),
-            hour = date.getHours();
-        month = month < 10 ? "0" + month : month,
-            day = '01';///day < 10 ? "0" + day : day;
-
-
-        return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
-    }
-    $scope.from_date = _timeFromdate();
-    $scope.to_date = _timeTodate();
-    $http({
-        method: 'GET',
-        url: host_api + 'api/channel/get?action=list',
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        if (res.data.result > 0) {
-            $scope.dataListChannel = res.data.data;
-        } else {
-            $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
+        $rootScope.headTitle = 'Nhà cung cấp > Danh sách';
+        $scope.textloading = "Đang tải dữ liệu ...";
+        $scope.page = 0;
+        $scope.totalRow = 0;
+        $scope.maxSize = 10;
+        $scope.bigTotalItems = 0;
+        $scope.bigCurrentPage = 1;
+        $scope.flag = false;
+        if ($rootScope.$user === null || $rootScope.$user === undefined) {
+            $log.info('redirect to login');
+            $location.path('/account/signin');
+            return;
         }
 
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-    $scope.dataProduct = {};
-    $scope.dataProduct.productId = [];
-    //danh sách sản phẩm theo id kênh bán
-    $scope.flag_product = true;
-    $scope.loadProducts = function (pid) {
+
+        fndata($http, $scope, 'list')
+        function fndata($http, $scope, action) {
+            search()
+            $scope.search = search;
+            // sort
+            $scope.sort = {
+                column: '',
+                descending: false
+            };
+
+            $scope.changeSorting = function (column) {
+
+                var sort = $scope.sort;
+
+                if (sort.column == column) {
+                    sort.descending = !sort.descending;
+                } else {
+                    sort.column = column;
+                    sort.descending = false;
+                }
+            };
+            // thay đổi class khi sort
+            $scope.selectedCls = function (column) {
+                return column == $scope.sort.column && 'sort-' + $scope.sort.descending;
+            };
+
+
+            // search theo date, search theo productName or productCode
+            $scope.searchFilter = function () {
+                $scope.page = 0;
+                search();
+            }
+            // paging
+            $scope.pageChanged = function () {
+                $scope.page = $scope.bigCurrentPage - 1;
+                console.log('Page changed to: ' + $scope.bigCurrentPage);
+                search();
+            };
+            // load data api
+            function search() {
+                $scope.data = [];
+                $scope.totalRow = 0;
+                $http({
+                    method: 'GET',
+                    url: window.host_api + 'api/producer/get?action=' + action + '&filter=' + ($scope.filter || '') + '&num=' + $scope.maxSize + '&page=' + ($scope.page || ''),
+                    headers: {
+                        'Authorization': "Bearer " + $window.localStorage.token
+                    }
+                }).then(function (res) {
+                    //console.log(res)                  
+                    if (res.data.result > 0) {
+                        $scope.data = res.data.data;
+                        $scope.totalRow = res.data.data.total_row;
+                        $scope.bigTotalItems = res.data.data.total_row;
+                        $(document).ready(function () {
+                            $('.btnProductToggle').bootstrapToggle({
+                                on: 'Kích hoạt',
+                                off: 'Ngừng kích hoạt',
+                                size: "mini",
+                                style: "btnToggleCustom"
+                            });
+                        })
+                    } else {
+                        //$scope.textloading = "Dữ liệu trống.";
+                        $scope.textloading = res.data.message;
+                        //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                    }
+                }, function err(e) {
+                    $rootScope.checkError(e, $dialogAlert);
+                })
+            }
+        }
+        // bieu do doi tac cung cap dich 
+        // biểu đồ hình tròn
+
+        var options_pie = {
+            colors: ['#4572A7', '#AA4643', '#89A54E', '#80699B', '#3D96AE', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],
+            showlegend: true,
+            dataLabels: {
+                enabled: true,
+                formatter: function () {
+                    //console.log(this)
+                    return formatNumbers(this.y) +
+                        '<br/>' + roundNumber(this.percentage, 1) + ' %';
+                },
+                distance: -70,
+                filter: {
+                    property: 'percentage',
+                    operator: '>',
+                    value: 4
+                }
+            }
+        }
+
         $http({
             method: 'GET',
-            url: host_api + 'api/product/get?action=listbychannelid&channelId=' + pid,
+            url: host_api + 'api/producer/get?action=statisticcharts&type=pie',
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
         }).then(function (res) {
+            console.log(res);
             if (res.data.result > 0) {
-                $scope.flag_product = false;
-                $scope.dataListProduct = res.data.data;
+                var _datas = res.data.data;
+                $rootScope.loadChartPie(_datas.total, "chartdvncc1", "Thống kê doanh thu bảo hiểm (tỉ đồng)", options_pie);
+                $rootScope.loadChartPie(_datas.total_last, "chartdvncc2", "Thống kê lợi nhuận (tỉ đồng)", options_pie);
+                _datas.calim.forEach(function (val) {
+                    if (val.y == 0) {
+                        val.visible = false
+                    }
+                })
+                $rootScope.loadChartPie(_datas.calim, "chartdvncc3", "Khiếu nại khách hàng", options_pie);
+                _datas.suspend.forEach(function (val) {
+                    if (val.y == 0) {
+                        val.visible = false
+                    }
+                })
+                $rootScope.loadChartPie(_datas.suspend, "chartdvncc4", "Khách hàng tạm ngưng dịch vụ", options_pie);
             } else {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
             }
 
         }, function err(e) {
             $rootScope.checkError(e, $dialogAlert);
         })
-    }
 
-    //che do hiển thị /1 la show /0 la hide
-    //$scope.dataProduct.status = 1;
-    // get category blog
-    $http.get('/api/common/db_getdatanew?action=blogcategory')
-        .then(function (res) {
-            $scope.dataCategory = res.data.data;
-            //console.log(res);
-        }, function err(e) {
-            console.log(e);
-        });
-    $scope.$watch("myFile", function () {
-        //console.log($scope.myFile);
-        if ($scope.myFile) {
-            $scope.fileName = $scope.myFile.filename;
-        }
-    });
-
-    $scope.addFiles = function () {
-        //console.log($scope.myFile)
-        if ($scope.myFile === undefined || $scope.myFile === "") {
-            $scope.error = "Vui lòng chọn 1 ảnh đại diện của bài viết";
-            return;
-        }
-
-        if ($scope.myFile) {
-            $scope.error = undefined;
-            //console.log($scope.myFile)
-            if ($scope.myFile.filesize <= 0) return;
-            $scope.dataImage = {
-                Name: $scope.myFile.filename,
-                Content: "data:" + $scope.myFile.filetype + ";base64," + $scope.myFile.base64
-            };
-            ///api upload hình
-            $http({
-                method: 'POST',
-                url: window.host_api + 'api/common/upload',
-                data: $scope.dataImage,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token,
-                }
-            }).then(function (response) {
-                //console.log(response);
-                $scope.imagesUrl = window.host + "uploads/" + response.data.data.rewrite;
-                $scope.dataProduct.files = [{
-                    rewrite: response.data.data.rewrite,
-                    original: response.data.data.original
-                }];
-            }, function (res) {
-                console.log(res);
-                // $dialogAlert("\n " + res.data.Message ? res.data.Message : "", "Thông báo!", "warning");
-            });
-        }
-    }
-
-    //$scope.contentBlog = "";
-    function postData() {
-        $scope.dataProduct.fromdate = $scope.from_date;
-        $scope.dataProduct.todate = $scope.to_date;
-        $scope.dataProduct.action = "create";
-        console.log($scope.dataProduct);
-        //return;
-        $http({
-            method: 'POST',
-            url: host_api + 'api/promotion/crud',
-            data: $scope.dataProduct,
-            headers: {
-                'Authorization': $window.localStorage.token,
-            }
-        }).then(function (response) {
-            //console.log(response);
-            if (response.data.result > 0) {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function (res) {
-                    if (res) {
-                        $state.go("selkhuyenmai");
-                    }
-                });
-                $('#formProduct').bootstrapValidator('resetForm', true);
-            } else {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-            }
-        }, function (res) {
-            //console.log(res);
-            $dialogAlert("\n " + res.data.message ? res.data.message : "", "Thông báo!", "warning");
-        });
-    }
-
-})
-// Them khuyen mai
-app.controller("editPromotion$Ctrl", function ($http, $scope, $state, $rootScope, $stateParams, $dialogAlert, $dialogConfirm, $dialogShowForm, $log, $uibModal, $window) {
-    $scope.pid = $stateParams.id;
-    console.log($scope.pid);
-    $scope.dataProduct = {};
-    var productId = [];
-    $scope.data = {
-        textInput: '',
-        options: {
-            language: 'en',
-            allowedContent: true,
-            entities: false
-        }
-    };
-    $(document).ready(function () {
-        $('.select_promotion').select2();
-        $('#formProduct').bootstrapValidator({
-            feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
+        // bieu do thong ke tang truong
+        // biểu đồ đường kẻ
+        var option_line = {
+            colors: ['#4572A7', '#AA4643', '#89A54E', '#80699B', '#3D96AE', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],
+            dataY: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12']
+        };
+        var data_line = [
+            {
+                name: "Công ty bảo hiểm BIC",
+                data: [2100, 2550, 3000, 3200, 4100, 4120, 5500, 5900, 8000, 9600, 20000, 36000]
             },
-            fields: {
-                title: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Tiêu đề không được bỏ trống.'
-                        }
-                    }
-                },
+            {
+                name: "Công ty bảo hiểm PVI",
+                data: [3600, 4000, 6000, 9000, 15000, 15500, 22000, 26000, 29000, 32000, 33000, 35900]
+            },
+            {
+                name: "Công ty bảo hiểm MC",
+                data: [2000, 2500, 3000, 4500, 6500, 8000, 7500, 7600, 10000, 15000, 19000, 23000]
             }
+        ]
+        $http({
+            method: 'GET',
+            url: host_api + 'api/producer/get?action=statisticcharts&type=line',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            console.log(res);
+            if (res.data.result > 0) {
+                var _datas = res.data.data;
+                $rootScope.loadChartLine(_datas.total, "line_chartdvncc", "Thống kê tăng trưởng khách hàng", option_line);
+            } else {
+                $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
+            }
+
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
         })
-            .on('success.field.bv', function (e, data) {
-                var $parent = data.element.parents('.form-group');
-                // Hide the success icon
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('error.field.bv', function (e, data) {
-                // Hide the success icon
-                var $parent = data.element.parents('.form-group');
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('success.form.bv', function (e) {
-                // Prevent form submission
-                e.preventDefault();
-                postData();
-            });
 
     })
-    var _timeTodate = function () {
-        var date = new Date();
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1,
-            day = date.getDate(),
-            hour = date.getHours();
-        month = month < 10 ? "0" + month : month,
-            day = day < 10 ? "0" + day : day;
-
-
-        return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
-    }
-    var _timeFromdate = function () {
-        //var date = new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000));// lùi 30 ngày
-        var date = new Date();
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1,
-            day = date.getDate(),
-            hour = date.getHours();
-        month = month < 10 ? "0" + month : month,
-            day = '01';///day < 10 ? "0" + day : day;
-
-
-        return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
-    }
-    //$scope.from_date = _timeFromdate();
-    // $scope.to_date = _timeTodate();
-    $http({
-        method: 'GET',
-        url: host_api + 'api/promotion/get?action=detail&id=' + $scope.pid,
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        //console.log(res)
-        if (res.data.result > 0) {
-            $scope.dataListChannel = res.data.data;
-
-            $scope.dataProduct = {
-                title: res.data.data.name,
-                channelId: res.data.data.channel.code,
-                type: res.data.data.type,
-                scale: res.data.data.scale,
-                fromdate: res.data.data.start_time,
-                todate: res.data.data.end_time,
-                description: res.data.data.description,
-                refId: res.data.data.refId
+    // Them khuyen mai
+    app.controller("addPromotion$Ctrl", function ($http, $scope, $rootScope, $dialogAlert, $dialogConfirm, $state, $dialogShowForm, $log, $uibModal, $window) {
+        $scope.data = {
+            textInput: '',
+            options: {
+                language: 'en',
+                allowedContent: true,
+                entities: false
             }
-
-            $scope.loadProducts(res.data.data.channel.code)
+        };
+        $scope.dataProduct = {
+            target: 0
+        }
+        $(document).ready(function () {
+            $('.select_promotion').select2({
+                placeholder: {
+                    id: '-1', // the value of the option
+                    text: 'Chọn ít nhất 1 sản phẩm'
+                }
+            });
+            $('#formProduct').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    title: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Tiêu đề không được bỏ trống.'
+                            }
+                        }
+                    },
+                }
+            })
+                .on('success.field.bv', function (e, data) {
+                    var $parent = data.element.parents('.form-group');
+                    // Hide the success icon
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('error.field.bv', function (e, data) {
+                    // Hide the success icon
+                    var $parent = data.element.parents('.form-group');
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('success.form.bv', function (e) {
+                    // Prevent form submission
+                    e.preventDefault();
+                    postData();
+                });
             setTimeout(function () {
                 $(".dateTimePicker").datetimepicker({
                     isRTL: false,
@@ -3864,703 +3817,973 @@ app.controller("editPromotion$Ctrl", function ($http, $scope, $state, $rootScope
                     //pickTime: false, //tat thoi gian
                     todayBtn: true,
                 });
-                res.data.data.product.forEach(function (val) {
-                    productId.push(val.code);
-                })
-                $scope.dataProduct.productId = productId;
-                $(document).ready(function () {
-                    $('.select_promotion').val(productId);
-                    $('.select_promotion').trigger('change');
-                });
             }, 500);
+
+            function numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
+        })
+        var _timeTodate = function () {
+            var date = new Date();
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours();
+            month = month < 10 ? "0" + month : month,
+                day = day < 10 ? "0" + day : day;
+
+
+            return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
+        }
+        var _timeFromdate = function () {
+            //var date = new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000));// lùi 30 ngày
+            var date = new Date();
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours();
+            month = month < 10 ? "0" + month : month,
+                day = '01';///day < 10 ? "0" + day : day;
+
+
+            return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
+        }
+        $scope.from_date = _timeFromdate();
+        $scope.to_date = _timeTodate();
+        $http({
+            method: 'GET',
+            url: host_api + 'api/channel/get?action=list',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.data.result > 0) {
+                $scope.dataListChannel = res.data.data;
+            } else {
+                $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
+            }
+
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.dataProduct = {};
+        $scope.dataProduct.productId = [];
+        //danh sách sản phẩm theo id kênh bán
+        $scope.flag_product = true;
+        $scope.loadProducts = function (pid) {
             $http({
                 method: 'GET',
-                url: host_api + 'api/channel/get?action=list',
+                url: host_api + 'api/product/get?action=listbychannelid&channelId=' + pid,
                 headers: {
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
             }).then(function (res) {
                 if (res.data.result > 0) {
-                    $scope.dataListChannel = res.data.data;
+                    $scope.flag_product = false;
+                    $scope.dataListProduct = res.data.data;
                 } else {
-                    $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
                 }
 
             }, function err(e) {
                 $rootScope.checkError(e, $dialogAlert);
             })
-        } else {
-            $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
         }
 
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-
-
-    //danh sách sản phẩm theo id kênh bán
-    $scope.flag_product = true;
-    $scope.loadProducts = function (pid) {
-        $http({
-            method: 'GET',
-            url: host_api + 'api/product/get?action=listbychannelid&channelId=' + pid,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            if (res.data.result > 0) {
-                $scope.flag_product = false;
-                $scope.dataListProduct = res.data.data;
-            } else {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
-
-    //che do hiển thị /1 la show /0 la hide
-    //$scope.dataProduct.status = 1;
-    // get category blog
-    $http.get('/api/common/db_getdatanew?action=blogcategory')
-        .then(function (res) {
-            $scope.dataCategory = res.data.data;
-            //console.log(res);
-        }, function err(e) {
-            console.log(e);
-        });
-    $scope.$watch("myFile", function () {
-        //console.log($scope.myFile);
-        if ($scope.myFile) {
-            $scope.fileName = $scope.myFile.filename;
-        }
-    });
-
-    $scope.addFiles = function () {
-        //console.log($scope.myFile)
-        if ($scope.myFile === undefined || $scope.myFile === "") {
-            $scope.error = "Vui lòng chọn 1 ảnh đại diện của bài viết";
-            return;
-        }
-
-        if ($scope.myFile) {
-            $scope.error = undefined;
-            //console.log($scope.myFile)
-            if ($scope.myFile.filesize <= 0) return;
-            $scope.dataImage = {
-                Name: $scope.myFile.filename,
-                Content: "data:" + $scope.myFile.filetype + ";base64," + $scope.myFile.base64
-            };
-            ///api upload hình
-            $http({
-                method: 'POST',
-                url: window.host_api + 'api/common/upload',
-                data: $scope.dataImage,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token,
-                }
-            }).then(function (response) {
-                //console.log(response);
-                $scope.imagesUrl = window.host + "uploads/" + response.data.data.rewrite;
-                $scope.dataProduct.files = [{
-                    rewrite: response.data.data.rewrite,
-                    original: response.data.data.original
-                }];
-            }, function (res) {
-                console.log(res);
-                // $dialogAlert("\n " + res.data.Message ? res.data.Message : "", "Thông báo!", "warning");
+        //che do hiển thị /1 la show /0 la hide
+        //$scope.dataProduct.status = 1;
+        // get category blog
+        $http.get('/api/common/db_getdatanew?action=blogcategory')
+            .then(function (res) {
+                $scope.dataCategory = res.data.data;
+                //console.log(res);
+            }, function err(e) {
+                console.log(e);
             });
-        }
-    }
+        $scope.$watch("myFile", function () {
+            //console.log($scope.myFile);
+            if ($scope.myFile) {
+                $scope.fileName = $scope.myFile.filename;
+            }
+        });
 
-    //$scope.contentBlog = "";
-    function postData() {
-        //$scope.dataProduct.fromdate = $scope.from_date;
-        // $scope.dataProduct.todate = $scope.to_date;
-        $scope.dataProduct.action = "update";
-        //console.log($scope.dataProduct);
-        $dialogConfirm("Vui lòng kiểm tra lại thông tin và ấn xác nhận để hoàn tất.", "Xác nhận thay đổi", function (res) {
-            if (res) {
-                //return;
+        $scope.addFiles = function () {
+            //console.log($scope.myFile)
+            if ($scope.myFile === undefined || $scope.myFile === "") {
+                $scope.error = "Vui lòng chọn 1 ảnh đại diện của bài viết";
+                return;
+            }
+
+            if ($scope.myFile) {
+                $scope.error = undefined;
+                //console.log($scope.myFile)
+                if ($scope.myFile.filesize <= 0) return;
+                $scope.dataImage = {
+                    Name: $scope.myFile.filename,
+                    Content: "data:" + $scope.myFile.filetype + ";base64," + $scope.myFile.base64
+                };
+                ///api upload hình
                 $http({
                     method: 'POST',
-                    url: host_api + 'api/promotion/crud',
-                    data: $scope.dataProduct,
+                    url: window.host_api + 'api/common/upload',
+                    data: $scope.dataImage,
                     headers: {
-                        'Authorization': $window.localStorage.token,
+                        'Authorization': "Bearer " + $window.localStorage.token,
                     }
                 }).then(function (response) {
                     //console.log(response);
-                    if (response.data.result > 0) {
-                        $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function (res) {
-                            if (res) {
-                                $state.go("selkhuyenmai");
-                            }
-                        });
-                        $('#formProduct').bootstrapValidator('resetForm', true);
-                    } else {
-                        $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-                    }
+                    $scope.imagesUrl = window.host + "uploads/" + response.data.data.rewrite;
+                    $scope.dataProduct.files = [{
+                        rewrite: response.data.data.rewrite,
+                        original: response.data.data.original
+                    }];
                 }, function (res) {
-                    //console.log(res);
-                    $dialogAlert("\n " + res.data.message ? res.data.message : "", "Thông báo!", "warning");
+                    console.log(res);
+                    // $dialogAlert("\n " + res.data.Message ? res.data.Message : "", "Thông báo!", "warning");
                 });
             }
-        })
-    }
-})
-// Them nha cung cap
-app.controller("addProducer$Ctrl", function ($http, $scope, $rootScope, $dialogAlert, $dialogConfirm, $state, $dialogShowForm, $log, $uibModal, $window) {
-    $scope.data = {
-        textInput: '',
-        options: {
-            language: 'en',
-            allowedContent: true,
-            entities: false
         }
-    };
 
-    $(document).ready(function () {
-
-        $('#formProducer').bootstrapValidator({
-            feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                name: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Tên không được bỏ trống.'
+        //$scope.contentBlog = "";
+        function postData() {
+            $scope.dataProduct.fromdate = $scope.from_date;
+            $scope.dataProduct.todate = $scope.to_date;
+            $scope.dataProduct.action = "create";
+            console.log($scope.dataProduct);
+            //return;
+            $http({
+                method: 'POST',
+                url: host_api + 'api/promotion/crud',
+                data: $scope.dataProduct,
+                headers: {
+                    'Authorization': $window.localStorage.token,
+                }
+            }).then(function (response) {
+                //console.log(response);
+                if (response.data.result > 0) {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function (res) {
+                        if (res) {
+                            $state.go("selkhuyenmai");
                         }
-                    }
-                },
-            }
-        })
-            .on('success.field.bv', function (e, data) {
-                var $parent = data.element.parents('.form-group');
-                // Hide the success icon
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('error.field.bv', function (e, data) {
-                // Hide the success icon
-                var $parent = data.element.parents('.form-group');
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('success.form.bv', function (e) {
-                // Prevent form submission
-                e.preventDefault();
-                postData();
-            });
-
-    })
-
-    $http({
-        method: 'GET',
-        url: host_api + 'api/channel/get?action=list',
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        if (res.data.result > 0) {
-            $scope.dataListChannel = res.data.data;
-        } else {
-            $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
-        }
-
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-    $scope.dataProducer = {};
-
-    //danh sách nhà cung cấp
-    $scope.flag_product = true;
-    $scope.loadProducts = function (pid) {
-        $http({
-            method: 'GET',
-            url: host_api + 'api/product/get?action=listbychannelid&channelId=' + pid,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            if (res.data.result > 0) {
-                $scope.flag_product = false;
-                $scope.dataListProduct = res.data.data;
-            } else {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
-
-    //$scope.contentBlog = "";
-    function postData() {
-        $scope.dataProducer.action = "create";
-        //console.log($scope.dataProducer);
-        //return;
-        $http({
-            method: 'POST',
-            url: host_api + 'api/producer/crud',
-            data: $scope.dataProducer,
-            headers: {
-                'Authorization': $window.localStorage.token,
-            }
-        }).then(function (response) {
-            //console.log(response);
-            if (response.data.result > 0) {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function (res) {
-                    if (res) {
-                        $state.go("selList");
-                    }
-                });
-                $('#formProduct').bootstrapValidator('resetForm', true);
-            } else {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-            }
-        }, function (res) {
-            //console.log(res);
-            $dialogAlert("\n " + res.data.message ? res.data.message : "", "Thông báo!", "warning");
-        });
-    }
-
-})
-// Them sản phẩm nha cung cap
-app.controller("addSptProducer$Ctrl", function ($http, $scope, $rootScope, $stateParams, $dialogAlert, $dialogConfirm, $state, $dialogShowForm, $log, $uibModal, $window) {
-    var code = $stateParams.code;
-    $(document).ready(function () {
-        $('.select_product').select2({
-            placeholder: {
-                id: '-1', // the value of the option
-                text: 'Chọn sản phẩm'
-            }
-        });
-        $('#formProducer').bootstrapValidator({
-            feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                name: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Tên không được bỏ trống.'
-                        }
-                    }
-                },
-            }
-        })
-            .on('success.field.bv', function (e, data) {
-                var $parent = data.element.parents('.form-group');
-                // Hide the success icon
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('error.field.bv', function (e, data) {
-                // Hide the success icon
-                var $parent = data.element.parents('.form-group');
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('success.form.bv', function (e) {
-                // Prevent form submission
-                e.preventDefault();
-                postData();
-            });
-
-    })
-    $scope.dataProducer = {};
-    //
-    $http({
-        method: 'GET',
-        url: host_api + 'api/channel/get?action=list',
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        //console.log(res);
-        if (res.data.result > 0) {
-            $scope.dataListChannel = res.data.data;
-        } else {
-            $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-        }
-
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-    // danh sach nha cung cap
-    $http({
-        method: 'GET',
-        url: window.host_api + 'api/producer/get?action=list',
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        if (res.data.result > 0) {
-            res.data.data.forEach(function (val) {
-                if (val.code == code) {
-                    $scope.title = val.name;
-                    $scope.dataProducer.code = val.code;
-                    $scope.dataProducer.secretkey = val.secretkey;
+                    });
+                    $('#formProduct').bootstrapValidator('resetForm', true);
+                } else {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
                 }
-            })
-        } else {
-            $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
-        }
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-    // danh sach nhom san pham
-    $http({
-        method: 'GET',
-        url: host_api + 'api/producer/get?action=insugroup',
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        if (res.data.result > 0) {
-            $scope.dataInsugroup = res.data.data;
-        } else {
-            $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
-        }
-
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-
-
-    //danh sách nhà cung cấp
-    $scope.flag_product = true;
-    $scope.loadProducts = function (pid) {
-        $http({
-            method: 'GET',
-            url: host_api + 'api/producer/get?action=insutype&code=' + pid,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            if (res.data.result > 0) {
-                $scope.flag_product = false;
-                $scope.dataListProduct = res.data.data;
-            } else {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
-
-    //$scope.contentBlog = "";
-    function postData() {
-        $scope.dataProducer.action = "product";
-        //console.log($scope.dataProducer);
-        //return;
-        $http({
-            method: 'POST',
-            url: host_api + 'api/producer/crud',
-            data: $scope.dataProducer,
-            headers: {
-                'Authorization': $window.localStorage.token,
-            }
-        }).then(function (response) {
-            //console.log(response);
-            if (response.data.result > 0) {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function (res) {
-                    if (res) {
-                        $state.go("selProducer");
-                    }
-                });
-                $('#formProduct').bootstrapValidator('resetForm', true);
-            } else {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-            }
-        }, function (res) {
-            //console.log(res);
-            $dialogAlert("\n " + res.data.message ? res.data.message : "", "Thông báo!", "warning");
-        });
-    }
-
-})
-app.controller("chienluocbanhang$Ctrl", function ($http, $scope, $rootScope, $stateParams, $dialogAlert, $dialogConfirm, $state, $dialogShowForm, $log, $uibModal, $window) {
-    //bieu do thong ke chien luoc ban hang
-    $(document).ready(function () {
-        var options_column = {
-            colors: ['#5B9BD5', '#ED7D31', '#89A54E', '#80699B', '#3D96AE', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],
-        }
-        var data1 = {
-            category: ["Truyền thông sms", "Truyền thông mạng xã hội", "Truyền thông Telesale"],
-            series: [
-                {
-                    name: "Mục tiêu",
-                    data: [20000, 50000, 30000]
-                },
-                {
-                    name: "Đạt được",
-                    data: [15000, 80000, 1000]
-                }
-            ]
-        };
-        var data2 = {
-            category: ["Truyền thông sms", "Truyền thông mạng xã hội", "Truyền thông Telesale"],
-            series: [
-                {
-                    name: "Mục tiêu",
-                    data: [100, 50, 30]
-                },
-                {
-                    name: "Đạt được",
-                    data: [20, 80, 10]
-                }
-            ]
-        }
-        var data3 = {
-            category: ["SMS tới KH VIP", "SMS tới KH HSSV", "SMS tới KH Phổ thông"],
-            series: [
-                {
-                    name: "Mục tiêu",
-                    data: [10000, 10000, 50000]
-                },
-                {
-                    name: "Đạt được",
-                    data: [15000, 6000, 80000]
-                }
-            ]
-        };
-        var data4 = {
-            category: ["SMS tới KH VIP", "SMS tới KH HSSV", "SMS tới KH Phổ thông"],
-            series: [
-                {
-                    name: "Mục tiêu",
-                    data: [25, 15, 50]
-                },
-                {
-                    name: "Đạt được",
-                    data: [32, 9, 80]
-                }
-            ]
-        }
-        load_bieudocot("chartclbh1", data1, "Chiến lược bán hàng", options_column);
-        load_bieudocot("chartclbh2", data2, "Thống kê doanh thu(tỉ đồng)", options_column);
-        load_bieudocot("chartclbh3", data3, "Phân tích khách hàng", options_column);
-        load_bieudocot("chartclbh4", data4, "Thống kê doanh thu(tỉ đồng)", options_column);
-
-        function load_bieudocot(id, data, title, options) {
-            Highcharts.setOptions({
-                colors: options.colors
-            });
-            Highcharts.chart(id, {
-                chart: {
-                    type: 'column'
-                },
-                title: {
-                    text: title
-                },
-                subtitle: {
-                    text: ''
-                },
-                xAxis: {
-                    categories: data.category,
-                    type: 'category'
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: null
-                    },
-                    labels: {
-                        overflow: 'justify'
-                    }
-                },
-                tooltip: {
-                    formatter: function () {
-                        var _html = "";
-                        _html += `<h4>${this.x}</h4>`;
-                        this.points.forEach(function (val) {
-                            _html += `<p style="margin-bottom:0"><span style="color:${val.color}"> ${val.series.name}</span> : ${formatNumbers(val.y)}</p>`;
-                        })
-                        return _html;
-                    },
-                    shared: true,
-                    useHTML: true
-                },
-                plotOptions: {
-                    series: {
-                        borderWidth: 0,
-                        dataLabels: {
-                            enabled: true,
-                            formatter: function () {
-                                return formatNumbers(this.y)
-                            }
-                        }
-                    }
-                },
-                credits: {
-                    enabled: false
-                },
-                series: data.series
+            }, function (res) {
+                //console.log(res);
+                $dialogAlert("\n " + res.data.message ? res.data.message : "", "Thông báo!", "warning");
             });
         }
 
-
     })
-
-})
-app.controller("phantichhanhvi$Ctrl", function ($http, $scope, $rootScope, $stateParams, $dialogAlert, $dialogConfirm, $state, $dialogShowForm, $log, $uibModal, $window) {
-    //bieu do thong ke chien luoc ban hang
-    $(document).ready(function () {
-        var options_column = {
-            colors: ['#ED7D31', '#5B9BD5', '#89A54E', '#80699B', '#763c3c', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],
-        }
-        var data1 = {}, data2 = {};
-        $http({
-            method: 'GET',
-            url: host_api + 'api/report/seller?action=customerchart&type=column',
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            // console.log(res);
-            if (res.data.result > 0) {
-                console.log(res);
-                data1.category = res.data.data.customer.category;
-                data1.series = res.data.data.customer.series;
-                data2.category = res.data.data.subscription.category;
-                data2.series = res.data.data.subscription.series;
-                load_bieudocot("charthvkh1", data1, "Thống kê tăng trưởng khách hàng", options_column);
-                load_bieudocot("charthvkh2", data2, "Thống kê thuê bao", options_column);
-            } else {
-                $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
-            }
-
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-
-        function load_bieudocot(id, data, title, options) {
-            Highcharts.setOptions({
-                colors: options.colors
-            });
-            Highcharts.chart(id, {
-                chart: {
-                    type: 'column'
-                },
-                title: {
-                    text: title
-                },
-                subtitle: {
-                    text: ''
-                },
-                xAxis: {
-                    categories: data.category,
-                    type: 'category'
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: null
-                    },
-                    labels: {
-                        overflow: 'justify'
-                    }
-                },
-                tooltip: {
-                    formatter: function () {
-                        var _html = "";
-                        _html += `<h4>${this.x}</h4>`;
-                        this.points.forEach(function (val) {
-                            _html += `<p style="margin-bottom:0"><span style="color:${val.color}"> ${val.series.name}</span> : ${formatNumbers(val.y)}</p>`;
-                        })
-                        return _html;
-                    },
-                    shared: true,
-                    useHTML: true
-                },
-                plotOptions: {
-                    series: {
-                        borderWidth: 0,
-                        dataLabels: {
-                            enabled: true,
-                            formatter: function () {
-                                return formatNumbers(this.y) + '<div><span class="lnr lnr-user"></span></div>';
-                            }
-                        }
-                    }
-                },
-                credits: {
-                    enabled: false
-                },
-                series: data.series
-            });
-        }
-
-
-    })
-
-})
-
-// function quan ly don hang moza
-app.controller('pmoza$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
-    if ($rootScope.$user && $rootScope.$user.Roles.indexOf('info') < 0) {
-        $rootScope.$user = null;
-        $rootScope.login_active = true;
-        $state.go('account$signout');
-        return;
-    }
-    if ($rootScope.$user === null || $rootScope.$user === undefined) {
-        $log.info('redirect to login');
-        $location.path('/account/signin');
-        return;
-    }
-    $rootScope.headTitle = 'Quản lý đơn hàng  > Kaspersky endpoint security';
-    $scope.textloading = "Đang tải dữ liệu ...";
-    $scope.page = 0;
-    $scope.num = 10;
-    $scope.totalRow = 0;
-    $scope.status = "-1";
-    $(document).ready(function () {
-        setTimeout(function () {
-            $(".dateTimePicker").datetimepicker({
-                isRTL: false,
-                format: 'yyyy-mm-dd',
-                autoclose: true,
+    // Them khuyen mai
+    app.controller("editPromotion$Ctrl", function ($http, $scope, $state, $rootScope, $stateParams, $dialogAlert, $dialogConfirm, $dialogShowForm, $log, $uibModal, $window) {
+        $scope.pid = $stateParams.id;
+        console.log($scope.pid);
+        $scope.dataProduct = {};
+        var productId = [];
+        $scope.data = {
+            textInput: '',
+            options: {
                 language: 'en',
-                minView: 2, //tat thoi gian
-                pickTime: false, //tat thoi gian
-                todayBtn: true,
-            });
-        }, 500);
-    });
+                allowedContent: true,
+                entities: false
+            }
+        };
+        $(document).ready(function () {
+            $('.select_promotion').select2();
+            $('#formProduct').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    title: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Tiêu đề không được bỏ trống.'
+                            }
+                        }
+                    },
+                }
+            })
+                .on('success.field.bv', function (e, data) {
+                    var $parent = data.element.parents('.form-group');
+                    // Hide the success icon
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('error.field.bv', function (e, data) {
+                    // Hide the success icon
+                    var $parent = data.element.parents('.form-group');
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('success.form.bv', function (e) {
+                    // Prevent form submission
+                    e.preventDefault();
+                    postData();
+                });
 
-    var _timeTodate = function () {
-        var date = new Date();
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1,
-            day = date.getDate(),
-            hour = date.getHours();
-        month = month < 10 ? "0" + month : month,
-            day = day < 10 ? "0" + day : day;
-        return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
-    }
-    var _timeFromdate = function () {
-        //var date = new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000));/ / lùi 30 ngày
-        var date = new Date();
-        var year = date.getFullYear(),
-            month = date.getMonth() + 1,
-            day = date.getDate(),
-            hour = date.getHours();
-        month = month < 10 ? "0" + month : month,
-            day = '01';///day < 10 ? "0" + day : day;
-        return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
-    }
-    $scope.from_date = _timeFromdate();
-    $scope.to_date = _timeTodate();
-    // xac nhan don hang da khoi tao thong tin cho khach hang thanh cong
-    $scope.fnconfirm = function (subid) {
-        $scope.datakh = {};
-        $dialogConfirm(`<p style="font-size:14px">Xác nhận đã khởi tạo thông tin cho khách hàng thành công?</p>
+        })
+        var _timeTodate = function () {
+            var date = new Date();
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours();
+            month = month < 10 ? "0" + month : month,
+                day = day < 10 ? "0" + day : day;
+
+
+            return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
+        }
+        var _timeFromdate = function () {
+            //var date = new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000));// lùi 30 ngày
+            var date = new Date();
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours();
+            month = month < 10 ? "0" + month : month,
+                day = '01';///day < 10 ? "0" + day : day;
+
+
+            return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
+        }
+        //$scope.from_date = _timeFromdate();
+        // $scope.to_date = _timeTodate();
+        $http({
+            method: 'GET',
+            url: host_api + 'api/promotion/get?action=detail&id=' + $scope.pid,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            //console.log(res)
+            if (res.data.result > 0) {
+                $scope.dataListChannel = res.data.data;
+
+                $scope.dataProduct = {
+                    title: res.data.data.name,
+                    channelId: res.data.data.channel.code,
+                    type: res.data.data.type,
+                    scale: res.data.data.scale,
+                    fromdate: res.data.data.start_time,
+                    todate: res.data.data.end_time,
+                    description: res.data.data.description,
+                    refId: res.data.data.refId
+                }
+
+                $scope.loadProducts(res.data.data.channel.code)
+                setTimeout(function () {
+                    $(".dateTimePicker").datetimepicker({
+                        isRTL: false,
+                        format: 'yyyy-mm-dd hh:ii:00',
+                        autoclose: true,
+                        language: 'en',
+                        //minView: 2, //tat thoi gian
+                        //pickTime: false, //tat thoi gian
+                        todayBtn: true,
+                    });
+                    res.data.data.product.forEach(function (val) {
+                        productId.push(val.code);
+                    })
+                    $scope.dataProduct.productId = productId;
+                    $(document).ready(function () {
+                        $('.select_promotion').val(productId);
+                        $('.select_promotion').trigger('change');
+                    });
+                }, 500);
+                $http({
+                    method: 'GET',
+                    url: host_api + 'api/channel/get?action=list',
+                    headers: {
+                        'Authorization': "Bearer " + $window.localStorage.token
+                    }
+                }).then(function (res) {
+                    if (res.data.result > 0) {
+                        $scope.dataListChannel = res.data.data;
+                    } else {
+                        $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
+                    }
+
+                }, function err(e) {
+                    $rootScope.checkError(e, $dialogAlert);
+                })
+            } else {
+                $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
+            }
+
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+
+
+        //danh sách sản phẩm theo id kênh bán
+        $scope.flag_product = true;
+        $scope.loadProducts = function (pid) {
+            $http({
+                method: 'GET',
+                url: host_api + 'api/product/get?action=listbychannelid&channelId=' + pid,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.data.result > 0) {
+                    $scope.flag_product = false;
+                    $scope.dataListProduct = res.data.data;
+                } else {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+
+        //che do hiển thị /1 la show /0 la hide
+        //$scope.dataProduct.status = 1;
+        // get category blog
+        $http.get('/api/common/db_getdatanew?action=blogcategory')
+            .then(function (res) {
+                $scope.dataCategory = res.data.data;
+                //console.log(res);
+            }, function err(e) {
+                console.log(e);
+            });
+        $scope.$watch("myFile", function () {
+            //console.log($scope.myFile);
+            if ($scope.myFile) {
+                $scope.fileName = $scope.myFile.filename;
+            }
+        });
+
+        $scope.addFiles = function () {
+            //console.log($scope.myFile)
+            if ($scope.myFile === undefined || $scope.myFile === "") {
+                $scope.error = "Vui lòng chọn 1 ảnh đại diện của bài viết";
+                return;
+            }
+
+            if ($scope.myFile) {
+                $scope.error = undefined;
+                //console.log($scope.myFile)
+                if ($scope.myFile.filesize <= 0) return;
+                $scope.dataImage = {
+                    Name: $scope.myFile.filename,
+                    Content: "data:" + $scope.myFile.filetype + ";base64," + $scope.myFile.base64
+                };
+                ///api upload hình
+                $http({
+                    method: 'POST',
+                    url: window.host_api + 'api/common/upload',
+                    data: $scope.dataImage,
+                    headers: {
+                        'Authorization': "Bearer " + $window.localStorage.token,
+                    }
+                }).then(function (response) {
+                    //console.log(response);
+                    $scope.imagesUrl = window.host + "uploads/" + response.data.data.rewrite;
+                    $scope.dataProduct.files = [{
+                        rewrite: response.data.data.rewrite,
+                        original: response.data.data.original
+                    }];
+                }, function (res) {
+                    console.log(res);
+                    // $dialogAlert("\n " + res.data.Message ? res.data.Message : "", "Thông báo!", "warning");
+                });
+            }
+        }
+
+        //$scope.contentBlog = "";
+        function postData() {
+            //$scope.dataProduct.fromdate = $scope.from_date;
+            // $scope.dataProduct.todate = $scope.to_date;
+            $scope.dataProduct.action = "update";
+            //console.log($scope.dataProduct);
+            $dialogConfirm("Vui lòng kiểm tra lại thông tin và ấn xác nhận để hoàn tất.", "Xác nhận thay đổi", function (res) {
+                if (res) {
+                    //return;
+                    $http({
+                        method: 'POST',
+                        url: host_api + 'api/promotion/crud',
+                        data: $scope.dataProduct,
+                        headers: {
+                            'Authorization': $window.localStorage.token,
+                        }
+                    }).then(function (response) {
+                        //console.log(response);
+                        if (response.data.result > 0) {
+                            $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function (res) {
+                                if (res) {
+                                    $state.go("selkhuyenmai");
+                                }
+                            });
+                            $('#formProduct').bootstrapValidator('resetForm', true);
+                        } else {
+                            $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                        }
+                    }, function (res) {
+                        //console.log(res);
+                        $dialogAlert("\n " + res.data.message ? res.data.message : "", "Thông báo!", "warning");
+                    });
+                }
+            })
+        }
+    })
+    // Them nha cung cap
+    app.controller("addProducer$Ctrl", function ($http, $scope, $rootScope, $dialogAlert, $dialogConfirm, $state, $dialogShowForm, $log, $uibModal, $window) {
+        $scope.data = {
+            textInput: '',
+            options: {
+                language: 'en',
+                allowedContent: true,
+                entities: false
+            }
+        };
+
+        $(document).ready(function () {
+
+            $('#formProducer').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    name: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Tên không được bỏ trống.'
+                            }
+                        }
+                    },
+                }
+            })
+                .on('success.field.bv', function (e, data) {
+                    var $parent = data.element.parents('.form-group');
+                    // Hide the success icon
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('error.field.bv', function (e, data) {
+                    // Hide the success icon
+                    var $parent = data.element.parents('.form-group');
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('success.form.bv', function (e) {
+                    // Prevent form submission
+                    e.preventDefault();
+                    postData();
+                });
+
+        })
+
+        $http({
+            method: 'GET',
+            url: host_api + 'api/channel/get?action=list',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.data.result > 0) {
+                $scope.dataListChannel = res.data.data;
+            } else {
+                $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
+            }
+
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.dataProducer = {};
+
+        //danh sách nhà cung cấp
+        $scope.flag_product = true;
+        $scope.loadProducts = function (pid) {
+            $http({
+                method: 'GET',
+                url: host_api + 'api/product/get?action=listbychannelid&channelId=' + pid,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.data.result > 0) {
+                    $scope.flag_product = false;
+                    $scope.dataListProduct = res.data.data;
+                } else {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+
+        //$scope.contentBlog = "";
+        function postData() {
+            $scope.dataProducer.action = "create";
+            //console.log($scope.dataProducer);
+            //return;
+            $http({
+                method: 'POST',
+                url: host_api + 'api/producer/crud',
+                data: $scope.dataProducer,
+                headers: {
+                    'Authorization': $window.localStorage.token,
+                }
+            }).then(function (response) {
+                //console.log(response);
+                if (response.data.result > 0) {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function (res) {
+                        if (res) {
+                            $state.go("selList");
+                        }
+                    });
+                    $('#formProduct').bootstrapValidator('resetForm', true);
+                } else {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                }
+            }, function (res) {
+                //console.log(res);
+                $dialogAlert("\n " + res.data.message ? res.data.message : "", "Thông báo!", "warning");
+            });
+        }
+
+    })
+    // Them sản phẩm nha cung cap
+    app.controller("addSptProducer$Ctrl", function ($http, $scope, $rootScope, $stateParams, $dialogAlert, $dialogConfirm, $state, $dialogShowForm, $log, $uibModal, $window) {
+        var code = $stateParams.code;
+        $(document).ready(function () {
+            $('.select_product').select2({
+                placeholder: {
+                    id: '-1', // the value of the option
+                    text: 'Chọn sản phẩm'
+                }
+            });
+            $('#formProducer').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    name: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Tên không được bỏ trống.'
+                            }
+                        }
+                    },
+                }
+            })
+                .on('success.field.bv', function (e, data) {
+                    var $parent = data.element.parents('.form-group');
+                    // Hide the success icon
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('error.field.bv', function (e, data) {
+                    // Hide the success icon
+                    var $parent = data.element.parents('.form-group');
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('success.form.bv', function (e) {
+                    // Prevent form submission
+                    e.preventDefault();
+                    postData();
+                });
+
+        })
+        $scope.dataProducer = {};
+        //
+        $http({
+            method: 'GET',
+            url: host_api + 'api/channel/get?action=list',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            //console.log(res);
+            if (res.data.result > 0) {
+                $scope.dataListChannel = res.data.data;
+            } else {
+                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+            }
+
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        // danh sach nha cung cap
+        $http({
+            method: 'GET',
+            url: window.host_api + 'api/producer/get?action=list',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.data.result > 0) {
+                res.data.data.forEach(function (val) {
+                    if (val.code == code) {
+                        $scope.title = val.name;
+                        $scope.dataProducer.code = val.code;
+                        $scope.dataProducer.secretkey = val.secretkey;
+                    }
+                })
+            } else {
+                $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        // danh sach nhom san pham
+        $http({
+            method: 'GET',
+            url: host_api + 'api/producer/get?action=insugroup',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.data.result > 0) {
+                $scope.dataInsugroup = res.data.data;
+            } else {
+                $dialogAlert("\n " + res.data.message, "Thông báo!", "warning");
+            }
+
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+
+
+        //danh sách nhà cung cấp
+        $scope.flag_product = true;
+        $scope.loadProducts = function (pid) {
+            $http({
+                method: 'GET',
+                url: host_api + 'api/producer/get?action=insutype&code=' + pid,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.data.result > 0) {
+                    $scope.flag_product = false;
+                    $scope.dataListProduct = res.data.data;
+                } else {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+
+        //$scope.contentBlog = "";
+        function postData() {
+            $scope.dataProducer.action = "product";
+            //console.log($scope.dataProducer);
+            //return;
+            $http({
+                method: 'POST',
+                url: host_api + 'api/producer/crud',
+                data: $scope.dataProducer,
+                headers: {
+                    'Authorization': $window.localStorage.token,
+                }
+            }).then(function (response) {
+                //console.log(response);
+                if (response.data.result > 0) {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function (res) {
+                        if (res) {
+                            $state.go("selProducer");
+                        }
+                    });
+                    $('#formProduct').bootstrapValidator('resetForm', true);
+                } else {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                }
+            }, function (res) {
+                //console.log(res);
+                $dialogAlert("\n " + res.data.message ? res.data.message : "", "Thông báo!", "warning");
+            });
+        }
+
+    })
+    app.controller("chienluocbanhang$Ctrl", function ($http, $scope, $rootScope, $stateParams, $dialogAlert, $dialogConfirm, $state, $dialogShowForm, $log, $uibModal, $window) {
+        //bieu do thong ke chien luoc ban hang
+        $(document).ready(function () {
+            var options_column = {
+                colors: ['#5B9BD5', '#ED7D31', '#89A54E', '#80699B', '#3D96AE', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],
+            }
+            var data1 = {
+                category: ["Truyền thông sms", "Truyền thông mạng xã hội", "Truyền thông Telesale"],
+                series: [
+                    {
+                        name: "Mục tiêu",
+                        data: [20000, 50000, 30000]
+                    },
+                    {
+                        name: "Đạt được",
+                        data: [15000, 80000, 1000]
+                    }
+                ]
+            };
+            var data2 = {
+                category: ["Truyền thông sms", "Truyền thông mạng xã hội", "Truyền thông Telesale"],
+                series: [
+                    {
+                        name: "Mục tiêu",
+                        data: [100, 50, 30]
+                    },
+                    {
+                        name: "Đạt được",
+                        data: [20, 80, 10]
+                    }
+                ]
+            }
+            var data3 = {
+                category: ["SMS tới KH VIP", "SMS tới KH HSSV", "SMS tới KH Phổ thông"],
+                series: [
+                    {
+                        name: "Mục tiêu",
+                        data: [10000, 10000, 50000]
+                    },
+                    {
+                        name: "Đạt được",
+                        data: [15000, 6000, 80000]
+                    }
+                ]
+            };
+            var data4 = {
+                category: ["SMS tới KH VIP", "SMS tới KH HSSV", "SMS tới KH Phổ thông"],
+                series: [
+                    {
+                        name: "Mục tiêu",
+                        data: [25, 15, 50]
+                    },
+                    {
+                        name: "Đạt được",
+                        data: [32, 9, 80]
+                    }
+                ]
+            }
+            load_bieudocot("chartclbh1", data1, "Chiến lược bán hàng", options_column);
+            load_bieudocot("chartclbh2", data2, "Thống kê doanh thu(tỉ đồng)", options_column);
+            load_bieudocot("chartclbh3", data3, "Phân tích khách hàng", options_column);
+            load_bieudocot("chartclbh4", data4, "Thống kê doanh thu(tỉ đồng)", options_column);
+
+            function load_bieudocot(id, data, title, options) {
+                Highcharts.setOptions({
+                    colors: options.colors
+                });
+                Highcharts.chart(id, {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: title
+                    },
+                    subtitle: {
+                        text: ''
+                    },
+                    xAxis: {
+                        categories: data.category,
+                        type: 'category'
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: null
+                        },
+                        labels: {
+                            overflow: 'justify'
+                        }
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            var _html = "";
+                            _html += `<h4>${this.x}</h4>`;
+                            this.points.forEach(function (val) {
+                                _html += `<p style="margin-bottom:0"><span style="color:${val.color}"> ${val.series.name}</span> : ${formatNumbers(val.y)}</p>`;
+                            })
+                            return _html;
+                        },
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        series: {
+                            borderWidth: 0,
+                            dataLabels: {
+                                enabled: true,
+                                formatter: function () {
+                                    return formatNumbers(this.y)
+                                }
+                            }
+                        }
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: data.series
+                });
+            }
+
+
+        })
+
+    })
+    app.controller("phantichhanhvi$Ctrl", function ($http, $scope, $rootScope, $stateParams, $dialogAlert, $dialogConfirm, $state, $dialogShowForm, $log, $uibModal, $window) {
+        //bieu do thong ke chien luoc ban hang
+        $(document).ready(function () {
+            var options_column = {
+                colors: ['#ED7D31', '#5B9BD5', '#89A54E', '#80699B', '#763c3c', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],
+            }
+            var data1 = {}, data2 = {};
+            $http({
+                method: 'GET',
+                url: host_api + 'api/report/seller?action=customerchart&type=column',
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.data.result > 0) {
+                    console.log(res);
+                    data1.category = res.data.data.customer.category;
+                    data1.series = res.data.data.customer.series;
+                    data2.category = res.data.data.subscription.category;
+                    data2.series = res.data.data.subscription.series;
+                    load_bieudocot("charthvkh1", data1, "Thống kê tăng trưởng khách hàng", options_column);
+                    load_bieudocot("charthvkh2", data2, "Thống kê thuê bao", options_column);
+                } else {
+                    $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                }
+
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+
+            function load_bieudocot(id, data, title, options) {
+                Highcharts.setOptions({
+                    colors: options.colors
+                });
+                Highcharts.chart(id, {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: title
+                    },
+                    subtitle: {
+                        text: ''
+                    },
+                    xAxis: {
+                        categories: data.category,
+                        type: 'category'
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: null
+                        },
+                        labels: {
+                            overflow: 'justify'
+                        }
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            var _html = "";
+                            _html += `<h4>${this.x}</h4>`;
+                            this.points.forEach(function (val) {
+                                _html += `<p style="margin-bottom:0"><span style="color:${val.color}"> ${val.series.name}</span> : ${formatNumbers(val.y)}</p>`;
+                            })
+                            return _html;
+                        },
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        series: {
+                            borderWidth: 0,
+                            dataLabels: {
+                                enabled: true,
+                                formatter: function () {
+                                    return formatNumbers(this.y) + '<div><span class="lnr lnr-user"></span></div>';
+                                }
+                            }
+                        }
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: data.series
+                });
+            }
+
+
+        })
+
+    })
+
+    // function quan ly don hang moza
+    app.controller('pmoza$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
+        if ($rootScope.$user && $rootScope.$user.Roles.indexOf('info') < 0) {
+            $rootScope.$user = null;
+            $rootScope.login_active = true;
+            $state.go('account$signout');
+            return;
+        }
+        if ($rootScope.$user === null || $rootScope.$user === undefined) {
+            $log.info('redirect to login');
+            $location.path('/account/signin');
+            return;
+        }
+        $rootScope.headTitle = 'Quản lý đơn hàng  > Kaspersky endpoint security';
+        $scope.textloading = "Đang tải dữ liệu ...";
+        $scope.page = 0;
+        $scope.num = 10;
+        $scope.totalRow = 0;
+        $scope.status = "-1";
+        $(document).ready(function () {
+            setTimeout(function () {
+                $(".dateTimePicker").datetimepicker({
+                    isRTL: false,
+                    format: 'yyyy-mm-dd',
+                    autoclose: true,
+                    language: 'en',
+                    minView: 2, //tat thoi gian
+                    pickTime: false, //tat thoi gian
+                    todayBtn: true,
+                });
+            }, 500);
+        });
+
+        var _timeTodate = function () {
+            var date = new Date();
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours();
+            month = month < 10 ? "0" + month : month,
+                day = day < 10 ? "0" + day : day;
+            return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
+        }
+        var _timeFromdate = function () {
+            //var date = new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000));/ / lùi 30 ngày
+            var date = new Date();
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours();
+            month = month < 10 ? "0" + month : month,
+                day = '01';///day < 10 ? "0" + day : day;
+            return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
+        }
+        $scope.from_date = _timeFromdate();
+        $scope.to_date = _timeTodate();
+        // xac nhan don hang da khoi tao thong tin cho khach hang thanh cong
+        $scope.fnconfirm = function (subid) {
+            $scope.datakh = {};
+            $dialogConfirm(`<p style="font-size:14px">Xác nhận đã khởi tạo thông tin cho khách hàng thành công?</p>
                 <form class="form-auth-small" name="signinForm" id="signinForm">
                         <div class="form-group">
                             <label for="signin-email" class="control-label sr-only">Tài khoản</label>
@@ -4581,58 +4804,58 @@ app.controller('pmoza$Ctrl', function ($http, $scope, $rootScope, $state, $dialo
                 </form>
             
             </div>`, "Xác nhận", function (res) {
-            if (res) {
-                var _taikhoan = $("input[name='taikhoan']").val();
-                var _matkhau = $("input[name='matkhau']").val();
-                var _key = $("input[name='key']").val();
-                var _note = $("input[name='bankingRef']").val();
-                if ($.trim(_taikhoan) === "" || $.trim(_matkhau) === "" || $.trim(_key) === "" || $.trim(_note) === "") {
-                    $dialogAlert("Thông tin không được bỏ trống, vui lòng thực hiện lại!", "Thông báo", "warning", function (res) {
-                        $scope.fnconfirm(subid);
-                    });
-                    return;
-                }
-                $http({
-                    method: 'GET',
-                    url: window.host_api + 'api/common/get?action=kesconfirm&subsId=' + subid + '&taikhoan=' + _taikhoan + '&matkhau=' + _matkhau + '&key=' + _key + '&note=' + _note,
-                    headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token
-                    }
-                }).then(function (response) {
-                    //console.log(response);
-                    if (response.data.result > 0) {
-                        $dialogAlert("Xác nhận thành công!", "Thông báo!", "success", function () {
-                            window.location.reload();
+                if (res) {
+                    var _taikhoan = $("input[name='taikhoan']").val();
+                    var _matkhau = $("input[name='matkhau']").val();
+                    var _key = $("input[name='key']").val();
+                    var _note = $("input[name='bankingRef']").val();
+                    if ($.trim(_taikhoan) === "" || $.trim(_matkhau) === "" || $.trim(_key) === "" || $.trim(_note) === "") {
+                        $dialogAlert("Thông tin không được bỏ trống, vui lòng thực hiện lại!", "Thông báo", "warning", function (res) {
+                            $scope.fnconfirm(subid);
                         });
-                    } else {
-                        $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                        return;
                     }
+                    $http({
+                        method: 'GET',
+                        url: window.host_api + 'api/common/get?action=kesconfirm&subsId=' + subid + '&taikhoan=' + _taikhoan + '&matkhau=' + _matkhau + '&key=' + _key + '&note=' + _note,
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (response) {
+                        //console.log(response);
+                        if (response.data.result > 0) {
+                            $dialogAlert("Xác nhận thành công!", "Thông báo!", "success", function () {
+                                window.location.reload();
+                            });
+                        } else {
+                            $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                        }
 
-                }, function (res) {
-                    console.log(res);
-                    $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
-                });
-            }
-        })
-    }
-    //show order detail moza product
-    $scope.invoiceDetail = function (dataInvoice) {
-        $http({
-            method: 'GET',
-            url: window.host_api + 'api/common/get?action=kesdetail&subsInfoId=' + dataInvoice + '&type=moza',
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (response) {
-            //console.log(response.data.data);
-            if (response.data.result > 0) {
-                var dataInvoice = response.data.data;
-                var modal = $uibModal.open({
-                    animation: 1000,
-                    backdrop: 'static',
-                    ariaLabelledBy: 'modal-title',
-                    ariaDescribedBy: 'modal-body',
-                    template: `<div class="modal-header label-primary" style="position:relative">\
+                    }, function (res) {
+                        console.log(res);
+                        $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
+                    });
+                }
+            })
+        }
+        //show order detail moza product
+        $scope.invoiceDetail = function (dataInvoice) {
+            $http({
+                method: 'GET',
+                url: window.host_api + 'api/common/get?action=kesdetail&subsInfoId=' + dataInvoice + '&type=moza',
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (response) {
+                //console.log(response.data.data);
+                if (response.data.result > 0) {
+                    var dataInvoice = response.data.data;
+                    var modal = $uibModal.open({
+                        animation: 1000,
+                        backdrop: 'static',
+                        ariaLabelledBy: 'modal-title',
+                        ariaDescribedBy: 'modal-body',
+                        template: `<div class="modal-header label-primary" style="position:relative">\
                     <h4 class ="modal-title" style="color:#fff" >Thông tin chi tiết đơn hàng </h4>\
                     </div>\
                     <div style="max-height:500px;overflow-y:scroll" id="print">
@@ -4667,645 +4890,645 @@ app.controller('pmoza$Ctrl', function ($http, $scope, $rootScope, $state, $dialo
                     <div class ="modal-footer">\
                         <button class ="btn btn-default" ng-click="cancel()" data-dismiss="modal" >Đóng</button>\
                     </div>`,
-                    controller: function ($scope, $uibModalInstance) {
-                        $scope.cancel = function () {
-                            $uibModalInstance.close(false);
-                        };
-                    },
-                    controllerAs: $scope,
-                    size: 'xs',//size,   
-                    windowClass: 'your-modal-class',
+                        controller: function ($scope, $uibModalInstance) {
+                            $scope.cancel = function () {
+                                $uibModalInstance.close(false);
+                            };
+                        },
+                        controllerAs: $scope,
+                        size: 'xs',//size,   
+                        windowClass: 'your-modal-class',
 
-                });
+                    });
 
-            } else {
-                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                } else {
+                    $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                }
+
+            }, function (res) {
+                console.log(res);
+                $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
+            });
+
+        };
+
+        // paging
+        $scope.prev = function () {
+            $scope.page--;
+            if ($scope.page < 0) {
+                $scope.page = 0;
+                search();
+                return;
             }
-
-        }, function (res) {
-            console.log(res);
-            $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
-        });
-
-    };
-
-    // paging
-    $scope.prev = function () {
-        $scope.page--;
-        if ($scope.page < 0) {
+            search();
+        }
+        $scope.next = function () {
+            if ((($scope.page + 1) * $scope.num) > $scope.totalRow) return;
+            $scope.page++;
+            search();
+        }
+        // search theo date, search theo productName or productCode
+        $scope.searchFilter = function () {
             $scope.page = 0;
             search();
+        }
+        // list order kes
+        search();
+        function search() {
+            $scope.data = [];
+            $scope.totalRow = 0;
+            $http({
+                method: 'GET',
+                url: window.host_api + 'api/common/get?action=productkes&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date + '&status=' + $scope.status + "&type=moza",
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res)                  
+                if (res.data.result > 0) {
+                    $scope.data = res.data.data.detail;
+                    $scope.totalRow = res.data.data.total_row;
+                } else {
+                    //$scope.textloading = "Dữ liệu trống.";
+                    $scope.textloading = res.data.message;
+                    //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+
+        // demo json
+        var _json = {
+            "result": 1,
+            "message": "Thành công",
+            "data": {
+                "total_row": 71,
+                "detail": [
+                    {
+                        "name": "Bảo hiểm  học sinh sinh viên",
+                        "mmyy": "9/2021",
+                        "qty": 6
+                    },
+                    {
+                        "name": "Bảo hiểm  học sinh sinh viên",
+                        "mmyy": "10/2021",
+                        "qty": 3
+                    },
+                    {
+                        "name": "Bảo hiểm  học sinh sinh viên",
+                        "mmyy": "11/2021",
+                        "qty": 9
+                    },
+                    {
+                        "name": "Bảo hiểm  học sinh sinh viên",
+                        "mmyy": "12/2021",
+                        "qty": 3
+                    },
+                    {
+                        "name": "Bảo hiểm  học sinh sinh viên",
+                        "mmyy": "1/2022",
+                        "qty": 1
+                    },
+                    {
+                        "name": "Bảo hiểm  học sinh sinh viên",
+                        "mmyy": "3/2022",
+                        "qty": 3
+                    },
+                    {
+                        "name": "Bảo hiểm Mô tô- xe máy (1 năm)",
+                        "mmyy": "7/2021",
+                        "qty": 3
+                    },
+                    {
+                        "name": "Bảo hiểm Mô tô- xe máy (1 năm)",
+                        "mmyy": "9/2021",
+                        "qty": 1
+                    },
+                    {
+                        "name": "Bảo hiểm Mô tô- xe máy (1 năm)",
+                        "mmyy": "10/2021",
+                        "qty": 25
+                    },
+                    {
+                        "name": "Bảo hiểm Mô tô- xe máy (1 năm)",
+                        "mmyy": "11/2021",
+                        "qty": 3
+                    },
+                    {
+                        "name": "Bảo hiểm Mô tô- xe máy (1 năm)",
+                        "mmyy": "12/2021",
+                        "qty": 1
+                    },
+                    {
+                        "name": "Bảo hiểm TNDS ô tô",
+                        "mmyy": "10/2021",
+                        "qty": 1
+                    },
+                    {
+                        "name": "Bảo hiểm TNDS ô tô",
+                        "mmyy": "11/2021",
+                        "qty": 1
+                    },
+                    {
+                        "name": "Bảo hiểm TNDS ô tô",
+                        "mmyy": "12/2021",
+                        "qty": 4
+                    },
+                    {
+                        "name": "Bảo hiểm TNDS ô tô",
+                        "mmyy": "2/2022",
+                        "qty": 1
+                    },
+                    {
+                        "name": "Kapersky Anti Virus - 1 DT",
+                        "mmyy": "6/2021",
+                        "qty": 1
+                    },
+                    {
+                        "name": "Kaspersky Endpoint Security cho Doanh nghiệp | Standard",
+                        "mmyy": "9/2021",
+                        "qty": 1
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
+                        "mmyy": "6/2021",
+                        "qty": 2
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
+                        "mmyy": "7/2021",
+                        "qty": 14
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
+                        "mmyy": "8/2021",
+                        "qty": 11
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
+                        "mmyy": "9/2021",
+                        "qty": 14
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
+                        "mmyy": "10/2021",
+                        "qty": 12
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
+                        "mmyy": "11/2021",
+                        "qty": 26
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
+                        "mmyy": "12/2021",
+                        "qty": 22
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
+                        "mmyy": "1/2022",
+                        "qty": 15
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
+                        "mmyy": "2/2022",
+                        "qty": 13
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
+                        "mmyy": "3/2022",
+                        "qty": 7
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
+                        "mmyy": "4/2021",
+                        "qty": 19
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
+                        "mmyy": "5/2021",
+                        "qty": 8
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
+                        "mmyy": "6/2021",
+                        "qty": 3
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
+                        "mmyy": "7/2021",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
+                        "mmyy": "8/2021",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
+                        "mmyy": "9/2021",
+                        "qty": 76
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
+                        "mmyy": "10/2021",
+                        "qty": 15
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
+                        "mmyy": "11/2021",
+                        "qty": 11
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
+                        "mmyy": "12/2021",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
+                        "mmyy": "1/2022",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
+                        "mmyy": "2/2022",
+                        "qty": 13
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
+                        "mmyy": "3/2022",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
+                        "mmyy": "6/2021",
+                        "qty": 1
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
+                        "mmyy": "7/2021",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
+                        "mmyy": "8/2021",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
+                        "mmyy": "9/2021",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
+                        "mmyy": "10/2021",
+                        "qty": 15
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
+                        "mmyy": "11/2021",
+                        "qty": 12
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
+                        "mmyy": "12/2021",
+                        "qty": 13
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
+                        "mmyy": "1/2022",
+                        "qty": 78
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
+                        "mmyy": "2/2022",
+                        "qty": 11
+                    },
+                    {
+                        "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
+                        "mmyy": "3/2022",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security for Android - 1 MD",
+                        "mmyy": "3/2021",
+                        "qty": 1
+                    },
+                    {
+                        "name": "Kaspersky Internet Security for Android - 1 MD",
+                        "mmyy": "6/2021",
+                        "qty": 4
+                    },
+                    {
+                        "name": "Kaspersky Internet Security for Android - 1 MD",
+                        "mmyy": "7/2021",
+                        "qty": 11
+                    },
+                    {
+                        "name": "Kaspersky Internet Security for Android - 1 MD",
+                        "mmyy": "8/2021",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security for Android - 1 MD",
+                        "mmyy": "9/2021",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security for Android - 1 MD",
+                        "mmyy": "10/2021",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security for Android - 1 MD",
+                        "mmyy": "11/2021",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security for Android - 1 MD",
+                        "mmyy": "12/2021",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security for Android - 1 MD",
+                        "mmyy": "1/2022",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security for Android - 1 MD",
+                        "mmyy": "2/2022",
+                        "qty": 10
+                    },
+                    {
+                        "name": "Kaspersky Internet Security for Android - 1 MD",
+                        "mmyy": "3/2022",
+                        "qty": 5
+                    },
+                    {
+                        "name": "Kaspersky Safe Kids - 1 DT",
+                        "mmyy": "6/2021",
+                        "qty": 1
+                    },
+                    {
+                        "name": "Kaspersky Safe Kids - 1 DT",
+                        "mmyy": "7/2021",
+                        "qty": 1
+                    },
+                    {
+                        "name": "Kaspersky Safe Kids - 1 DT",
+                        "mmyy": "11/2021",
+                        "qty": 16
+                    },
+                    {
+                        "name": "Kaspersky Safe Kids - 1 DT",
+                        "mmyy": "12/2021",
+                        "qty": 11
+                    },
+                    {
+                        "name": "Kaspersky Safe Kids - 1 DT",
+                        "mmyy": "1/2022",
+                        "qty": 5
+                    },
+                    {
+                        "name": "Kaspersky Safe Kids - 1 DT",
+                        "mmyy": "2/2022",
+                        "qty": 3
+                    },
+                    {
+                        "name": "Kaspersky Safe Kids - 1 DT",
+                        "mmyy": "3/2022",
+                        "qty": 2
+                    },
+                    {
+                        "name": "Microsoft 365 Business Basic (Office 365 Business Essentials)",
+                        "mmyy": "11/2021",
+                        "qty": 1
+                    },
+                    {
+                        "name": "Mô tô- xe máy (1 năm)",
+                        "mmyy": "7/2021",
+                        "qty": 2
+                    },
+                    {
+                        "name": "Mô tô- xe máy (1 năm)",
+                        "mmyy": "10/2021",
+                        "qty": 3
+                    },
+                    {
+                        "name": "Moza",
+                        "mmyy": "3/2022",
+                        "qty": 16
+                    }
+                ]
+            },
+            "requestId": 129083
+        }
+        //$scope.dataMoza = _json.data.detail;
+        function groupByKey(array, key) {
+            return array
+                .reduce((hash, obj) => {
+                    if (obj[key] === undefined) return hash;
+                    return Object.assign(hash, { [obj[key]]: (hash[obj[key]] || []).concat(obj) })
+                }, {})
+        }
+        var demo_data = _json.data.detail;
+
+        // group theo tháng
+        var ar_date = groupByKey(demo_data, 'mmyy');
+        ar_date = Object.keys(ar_date);
+        //console.log(ar_date);
+        var _arrdate2 = []
+        ar_date.forEach(function (val) {
+            var _val = val.split("/");
+            _arrdate2.push({
+                'month': _val[0],
+                'year': _val[1]
+            })
+        })
+        //group theo tên sản phẩm
+        var ar_name = groupByKey(demo_data, 'name');
+
+        ar_name = Object.values(ar_name);
+        //console.log(ar_name);
+
+        var _arrdate = []
+        ar_name.forEach(function (val) {
+            var valName = val[0].name;
+            _arrdate.push({
+                'name': valName,
+                'datas2': val
+            })
+        })
+
+        $scope.dataMoza = _arrdate;
+        //console.log(_arrdate);
+
+        //function sum value
+        $scope.sumValue = function (arr) {
+            var _e = 0;
+            arr.forEach(function (val) {
+                _e += val.qty;
+            });
+            return _e
+        }
+        const months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+        const sorter = (a, b) => {
+            if (a.year !== b.year) {
+                return a.year - b.year;
+            } else {
+                return months.indexOf(a.month) - months.indexOf(b.month);
+            };
+        };
+        _arrdate2.sort(sorter);
+
+        //console.log(_arrdate2);
+        var _arryDate = [];
+        _arrdate2.forEach(function (val) {
+            _arryDate.push(val.month + '/' + val.year)
+        })
+        var _series = [];
+        var data2 = [];
+        _arrdate.forEach(function (item, key) {
+            item.data2 = [];
+            item.datas = cvobject(item.datas2);
+            item.datas.forEach(function (val) {
+                item.data2.push(val.qty)
+            })
+            _series.push({
+                'name': item.name,
+                'data': item.data2
+            })
+
+        });
+        //console.log(_series)
+        setTimeout(function () {
+            // return;
+            $("#imgLoading").remove();
+            //console.log(_arrdate);
+            $(document).ready(function () {
+                var colors = ['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce',
+                    '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a', "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1"];
+                Highcharts.setOptions({
+                    colors: colors
+                });
+                Highcharts.chart('hightchart_moza', {
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: 'Thống kê doanh số bán sản phẩm '
+                    },
+                    yAxis: {
+                        title: {
+                            text: '<strong>Số lượng sản phẩm</strong>'
+                        },
+                    },
+                    tooltip: {
+                        crosshairs: true,
+                        shared: true
+                    },
+                    xAxis: {
+                        title: {
+                            text: '<strong>Thời gian</strong>'
+                        },
+                        categories: _arryDate,
+                    },
+
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle'
+                    },
+                    plotOptions: {
+                        spline: {
+                            dataLabels: {
+                                enabled: true
+                            }
+                        }
+
+                    },
+                    series: _series,
+                    credits: {
+                        enabled: false
+                    },
+                });
+
+            })
+
+        }, 3000);
+
+        function cvobject(arr) {
+            const result = _arryDate.map(person => {
+                var e = {}
+                const addressItem = arr.find(address => address.mmyy === person)
+                e.key = person;
+                e.qty = addressItem ? addressItem.qty : null;
+                return e
+            })
+            return result;
+        }
+        $scope.rowHighilited = function (group, row) {
+            $scope.selectedGroup = group;
+            $scope.selectedRow = row;
+        };
+        var data_jsondashboard = { "result": 1, "message": "Thành công", "data": [{ "ordi_num": 1, "product": { "name": "Bảo hiểm  học sinh sinh viên" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 1, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 2, "product": { "name": "Bảo hiểm Mô tô- xe máy (1 năm)" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 33, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 3, "product": { "name": "Bảo hiểm TNDS ô tô" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 1, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 4, "product": { "name": "Kapersky Anti Virus - 1 DT" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 1, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 5, "product": { "name": "Kaspersky Endpoint Security cho Doanh nghiệp | Standard" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 1, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 6, "product": { "name": "Kaspersky Internet Security - Multi-Device - 1 DVC" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 13, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 7, "product": { "name": "Kaspersky Internet Security - Multi-Device - 3 DVC" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 60, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 8, "product": { "name": "Kaspersky Internet Security - Multi-Device - 5 DVC" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 70, "curr": 1, "1": 0, "2": 0, "3": 0, "4": 0, "5": 1, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 9, "product": { "name": "Kaspersky Internet Security for Android - 1 MD" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 4, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 10, "product": { "name": "Kaspersky Safe Kids - 1 DT" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 1, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }], "requestId": 148265 };
+        $scope.data_jsondashboard = data_jsondashboard.data;
+        $scope.month_cur = new Date();
+        $scope.month_ago = (new Date().getMonth() < 10 ? '0' + new Date().getMonth() : new Date().getMonth()) + '/' + (new Date().getFullYear().toString().substr(-2));
+    });
+    // function quan ly don hang tiki
+    app.controller('ptiki$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
+        if ($rootScope.$user && $rootScope.$user.Roles.indexOf('info') < 0 && $rootScope.$user.Roles.indexOf('tiki_get') < 0) {
+            $rootScope.$user = null;
+            $rootScope.login_active = true;
+            $state.go('account$signout');
             return;
         }
-        search();
-    }
-    $scope.next = function () {
-        if ((($scope.page + 1) * $scope.num) > $scope.totalRow) return;
-        $scope.page++;
-        search();
-    }
-    // search theo date, search theo productName or productCode
-    $scope.searchFilter = function () {
+        if ($rootScope.$user === null || $rootScope.$user === undefined) {
+            $log.info('redirect to login');
+            $location.path('/account/signin');
+            return;
+        }
+        $rootScope.headTitle = 'Quản lý đơn hàng  > Tiki shop';
+        $scope.textloading = "Đang tải dữ liệu ...";
         $scope.page = 0;
-        search();
-    }
-    // list order kes
-    search();
-    function search() {
-        $scope.data = [];
+        $scope.num = 10;
         $scope.totalRow = 0;
-        $http({
-            method: 'GET',
-            url: window.host_api + 'api/common/get?action=productkes&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&from_date=' + $scope.from_date + '&to_date=' + $scope.to_date + '&status=' + $scope.status + "&type=moza",
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res)                  
-            if (res.data.result > 0) {
-                $scope.data = res.data.data.detail;
-                $scope.totalRow = res.data.data.total_row;
-            } else {
-                //$scope.textloading = "Dữ liệu trống.";
-                $scope.textloading = res.data.message;
-                //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
+        $scope.maxSize = 5;
+        $scope.bigTotalItems = 0;
+        $scope.bigCurrentPage = 1;
+        $scope.showRow = false;
+        $scope.status = "-1";
+        $scope.dataList = [];
 
-    // demo json
-    var _json = {
-        "result": 1,
-        "message": "Thành công",
-        "data": {
-            "total_row": 71,
-            "detail": [
-                {
-                    "name": "Bảo hiểm  học sinh sinh viên",
-                    "mmyy": "9/2021",
-                    "qty": 6
-                },
-                {
-                    "name": "Bảo hiểm  học sinh sinh viên",
-                    "mmyy": "10/2021",
-                    "qty": 3
-                },
-                {
-                    "name": "Bảo hiểm  học sinh sinh viên",
-                    "mmyy": "11/2021",
-                    "qty": 9
-                },
-                {
-                    "name": "Bảo hiểm  học sinh sinh viên",
-                    "mmyy": "12/2021",
-                    "qty": 3
-                },
-                {
-                    "name": "Bảo hiểm  học sinh sinh viên",
-                    "mmyy": "1/2022",
-                    "qty": 1
-                },
-                {
-                    "name": "Bảo hiểm  học sinh sinh viên",
-                    "mmyy": "3/2022",
-                    "qty": 3
-                },
-                {
-                    "name": "Bảo hiểm Mô tô- xe máy (1 năm)",
-                    "mmyy": "7/2021",
-                    "qty": 3
-                },
-                {
-                    "name": "Bảo hiểm Mô tô- xe máy (1 năm)",
-                    "mmyy": "9/2021",
-                    "qty": 1
-                },
-                {
-                    "name": "Bảo hiểm Mô tô- xe máy (1 năm)",
-                    "mmyy": "10/2021",
-                    "qty": 25
-                },
-                {
-                    "name": "Bảo hiểm Mô tô- xe máy (1 năm)",
-                    "mmyy": "11/2021",
-                    "qty": 3
-                },
-                {
-                    "name": "Bảo hiểm Mô tô- xe máy (1 năm)",
-                    "mmyy": "12/2021",
-                    "qty": 1
-                },
-                {
-                    "name": "Bảo hiểm TNDS ô tô",
-                    "mmyy": "10/2021",
-                    "qty": 1
-                },
-                {
-                    "name": "Bảo hiểm TNDS ô tô",
-                    "mmyy": "11/2021",
-                    "qty": 1
-                },
-                {
-                    "name": "Bảo hiểm TNDS ô tô",
-                    "mmyy": "12/2021",
-                    "qty": 4
-                },
-                {
-                    "name": "Bảo hiểm TNDS ô tô",
-                    "mmyy": "2/2022",
-                    "qty": 1
-                },
-                {
-                    "name": "Kapersky Anti Virus - 1 DT",
-                    "mmyy": "6/2021",
-                    "qty": 1
-                },
-                {
-                    "name": "Kaspersky Endpoint Security cho Doanh nghiệp | Standard",
-                    "mmyy": "9/2021",
-                    "qty": 1
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
-                    "mmyy": "6/2021",
-                    "qty": 2
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
-                    "mmyy": "7/2021",
-                    "qty": 14
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
-                    "mmyy": "8/2021",
-                    "qty": 11
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
-                    "mmyy": "9/2021",
-                    "qty": 14
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
-                    "mmyy": "10/2021",
-                    "qty": 12
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
-                    "mmyy": "11/2021",
-                    "qty": 26
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
-                    "mmyy": "12/2021",
-                    "qty": 22
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
-                    "mmyy": "1/2022",
-                    "qty": 15
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
-                    "mmyy": "2/2022",
-                    "qty": 13
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 1 DVC",
-                    "mmyy": "3/2022",
-                    "qty": 7
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
-                    "mmyy": "4/2021",
-                    "qty": 19
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
-                    "mmyy": "5/2021",
-                    "qty": 8
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
-                    "mmyy": "6/2021",
-                    "qty": 3
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
-                    "mmyy": "7/2021",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
-                    "mmyy": "8/2021",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
-                    "mmyy": "9/2021",
-                    "qty": 76
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
-                    "mmyy": "10/2021",
-                    "qty": 15
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
-                    "mmyy": "11/2021",
-                    "qty": 11
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
-                    "mmyy": "12/2021",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
-                    "mmyy": "1/2022",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
-                    "mmyy": "2/2022",
-                    "qty": 13
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 3 DVC",
-                    "mmyy": "3/2022",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
-                    "mmyy": "6/2021",
-                    "qty": 1
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
-                    "mmyy": "7/2021",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
-                    "mmyy": "8/2021",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
-                    "mmyy": "9/2021",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
-                    "mmyy": "10/2021",
-                    "qty": 15
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
-                    "mmyy": "11/2021",
-                    "qty": 12
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
-                    "mmyy": "12/2021",
-                    "qty": 13
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
-                    "mmyy": "1/2022",
-                    "qty": 78
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
-                    "mmyy": "2/2022",
-                    "qty": 11
-                },
-                {
-                    "name": "Kaspersky Internet Security - Multi-Device - 5 DVC",
-                    "mmyy": "3/2022",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security for Android - 1 MD",
-                    "mmyy": "3/2021",
-                    "qty": 1
-                },
-                {
-                    "name": "Kaspersky Internet Security for Android - 1 MD",
-                    "mmyy": "6/2021",
-                    "qty": 4
-                },
-                {
-                    "name": "Kaspersky Internet Security for Android - 1 MD",
-                    "mmyy": "7/2021",
-                    "qty": 11
-                },
-                {
-                    "name": "Kaspersky Internet Security for Android - 1 MD",
-                    "mmyy": "8/2021",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security for Android - 1 MD",
-                    "mmyy": "9/2021",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security for Android - 1 MD",
-                    "mmyy": "10/2021",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security for Android - 1 MD",
-                    "mmyy": "11/2021",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security for Android - 1 MD",
-                    "mmyy": "12/2021",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security for Android - 1 MD",
-                    "mmyy": "1/2022",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security for Android - 1 MD",
-                    "mmyy": "2/2022",
-                    "qty": 10
-                },
-                {
-                    "name": "Kaspersky Internet Security for Android - 1 MD",
-                    "mmyy": "3/2022",
-                    "qty": 5
-                },
-                {
-                    "name": "Kaspersky Safe Kids - 1 DT",
-                    "mmyy": "6/2021",
-                    "qty": 1
-                },
-                {
-                    "name": "Kaspersky Safe Kids - 1 DT",
-                    "mmyy": "7/2021",
-                    "qty": 1
-                },
-                {
-                    "name": "Kaspersky Safe Kids - 1 DT",
-                    "mmyy": "11/2021",
-                    "qty": 16
-                },
-                {
-                    "name": "Kaspersky Safe Kids - 1 DT",
-                    "mmyy": "12/2021",
-                    "qty": 11
-                },
-                {
-                    "name": "Kaspersky Safe Kids - 1 DT",
-                    "mmyy": "1/2022",
-                    "qty": 5
-                },
-                {
-                    "name": "Kaspersky Safe Kids - 1 DT",
-                    "mmyy": "2/2022",
-                    "qty": 3
-                },
-                {
-                    "name": "Kaspersky Safe Kids - 1 DT",
-                    "mmyy": "3/2022",
-                    "qty": 2
-                },
-                {
-                    "name": "Microsoft 365 Business Basic (Office 365 Business Essentials)",
-                    "mmyy": "11/2021",
-                    "qty": 1
-                },
-                {
-                    "name": "Mô tô- xe máy (1 năm)",
-                    "mmyy": "7/2021",
-                    "qty": 2
-                },
-                {
-                    "name": "Mô tô- xe máy (1 năm)",
-                    "mmyy": "10/2021",
-                    "qty": 3
-                },
-                {
-                    "name": "Moza",
-                    "mmyy": "3/2022",
-                    "qty": 16
-                }
-            ]
-        },
-        "requestId": 129083
-    }
-    //$scope.dataMoza = _json.data.detail;
-    function groupByKey(array, key) {
-        return array
-            .reduce((hash, obj) => {
-                if (obj[key] === undefined) return hash;
-                return Object.assign(hash, { [obj[key]]: (hash[obj[key]] || []).concat(obj) })
-            }, {})
-    }
-    var demo_data = _json.data.detail;
-
-    // group theo tháng
-    var ar_date = groupByKey(demo_data, 'mmyy');
-    ar_date = Object.keys(ar_date);
-    //console.log(ar_date);
-    var _arrdate2 = []
-    ar_date.forEach(function (val) {
-        var _val = val.split("/");
-        _arrdate2.push({
-            'month': _val[0],
-            'year': _val[1]
-        })
-    })
-    //group theo tên sản phẩm
-    var ar_name = groupByKey(demo_data, 'name');
-
-    ar_name = Object.values(ar_name);
-    //console.log(ar_name);
-
-    var _arrdate = []
-    ar_name.forEach(function (val) {
-        var valName = val[0].name;
-        _arrdate.push({
-            'name': valName,
-            'datas2': val
-        })
-    })
-
-    $scope.dataMoza = _arrdate;
-    //console.log(_arrdate);
-
-    //function sum value
-    $scope.sumValue = function (arr) {
-        var _e = 0;
-        arr.forEach(function (val) {
-            _e += val.qty;
-        });
-        return _e
-    }
-    const months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-    const sorter = (a, b) => {
-        if (a.year !== b.year) {
-            return a.year - b.year;
-        } else {
-            return months.indexOf(a.month) - months.indexOf(b.month);
-        };
-    };
-    _arrdate2.sort(sorter);
-
-    //console.log(_arrdate2);
-    var _arryDate = [];
-    _arrdate2.forEach(function (val) {
-        _arryDate.push(val.month + '/' + val.year)
-    })
-    var _series = [];
-    var data2 = [];
-    _arrdate.forEach(function (item, key) {
-        item.data2 = [];
-        item.datas = cvobject(item.datas2);
-        item.datas.forEach(function (val) {
-            item.data2.push(val.qty)
-        })
-        _series.push({
-            'name': item.name,
-            'data': item.data2
-        })
-
-    });
-    //console.log(_series)
-    setTimeout(function () {
-        // return;
-        $("#imgLoading").remove();
-        //console.log(_arrdate);
-        $(document).ready(function () {
-            var colors = ['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce',
-                '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a', "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1"];
-            Highcharts.setOptions({
-                colors: colors
-            });
-            Highcharts.chart('hightchart_moza', {
-                chart: {
-                    type: 'spline'
-                },
-                title: {
-                    text: 'Thống kê doanh số bán sản phẩm '
-                },
-                yAxis: {
-                    title: {
-                        text: '<strong>Số lượng sản phẩm</strong>'
-                    },
-                },
-                tooltip: {
-                    crosshairs: true,
-                    shared: true
-                },
-                xAxis: {
-                    title: {
-                        text: '<strong>Thời gian</strong>'
-                    },
-                    categories: _arryDate,
-                },
-
-                legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle'
-                },
-                plotOptions: {
-                    spline: {
-                        dataLabels: {
-                            enabled: true
-                        }
-                    }
-
-                },
-                series: _series,
-                credits: {
-                    enabled: false
-                },
-            });
-
-        })
-
-    }, 3000);
-
-    function cvobject(arr) {
-        const result = _arryDate.map(person => {
-            var e = {}
-            const addressItem = arr.find(address => address.mmyy === person)
-            e.key = person;
-            e.qty = addressItem ? addressItem.qty : null;
-            return e
-        })
-        return result;
-    }
-    $scope.rowHighilited = function (group, row) {
-        $scope.selectedGroup = group;
-        $scope.selectedRow = row;
-    };
-    var data_jsondashboard = { "result": 1, "message": "Thành công", "data": [{ "ordi_num": 1, "product": { "name": "Bảo hiểm  học sinh sinh viên" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 1, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 2, "product": { "name": "Bảo hiểm Mô tô- xe máy (1 năm)" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 33, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 3, "product": { "name": "Bảo hiểm TNDS ô tô" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 1, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 4, "product": { "name": "Kapersky Anti Virus - 1 DT" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 1, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 5, "product": { "name": "Kaspersky Endpoint Security cho Doanh nghiệp | Standard" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 1, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 6, "product": { "name": "Kaspersky Internet Security - Multi-Device - 1 DVC" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 13, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 7, "product": { "name": "Kaspersky Internet Security - Multi-Device - 3 DVC" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 60, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 8, "product": { "name": "Kaspersky Internet Security - Multi-Device - 5 DVC" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 70, "curr": 1, "1": 0, "2": 0, "3": 0, "4": 0, "5": 1, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 9, "product": { "name": "Kaspersky Internet Security for Android - 1 MD" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 4, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }, { "ordi_num": 10, "product": { "name": "Kaspersky Safe Kids - 1 DT" }, "partner": { "id": 20210002, "name": "Store VTC" }, "qty": { "ago": 1, "curr": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0, "9": 0, "10": 0, "11": 0, "12": 0, "13": 0, "14": 0, "15": 0, "16": 0, "17": 0, "18": 0, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "24": 0, "25": 0, "26": 0, "27": 0, "28": 0, "29": 0, "30": 0, "31": 0 } }], "requestId": 148265 };
-    $scope.data_jsondashboard = data_jsondashboard.data;
-    $scope.month_cur = new Date();
-    $scope.month_ago = (new Date().getMonth() < 10 ? '0' + new Date().getMonth() : new Date().getMonth()) + '/' + (new Date().getFullYear().toString().substr(-2));
-});
-// function quan ly don hang tiki
-app.controller('ptiki$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
-    if ($rootScope.$user && $rootScope.$user.Roles.indexOf('info') < 0 && $rootScope.$user.Roles.indexOf('tiki_get') < 0) {
-        $rootScope.$user = null;
-        $rootScope.login_active = true;
-        $state.go('account$signout');
-        return;
-    }
-    if ($rootScope.$user === null || $rootScope.$user === undefined) {
-        $log.info('redirect to login');
-        $location.path('/account/signin');
-        return;
-    }
-    $rootScope.headTitle = 'Quản lý đơn hàng  > Tiki shop';
-    $scope.textloading = "Đang tải dữ liệu ...";
-    $scope.page = 0;
-    $scope.num = 10;
-    $scope.totalRow = 0;
-    $scope.maxSize = 5;
-    $scope.bigTotalItems = 0;
-    $scope.bigCurrentPage = 1;
-    $scope.showRow = false;
-    $scope.status = "-1";
-    $scope.dataList = [];
-
-    var selectText = `<select id="selectText" name='productTiki' class="form-control" >
+        var selectText = `<select id="selectText" name='productTiki' class="form-control" >
                             <option value=''>Chọn sản phẩm</option>
                           </select>`;
-    // xac nhan don hang da khoi tao thong tin cho khach hang thanh cong        
-    $scope.fnconfirm = function () {
-        $http({
-            method: 'GET',
-            url: window.host_api + 'api/tiki/get?action=item',
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            if (res.data.result > 0) {
-                $scope.dataList = res.data.data;
-                res.data.data.forEach(function (val) {
-                    $('#selectText').append(`<option value='${val.code}'>${val.name}</option>`);
-                })
-            } else {
-                //$scope.textloading = "Dữ liệu trống.";
-                $scope.textloading = res.data.message;
-                //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-        $scope.datakh = {};
-        $dialogConfirm(`<p style="font-size:14px">Vui lòng chọn sản phẩm và nhập số lượng để lấy key</p>
+        // xac nhan don hang da khoi tao thong tin cho khach hang thanh cong        
+        $scope.fnconfirm = function () {
+            $http({
+                method: 'GET',
+                url: window.host_api + 'api/tiki/get?action=item',
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.data.result > 0) {
+                    $scope.dataList = res.data.data;
+                    res.data.data.forEach(function (val) {
+                        $('#selectText').append(`<option value='${val.code}'>${val.name}</option>`);
+                    })
+                } else {
+                    //$scope.textloading = "Dữ liệu trống.";
+                    $scope.textloading = res.data.message;
+                    //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+            $scope.datakh = {};
+            $dialogConfirm(`<p style="font-size:14px">Vui lòng chọn sản phẩm và nhập số lượng để lấy key</p>
                 <form class="form-auth-small" name="signinForm" id="signinForm">
                         <div class="form-group">
                           <span for="signin-password" class="control-label sr-only">Chọn sản phẩm:</span>
@@ -5318,44 +5541,44 @@ app.controller('ptiki$Ctrl', function ($http, $scope, $rootScope, $state, $dialo
                 </form>
             
             </div>`, "Lấy key theo sản phẩm", function (res) {
-            if (res) {
-                $("div.overlay").addClass("show");
-                var ProductId = $("select[name='productTiki']").val();
-                var qty = $("input[name='quantity']").val();
-                console.log(ProductId, qty)
-                if ($.trim(ProductId) === "" || $.trim(qty) === "") {
-                    $dialogAlert("Thông tin không được bỏ trống, vui lòng thực hiện lại!", "Thông báo", "warning", function (res) {
-                        $scope.fnconfirm();
-                    });
-                    $("div.overlay").removeClass("show");
-                    return;
-                }
-                var data = {
-                    "action": "activate",
-                    "qty": qty,
-                    "ProductId": ProductId
-                }
+                if (res) {
+                    $("div.overlay").addClass("show");
+                    var ProductId = $("select[name='productTiki']").val();
+                    var qty = $("input[name='quantity']").val();
+                    console.log(ProductId, qty)
+                    if ($.trim(ProductId) === "" || $.trim(qty) === "") {
+                        $dialogAlert("Thông tin không được bỏ trống, vui lòng thực hiện lại!", "Thông báo", "warning", function (res) {
+                            $scope.fnconfirm();
+                        });
+                        $("div.overlay").removeClass("show");
+                        return;
+                    }
+                    var data = {
+                        "action": "activate",
+                        "qty": qty,
+                        "ProductId": ProductId
+                    }
 
-                $http({
-                    method: 'POST',
-                    url: window.host_api + 'api/tiki/asu',
-                    headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token
-                    },
-                    data: data
-                }).then(function (response) {
-                    //console.log(response);
+                    $http({
+                        method: 'POST',
+                        url: window.host_api + 'api/tiki/asu',
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        },
+                        data: data
+                    }).then(function (response) {
+                        //console.log(response);
 
-                    if (response.data.result > 0) {
-                        $dialogAlert("Lấy key thành công!", "Thông báo!", "success", function () {
-                            //window.location.reload();
-                            //console.log(response);
-                            var modal = $uibModal.open({
-                                animation: 1000,
-                                backdrop: 'static',
-                                ariaLabelledBy: 'modal-title',
-                                ariaDescribedBy: 'modal-body',
-                                template: `<div class="modal-header label-primary" style="position:relative">\
+                        if (response.data.result > 0) {
+                            $dialogAlert("Lấy key thành công!", "Thông báo!", "success", function () {
+                                //window.location.reload();
+                                //console.log(response);
+                                var modal = $uibModal.open({
+                                    animation: 1000,
+                                    backdrop: 'static',
+                                    ariaLabelledBy: 'modal-title',
+                                    ariaDescribedBy: 'modal-body',
+                                    template: `<div class="modal-header label-primary" style="position:relative">\
                                         <h4 class ="modal-title" style="color:#fff" >Danh sách key </h4>\
                                         </div>\
                                         <div style="max-height:500px;overflow-y:scroll" id="printKey">
@@ -5382,59 +5605,59 @@ app.controller('ptiki$Ctrl', function ($http, $scope, $rootScope, $state, $dialo
                                             <button class ="btn btn-primary" ng-click="exportExcel()" >Xuất excel</button>\
                                             <button class ="btn btn-default" ng-click="cancel()" data-dismiss="modal" >Đóng</button>\
                                         </div>`,
-                                controller: function ($scope, $uibModalInstance) {
-                                    $scope.cancel = function () {
-                                        $uibModalInstance.close(false);
-                                        search();
-                                    };
-                                    $scope.dataKeys = response.data.data;
-                                    $scope.nameT = getName(ProductId);
-                                    //console.log($scope.nameT)
-                                    var nameFile = $scope.nameT.replaceAll(' ', '-');
-                                    nameFile = nameFile.replaceAll("--", "")
-                                    $scope.exportExcel = function () {
-                                        $("#printKey").table2excel({
-                                            exclude: ".excludeThisClass",
-                                            name: $scope.nameT,
-                                            filename: nameFile + ".xls", // do include extension
-                                            preserveColors: false // set to true if you want background colors and font colors preserved
-                                        });
-                                    }
+                                    controller: function ($scope, $uibModalInstance) {
+                                        $scope.cancel = function () {
+                                            $uibModalInstance.close(false);
+                                            search();
+                                        };
+                                        $scope.dataKeys = response.data.data;
+                                        $scope.nameT = getName(ProductId);
+                                        //console.log($scope.nameT)
+                                        var nameFile = $scope.nameT.replaceAll(' ', '-');
+                                        nameFile = nameFile.replaceAll("--", "")
+                                        $scope.exportExcel = function () {
+                                            $("#printKey").table2excel({
+                                                exclude: ".excludeThisClass",
+                                                name: $scope.nameT,
+                                                filename: nameFile + ".xls", // do include extension
+                                                preserveColors: false // set to true if you want background colors and font colors preserved
+                                            });
+                                        }
 
-                                },
-                                size: 'xs',//size,   
-                                windowClass: 'your-modal-class',
+                                    },
+                                    size: 'xs',//size,   
+                                    windowClass: 'your-modal-class',
+
+                                });
+
 
                             });
+                        } else {
+                            $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                        }
+                        $("div.overlay").removeClass("show");
+                        function getName(code) {
+                            var _name = "";
+                            $scope.dataList.forEach(function (val) {
+                                if (val.code === parseInt(code)) {
+                                    return _name = val.name;
+                                }
+                            });
+                            return _name;
+                        }
+                    }, function (res) {
+                        console.log(res);
+                        $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
+                    });
 
+                }
+            })
+        }
+        // huy key theo time or tung key rieng le
+        $scope.fnCancelKey = function () {
 
-                        });
-                    } else {
-                        $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-                    }
-                    $("div.overlay").removeClass("show");
-                    function getName(code) {
-                        var _name = "";
-                        $scope.dataList.forEach(function (val) {
-                            if (val.code === parseInt(code)) {
-                                return _name = val.name;
-                            }
-                        });
-                        return _name;
-                    }
-                }, function (res) {
-                    console.log(res);
-                    $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
-                });
-
-            }
-        })
-    }
-    // huy key theo time or tung key rieng le
-    $scope.fnCancelKey = function () {
-
-        $scope.datakh = {};
-        $dialogConfirm(`<p style="font-size:14px">Vui lòng chọn sản phẩm và nhập số lượng để lấy key</p>
+            $scope.datakh = {};
+            $dialogConfirm(`<p style="font-size:14px">Vui lòng chọn sản phẩm và nhập số lượng để lấy key</p>
                 <form class="form-auth-small" name="signinForm" id="signinForm">
                         <div class="form-group">
                           <span for="signin-password" class="control-label sr-only">Thể loại hủy</span>
@@ -5454,48 +5677,48 @@ app.controller('ptiki$Ctrl', function ($http, $scope, $rootScope, $state, $dialo
                 </form>
             
             </div>`, "Hủy key theo sản phẩm", function (res) {
-            if (res) {
-                $("div.overlay").addClass("show");
-                var type = $("select[name='typeKey']").val();
-                var _key = $("input[name='key']").val();
-                var _date = $("input[name='dateTime']").val();
-                if (($.trim(type) === "1" && $.trim(_key) === "") || ($.trim(type) === "0" && $.trim(_date) === "")) {
-                    $dialogAlert("Thông tin không được bỏ trống, vui lòng thực hiện lại!", "Thông báo", "warning", function (res) {
-                        $scope.fnCancelKey();
-                    });
-                    $("div.overlay").removeClass("show");
-                    return;
-                }
-                var data = {
-                    "action": "suspend",
-                    "activateDate": _date
-                }
-                if (type === "1") {
-                    data = {
-                        "action": "suspendbycode",
-                        "code": _key
+                if (res) {
+                    $("div.overlay").addClass("show");
+                    var type = $("select[name='typeKey']").val();
+                    var _key = $("input[name='key']").val();
+                    var _date = $("input[name='dateTime']").val();
+                    if (($.trim(type) === "1" && $.trim(_key) === "") || ($.trim(type) === "0" && $.trim(_date) === "")) {
+                        $dialogAlert("Thông tin không được bỏ trống, vui lòng thực hiện lại!", "Thông báo", "warning", function (res) {
+                            $scope.fnCancelKey();
+                        });
+                        $("div.overlay").removeClass("show");
+                        return;
                     }
-                }
-                $http({
-                    method: 'POST',
-                    url: window.host_api + 'api/tiki/asu',
-                    headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token
-                    },
-                    data: data
-                }).then(function (response) {
-                    //console.log(response);
-                    $("div.overlay").removeClass("show");
-                    if (response.data.result > 0) {
-                        $dialogAlert("Hủy key thành công!", "Thông báo!", "success", function () {
-                            //window.location.reload();
-                            console.log(response);
-                            var modal = $uibModal.open({
-                                animation: 1000,
-                                backdrop: 'static',
-                                ariaLabelledBy: 'modal-title',
-                                ariaDescribedBy: 'modal-body',
-                                template: `<div class="modal-header label-primary" style="position:relative">\
+                    var data = {
+                        "action": "suspend",
+                        "activateDate": _date
+                    }
+                    if (type === "1") {
+                        data = {
+                            "action": "suspendbycode",
+                            "code": _key
+                        }
+                    }
+                    $http({
+                        method: 'POST',
+                        url: window.host_api + 'api/tiki/asu',
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        },
+                        data: data
+                    }).then(function (response) {
+                        //console.log(response);
+                        $("div.overlay").removeClass("show");
+                        if (response.data.result > 0) {
+                            $dialogAlert("Hủy key thành công!", "Thông báo!", "success", function () {
+                                //window.location.reload();
+                                console.log(response);
+                                var modal = $uibModal.open({
+                                    animation: 1000,
+                                    backdrop: 'static',
+                                    ariaLabelledBy: 'modal-title',
+                                    ariaDescribedBy: 'modal-body',
+                                    template: `<div class="modal-header label-primary" style="position:relative">\
                                         <h4 class ="modal-title" style="color:#fff" >Danh sách key đã hủy </h4>\
                                         </div>\
                                         <div style="max-height:500px;overflow-y:scroll" id="print">
@@ -5507,52 +5730,52 @@ app.controller('ptiki$Ctrl', function ($http, $scope, $rootScope, $state, $dialo
                                         <div class ="modal-footer">\
                                             <button class ="btn btn-default" ng-click="cancel()" data-dismiss="modal" >Đóng</button>\
                                         </div>`,
-                                controller: function ($scope, $uibModalInstance) {
-                                    $scope.cancel = function () {
-                                        $uibModalInstance.close(false);
-                                        search();
-                                    };
-                                    $scope.dataKeys = response.data.data;
-                                },
-                                size: 'xs',//size,   
-                                windowClass: 'your-modal-class',
+                                    controller: function ($scope, $uibModalInstance) {
+                                        $scope.cancel = function () {
+                                            $uibModalInstance.close(false);
+                                            search();
+                                        };
+                                        $scope.dataKeys = response.data.data;
+                                    },
+                                    size: 'xs',//size,   
+                                    windowClass: 'your-modal-class',
+
+                                });
+
 
                             });
+                        } else {
+                            $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                        }
 
-
-                        });
-                    } else {
-                        $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-                    }
-
-                }, function (res) {
-                    console.log(res);
-                    $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
-                });
-            }
-        });
-        setTimeout(function () {
-            $("select[name='typeKey']").on('change', function () {
-                if (this.value === "1") {
-                    $(".haskey").show();
-                    $(".hasdate").hide();
-                } else if (this.value === "0") {
-                    $(".haskey").hide();
-                    $(".hasdate").show();
+                    }, function (res) {
+                        console.log(res);
+                        $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
+                    });
                 }
             });
-        }, 1000)
-    }
+            setTimeout(function () {
+                $("select[name='typeKey']").on('change', function () {
+                    if (this.value === "1") {
+                        $(".haskey").show();
+                        $(".hasdate").hide();
+                    } else if (this.value === "0") {
+                        $(".haskey").hide();
+                        $(".hasdate").show();
+                    }
+                });
+            }, 1000)
+        }
 
-    //show order detail moza product
-    $scope.invoiceDetail = function (refId) {
+        //show order detail moza product
+        $scope.invoiceDetail = function (refId) {
 
-        var modal = $uibModal.open({
-            animation: 1000,
-            backdrop: 'static',
-            ariaLabelledBy: 'modal-title',
-            ariaDescribedBy: 'modal-body',
-            template: `<div class="modal-header label-primary" style="position:relative">\
+            var modal = $uibModal.open({
+                animation: 1000,
+                backdrop: 'static',
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                template: `<div class="modal-header label-primary" style="position:relative">\
                     <h4 class ="modal-title" style="color:#fff" >Cập nhật thông tin đơn hàng </h4>\
                     </div>\
                     <div style="max-height:500px;padding:15px" id="print">
@@ -5585,448 +5808,449 @@ app.controller('ptiki$Ctrl', function ($http, $scope, $rootScope, $state, $dialo
                         <button class ="btn btn-default" ng-click="cancel()" data-dismiss="modal" >Đóng</button>\
                         <button class ="btn btn-primary" ng-click="update()"  >Cập nhật</button>\
                     </div>`,
-            controller: function ($scope, $uibModalInstance, $uibModalStack) {
-                $scope.cancel = function () {
-                    $uibModalInstance.close(false);
-                };
-                $scope.data = {
-                    "action": "update",
-                    "refId": refId,
-                    "custName": '',
-                    "address": '',
-                    "orderId": '',
-                    "orderDate": '',
-                    "isInvoice": false
-                }
-                var _timeTodate = function () {
-                    var date = new Date();
-                    var year = date.getFullYear(),
-                        month = date.getMonth() + 1,
-                        day = date.getDate(),
-                        hour = date.getHours();
-                    month = month < 10 ? "0" + month : month,
-                        day = day < 10 ? "0" + day : day;
-                    return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
-                }
-                $scope.data.orderDate = _timeTodate();
-                $(document).ready(function () {
-                    setTimeout(function () {
-                        $(".dateTimePicker").datetimepicker({
-                            isRTL: false,
-                            format: 'yyyy-mm-dd HH:ii:ss',
-                            autoclose: true,
-                            language: 'en',
-                            //minView: 2, //tat thoi gian
-                            // pickTime: false, //tat thoi gian
-                            todayBtn: true,
-                        });
-                    }, 1000);
-                });
-                $scope.update = function () {
-                    //console.log($scope.data);
-                    $("div.overlay").addClass("show");
-                    //return;
-                    if ($.trim($scope.data.custName) === '' || $.trim($scope.data.address) === '' || $.trim($scope.data.orderId) === '' || $.trim($scope.data.orderDate) === '') {
-                        $dialogAlert("\n Thông tin khách hàng không được để trống, vui lòng nhập đầy đủ và thử lại", "Lỗi!", "warning");
-                        $("div.overlay").removeClass("show");
-                        return;
+                controller: function ($scope, $uibModalInstance, $uibModalStack) {
+                    $scope.cancel = function () {
+                        $uibModalInstance.close(false);
+                    };
+                    $scope.data = {
+                        "action": "update",
+                        "refId": refId,
+                        "custName": '',
+                        "address": '',
+                        "orderId": '',
+                        "orderDate": '',
+                        "isInvoice": false
                     }
-                    $http({
-                        method: 'POST',
-                        url: window.host_api + 'api/tiki/asu',
-                        headers: {
-                            'Authorization': "Bearer " + $window.localStorage.token
-                        },
-                        data: $scope.data
-                    }).then(function (response) {
-                        $("div.overlay").removeClass("show");
-                        //console.log(response.data.data);
-                        if (response.data.result > 0) {
-                            $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function (res) {
-                                search();
-                                $uibModalStack.dismissAll();
+                    var _timeTodate = function () {
+                        var date = new Date();
+                        var year = date.getFullYear(),
+                            month = date.getMonth() + 1,
+                            day = date.getDate(),
+                            hour = date.getHours();
+                        month = month < 10 ? "0" + month : month,
+                            day = day < 10 ? "0" + day : day;
+                        return year + "-" + month + "-" + day; // day + "/" + month + "/" + year;
+                    }
+                    $scope.data.orderDate = _timeTodate();
+                    $(document).ready(function () {
+                        setTimeout(function () {
+                            $(".dateTimePicker").datetimepicker({
+                                isRTL: false,
+                                format: 'yyyy-mm-dd HH:ii:ss',
+                                autoclose: true,
+                                language: 'en',
+                                //minView: 2, //tat thoi gian
+                                // pickTime: false, //tat thoi gian
+                                todayBtn: true,
                             });
-
-                        } else {
-                            $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
-                        }
-
-                    }, function (res) {
-                        console.log(res);
-                        $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
+                        }, 1000);
                     });
-                }
-            },
-            controllerAs: $scope,
-            size: 'xs',//size,   
-            windowClass: 'your-modal-class',
+                    $scope.update = function () {
+                        //console.log($scope.data);
+                        $("div.overlay").addClass("show");
+                        //return;
+                        if ($.trim($scope.data.custName) === '' || $.trim($scope.data.address) === '' || $.trim($scope.data.orderId) === '' || $.trim($scope.data.orderDate) === '') {
+                            $dialogAlert("\n Thông tin khách hàng không được để trống, vui lòng nhập đầy đủ và thử lại", "Lỗi!", "warning");
+                            $("div.overlay").removeClass("show");
+                            return;
+                        }
+                        $http({
+                            method: 'POST',
+                            url: window.host_api + 'api/tiki/asu',
+                            headers: {
+                                'Authorization': "Bearer " + $window.localStorage.token
+                            },
+                            data: $scope.data
+                        }).then(function (response) {
+                            $("div.overlay").removeClass("show");
+                            //console.log(response.data.data);
+                            if (response.data.result > 0) {
+                                $dialogAlert("\n " + response.data.message, "Thông báo!", "success", function (res) {
+                                    search();
+                                    $uibModalStack.dismissAll();
+                                });
 
+                            } else {
+                                $dialogAlert("\n " + response.data.message, "Thông báo!", "warning");
+                            }
+
+                        }, function (res) {
+                            console.log(res);
+                            $dialogAlert("\n " + res.data.message ? res.data.message : "Lỗi đường truyền, vui lòng thực hiện lại sau ít phút", "Thông báo!", "warning");
+                        });
+                    }
+                },
+                controllerAs: $scope,
+                size: 'xs',//size,   
+                windowClass: 'your-modal-class',
+
+            });
+
+
+        };
+
+        // paging
+        // search theo date, search theo productName or productCode
+        $scope.searchFilter = function () {
+            $scope.page = 0;
+            search();
+        }
+        // list order kes
+        $scope.pageChanged = function () {
+            $scope.page = $scope.bigCurrentPage - 1;
+            search();
+        };
+        search();
+        function search() {
+            $scope.data = [];
+            $scope.totalRow = 0;
+            $http({
+                method: 'GET',
+                url: window.host_api + 'api/tiki/get?action=list&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&status=' + $scope.status,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res)                  
+                if (res.data.result > 0) {
+                    $scope.data = res.data.data.detail;
+                    $scope.bigTotalItems = res.data.data.total_row;
+                } else {
+                    //$scope.textloading = "Dữ liệu trống.";
+                    $scope.textloading = res.data.message;
+                    //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+        $scope.month_cur = new Date();
+        $scope.month_ago = (new Date().getMonth() < 10 ? '0' + new Date().getMonth() : new Date().getMonth()) + '/' + (new Date().getFullYear().toString().substr(-2));
+    });
+    app.controller('mdKYCmobile$Ctrl', function ($http, $scope, $uibModal, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
+        //default states
+        $scope.uid = $stateParams.id;
+        $scope.selectRoles = [];
+        $scope.selectedList = [];
+        $scope.dataForm = {};
+        $(document).ready(function () {
+            $('#enableForm')
+                .bootstrapValidator({
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        password: {
+                            enabled: false,
+                            validators: {
+                                notEmpty: {
+                                    message: 'Mật khẩu không được để trống'
+                                }
+                            }
+                        },
+                        confirm_password: {
+                            enabled: false,
+                            validators: {
+                                notEmpty: {
+                                    message: 'Mật khẩu không được để trống'
+                                },
+                                identical: {
+                                    field: 'password',
+                                    message: 'Xác nhận mật khẩu không chính xác'
+                                }
+                            }
+                        },
+                        'rolle[]': {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Vui lòng chọn ít nhất một vai trò'
+                                }
+                            }
+                        }
+                    }
+                })
+                // Enable the password/confirm password validators if the password is not empty
+                .on('keyup', '[name="password"]', function () {
+                    var isEmpty = $(this).val() === '';
+                    $('#enableForm')
+                        .bootstrapValidator('enableFieldValidators', 'password', !isEmpty)
+                        .bootstrapValidator('enableFieldValidators', 'confirm_password', !isEmpty);
+
+                    // Revalidate the field when user start typing in the password field
+                    if ($(this).val().length === 1) {
+                        $('#enableForm').bootstrapValidator('validateField', 'password')
+                            .bootstrapValidator('validateField', 'confirm_password');
+                    }
+                })
+                .on('success.field.bv', function (e, data) {
+                    var $parent = data.element.parents('.form-group');
+                    // Hide the success icon
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('error.field.bv', function (e, data) {
+                    // Hide the success icon
+                    var $parent = data.element.parents('.form-group');
+                    $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
+                })
+                .on('success.form.bv', function (e) {
+                    // Prevent form submission
+                    e.preventDefault();
+                    $scope.submit();
+                });
         });
 
+        //show modal camera
 
-    };
+        $scope.showCamera = function (clss) {
+            var modal = $uibModal.open({
 
-    // paging
-    // search theo date, search theo productName or productCode
-    $scope.searchFilter = function () {
-        $scope.page = 0;
-        search();
-    }
-    // list order kes
-    $scope.pageChanged = function () {
-        $scope.page = $scope.bigCurrentPage - 1;
-        search();
-    };
-    search();
-    function search() {
-        $scope.data = [];
-        $scope.totalRow = 0;
+                backdrop: 'static',
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: window.templateUrl + "user/mdcamera.html",
+                controller: function ($scope, $uibModalInstance, $sce) {
+                    $scope.modal = $uibModalInstance;
+
+                    $(document).ready(function () {
+                        const width = 320; // We will scale the photo width to this
+                        let height = 0; // This will be computed based on the input stream
+                        let streaming = false;
+                        let video = null;
+                        let canvas = null;
+                        let photo = null;
+                        let startbutton = null;
+                        video = document.getElementById("video");
+                        canvas = document.getElementById("canvas");
+                        photo = document.getElementById("photo");
+                        startbutton = document.getElementById("startbutton");
+                        // vars
+                        let result = document.querySelector('.result'),
+                            img_result = document.querySelector('.img-result'),
+                            img_w = document.querySelector('.img-w'),
+                            img_h = document.querySelector('.img-h'),
+                            options = document.querySelector('.options'),
+                            save = document.querySelector('.save'),
+                            cropped = document.querySelector('.cropped'),
+                            dwn = document.querySelector('.download'),
+                            upload = document.querySelector('#file-input'),
+                            cropper = '';
+                        checkCamera();
+
+                        function checkCamera() {
+                            const streams = navigator.mediaDevices
+                                .getUserMedia({ video: true, audio: false })
+                                .then((stream) => {
+                                    window.localStream = stream;
+                                    video.srcObject = stream
+                                    video.play();
+                                })
+                                .catch((err) => {
+                                    console.error(`An error occurred: ${err}`);
+                                });
+                            video.addEventListener(
+                                "canplay",
+                                (ev) => {
+                                    if (!streaming) {
+                                        height = video.videoHeight / (video.videoWidth / width);
+
+                                        // Firefox currently has a bug where the height can't be read from
+                                        // the video, so we will make assumptions if this happens.
+
+                                        if (isNaN(height)) {
+                                            height = width / (4 / 3);
+                                        }
+
+                                        video.setAttribute("width", width);
+                                        video.setAttribute("height", height);
+                                        canvas.setAttribute("width", width);
+                                        canvas.setAttribute("height", height);
+                                        streaming = true;
+                                    }
+                                },
+                                false
+                            );
+
+                            startbutton.addEventListener(
+                                "click",
+                                (ev) => {
+                                    takepicture();
+                                    ev.preventDefault();
+                                },
+                                false
+                            );
+
+                            clearphoto();
+                        }
+                        function clearphoto() {
+                            const context = canvas.getContext("2d");
+                            context.fillStyle = "#AAA";
+                            context.fillRect(0, 0, canvas.width, canvas.height);
+
+                            const data = canvas.toDataURL("image/png");
+                            photo.setAttribute("src", data);
+                        }
+
+                        function takepicture() {
+                            const context = canvas.getContext("2d");
+                            if (width && height) {
+                                canvas.width = width;
+                                canvas.height = height;
+                                context.drawImage(video, 0, 0, width, height);
+
+                                const data = canvas.toDataURL("image/png");
+                                photo.setAttribute("src", data);
+                                // create new image
+                                let img = document.createElement('img');
+                                img.id = 'image';
+                                img.src = data;
+                                // clean result before
+                                result.innerHTML = '';
+                                // append new image
+                                result.appendChild(img);
+                                // show save btn and options
+                                save.classList.remove('hide');
+                                options.classList.remove('hide');
+                                // init cropper
+                                cropper = new Cropper(img);
+                            } else {
+                                clearphoto();
+                            }
+
+                        }
+                        // save on click
+                        save.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            // get result to data uri
+                            let imgSrc = cropper.getCroppedCanvas({
+                                width: img_w.value // input value
+                            }).toDataURL();
+                            // remove hide class of img
+                            cropped.classList.remove('hide');
+                            img_result.classList.remove('hide');
+                            // show image cropped
+                            cropped.src = imgSrc;
+                            dwn.classList.remove('hide');
+                            dwn.download = 'imagename.png';
+                            dwn.setAttribute('href', imgSrc);
+                        });
+                        $scope.takepicture = function () {
+                            return takepicture();
+                        }
+                    })
+
+                    $scope.modal.close = function () {
+                        $uibModalInstance.dismiss(true);
+                        var streams = video.srcObject;
+                        streams.getTracks().forEach(function (track) {
+                            if (track.readyState == 'live' && track.kind === 'video') {
+                                track.stop();
+                            }
+                        });
+                    };
+                },
+                size: 'md',
+            });
+
+        }
+
+
+        //api get list roles
         $http({
             method: 'GET',
-            url: window.host_api + 'api/tiki/get?action=list&filter=' + ($scope.filter || '') + '&num=' + $scope.num + '&page=' + ($scope.page || '') + '&status=' + $scope.status,
+            url: host_api + 'api/auth/get?action=roles',
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
         }).then(function (res) {
-            //console.log(res)                  
+            // console.log(res);
             if (res.data.result > 0) {
-                $scope.data = res.data.data.detail;
-                $scope.bigTotalItems = res.data.data.total_row;
-            } else {
-                //$scope.textloading = "Dữ liệu trống.";
-                $scope.textloading = res.data.message;
-                //$dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                $scope.selectRoles = res.data.data;
+                //api get detail user follow id,refid
+                $http({
+                    method: 'GET',
+                    url: host_api + 'api/auth/get?action=userbyid&userid=' + $scope.uid + '&refid=' + $scope.refid,
+                    headers: {
+                        'Authorization': "Bearer " + $window.localStorage.token
+                    }
+                }).then(function (res) {
+                    // console.log(res);
+                    if (res.data.result > 0) {
+                        var _data = res.data.data;
+                        $scope.accountName = _data.username;
+                        $scope.dataForm = {
+                            FullName: _data.fullname,
+                            Phone: _data.phone,
+                            Sex: _data.sex.toString(),
+                            Email: _data.email,
+                            RefId: $scope.refid,
+                            UserId: $scope.uid
+                        }
+                        console.log($scope.dataForm);
+                        angular.forEach(_data.roles, function (val) {
+                            angular.forEach($scope.selectRoles, function (item) {
+                                if (val.code === item.code) {
+                                    $scope.selectedList[item.code] = true;
+                                }
+                            });
+
+                        });
+
+                    }
+                }, function err(e) {
+                    $rootScope.checkError(e, $dialogAlert);
+                })
             }
+
         }, function err(e) {
             $rootScope.checkError(e, $dialogAlert);
         })
-    }
-    $scope.month_cur = new Date();
-    $scope.month_ago = (new Date().getMonth() < 10 ? '0' + new Date().getMonth() : new Date().getMonth()) + '/' + (new Date().getFullYear().toString().substr(-2));
-});
-app.controller('mdKYCmobile$Ctrl', function ($http, $scope, $uibModal, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
-    //default states
-    $scope.uid = $stateParams.id;
-    $scope.selectRoles = [];
-    $scope.selectedList = [];
-    $scope.dataForm = {};
-    $(document).ready(function () {
-        $('#enableForm')
-            .bootstrapValidator({
-                feedbackIcons: {
-                    valid: 'glyphicon glyphicon-ok',
-                    invalid: 'glyphicon glyphicon-remove',
-                    validating: 'glyphicon glyphicon-refresh'
-                },
-                fields: {
-                    password: {
-                        enabled: false,
-                        validators: {
-                            notEmpty: {
-                                message: 'Mật khẩu không được để trống'
-                            }
-                        }
-                    },
-                    confirm_password: {
-                        enabled: false,
-                        validators: {
-                            notEmpty: {
-                                message: 'Mật khẩu không được để trống'
-                            },
-                            identical: {
-                                field: 'password',
-                                message: 'Xác nhận mật khẩu không chính xác'
-                            }
-                        }
-                    },
-                    'rolle[]': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Vui lòng chọn ít nhất một vai trò'
-                            }
-                        }
-                    }
-                }
-            })
-            // Enable the password/confirm password validators if the password is not empty
-            .on('keyup', '[name="password"]', function () {
-                var isEmpty = $(this).val() === '';
-                $('#enableForm')
-                    .bootstrapValidator('enableFieldValidators', 'password', !isEmpty)
-                    .bootstrapValidator('enableFieldValidators', 'confirm_password', !isEmpty);
 
-                // Revalidate the field when user start typing in the password field
-                if ($(this).val().length === 1) {
-                    $('#enableForm').bootstrapValidator('validateField', 'password')
-                        .bootstrapValidator('validateField', 'confirm_password');
+        /**
+            * Action
+            */
+        $scope.submit = function () {
+            var _rolle = []
+            angular.forEach($scope.selectedList, function (selected, day) {
+                if (selected) {
+                    //console.log(day);
+                    var role = parseInt(day);
+                    _rolle.push(role);
                 }
-            })
-            .on('success.field.bv', function (e, data) {
-                var $parent = data.element.parents('.form-group');
-                // Hide the success icon
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('error.field.bv', function (e, data) {
-                // Hide the success icon
-                var $parent = data.element.parents('.form-group');
-                $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-            })
-            .on('success.form.bv', function (e) {
-                // Prevent form submission
-                e.preventDefault();
-                $scope.submit();
             });
-    });
-
-    //show modal camera
-
-    $scope.showCamera = function (clss) {
-        var modal = $uibModal.open({
-
-            backdrop: 'static',
-            ariaLabelledBy: 'modal-title',
-            ariaDescribedBy: 'modal-body',
-            templateUrl: window.templateUrl + "user/mdcamera.html",
-            controller: function ($scope, $uibModalInstance, $sce) {
-                $scope.modal = $uibModalInstance;
-
-                $(document).ready(function () {
-                    const width = 320; // We will scale the photo width to this
-                    let height = 0; // This will be computed based on the input stream
-                    let streaming = false;
-                    let video = null;
-                    let canvas = null;
-                    let photo = null;
-                    let startbutton = null;
-                    video = document.getElementById("video");
-                    canvas = document.getElementById("canvas");
-                    photo = document.getElementById("photo");
-                    startbutton = document.getElementById("startbutton");
-                    // vars
-                    let result = document.querySelector('.result'),
-                        img_result = document.querySelector('.img-result'),
-                        img_w = document.querySelector('.img-w'),
-                        img_h = document.querySelector('.img-h'),
-                        options = document.querySelector('.options'),
-                        save = document.querySelector('.save'),
-                        cropped = document.querySelector('.cropped'),
-                        dwn = document.querySelector('.download'),
-                        upload = document.querySelector('#file-input'),
-                        cropper = '';
-                    checkCamera();
-
-                    function checkCamera() {
-                        const streams = navigator.mediaDevices
-                            .getUserMedia({ video: true, audio: false })
-                            .then((stream) => {
-                                window.localStream = stream;
-                                video.srcObject = stream
-                                video.play();
-                            })
-                            .catch((err) => {
-                                console.error(`An error occurred: ${err}`);
-                            });
-                        video.addEventListener(
-                            "canplay",
-                            (ev) => {
-                                if (!streaming) {
-                                    height = video.videoHeight / (video.videoWidth / width);
-
-                                    // Firefox currently has a bug where the height can't be read from
-                                    // the video, so we will make assumptions if this happens.
-
-                                    if (isNaN(height)) {
-                                        height = width / (4 / 3);
-                                    }
-
-                                    video.setAttribute("width", width);
-                                    video.setAttribute("height", height);
-                                    canvas.setAttribute("width", width);
-                                    canvas.setAttribute("height", height);
-                                    streaming = true;
-                                }
-                            },
-                            false
-                        );
-
-                        startbutton.addEventListener(
-                            "click",
-                            (ev) => {
-                                takepicture();
-                                ev.preventDefault();
-                            },
-                            false
-                        );
-
-                        clearphoto();
-                    }
-                    function clearphoto() {
-                        const context = canvas.getContext("2d");
-                        context.fillStyle = "#AAA";
-                        context.fillRect(0, 0, canvas.width, canvas.height);
-
-                        const data = canvas.toDataURL("image/png");
-                        photo.setAttribute("src", data);
-                    }
-
-                    function takepicture() {
-                        const context = canvas.getContext("2d");
-                        if (width && height) {
-                            canvas.width = width;
-                            canvas.height = height;
-                            context.drawImage(video, 0, 0, width, height);
-
-                            const data = canvas.toDataURL("image/png");
-                            photo.setAttribute("src", data);
-                            // create new image
-                            let img = document.createElement('img');
-                            img.id = 'image';
-                            img.src = data;
-                            // clean result before
-                            result.innerHTML = '';
-                            // append new image
-                            result.appendChild(img);
-                            // show save btn and options
-                            save.classList.remove('hide');
-                            options.classList.remove('hide');
-                            // init cropper
-                            cropper = new Cropper(img);
-                        } else {
-                            clearphoto();
-                        }
-
-                    }
-                    // save on click
-                    save.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        // get result to data uri
-                        let imgSrc = cropper.getCroppedCanvas({
-                            width: img_w.value // input value
-                        }).toDataURL();
-                        // remove hide class of img
-                        cropped.classList.remove('hide');
-                        img_result.classList.remove('hide');
-                        // show image cropped
-                        cropped.src = imgSrc;
-                        dwn.classList.remove('hide');
-                        dwn.download = 'imagename.png';
-                        dwn.setAttribute('href', imgSrc);
-                    });
-                    $scope.takepicture = function () {
-                        return takepicture();
-                    }
-                })
-
-                $scope.modal.close = function () {
-                    $uibModalInstance.dismiss(true);
-                    var streams = video.srcObject;
-                    streams.getTracks().forEach(function (track) {
-                        if (track.readyState == 'live' && track.kind === 'video') {
-                            track.stop();
-                        }
-                    });
-                };
-            },
-            size: 'md',
-        });
-
-    }
-
-
-    //api get list roles
-    $http({
-        method: 'GET',
-        url: host_api + 'api/auth/get?action=roles',
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        // console.log(res);
-        if (res.data.result > 0) {
-            $scope.selectRoles = res.data.data;
-            //api get detail user follow id,refid
-            $http({
-                method: 'GET',
-                url: host_api + 'api/auth/get?action=userbyid&userid=' + $scope.uid + '&refid=' + $scope.refid,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
+            $scope.dataForm.Roles = _rolle;
+            console.log($scope.dataForm);
+            setTimeout(function () {
+                if (_rolle.length <= 0) {
+                    return false;
                 }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.data.result > 0) {
-                    var _data = res.data.data;
-                    $scope.accountName = _data.username;
-                    $scope.dataForm = {
-                        FullName: _data.fullname,
-                        Phone: _data.phone,
-                        Sex: _data.sex.toString(),
-                        Email: _data.email,
-                        RefId: $scope.refid,
-                        UserId: $scope.uid
+                //api get list roles
+                // return;
+                $http({
+                    method: 'POST',
+                    url: host_api + 'api/auth/update',
+                    data: $scope.dataForm,
+                    headers: {
+                        'Authorization': "Bearer " + $window.localStorage.token
                     }
-                    console.log($scope.dataForm);
-                    angular.forEach(_data.roles, function (val) {
-                        angular.forEach($scope.selectRoles, function (item) {
-                            if (val.code === item.code) {
-                                $scope.selectedList[item.code] = true;
-                            }
+                }).then(function (res) {
+                    // console.log(res);
+                    if (res.data.result > 0) {
+                        //console.log(res);
+                        $dialogAlert("Cập nhật tài khoản thành công", "Thông báo!", "success", function (res) {
+                            $state.go("list$account");
                         });
 
-                    });
+                    } else {
+                        $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
+                    }
 
-                }
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        }
+                }, function err(e) {
+                    $rootScope.checkError(e, $dialogAlert);
+                })
+            }, 1000)
 
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-
-    /**
-        * Action
-        */
-    $scope.submit = function () {
-        var _rolle = []
-        angular.forEach($scope.selectedList, function (selected, day) {
-            if (selected) {
-                //console.log(day);
-                var role = parseInt(day);
-                _rolle.push(role);
-            }
-        });
-        $scope.dataForm.Roles = _rolle;
-        console.log($scope.dataForm);
-        setTimeout(function () {
-            if (_rolle.length <= 0) {
-                return false;
-            }
-            //api get list roles
-            // return;
-            $http({
-                method: 'POST',
-                url: host_api + 'api/auth/update',
-                data: $scope.dataForm,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.data.result > 0) {
-                    //console.log(res);
-                    $dialogAlert("Cập nhật tài khoản thành công", "Thông báo!", "success", function (res) {
-                        $state.go("list$account");
-                    });
-
-                } else {
-                    $dialogAlert("\n" + res.data.message, "Thông báo!", "warning");
-                }
-
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        }, 1000)
-
-    };
-});
+        };
+    });
+})
