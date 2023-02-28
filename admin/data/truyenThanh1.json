@@ -1,0 +1,16 @@
+[
+    {
+        "id": "3",
+        "province_id": "THA_HPU_01",
+        "province": "Thanh Hóa",
+        "district": "Hoành Hóa",
+        "commune": "Hoành Phụ"
+    },
+    {
+        "id": "4",
+        "province_id": "THA_HPU_02",
+        "province": "Thanh Hóa",
+        "district": "Hoành Hóa",
+        "commune": "Hoành Phụ"
+    }
+]
