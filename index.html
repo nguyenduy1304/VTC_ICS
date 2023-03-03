@@ -189,31 +189,26 @@
                         </li>     
                         <li><a ng-class="{active: $state.includes('ponesme')}" ui-sref="ponesme"><i class="lnr lnr-license"></i> <span>Quản lý thiết bị</span></a></li>                      
                         <li><a href="javascript:void(0)" ng-click="logOut()" ><i class="lnr lnr-exit"></i> <span>Đăng xuất</span></a></li>-->            
-                        <li class="active"><a ng-class="{active: $state.includes('selStatistic')}" ui-sref="selStatistic"><i class="lnr lnr-home"></i> <span>Quản lý đài truyền thanh ứng dụng CNTT-VT</span></a></li>
-                        <li class="treeview active">
-                            <a ui-sref="selStatistic">
-                                <i class="lnr lnr-construction"></i> <span>Quản lý thiết bị</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-circle-o" style="font-size:11px"></i> Đài truyền thanh ứng dụng CNTT-VT</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o" style="font-size:11px"></i> Bảng tin điện tử công cộng</a></li>
-                            </ul>
-                        </li>    
-                        <li class="treeview active">
-                            <a  ui-sref="selStatistic">
-                                <i class="lnr lnr-text-format"></i> <span>Biên tập bản tin</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-circle-o" style="font-size:11px"></i> Quản lý lịch phát thanh</a></li>
-                                <li><a href="#"><i class="fa fa-circle-o" style="font-size:11px"></i> Thư viên âm thanh</a></li>
-                            </ul>
-                        </li>              
+                        <li class="active"><a ng-class="{active: $state.includes('selStatistic')}"
+                            ui-sref="selStatistic" href="../index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung"><i
+                                class="lnr lnr-home"></i> <span>Quản lý đài truyền thanh ứng
+                                dụng CNTT-VT</span></a></li>
+                    <li class="treeview active">
+                        <a ui-sref="selStatistic" href="#">
+                            <i class="lnr lnr-construction"></i> <span>Quản lý thiết bị</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="../index.html#!/quan-ly-thiet-bi/thiet-bi"><i class="fa fa-circle-o"
+                                        style="font-size:11px"></i> Đài truyền thanh
+                                    ứng dụng CNTT-VT </a></li>
+                            <li><a href="../index.html#!/quan-ly-thiet-bi/bang-tin-cong-cong"><i
+                                        class="fa fa-circle-o" style="font-size:11px"></i> Bảng tin điện tử
+                                    công cộng</a></li>
+                        </ul>
+                    </li>             
                         <li><a href="../#!/bao-cao-thong-ke"><i class="lnr lnr-chart-bars"></i> <span>Báo cáo, thống kê</span></a></li>                        
                         <li><a href="../#!/kien-nghi-cua-nguoi-dan"><i class="lnr lnr-question-circle"></i> <span>Kiến nghị của người dân</span></a></li>  
                         <li class="treeview active">

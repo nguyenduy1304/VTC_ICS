@@ -452,3 +452,84 @@ div.upload input[type="file"] {
         margin-left: 50px
     }
 }
+
+table.table-style-three tr:nth-child(even) td {
+    background-color: #ffffff;
+}
+
+/* manage */
+table.table-style-three td {
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #d82323;
+    border: 1px solid blue;
+    background-color: #ebeaea;
+}
+
+/* Pagination links */
+/* .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+} */
+
+/* Style the active/current link */
+/* .pagination a.active {
+    background-color: dodgerblue;
+    color: white;
+} */
+
+/* Add a grey background color on mouse-over */
+/* .pagination a:hover:not(.active) {
+    background-color: #ddd;
+} */
+.pagination a {
+    float: left;
+    margin-right: 10px;
+    color: #0d67b1;
+}
+
+.glyphicon:hover {
+    background-color: #e1d6f1;
+}
+
+form.search-click input[type=text] {
+    padding: 5px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+}
+
+form.search-click button {
+    float: left;
+    width: 20%;
+    padding: 5px;
+    background: #2196F3;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+}
+
+form.search-click button:hover {
+    background: #0b7dda;
+}
+
+#input-invalid input:invalid {
+    border: red solid 3px;
+}
+
+.pagination button {
+    background-color: #F3F5F8;
+    border: none;
+}
+
+.pagination button:hover {
+    background-color: #e1d6f1;
+}

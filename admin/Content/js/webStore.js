@@ -1,35 +1,67 @@
     var host = window.host;
     var host_api = window.host_api; 
     var timer = 10000;
-
-    const domain_api = 'http://127.0.0.1:5500/';
+    const url_host_api = 'http://127.0.0.1:5500/';
+    const listAPI = {
+        device: {
+            getListDevice1: url_host_api + 'admin/data/thietBi1.json',
+            getListDevice: url_host_api + 'admin/data/thietBi.json',
+            getDevice: url_host_api + 'admin/data/editDevice.json',
+            deleteDevice: url_host_api + 'xoa-thiet-bi-cum-loa',
+            editDevice: url_host_api + 'cap-nhat-thiet-bi-cum-loa',
+            addDevice: url_host_api + 'them-thiet-bi-cum-loa'
+        },
+        radioApp: {
+            getListRadioApp: url_host_api + 'admin/data/truyenThanh.json',
+            getListRadioApp1: url_host_api + 'admin/data/truyenThanh1.json',
+            getRadioApp: url_host_api + 'admin/data/editRadioApp.json',
+            deleteRadioApp: url_host_api + 'xoa-truyen-thanh-va-ung-dung',
+            editRadioApp: url_host_api + 'cap-nhat-dai-truyen-thanh-va-ung-dung',
+            addRadioApp: url_host_api + 'them-dai-truyen-thanh-va-ung-dung'
+        },
+        lichPhat: {
+            getListLichPhat: url_host_api + 'admin/data/lichPhat.json',
+            getListLichPhat1: url_host_api + 'admin/data/lichPhat1.json',
+            getLichPhat: url_host_api + 'admin/data/editLichPhat.json',
+            deleteLichPhat: url_host_api + 'xoa-lich-phat',
+            editLichPhat: url_host_api + 'cap-nhat-lich-phat',
+            addLichPhat: url_host_api + 'them-lich-phat'
+        },
+        publicNews: {
+            getListPublicNews: url_host_api + 'admin/data/publicNews.json',
+            getListPublicNews1: url_host_api + 'admin/data/publicNews1.json',
+            getPublicNews: url_host_api + 'admin/data/editPublicNews.json',
+            deletePublicNews: url_host_api + 'xoa-bang-thong-tin-dien-tu',
+            editPublicNews: url_host_api + 'cap-nhat-bang-thong-tin-dien-tu',
+            addPublicNews: url_host_api + 'them-bang-thong-tin-dien-tu'
+        }
+    };
     const listapi ={
         sourcelibrary:{
-            getlist: domain_api + 'admin/Template/17-22/data_json/sourcelibrary.json',
-            getedit: domain_api + 'admin/Template/17-22/data_json/detail/sourcelibratydetail.json',
-            getsourcelibrarycopy: domain_api + 'admin/Template/17-22/data_json/sourcelibrarycopy.json'
+            getlist: host_api + 'admin/Template/17-22/data_json/sourcelibrary.json',
+            getedit: host_api + 'admin/Template/17-22/data_json/detail/sourcelibratydetail.json',
+            getsourcelibrarycopy: host_api + 'admin/Template/17-22/data_json/sourcelibrarycopy.json'
         },
         recommend:{
-            getlist: domain_api +'admin/Template/17-22/data_json/recommend.json',
-            getedit: domain_api +'',
-            getrecommendcopy: domain_api +'admin/Template/17-22/data_json/recommendcopy.json'
+            getlist: host_api +'admin/Template/17-22/data_json/recommend.json',
+            getedit: host_api +'',
+            getrecommendcopy: host_api +'admin/Template/17-22/data_json/recommendcopy.json'
         },
         managergroupuser:{
-            getlist: domain_api +'admin/Template/17-22/data_json/managergroupuser.json',
-            getedit: domain_api +'admin/Template/17-22/data_json/detail/managergroupuserdetail.json',
-            getmanagergroupusercopy: domain_api +'admin/Template/17-22/data_json/managergroupusercopy.json'
+            getlist: host_api +'admin/Template/17-22/data_json/managergroupuser.json',
+            getedit: host_api +'admin/Template/17-22/data_json/detail/managergroupuserdetail.json',
+            getmanagergroupusercopy: host_api +'admin/Template/17-22/data_json/managergroupusercopy.json'
         },
         manageruser:{
-            getlist: domain_api +'admin/Template/17-22/data_json/manageruser.json',
-            getedit: domain_api +'admin/Template/17-22/data_json/detail/manageruserdetail.json',
-            getmanagerusercopy: domain_api +'admin/Template/17-22/data_json/managerusercopy.json'
+            getlist: host_api +'admin/Template/17-22/data_json/manageruser.json',
+            getedit: host_api +'admin/Template/17-22/data_json/detail/manageruserdetail.json',
+            getmanagerusercopy: host_api +'admin/Template/17-22/data_json/managerusercopy.json'
         },
         userlog:{
-            getlist: domain_api +'admin/Template/17-22/data_json/userlog.json',
-            getedit: domain_api +'admin/Template/17-22/data_json/detail/userlogdetail.json',
-            getuserlogcopy: domain_api +'admin/Template/17-22/data_json/userlogcopy.json'
+            getlist: host_api +'admin/Template/17-22/data_json/userlog.json',
+            getedit: host_api +'admin/Template/17-22/data_json/detail/userlogdetail.json',
+            getuserlogcopy: host_api +'admin/Template/17-22/data_json/userlogcopy.json'
         }
-
 
     }
     var formatNumbers = function (amount, decimalCount, decimal , thousands) {
@@ -77,9 +109,97 @@
     var app = angular.module('WebStore', ['ui.router', 'ui.bootstrap', 'angular.filter', 'ckeditor']);
     app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
         $urlRouterProvider.otherwise('/');
-        //$urlMatcherFactoryProvider.caseInsensitive(true);
+        //$urlMatcherFactoryProvider.caseInsensitive(true);  
         //$urlMatcherFactoryProvider.strictMode(false); 
         $stateProvider
+
+        //thai
+
+        .state('manageRadioApp', {
+            url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung',
+            cache: false,
+            controller: 'manageRadioApp',
+            //templateUrl: window.templateUrl + "/seller/mProduct.html"
+            templateUrl: window.templateUrl + "/manageDevice/radioApp.html"
+        })
+        .state('editRadioApp', {
+            url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung/cap-nhat/:id',
+            cache: false,
+            controller: 'editRadioApp',
+            //templateUrl: window.templateUrl + "/seller/mProduct.html"
+            templateUrl: window.templateUrl + "/manageDevice/editRadioApp.html"
+        })
+        .state('addRadioApp', {
+            url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung/them',
+            cache: false,
+            controller: 'addRadioApp',
+            //templateUrl: window.templateUrl + "/seller/mProduct.html"
+            templateUrl: window.templateUrl + "/manageDevice/addRadioApp.html"
+        })
+        .state('manageDevice', {
+            url: '/quan-ly-thiet-bi/thiet-bi',
+            cache: false,
+            controller: 'manageDevice',
+            //templateUrl: window.templateUrl + "/seller/mProduct.html"
+            templateUrl: window.templateUrl + "/manageDevice/device.html"
+        })
+        .state('editDevice', {
+            url: '/quan-ly-thiet-bi/thiet-bi/cap-nhat/:id',
+            cache: false,
+            controller: 'editDevice',
+            //templateUrl: window.templateUrl + "/seller/mProduct.html"
+            templateUrl: window.templateUrl + "/manageDevice/editDevice.html"
+        })
+        .state('addDevice', {
+            url: '/quan-ly-thiet-bi/thiet-bi/them',
+            cache: false,
+            controller: 'addDevice',
+            //templateUrl: window.templateUrl + "/seller/mProduct.html"
+            templateUrl: window.templateUrl + "/manageDevice/addDevice.html"
+        })
+        .state('manageLichPhat', {
+            url: '/quan-ly-thiet-bi/lich-phat',
+            cache: false,
+            controller: 'manageLichPhat',
+            //templateUrl: window.templateUrl + "/seller/mProduct.html"
+            templateUrl: window.templateUrl + "/manageDevice/lichPhat.html"
+        })
+        .state('editLichPhat', {
+            url: '/quan-ly-thiet-bi/lich-phat/cap-nhat/:id',
+            cache: false,
+            controller: 'editLichPhat',
+            //templateUrl: window.templateUrl + "/seller/mProduct.html"
+            templateUrl: window.templateUrl + "/manageDevice/editLichPhat.html"
+        })
+        .state('addLichPhat', {
+            url: '/quan-ly-thiet-bi/lich-phat/them',
+            cache: false,
+            controller: 'addLichPhat',
+            //templateUrl: window.templateUrl + "/seller/mProduct.html"
+            templateUrl: window.templateUrl + "/manageDevice/addLichPhat.html"
+        })
+        .state('managePublicNews', {
+            url: '/quan-ly-thiet-bi/bang-tin-cong-cong',
+            cache: false,
+            controller: 'managePublicNews',
+            //templateUrl: window.templateUrl + "/seller/mProduct.html"
+            templateUrl: window.templateUrl + "/manageDevice/publicNews.html"
+        })
+        .state('editPublicNews', {
+            url: '/quan-ly-thiet-bi/bang-tin-cong-cong/cap-nhat/:id',
+            cache: false,
+            controller: 'editPublicNews',
+            //templateUrl: window.templateUrl + "/seller/mProduct.html"
+            templateUrl: window.templateUrl + "/manageDevice/editPublicNews.html"
+        })
+        .state('addPublicNews', {
+            url: '/quan-ly-thiet-bi/bang-tin-cong-cong/them',
+            cache: false,
+            controller: 'addPublicNews',
+            //templateUrl: window.templateUrl + "/seller/mProduct.html"
+            templateUrl: window.templateUrl + "/manageDevice/addPublicNews.html"
+        })
+        //thai
             .state('seller', {
                 url: '/',
                 allowAnonymous: true,
@@ -165,7 +285,7 @@
                 controller: 'mdKYCmobile$Ctrl',
                 templateUrl: window.templateUrl + "/user/info.html"
             })
-
+            //thư viện nguồn============
             .state('17-22-sourcelibrary', {
                 url: '/thu-vien-nguon',
                 allowAnonymous: true,
@@ -184,6 +304,7 @@
                 controller: 'edit_sourcelibraryCtrl',
                 templateUrl: window.templateUrl + "/17-22/editsourcelibrary.html"
             })
+            //Báo cáo thống kê=================
             .state('17-22-reportstatistical', {
                 url: '/bao-cao-thong-ke',
                 allowAnonymous: true,
@@ -202,13 +323,14 @@
                 controller: 'reportnewsmediaCtrl',
                 templateUrl: window.templateUrl + "/17-22/reportnewsmedia.html"
             })
-
+            //Kiến nghị người dân ================
             .state('17-22-recommend', {
                 url: '/kien-nghi-cua-nguoi-dan',
                 allowAnonymous: true,
                 controller: 'recommendCtrl',
                 templateUrl: window.templateUrl + "/17-22/recommend.html"
             })
+            //Quản trị tài khoản người dùng ==================
             .state('17-22-manageruser', {
                 url: '/quan-tri-tai-khoan-nguoi-dung',
                 allowAnonymous: true,
@@ -228,7 +350,7 @@
                 controller: 'editmanageruserCtrl',
                 templateUrl: window.templateUrl + "/17-22/editmanageruser.html"
             })
-
+            //Quản trị group người dùng =================
             .state('17-22-managergroupuser', {
                 url: '/quan-tri-nhom-nguoi-dung',
                 allowAnonymous: true,
@@ -247,7 +369,7 @@
                 controller: 'editmanagergroupuserCtrl',
                 templateUrl: window.templateUrl + "/17-22/editmanagergroupuser.html"
             })
-
+            //Nhật ký người dùng ========================
             .state('17-22-userlog', {
                 url: '/nhat-ky-nguoi-su-dung',
                 allowAnonymous: true,
@@ -266,11 +388,6 @@
                 controller: 'edituserlogCtrl',
                 templateUrl: window.templateUrl + "/17-22/edituserlog.html"
             })
-
-
-
-
-
 
             
         //$locationProvider.html5Mode(true);
@@ -411,7 +528,7 @@
         }
     })
 
-    app.controller('sourcelibraryCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    app.controller('sourcelibraryCtrl', function($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
         //$scope.data = [];
         $http({
             method: 'GET',
@@ -430,7 +547,7 @@
             $rootScope.checkError(e, $dialogAlert);
         })
         $scope.deletesourcelibrary = function (id) {
-            $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa dữ liệu khỏi hệ thống?", "Xác nhận", function (res) {
                 if (res) {
                     $http({
                         method: 'POST',
@@ -527,7 +644,7 @@
                 if (res.result > 0) {
                     //console.log(res);
                     $dialogAlert("Cập nhật thư viện nguồn thành côngi", "Thông báo!", "success", function (res) {
-                        $state.go("manageDevice");
+                        $state.go("sourcelibraryCtrl");
                     });
     
                 } else {
@@ -542,7 +659,7 @@
        
       });
       
-      app.controller('managergroupuserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+      app.controller('managergroupuserCtrl', function($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
         $http({
             method: 'GET',
             url: listapi.managergroupuser.getlist,
@@ -663,7 +780,7 @@
         };
       });
 
-      app.controller('manageruserCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+      app.controller('manageruserCtrl', function($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
         $http({
             method: 'GET',
 
@@ -681,6 +798,29 @@
         }, function err(e) {
             $rootScope.checkError(e, $dialogAlert);
         })
+        $scope.deletemanageruser = function (id) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: host_api + 'api/auth/delete',
+                        data: {
+                            groupid: id,
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    })
+                }
+
+            })
+        }
         $scope.searchFilter = function () {
             console.log($scope.filter);
             $http({
@@ -866,7 +1006,7 @@
         })
     });
 
-    app.controller('userlogCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    app.controller('userlogCtrl', function($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
         $http({
             method: 'GET',
             url: listapi.userlog.getlist,
@@ -927,6 +1067,838 @@
             })
         }
     });
+    //thai
+    app.controller('manageDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        var options = {
+            'method': 'POST',
+            'url': 'http://ttn.onephone.online/index.php/api/lookups/model/Ippbxextenlocation',
+            'headers': {
+              'Content-Type': 'application/json',
+              'Cookie': 'PHPSESSID=1a9f9dd4e437cd35aac86fb401da3af4'
+            },
+            'data': {
+              'user': 'vtc',
+              'userKey': 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM'
+            }
+          };
+        
+        $http(options).then(function (res) {
+            console.log(res);
+            if (res.status != 404 && res.status != 405) {
+                $scope.data = res.data;
+                //console.log($scope.data);
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            console.log('Sơ hở cái là lỗi');
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        //pagination
+        $scope.currentPage = 0;
+        $scope.pageSize = 15;
+        $scope.size = 0;
+        $scope.first = function () {
+            $scope.currentPage = 0;
+        }
+        $scope.next = function () {
+            $scope.currentPage += 1;
+        }
+        $scope.previous = function () {
+            $scope.currentPage -= 1;
+        }
+        $scope.last = function (last) {
+            $scope.currentPage = last;
+        }
+        $scope.thisPage = function (i) {
+            $scope.currentPage = i;
+        }
+        $scope.totalPage = function (size, pageSize) {
+            $scope.size = $window.Math.ceil(size / pageSize);
+            return $window.Math.ceil(size / pageSize);
+        }
+        $scope.filterDevice = function () {
+            console.log('filter=' + $scope.filter);
+            $http({
+                method: 'GET',
+                //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+                url: listAPI.device.getListDevice1,
+                data: {
+                    filter: $scope.filter
+                },
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res);
+                console.log('ddaay la filter' + $scope.filter);
+                if (res.status != 404 && res.status != 405) {
+                    $scope.data = res.data;
+                    //console.log($scope.data);
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+        $scope.deleteDevice = function (ID) {
+            //id
+            $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        //url: host_api + 'xoa-thiet-bi-cum-loa',
+                        url: listAPI.device.deleteDevice,
+                        data: {
+                            id: ID
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    }, function err(e) {
+                        $rootScope.checkError(e, $dialogAlert);
+                    })
+                }
+    
+            })
+    
+        }
+    })
+    app.filter('startFrom', ['$timeout', function ($timeout) {
+        return function (input, start) {
+            start += start;
+            if (start != 1)
+                start = start / 2;
+            if (!input)
+                return;
+            return input.slice(start);
+        }
+    }])
+    app.filter('range', function () {
+        return function (input, total) {
+            total = parseInt(total);
+    
+            for (var i = 0; i < total; i++) {
+                input.push(i);
+            }
+    
+            return input;
+        };
+    })
+    app.controller('editDevice', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/thiet-bi-cum-loa' + '&id=' + $stateParams.id,
+            url: listAPI.device.getDevice,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            //console.log(res);
+            // if (res.result > 0) {
+            if (res.status != 404 && res.status != 405) {
+                $scope.formData = res.data;
+                //console.log(res);
+                $scope.formData.date_set = new Date($scope.formData.date_set);
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.editDevice = function () {
+            ($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'cap-nhat-thiet-bi-cum-loa',
+                url: listAPI.device.editDevice,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageDevice");
+                    });
+    
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+    
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+    })
+    app.controller('addDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $scope.addDevice = function () {
+            //console.log($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'them-thiet-bi-cum-loa',
+                url: listAPI.device.addDevice,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageDevice");
+                    });
+    
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+    
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+    })
+    app.controller('manageLichPhat', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.filter = '';
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/lichPhat.json',
+            url: listAPI.lichPhat.getListLichPhat,
+            data: {
+                filter: $scope.filter
+            },
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.data = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        //pagination
+        $scope.currentPage = 0;
+        $scope.pageSize = 15;
+        $scope.size = 0;
+        $scope.first = function () {
+            $scope.currentPage = 0;
+        }
+        $scope.next = function () {
+            $scope.currentPage += 1;
+        }
+        $scope.previous = function () {
+            $scope.currentPage -= 1;
+        }
+        $scope.last = function (last) {
+            $scope.currentPage = last;
+        }
+        $scope.thisPage = function (i) {
+            $scope.currentPage = i;
+        }
+        $scope.totalPage = function (size, pageSize) {
+            $scope.size = $window.Math.ceil(size / pageSize);
+            return $window.Math.ceil(size / pageSize);
+        }
+        $scope.filterLichPhat = function () {
+            //console.log('filter=' + $scope.filter);
+            if ($scope.filter != '') {
+                $http({
+                    method: 'GET',
+                    //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+                    url: listAPI.lichPhat.getListLichPhat1,
+                    data: {
+                        filter: $scope.filter
+                    },
+                    headers: {
+                        'Authorization': "Bearer " + $window.localStorage.token
+                    }
+                }).then(function (res) {
+                    //console.log(res);
+                    console.log('ddaay la filter' + $scope.filter);
+                    if (res.status != 404 && res.status != 405) {
+                        $scope.data = res.data;
+                    } else {
+                        $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                    }
+                }, function err(e) {
+                    $rootScope.checkError(e, $dialogAlert);
+                })
+            }
+            $scope.filter = '';
+        }
+        $scope.deleteLichPhat = function (ID) {
+            //id
+            $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        //url: host_api + 'xoa-lich-phat',
+                        url: listAPI.lichPhat.deleteLichPhat,
+                        data: {
+                            id: ID
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    }, function err(e) {
+                        $rootScope.checkError(e, $dialogAlert);
+                    })
+                }
+    
+            })
+    
+        }
+    })
+    app.controller('editLichPhat', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/editLichPhat.json',
+            url: listAPI.lichPhat.getLichPhat,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            //console.log(res);
+            // if (res.result > 0) {
+            if (res.status != 404 && res.status != 405) {
+                $scope.formData = res.data;
+                $scope.formData.date_set = new Date($scope.formData.date_set);
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+    
+        $scope.editLichPhat = function () {
+            //console.log($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'cap-nhat-lich-phat',
+                url: listAPI.lichPhat.editLichPhat,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageLichPhat");
+                    });
+    
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+    
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+    })
+    app.controller('addLichPhat', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $scope.addLichPhat = function () {
+            //console.log($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'them-lich-phat',
+                url: listAPI.lichPhat.addLichPhat,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageLichPhat");
+                    });
+    
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+    
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+    })
+    app.controller('managePublicNews', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.filter = '';
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/publicNews.json',
+            data: {
+                filter: $scope.filter
+            },
+            url: listAPI.publicNews.getListPublicNews,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.data = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        //pagination
+        $scope.currentPage = 0;
+        $scope.pageSize = 15;
+        $scope.size = 0;
+        $scope.first = function () {
+            $scope.currentPage = 0;
+        }
+        $scope.next = function () {
+            $scope.currentPage += 1;
+        }
+        $scope.previous = function () {
+            $scope.currentPage -= 1;
+        }
+        $scope.last = function (last) {
+            $scope.currentPage = last;
+        }
+        $scope.thisPage = function (i) {
+            $scope.currentPage = i;
+        }
+        $scope.totalPage = function (size, pageSize) {
+            $scope.size = $window.Math.ceil(size / pageSize);
+            return $window.Math.ceil(size / pageSize);
+        }
+        $scope.filterPublicNews = function () {
+            console.log('filter=' + $scope.filter);
+            $http({
+                method: 'GET',
+                //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+                url: listAPI.publicNews.getListPublicNews1,
+                data: {
+                    filter: $scope.filter
+                },
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res);
+                console.log('ddaay la filter' + $scope.filter);
+                if (res.status != 404 && res.status != 405) {
+                    $scope.data = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+        $scope.deletePublicNews = function (ID) {
+            //id
+            $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        //url: host_api + 'xoa-bang-thong-tin-dien-tu',
+                        url: listAPI.publicNews.deletePublicNews,
+                        data: {
+                            id: ID
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    }, function err(e) {
+                        $rootScope.checkError(e, $dialogAlert);
+                    })
+                }
+    
+            })
+    
+        }
+    })
+    app.controller('editPublicNews', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/editPublicNews.json',
+            url: listAPI.publicNews.getPublicNews,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            //console.log(res);
+            // if (res.result > 0) {
+            if (res.status != 404 && res.status != 405) {
+                $scope.formData = res.data;
+                $scope.formData.date_set = new Date($scope.formData.date_set);
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+    
+        $scope.editPublicNews = function () {
+            // console.log($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'cap-nhat-bang-thong-tin-dien-tu',
+                url: listAPI.publicNews.editPublicNews,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("managePublicNews");
+                    });
+    
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+    
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+    })
+    app.controller('addPublicNews', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $scope.addPublicNews = function () {
+            //console.log($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'them-bang-thong-tin-dien-tu',
+                url: listAPI.publicNews.addPublicNews,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("managePublicNews");
+                    });
+    
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+    
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+    })
+    app.controller('manageRadioApp', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.filter = '';
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/truyenThanh.json',
+            data: {
+                filter: $scope.filter
+            },
+            url: listAPI.radioApp.getListRadioApp,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            if (res.status != 404) {
+                $scope.data = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        //pagination
+        $scope.currentPage = 0;
+        $scope.pageSize = 15;
+        $scope.size = 0;
+        $scope.first = function () {
+            $scope.currentPage = 0;
+        }
+        $scope.next = function () {
+            $scope.currentPage += 1;
+        }
+        $scope.previous = function () {
+            $scope.currentPage -= 1;
+        }
+        $scope.last = function (last) {
+            $scope.currentPage = last;
+        }
+        $scope.thisPage = function (i) {
+            $scope.currentPage = i;
+        }
+        $scope.totalPage = function (size, pageSize) {
+            $scope.size = $window.Math.ceil(size / pageSize);
+            return $window.Math.ceil(size / pageSize);
+        }
+        $scope.filterRadioApp = function () {
+            console.log('filter=' + $scope.filter);
+            $http({
+                method: 'GET',
+                //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+                url: listAPI.radioApp.getListRadioApp1,
+                data: {
+                    filter: $scope.filter
+                },
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                //console.log(res);
+                console.log('ddaay la filter' + $scope.filter);
+                if (res.status != 404 && res.status != 405) {
+                    $scope.data = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        }
+        $scope.deleteRadioApp = function (ID) {
+            //id
+            $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        //url: host_api + '/xoa-dai-truyen-thanh-va-ung-dung',
+                        url: listAPI.radioApp.deleteRadioApp,
+                        data: {
+                            id: ID
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    }, function err(e) {
+                        $rootScope.checkError(e, $dialogAlert);
+                    })
+                }
+    
+            })
+    
+        }
+    })
+    app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/editRadioApp.json',
+            url: listAPI.radioApp.getRadioApp,
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            //console.log(res);
+            // if (res.result > 0) {
+            if (res.status != 404 && res.status != 405) {
+                $scope.formData = res.data;
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        //form tỉnh huyện xã
+        $scope.cities = [];
+        $scope.districts = [];
+        $scope.wards = [];
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/editRadioApp.json',
+            url: 'http://127.0.0.1:5500/admin/data/data.json',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            //console.log(res);
+            // if (res.result > 0) {
+            if (res.status != 404 && res.status != 405) {
+                $scope.cities = res.data;
+                //console.log($scope.cities);
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.listDistricts = function () {
+            if ($scope.formData.province != '') {
+                for (i in $scope.cities) {
+                    //console.log($scope.cities[i]);
+                    if ($scope.formData.province == $scope.cities[i].Name) {
+                        $scope.districts = $scope.cities[i].Districts;
+                        //console.log('dis' + $scope.districts);
+                        break;
+                    }
+                }
+            }
+        }
+        $scope.listWards = function () {
+            if ($scope.formData.district != '') {
+                for (i in $scope.districts) {
+                    //console.log($scope.districts[i]);
+                    if ($scope.formData.district == $scope.districts[i].Name) {
+                        $scope.wards = $scope.districts[i].Wards;
+                        //console.log($scope.wards);
+                        break;
+                    }
+                }
+            }
+        }
+        $scope.editRadioApp = function () {
+            console.log($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'cap-nhat-dai-truyen-thanh-va-ung-dung',
+                url: listAPI.radioApp.editRadioApp,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageRadioApp");
+                    });
+    
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+    
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+    })
+    app.controller('addRadioApp', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+        $scope.formData = {};
+        $scope.cities = [];
+        $scope.districts = [];
+        $scope.wards = [];
+        $http({
+            method: 'GET',
+            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+            //url: 'http://127.0.0.1:5500/admin/data/editRadioApp.json',
+            url: 'http://127.0.0.1:5500/admin/data/data.json',
+            headers: {
+                'Authorization': "Bearer " + $window.localStorage.token
+            }
+        }).then(function (res) {
+            //console.log(res);
+            // if (res.result > 0) {
+            if (res.status != 404 && res.status != 405) {
+                $scope.cities = res.data;
+                //console.log($scope.cities);
+            } else {
+                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+            }
+        }, function err(e) {
+            $rootScope.checkError(e, $dialogAlert);
+        })
+        $scope.listDistricts = function () {
+            if ($scope.formData.province != '') {
+                for (i in $scope.cities) {
+                    //console.log($scope.cities[i]);
+                    if ($scope.formData.province == $scope.cities[i].Name) {
+                        $scope.districts = $scope.cities[i].Districts;
+                        //console.log('dis' + $scope.districts);
+                        break;
+                    }
+                }
+            }
+        }
+        $scope.listWards = function () {
+            if ($scope.formData.district != '') {
+                for (i in $scope.districts) {
+                    //console.log($scope.districts[i]);
+                    if ($scope.formData.district == $scope.districts[i].Name) {
+                        $scope.wards = $scope.districts[i].Wards;
+                        //console.log($scope.wards);
+                        break;
+                    }
+                }
+            }
+        }
+        $scope.addRadioApp = function () {
+            console.log($scope.formData);
+            $http({
+                method: 'POST',
+                //url: host_api + 'them-thiet-bi-cum-loa',
+                url: listAPI.radioApp.addRadioApp,
+                data: $scope.formData,
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.result > 0) {
+                    //console.log(res);
+                    $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageRadioApp");
+                    });
+    
+                } else {
+                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+                }
+    
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+        };
+    })
+    //thai
     app.controller('edituserlogCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
          $http({
              method: 'GET',
