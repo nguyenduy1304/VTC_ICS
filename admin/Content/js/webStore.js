@@ -529,8 +529,6 @@
     })
 
     app.controller('sourcelibraryCtrl', function($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-        //$scope.data = [];
-        $scope.items=[];
         $.ajax({
             url: 'http://ttn.onephone.online/index.php/api/lookups/model/Mediasource',
             type: 'POST',
@@ -540,31 +538,16 @@
             },
             success: function(response) {
                 const arr = Object.values(response);
+                $scope.$apply(function() {
                 $scope.items = arr;
-                console.log($scope.items );
-            },
+                });
+                // console.log($scope.items);
+                },
             error: function(xhr, status, error) {
                 console.log('error');
                 $rootScope.checkError(e, $dialogAlert);
             }
           });
-          
-        // $http({
-        //     method: 'GET',
-        //     url: listapi.sourcelibrary.getlist,
-        //     headers: {
-        //         'Authorization': "Bearer " + $window.localStorage.token
-        //     }
-        // }).then(function (res) {
-        //     if (res.status != 404) {
-        //         $scope.items = res.data;
-        //     } else {
-        //         $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-        //     }
-            
-        // }, function err(e) {
-        //     $rootScope.checkError(e, $dialogAlert);
-        // })
         $scope.deletesourcelibrary = function (id) {
             $dialogConfirm("Bạn chắc chắn muốn xóa dữ liệu khỏi hệ thống?", "Xác nhận", function (res) {
                 if (res) {
@@ -1098,9 +1081,12 @@
               userKey: 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM'
             },
             success: function(response) {
-                console.log(response);
-                $scope.data = response;
-            },
+                const arr = Object.values(response);
+                $scope.$apply(function() {
+                $scope.data = arr;
+                });
+                // console.log($scope.items);
+                },
             error: function(xhr, status, error) {
                 console.log('error');
                 $rootScope.checkError(e, $dialogAlert);
@@ -1467,26 +1453,46 @@
     })
     app.controller('managePublicNews', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
         $scope.filter = '';
-        $http({
-            method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            //url: 'http://127.0.0.1:5500/admin/data/publicNews.json',
+
+        $.ajax({
+            url: 'http://ttn.onephone.online/index.php/api/lookups/model/Inforboard',
+            type: 'POST',
             data: {
-                filter: $scope.filter
+              user: 'vtc',
+              userKey: 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM'
             },
-            url: listAPI.publicNews.getListPublicNews,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
+            success: function(response) {
+                const arr = Object.values(response);
+                $scope.$apply(function() {
+                $scope.data = arr;
+                });
+                // console.log($scope.items);
+                },
+            error: function(xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
             }
-        }).then(function (res) {
-            if (res.status != 404) {
-                $scope.data = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
+          });
+        // $http({
+        //     method: 'GET',
+        //     //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+        //     //url: 'http://127.0.0.1:5500/admin/data/publicNews.json',
+        //     data: {
+        //         filter: $scope.filter
+        //     },
+        //     url: listAPI.publicNews.getListPublicNews,
+        //     headers: {
+        //         'Authorization': "Bearer " + $window.localStorage.token
+        //     }
+        // }).then(function (res) {
+        //     if (res.status != 404) {
+        //         $scope.data = res.data;
+        //     } else {
+        //         $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+        //     }
+        // }, function err(e) {
+        //     $rootScope.checkError(e, $dialogAlert);
+        // })
         //pagination
         $scope.currentPage = 0;
         $scope.pageSize = 15;
@@ -1644,26 +1650,46 @@
     })
     app.controller('manageRadioApp', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
         $scope.filter = '';
-        $http({
-            method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            //url: 'http://127.0.0.1:5500/admin/data/truyenThanh.json',
+        $.ajax({
+            url: 'http://ttn.onephone.online/index.php/api/lookups/model/Radionode',
+            type: 'POST',
             data: {
-                filter: $scope.filter
+              user: 'vtc',
+              userKey: 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM'
             },
-            url: listAPI.radioApp.getListRadioApp,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
+            success: function(response) {
+                const arr = Object.values(response);
+                $scope.$apply(function() {
+                $scope.data = arr;
+                });
+                },
+            error: function(xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
             }
-        }).then(function (res) {
-            if (res.status != 404) {
-                $scope.data = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
+          });
+
+        
+        // $http({
+        //     method: 'GET',
+        //     //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+        //     //url: 'http://127.0.0.1:5500/admin/data/truyenThanh.json',
+        //     data: {
+        //         filter: $scope.filter
+        //     },
+        //     url: listAPI.radioApp.getListRadioApp,
+        //     headers: {
+        //         'Authorization': "Bearer " + $window.localStorage.token
+        //     }
+        // }).then(function (res) {
+        //     if (res.status != 404) {
+        //         $scope.data = res.data;
+        //     } else {
+        //         $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+        //     }
+        // }, function err(e) {
+        //     $rootScope.checkError(e, $dialogAlert);
+        // })
         //pagination
         $scope.currentPage = 0;
         $scope.pageSize = 15;
