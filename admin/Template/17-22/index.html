@@ -1,4 +1,5 @@
-    <div class="title">
+<div>
+   <div class="title">
         <h3>Thư viện nguồn</h3>
     </div>
 
@@ -48,12 +49,12 @@
       <tbody>
         <tr ng-repeat="item in items">
           <td style="text-align:center;">{{item.id}}</td>
-          <td>{{item.source}}</td>
+          <td>{{item.name}}</td>
           <td>{{item.uri}}</td>
-          <td>{{item.field}}</td>
-          <td>{{item.type}}</td>
+          <td>{{item.assignedTo}}</td>
+          <td>{{item.contenttype}}</td>
           <td>{{item.status}}</td>
-          <td>{{item.note}}</td>
+          <td>{{item.description}}</td>
           <td style="text-align:center;">
             <a class="glyphicon glyphicon-pencil icon" href="http://127.0.0.1:5500/#!/cap-nhat-thu-vien-nguon/id={{item.id}}"></a>
             <a class="glyphicon glyphicon-remove icon" ng-click="deletesourcelibrary(item.stt)"></a>
@@ -61,4 +62,5 @@
         </tr>
       </tbody>
     </table>
+  </div>
   </div>

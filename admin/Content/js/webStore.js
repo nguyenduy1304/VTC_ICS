@@ -530,22 +530,41 @@
 
     app.controller('sourcelibraryCtrl', function($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
         //$scope.data = [];
-        $http({
-            method: 'GET',
-            url: listapi.sourcelibrary.getlist,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
+        $scope.items=[];
+        $.ajax({
+            url: 'http://ttn.onephone.online/index.php/api/lookups/model/Mediasource',
+            type: 'POST',
+            data: {
+              user: 'vtc',
+              userKey: 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM'
+            },
+            success: function(response) {
+                const arr = Object.values(response);
+                $scope.items = arr;
+                console.log($scope.items );
+            },
+            error: function(xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
             }
-        }).then(function (res) {
-            if (res.status != 404) {
-                $scope.items = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
+          });
+          
+        // $http({
+        //     method: 'GET',
+        //     url: listapi.sourcelibrary.getlist,
+        //     headers: {
+        //         'Authorization': "Bearer " + $window.localStorage.token
+        //     }
+        // }).then(function (res) {
+        //     if (res.status != 404) {
+        //         $scope.items = res.data;
+        //     } else {
+        //         $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+        //     }
             
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
+        // }, function err(e) {
+        //     $rootScope.checkError(e, $dialogAlert);
+        // })
         $scope.deletesourcelibrary = function (id) {
             $dialogConfirm("Bạn chắc chắn muốn xóa dữ liệu khỏi hệ thống?", "Xác nhận", function (res) {
                 if (res) {
@@ -668,7 +687,9 @@
             }
         }).then(function (res) {
             if (res.status != 404) {
+
                 $scope.groups = res.data;
+                console.log($scope.groups);
             } else {
                 $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
             }
@@ -783,13 +804,13 @@
       app.controller('manageruserCtrl', function($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
         $http({
             method: 'GET',
-
             url: listapi.manageruser.getlist,
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
         }).then(function (res) {
             if (res.status != 404) {
+                console.log(res.data);
                 $scope.users = res.data;
             } else {
                 $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
@@ -1069,31 +1090,24 @@
     });
     //thai
     app.controller('manageDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-        var options = {
-            'method': 'POST',
-            'url': 'http://ttn.onephone.online/index.php/api/lookups/model/Ippbxextenlocation',
-            'headers': {
-              'Content-Type': 'application/json',
-              'Cookie': 'PHPSESSID=1a9f9dd4e437cd35aac86fb401da3af4'
+        $.ajax({
+            url: 'http://ttn.onephone.online/index.php/api/lookups/model/Ippbxextenlocation',
+            type: 'POST',
+            data: {
+              user: 'vtc',
+              userKey: 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM'
             },
-            'data': {
-              'user': 'vtc',
-              'userKey': 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM'
+            success: function(response) {
+                console.log(response);
+                $scope.data = response;
+            },
+            error: function(xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
             }
-          };
+          });
+
         
-        $http(options).then(function (res) {
-            console.log(res);
-            if (res.status != 404 && res.status != 405) {
-                $scope.data = res.data;
-                //console.log($scope.data);
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            console.log('Sơ hở cái là lỗi');
-            $rootScope.checkError(e, $dialogAlert);
-        })
         //pagination
         $scope.currentPage = 0;
         $scope.pageSize = 15;

@@ -35,12 +35,12 @@
                     <tbody>
                         <tr ng-repeat="item in data | filter:filter| startFrom:currentPage*pageSize | limitTo:pageSize">
                             <td style="text-align:center">{{$index + currentPage*pageSize}}</td>
-                            <td>{{item.dth_id}}</td>
-                            <td>{{item.date_set}}</td>
+                            <td>{{item.nameId}}</td>
+                            <td>{{item.createDate}}</td>
                             <td>{{item.name}}</td>
-                            <td>{{item.address}}</td>
+                            <td>{{item.latitude}}</td>
                             <td>{{item.status}}</td>
-                            <td>{{item.device_type}}</td>
+                            <td>{{item.deviceType}}</td>
                             <td>{{item.note}}</td>
                             <th
                                 style="width:70px;background-color: white;border: 1px solid #ddd;  padding: 0px;margin: 0px;line-height:39px;">
