@@ -7354,7 +7354,7 @@
                     console.error($error$.stack);
                 }
                 else if ($error$ instanceof Rejection) {
-                    console.error($error$.toString());
+                    //console.error($error$.toString());
                     if ($error$.detail && $error$.detail.stack)
                         console.error($error$.detail.stack);
                 }

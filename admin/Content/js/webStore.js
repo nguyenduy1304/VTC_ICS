@@ -1,7 +1,9 @@
     var host = window.host;
     var host_api = window.host_api; 
     var timer = 10000;
+    const domain_api = 'http://ttn.onephone.online/index.php/api/';
     const url_host_api = 'http://127.0.0.1:5500/';
+
     const listAPI = {
         device: {
             getListDevice1: url_host_api + 'admin/data/thietBi1.json',
@@ -119,42 +121,36 @@
             url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung',
             cache: false,
             controller: 'manageRadioApp',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
             templateUrl: window.templateUrl + "/manageDevice/radioApp.html"
         })
         .state('editRadioApp', {
             url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung/cap-nhat/:id',
             cache: false,
             controller: 'editRadioApp',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
             templateUrl: window.templateUrl + "/manageDevice/editRadioApp.html"
         })
         .state('addRadioApp', {
             url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung/them',
             cache: false,
             controller: 'addRadioApp',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
             templateUrl: window.templateUrl + "/manageDevice/addRadioApp.html"
         })
         .state('manageDevice', {
             url: '/quan-ly-thiet-bi/thiet-bi',
             cache: false,
             controller: 'manageDevice',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
             templateUrl: window.templateUrl + "/manageDevice/device.html"
         })
         .state('editDevice', {
             url: '/quan-ly-thiet-bi/thiet-bi/cap-nhat/:id',
             cache: false,
             controller: 'editDevice',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
             templateUrl: window.templateUrl + "/manageDevice/editDevice.html"
         })
         .state('addDevice', {
             url: '/quan-ly-thiet-bi/thiet-bi/them',
             cache: false,
             controller: 'addDevice',
-            //templateUrl: window.templateUrl + "/seller/mProduct.html"
             templateUrl: window.templateUrl + "/manageDevice/addDevice.html"
         })
         .state('manageLichPhat', {
@@ -180,7 +176,7 @@
         })
         .state('managePublicNews', {
             url: '/quan-ly-thiet-bi/bang-tin-cong-cong',
-            cache: false,
+            cache: false, 
             controller: 'managePublicNews',
             //templateUrl: window.templateUrl + "/seller/mProduct.html"
             templateUrl: window.templateUrl + "/manageDevice/publicNews.html"
@@ -597,6 +593,27 @@
         
       });
       app.controller('add_sourcelibraryCtrl', function($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+        $.ajax({
+            url: 'http://ttn.onephone.online/index.php/api/create/model/Mediasource',
+            type: 'POST',
+            data: {
+              user: 'vtc',
+              userKey: 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM'
+            },
+            success: function(response) {
+                const arr = Object.values(response);
+                $scope.$apply(function() {
+                $scope.items = arr;
+                });
+                // console.log($scope.items);
+                },
+            error: function(xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
+            }
+          });
+        
+        
         $http({
             method: 'POST',
             url: host_api + 'them-lich-phat',
@@ -1245,54 +1262,101 @@
     app.controller('addDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
         $scope.formData = {};
         $scope.addDevice = function () {
-            //console.log($scope.formData);
-            $http({
-                method: 'POST',
-                //url: host_api + 'them-thiet-bi-cum-loa',
-                url: listAPI.device.addDevice,
-                data: $scope.formData,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
+            $.ajax({
+                url: 'http://ttn.onephone.online/index.php/api/create/model/Ippbxextenlocation',
+                type: 'POST',
+                data: {
+                  user: 'vtc',
+                  userKey: 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM',
+                  name: $scope.formData.name,
+                  createDate:$scope.formData.createDate,
+                  latitude:$scope.formData.latitude,
+                  longitude:$scope.formData.longitude,
+                  status: $scope.formData.status,
+                  deviceType: $scope.formData.deviceType,
+                  note: $scope.formData.note
+                },
+                success: function(response) {
+                    const arr = Object.values(response);
+                    if (arr.status == 200) {
+                        $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
+                            $state.go("manageDevice");
+                        });
+                    } 
+                },
+                error: function(response) {
+                    $dialogAlert("\n" + response.message, "Thông báo!", "warning");
                 }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.result > 0) {
-                    //console.log(res);
-                    $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
-                        $state.go("manageDevice");
-                    });
+              });
+
+        //     //console.log($scope.formData);
+        //     $http({
+        //         method: 'POST',
+        //         //url: host_api + 'them-thiet-bi-cum-loa',
+        //         url: listAPI.device.addDevice,
+        //         data: $scope.formData,
+        //         headers: {
+        //             'Authorization': "Bearer " + $window.localStorage.token
+        //         }
+        //     }).then(function (res) {
+        //         // console.log(res);
+        //         if (res.result > 0) {
+        //             //console.log(res);
+        //             $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
+        //                 $state.go("manageDevice");
+        //             });
     
-                } else {
-                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-                }
+        //         } else {
+        //             $dialogAlert("\n" + res.message, "Thông báo!", "warning");
+        //         }
     
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
+        //     }, function err(e) {
+        //         $rootScope.checkError(e, $dialogAlert);
+        //     })
         };
     })
     app.controller('manageLichPhat', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
         $scope.filter = '';
-        $http({
-            method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            //url: 'http://127.0.0.1:5500/admin/data/lichPhat.json',
-            url: listAPI.lichPhat.getListLichPhat,
+        $.ajax({
+            url: 'http://ttn.onephone.online/index.php/api/lookups/model/Playschedule',
+            type: 'POST',
             data: {
-                filter: $scope.filter
+              user: 'vtc',
+              userKey: 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM'
             },
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
+            success: function(response) {
+                const arr = Object.values(response);
+                $scope.$apply(function() {
+                $scope.data = arr;
+                });
+                // console.log($scope.items);
+                },
+            error: function(xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
             }
-        }).then(function (res) {
-            if (res.status != 404) {
-                $scope.data = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
+          });
+
+        // $http({
+        //     method: 'GET',
+        //     //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
+        //     //url: 'http://127.0.0.1:5500/admin/data/lichPhat.json',
+        //     url: listAPI.lichPhat.getListLichPhat,
+        //     data: {
+        //         filter: $scope.filter
+        //     },
+        //     headers: {
+        //         'Authorization': "Bearer " + $window.localStorage.token
+        //     }
+        // }).then(function (res) {
+        //     if (res.status != 404) {
+        //         $scope.data = res.data;
+        //     } else {
+        //         $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+        //     }
+        // }, function err(e) {
+        //     $rootScope.checkError(e, $dialogAlert);
+        // })
         //pagination
         $scope.currentPage = 0;
         $scope.pageSize = 15;
@@ -1670,26 +1734,7 @@
           });
 
         
-        // $http({
-        //     method: 'GET',
-        //     //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-        //     //url: 'http://127.0.0.1:5500/admin/data/truyenThanh.json',
-        //     data: {
-        //         filter: $scope.filter
-        //     },
-        //     url: listAPI.radioApp.getListRadioApp,
-        //     headers: {
-        //         'Authorization': "Bearer " + $window.localStorage.token
-        //     }
-        // }).then(function (res) {
-        //     if (res.status != 404) {
-        //         $scope.data = res.data;
-        //     } else {
-        //         $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-        //     }
-        // }, function err(e) {
-        //     $rootScope.checkError(e, $dialogAlert);
-        // })
+        
         //pagination
         $scope.currentPage = 0;
         $scope.pageSize = 15;
@@ -1768,17 +1813,36 @@
     })
     app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
         $scope.formData = {};
+        var id =$stateParams.id;
+        console.log(id);
+        $.ajax({
+            url: 'http://ttn.onephone.online/index.php/api/lookups/model/Radionode',
+            type: 'POST',
+            data: {
+              user: 'vtc',
+              userKey: 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM',
+              id: id
+            },
+            success: function(response) {
+                
+                $scope.$apply(function() {
+                $scope.formData = response[id];
+                console.log($scope.formData);
+                });
+                },
+            error: function(xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
+            }
+          });
+
         $http({
             method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            //url: 'http://127.0.0.1:5500/admin/data/editRadioApp.json',
             url: listAPI.radioApp.getRadioApp,
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
         }).then(function (res) {
-            //console.log(res);
-            // if (res.result > 0) {
             if (res.status != 404 && res.status != 405) {
                 $scope.formData = res.data;
             } else {
@@ -1793,18 +1857,13 @@
         $scope.wards = [];
         $http({
             method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            //url: 'http://127.0.0.1:5500/admin/data/editRadioApp.json',
             url: 'http://127.0.0.1:5500/admin/data/data.json',
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
         }).then(function (res) {
-            //console.log(res);
-            // if (res.result > 0) {
             if (res.status != 404 && res.status != 405) {
                 $scope.cities = res.data;
-                //console.log($scope.cities);
             } else {
                 $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
             }
@@ -1812,24 +1871,53 @@
             $rootScope.checkError(e, $dialogAlert);
         })
         $scope.listDistricts = function () {
+            $http({
+                method: 'GET',
+                url: 'http://127.0.0.1:5500/admin/data/data.json',
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.status != 404 && res.status != 405) {
+                    $scope.cities = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
             if ($scope.formData.province != '') {
                 for (i in $scope.cities) {
-                    //console.log($scope.cities[i]);
+                    console.log($scope.cities[i].Name+'fkjld');
                     if ($scope.formData.province == $scope.cities[i].Name) {
+                        console.log($scope.cities[i].Districts+'sjkdjsald');
                         $scope.districts = $scope.cities[i].Districts;
-                        //console.log('dis' + $scope.districts);
                         break;
                     }
                 }
             }
         }
+        
         $scope.listWards = function () {
-            if ($scope.formData.district != '') {
+            $http({
+                method: 'GET',
+                url: 'http://127.0.0.1:5500/admin/data/data.json',
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.status != 404 && res.status != 405) {
+                    $scope.cities = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+            if ($scope.formData.districtId != '') {
                 for (i in $scope.districts) {
-                    //console.log($scope.districts[i]);
-                    if ($scope.formData.district == $scope.districts[i].Name) {
+                    if ($scope.formData.districtId == $scope.districts[i].Name) {
                         $scope.wards = $scope.districts[i].Wards;
-                        //console.log($scope.wards);
                         break;
                     }
                 }
@@ -1839,16 +1927,13 @@
             console.log($scope.formData);
             $http({
                 method: 'POST',
-                //url: host_api + 'cap-nhat-dai-truyen-thanh-va-ung-dung',
                 url: listAPI.radioApp.editRadioApp,
                 data: $scope.formData,
                 headers: {
                     'Authorization': "Bearer " + $window.localStorage.token
                 }
             }).then(function (res) {
-                // console.log(res);
                 if (res.result > 0) {
-                    //console.log(res);
                     $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
                         $state.go("manageRadioApp");
                     });
@@ -1869,18 +1954,13 @@
         $scope.wards = [];
         $http({
             method: 'GET',
-            //url: host_api + 'api/report/danh-sach-thiet-bi-cum-loa',
-            //url: 'http://127.0.0.1:5500/admin/data/editRadioApp.json',
-            url: 'http://127.0.0.1:5500/admin/data/data.json',
+            url: host_api +'admin/data/data.json',
             headers: {
                 'Authorization': "Bearer " + $window.localStorage.token
             }
         }).then(function (res) {
-            //console.log(res);
-            // if (res.result > 0) {
             if (res.status != 404 && res.status != 405) {
                 $scope.cities = res.data;
-                //console.log($scope.cities);
             } else {
                 $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
             }
@@ -1888,24 +1968,51 @@
             $rootScope.checkError(e, $dialogAlert);
         })
         $scope.listDistricts = function () {
+            $http({
+                method: 'GET',
+                url: host_api +'admin/data/data.json',
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.status != 404 && res.status != 405) {
+                    $scope.cities = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
             if ($scope.formData.province != '') {
                 for (i in $scope.cities) {
-                    //console.log($scope.cities[i]);
+
                     if ($scope.formData.province == $scope.cities[i].Name) {
                         $scope.districts = $scope.cities[i].Districts;
-                        //console.log('dis' + $scope.districts);
                         break;
                     }
                 }
             }
         }
         $scope.listWards = function () {
-            if ($scope.formData.district != '') {
+            $http({
+                method: 'GET',
+                url: host_api +'admin/data/data.json',
+                headers: {
+                    'Authorization': "Bearer " + $window.localStorage.token
+                }
+            }).then(function (res) {
+                if (res.status != 404 && res.status != 405) {
+                    $scope.cities = res.data;
+                } else {
+                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+                }
+            }, function err(e) {
+                $rootScope.checkError(e, $dialogAlert);
+            })
+            if ($scope.formData.districId != '') {
                 for (i in $scope.districts) {
-                    //console.log($scope.districts[i]);
-                    if ($scope.formData.district == $scope.districts[i].Name) {
+                    if ($scope.formData.districId == $scope.districts[i].Name) {
                         $scope.wards = $scope.districts[i].Wards;
-                        //console.log($scope.wards);
                         break;
                     }
                 }
@@ -1913,29 +2020,30 @@
         }
         $scope.addRadioApp = function () {
             console.log($scope.formData);
-            $http({
-                method: 'POST',
-                //url: host_api + 'them-thiet-bi-cum-loa',
-                url: listAPI.radioApp.addRadioApp,
-                data: $scope.formData,
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
+            $.ajax({
+                url: domain_api + 'create/model/Radionode',
+                type: 'POST',
+                data: {
+                  user: 'vtc',
+                  userKey: 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM',
+                    name: $scope.formData.nameId,
+                    province: $scope.formData.province,
+                    districId: $scope.formData.districId,
+                    communeId: $scope.formData.commune
+                },
+                success: function(response) {
+
+                    if (response.status == 200) {
+                        $dialogAlert("Thêm đài truyền thanh và ứng dụng cntt - vt thành công", "Thông báo!", "success", function (res) {
+                            $state.go("manageRadioApp");
+                        });
+                    } 
+                    },
+                error: function(xhr, status, error) {
+                    console.log('error');
+                    $rootScope.checkError(e, $dialogAlert);
                 }
-            }).then(function (res) {
-                // console.log(res);
-                if (res.result > 0) {
-                    //console.log(res);
-                    $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
-                        $state.go("manageRadioApp");
-                    });
-    
-                } else {
-                    $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-                }
-    
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
+            });
         };
     })
     //thai

@@ -459,10 +459,10 @@ table.table-style-three tr:nth-child(even) td {
 
 /* manage */
 table.table-style-three td {
-    border-width: 1px;
+    border-width: 0.5px;
     padding: 8px;
     border-style: solid;
-    border-color: #d82323;
+    border-color: #c47272;
     border: 1px solid blue;
     background-color: #ebeaea;
 }
@@ -522,7 +522,7 @@ form.search-click button:hover {
 }
 
 #input-invalid input:invalid {
-    border: red solid 3px;
+    border: rgb(229, 128, 128) solid 3px;
 }
 
 .pagination button {
