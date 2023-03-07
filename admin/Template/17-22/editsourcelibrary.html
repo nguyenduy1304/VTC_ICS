@@ -5,59 +5,62 @@
             <h3>Cập nhật thư viện nguồn</h3>
         </div>
     </div>
-    
+
     <form class="form-horizontal" id="enableForm" ng-submit="editsourcelibrary()">
         <div class="form-group " style="margin:0;margin-bottom:15px">
-            <label class="col-xs-2 control-label" for="source">Nguồn</label>
+            <label class="col-xs-2 control-label" for="name">Nguồn</label>
             <div class="col-xs-6">
-                <input type="text" data-bv-message="Vui lòng nhập nguồn" id="source" ng-model="sourcelibrarydetail.source" name="source" class="form-control" required>
+                <input type="text" data-bv-message="Vui lòng nhập nguồn" id="name" ng-model="sourcelibrarydetail.name"
+                    name="name" class="form-control" required>
             </div>
         </div>
         <div class="form-group " style="margin:0;margin-bottom:15px">
             <label class="col-xs-2 control-label" for="uri">URI</label>
             <div class="col-xs-6">
-                <input type="text" data-bv-message="Vui lòng nhập URI" ng-model="sourcelibrarydetail.uri" id="uri" name="uri" class="form-control" required>
-            </div>
-        </div>
-        <div class="form-group " style="margin:0;margin-bottom:15px">
-            <label class="col-xs-2 control-label" for="field">Lĩnh vực</label>
-            <div class="col-xs-6">
-                <input type="text" id="type" ng-model="sourcelibrarydetail.field" name="type" class="form-control" data-bv-message="Vui lòng nhập Loại" required>
-            </div>
-           
-        </div>
-        <div class="form-group" style="margin:0;margin-bottom:15px">
-            <label class="col-xs-2 control-label" for="type">Loại</label>
-            <div class="col-xs-6">
-                <select class="form-control" ng-selected="sourcelibrarydetail.type" name="type" ng-model="sourcelibrarydetail.type" id="type" data-bv-message="Vui lòng chọn loại" required>
-                    <option >Chọn loại</option>
-                    <option value="Âm thanh/ hình ảnh">Âm thanh/ hình ảnh</option>
-                    <option value="Không xác định">Không xác định</option>
-                </select>
+                <input type="text" data-bv-message="Vui lòng nhập URI" ng-model="sourcelibrarydetail.uri" id="uri"
+                    name="uri" class="form-control" required>
             </div>
         </div>
         <div class="form-group" style="margin:0;margin-bottom:15px">
-            <label class="col-xs-2 control-label" for="inputError">Trạng thái</label>
+            <label class="col-xs-2 control-label" for="contenttype">Loại</label>
             <div class="col-xs-6">
-                <select class="form-control" ng-selected="sourcelibrarydetail.status" name="status" ng-model="sourcelibrarydetail.status" id="status" data-bv-message="Vui lòng chọn trạng thái" required>
-                    <option >Chọn trạng thái</option>
-                    <option value="Active">Active</option>
-                    <option value="InActive">InActive</option>
-                </select>
+                <input type="text" id="contenttype" ng-model="sourcelibrarydetail.contenttype" name="contenttype"
+                    class="form-control" data-bv-message="Vui lòng nhập loại" required>
             </div>
-            
         </div>
         <div class="form-group" style="margin:0;margin-bottom:15px">
-            <label class="col-xs-2 control-label" for="inputError">Ghi chú</label>
+            <label class="col-xs-2 control-label" for="status">Trạng thái</label>
             <div class="col-xs-6">
-                <input type="text" id="note" ng-model="sourcelibrarydetail.note|| 'Đang cập nhật'" name="note" class="form-control">
+                <label>
+                    <input type="radio" name="status" ng-model="sourcelibrarydetail.status" value="PLAYING" checked>
+                    Đang phát &emsp;
+                </label>
+                <label>
+                    <input type="radio" name="status" ng-model="sourcelibrarydetail.status" value="PAUSE">
+                    Tạm dừng &emsp;
+                </label>
+                <label>
+                    <input type="radio" name="status" ng-model="sourcelibrarydetail.status" value="DISCONNECT">
+                    Mất kết nối &emsp;
+                </label>
+                <label>
+                    <input type="radio" name="status" ng-model="sourcelibrarydetail.status" value="IDLE">
+                    Nhàn rỗi
+                </label>
+            </div>
+        </div>
+        <div class="form-group" style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="description">Ghi chú</label>
+            <div class="col-xs-6">
+                <input type="text" id="description" ng-model="sourcelibrarydetail.description" name="description"
+                    class="form-control">
             </div>
         </div>
         <div class="form-group " style="margin:0;margin-bottom:15px">
             <div class="col-xs-2">
             </div>
             <div class="col-xs-6">
-                <button type="submit" class="btn btn-primary">cập nhật</button>
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
             </div>
         </div>
     </form>

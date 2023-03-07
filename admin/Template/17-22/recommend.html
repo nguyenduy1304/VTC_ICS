@@ -47,8 +47,8 @@
       </thead>
       <tbody>
         <tr ng-repeat="item in items">
-          <td style="text-align:center">{{item.id}}</td>
-          <td>{{item.time}}</td>
+          <td style="text-align:center">{{$index+1}}</td>
+          <td>{{item.createDate | date:'dd/MM/yyyy'}}</td>
           <td>{{item.request}}</td>
           <td>{{item.response}}</td>
           <td>{{item.status}}</td>

@@ -134,7 +134,7 @@
             return formatNumbers(number)
         };
         //bieu do highchart pie
-        $rootScope.loadChartPie = function(datas, idName, title,options) {
+        $rootScope.loadChartPie = function (datas, idName, title, options) {
             //setTimeout(function () {
             $(document).ready(function () {
                 Highcharts.chart(idName, {
@@ -158,7 +158,7 @@
                         pie: {
                             allowPointSelect: true,
                             cursor: 'pointer',
-                            colors: options.colors ,
+                            colors: options.colors,
                             dataLabels: options.dataLabels,
                             showInLegend: options.showlegend
                         }
@@ -184,11 +184,11 @@
             //},0)
         }
         //bieu do highchart line
-        $rootScope.loadChartLine = function (datas, idName, title,options) {
+        $rootScope.loadChartLine = function (datas, idName, title, options) {
             setTimeout(function () {
                 $(document).ready(function () {
                     Highcharts.setOptions({
-                        colors: options.colors 
+                        colors: options.colors
                     });
                     Highcharts.chart(idName, {//'lineChart'
                         chart: {
@@ -205,7 +205,7 @@
                             text: ''
                         },
                         xAxis: {
-                            categories: options.dataY 
+                            categories: options.dataY
                         },
                         yAxis: {
                             title: {
@@ -1582,17 +1582,17 @@
             showlegend: false,
             dataLabels: {
                 enabled: true,
-                    //format: `<b>{point.y}</b><br>{point.percentage:.1f} %`,
-                    formatter: function () {
-                        //console.log(this)
-                        return roundNumber(this.y / 1000000000, 3) +
-                            '<br/>' + roundNumber(this.percentage, 1) + ' %';
-                    },
+                //format: `<b>{point.y}</b><br>{point.percentage:.1f} %`,
+                formatter: function () {
+                    //console.log(this)
+                    return roundNumber(this.y / 1000000000, 3) +
+                        '<br/>' + roundNumber(this.percentage, 1) + ' %';
+                },
                 distance: -70,
-                    filter: {
+                filter: {
                     property: 'percentage',
-                        operator: '>',
-                            value: 4
+                    operator: '>',
+                    value: 4
                 }
             }
         }
@@ -1636,7 +1636,7 @@
             $rootScope.loadChartPie(result._arr2, "hightchart-CSI", 'Thống kê lợi nhuận (tỉ đồng)', options_pie);
         });
 
-        
+
         // biểu đồ đường kẻ
         var option_line = {
             colors: ['#ED7D31', '#5B9BD5'],
@@ -1669,7 +1669,7 @@
             $rootScope.loadChartLine(result, 'lineChart', 'Thống kê tăng trưởng doanh thu (VNĐ)', option_line)
         });
 
-       
+
         //$scope.dataHc = groupBy($scope.dataHc, pet => pet.producer.product_code);
         function groupBy(list, keyGetter) {
             const map = new Map();
@@ -1884,9 +1884,9 @@
                 }
                 $rootScope.loadChartPie(res.data.data.customer, "tkluongkh", "Thống kê lượng khách hàng", options_pie);
                 $rootScope.loadChartPie(res.data.data.total, "tkdoanhthukh", 'Thống kê doanh thu khách hàng', options_pie);
-                
+
             }
-            
+
         }, function err(e) {
             console.log(e);
             $dialogAlert("\n" + e.data.Message, "Thông báo!", "warning");
@@ -1905,8 +1905,8 @@
         }).then(function (res) {
             console.log(res);
             if (res.data.result > 0) {
-                
-                $rootScope.loadChartLine(res.data.data.customer, "bieudoline", "Thống kê tăng trưởng khách hàng (năm " + year+")", option_line);
+
+                $rootScope.loadChartLine(res.data.data.customer, "bieudoline", "Thống kê tăng trưởng khách hàng (năm " + year + ")", option_line);
 
             }
 
@@ -1935,7 +1935,7 @@
                             validators: {
                                 notEmpty: {
                                     message: 'Mật khẩu không được để trống'
-                                }        
+                                }
                             }
                         },
                         confirm_password: {

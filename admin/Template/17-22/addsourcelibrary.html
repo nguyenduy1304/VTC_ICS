@@ -6,11 +6,11 @@
         </div>
     </div>
     
-    <form class="form-horizontal" id="enableForm" >
+    <form class="form-horizontal" ng-submit="addlibrary()">
         <div class="form-group " style="margin:0;margin-bottom:15px">
-            <label class="col-xs-2 control-label" for="source">Nguồn</label>
+            <label class="col-xs-2 control-label" for="name">Nguồn</label>
             <div class="col-xs-6">
-                <input type="text" data-bv-message="Vui lòng nhập nguồn" id="source" ng-model="dataForm.source" name="source" class="form-control" placeholder="Nhập nguồn" required>
+                <input type="text" data-bv-message="Vui lòng nhập nguồn" id="name" ng-model="dataForm.name" name="name" class="form-control" placeholder="Nhập nguồn" required>
             </div>
         </div>
         <div class="form-group " style="margin:0;margin-bottom:15px">
@@ -19,39 +19,37 @@
                 <input type="text" data-bv-message="Vui lòng nhập URI" ng-model="dataForm.uri" id="uri" name="uri" class="form-control" placeholder="Nhập URI" required>
             </div>
         </div>
-        <div class="form-group " style="margin:0;margin-bottom:15px">
-            <label class="col-xs-2 control-label" for="field">Lĩnh vực</label>
+        <div class="form-group" style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="contenttype">Loại</label>
             <div class="col-xs-6">
-                <select class="form-control" name="field" ng-model="dataForm.field" id="field" data-bv-message="Vui lòng chọn lĩnh vực" required>
-                    <option value="">Chọn lĩnh vực</option>
-                    <option value="0">Tuyên truyền</option>
-                    <option value="1">Không xác định</option>
-                </select>
+                <input type="text" id="contenttype" ng-model="dataForm.contenttype" name="contenttype" class="form-control" data-bv-message="Vui lòng nhập Loại" placeholder="Nhập loai" required>
             </div>
         </div>
         <div class="form-group" style="margin:0;margin-bottom:15px">
-            <label class="col-xs-2 control-label" for="type">Loại</label>
-            <div class="col-xs-6">
-                <input type="text" id="type" ng-model="dataForm.type" name="type" class="form-control" data-bv-message="Vui lòng nhập Loại" placeholder="Nhập loai" required>
-            </div>
-        </div>
-        <div class="form-group" style="margin:0;margin-bottom:15px">
-            <label class="col-xs-2 control-label" for="dataForm.status">Trạng thái</label>
+            <label class="col-xs-2 control-label" for="status">Trạng thái</label>
             <div class="col-xs-6">
                 <label>
-                    <input type="radio" name="status" ng-model="status" value="1" checked="checked">
-                    Đang hoạt động &emsp;
+                    <input type="radio" name="status" ng-model="dataForm.status" value="PLAYING" checked="checked">
+                    Đang phát &emsp;
                   </label>
                   <label>
-                    <input type="radio" name="status" ng-model="dataForm.status" value="2">
-                    Không hoạt động
+                    <input type="radio" name="status" ng-model="dataForm.status" value="PAUSE">
+                    Tạm dừng &emsp;
+                  </label>
+                  <label>
+                    <input type="radio" name="status" ng-model="dataForm.status" value="DISCONNECT">
+                    Mất kết nối &emsp;
+                  </label>
+                  <label>
+                    <input type="radio" name="status" ng-model="dataForm.status" value="IDLE">
+                    Nhàn rỗi
                   </label>
             </div>
         </div>
         <div class="form-group" style="margin:0;margin-bottom:15px">
-            <label class="col-xs-2 control-label" for="inputError">Ghi chú</label>
+            <label class="col-xs-2 control-label" for="description">Ghi chú</label>
             <div class="col-xs-6">
-                <input type="text" id="note" ng-model="dataForm.note" name="note" class="form-control" placeholder="Nhập ghi chú">
+                <input type="text" id="description" ng-model="dataForm.description" name="description" class="form-control" placeholder="Nhập ghi chú">
             </div>
         </div>
         <div class="form-group " style="margin:0;margin-bottom:15px">

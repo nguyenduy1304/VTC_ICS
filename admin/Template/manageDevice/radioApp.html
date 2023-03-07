@@ -6,7 +6,7 @@
         </div>
         <div class=" row" style="margin:0 0px;display: inline;">
             <form class="search-click" ng-submit="filterRadioApp()" style="max-width:300px">
-                <input ng-model="filter" type="text" placeholder="Search.." name="search2">
+                <input ng-model="filter" type="text" placeholder="Nhập mã đài truyền thanh" name="search2">
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
             <div style="line-height: 34px;float: right;padding-right: 10px;">
@@ -38,7 +38,7 @@
                         <td>{{item.communeId}}</td>
                         <th
                             style="width:70px;background-color: white;border: 1px solid #ddd;padding: 0px;margin: 0px;line-height:39px;">
-                            <a href="http://127.0.0.1:5500/index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung/cap-nhat/{{item.id}}"
+                            <a href="../index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung/cap-nhat/{{item.id}}"
                                 style="background-color: #fff;border: none;margin-left: 10px;">
                                 <span class="glyphicon glyphicon-pencil" style=" color: rgb(93, 170, 241);"></span>
                             </a>
@@ -56,9 +56,9 @@
     <div class="pagination"
         style="float: right;padding-right: 10px;font-size: 18px;margin-bottom: 50px;margin-top: 0px;">
         <button type="button" ng-click="first()" ng-hide="currentPage==0">&laquo;</button>
-        <button ng-click="previous()" ng-hide="currentPage==0">‹</button>
+        <button ng-click="previous()" ng-hide="currentPage==0"> ‹ </button>
         <button ng-repeat="n in [] | range:totalPage(data.length,pageSize)" ng-click="thisPage(n)">{{n+1}}</button>
-        <button ng-click="next()" ng-hide="currentPage>=size-1">›</button>
+        <button ng-click="next()" ng-hide="currentPage>=size-1"> › </button>
         <button ng-click="size=last(totalPage(data.length,pageSize)-1)" ng-hide="currentPage>=size-1">&raquo;</button>
     </div>
 </div>

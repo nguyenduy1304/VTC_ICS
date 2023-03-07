@@ -44,10 +44,10 @@ padding: 10px;
       </thead>
       <tbody>
         <tr ng-repeat="user in users">
-          <td style="text-align: center;">{{user.id}}</td>
-          <td>{{user.name}}</td>
-          <td>{{user.account}}</td>
-          <td>{{user.group}}</td>
+          <td style="text-align: center;">{{$index+1}}</td>
+          <td>{{user.firstName}} {{user.lastName}}</td>
+          <td>{{user.username}}</td>
+          <td>{{user.department}}</td>
           <td style="text-align:center;">
             <a class="glyphicon glyphicon-pencil icon" href="http://127.0.0.1:5500/#!/cap-nhat-tai-khoan-nguoi-dung/id={{user.id}}"></a>
             <a class="glyphicon glyphicon-remove icon" ng-click="deletemanageruser(item.stt)"></a>

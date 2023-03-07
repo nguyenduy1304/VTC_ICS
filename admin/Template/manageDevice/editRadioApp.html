@@ -1,5 +1,4 @@
 <div>
-    <button ng-click="click(formData)">gjhggjghghg</button>
     <div style="min-height:1000px;" id="input-invalid">
         <h1 style="text-align: center;margin-bottom: 40px;color: #0D67B1">Cập nhật đài truyền thanh và ứng dụng cntt -
             vt
@@ -7,57 +6,36 @@
         <div>
             <form ng-submit="editRadioApp()" class="form-horizontal">
                 <div class="form-group">
-                    <label for="nameId" class="col-sm-2 control-label">Mã</label>
+                    <label for="name" class="col-sm-2 control-label">Mã</label>
                     <div class="col-sm-8">
-                        <input required ng-model="formData.nameId" name="nameId" type="text" class="form-control"
-                            id="nameId">
+                        <input required ng-model="formData.name" name="name" type="text" class="form-control"
+                            id="name">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">Tỉnh</label>
+                    <label for="province" class="col-sm-2 control-label">Tỉnh</label>
                     <div class="col-sm-8">
-                        <select class="form-control" aria-label=".form-select-sm" style="padding: 5px;"
-                            ng-selected="formData.province" ng-model="formData.province" ng-change="listDistricts()"
-                            required>
-                            <option value="" selected>Chọn tỉnh thành</option>
-                            <option ng-repeat="item in cities" value={{item.Name}}>
-                                {{item.Name}}</option>
-                        </select>
+                        <input required ng-model="formData.province" name="province" type="text" class="form-control"
+                            id="province">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">Huyện</label>
+                    <label for="districId" class="col-sm-2 control-label">Huyện</label>
                     <div class="col-sm-8">
-                        <select class="form-control" id="districId" aria-label=".form-select-sm" required
-                            ng-selected="formData.districId" ng-model="formData.districId" ng-change="listWards()">
-                            <option value={{formData.districId}} selected>{{formData.districId}}</option>
-                            <option ng-repeat="item in districts" value={{item.Name}}>
-                                {{item.Name}}</option>
-                        </select>
+                        <input required ng-model="formData.districId" name="districId" type="text" class="form-control"
+                            id="districId">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">Xã</label>
+                    <label for="communeId" class="col-sm-2 control-label">Xã</label>
                     <div class="col-sm-8">
-                        <select class="form-control" id="ward" aria-label=".form-select-sm" required
-                            ng-selected="formData.communeId" ng-model="formData.communeId">
-                            <option value={{formData.communeId}} selected>{{formData.communeId}}</option>
-                            <option ng-repeat="item in wards" value={{item.Name}}>{{item.Name}}</option>
-                        </select>
+                        <input required ng-model="formData.communeId" name="communeId" type="text" class="form-control"
+                            id="communeId">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-8">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox"> Remember
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-8">
-                        <button type="submit" class="btn btn-default">Cập nhật</button>
+                        <button type="submit" class="btn btn-default">Lưu thay đổi</button>
                     </div>
                 </div>
             </form>

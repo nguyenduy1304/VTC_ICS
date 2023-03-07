@@ -43,8 +43,8 @@ padding: 10px;
       </thead>
       <tbody>
           <tr ng-repeat="group in groups">
-              <td style="text-align: center;">{{group.id}}</td>
-              <td>{{group.groupName}}</td>
+              <td style="text-align: center;">{{$index+1}}</td>
+              <td>{{group.name}}</td>
               <td>{{group.note}}</td>
               <td style="text-align:center;">
                 <a class="glyphicon glyphicon-pencil icon" href="http://127.0.0.1:5500/#!/cap-nhat-nhom-nguoi-dung/id={{group.id}}"></a>
