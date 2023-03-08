@@ -33,17 +33,17 @@
                     <tr ng-repeat="item in data | filter:filter | startFrom:currentPage*pageSize | limitTo:pageSize">
                         <td style="text-align:center">{{$index + currentPage*pageSize}}</td>
                         <td>{{item.nameId}}</td>
-                        <td>{{item.name}}</td>
+                        <td>{{item.dthID}}</td>
                         <td>{{item.field}}</td>
                         <td>{{item.type}}</td>
                         <td>
-                            <span ng-if="item.c_active == 1">Active</span>
-                            <span ng-if="item.c_active == 0">Inactive</span>
+                            <span ng-if="item.c_active == 1">Hoạt động</span>
+                            <span ng-if="item.c_active == 0">Đã dừng</span>
                           </td>
                         <td>{{item.description}}</td>
                         <th
                             style="width:70px;background-color: white;border: 1px solid #ddd;  padding: 0px;margin: 0px;line-height:39px;">
-                            <a href="http://127.0.0.1:5500/index.html#!/quan-ly-thiet-bi/lich-phat/cap-nhat/id={{item.id}}"
+                            <a href="../index.html#!/quan-ly-thiet-bi/lich-phat/cap-nhat/{{item.id}}"
                                 style="background-color: #fff;border: none;margin-left: 10px;">
                                 <span class="glyphicon glyphicon-pencil" style=" color: rgb(93, 170, 241);"></span>
                             </a>

@@ -1,0 +1,61 @@
+<div style="min-height: 750px;" id="input-invalid">
+    <h1 style="text-align: center;margin-bottom: 40px;color: #0D67B1;">Cập nhật lịch phát
+    </h1>
+    <div>
+        <form ng-submit="editPlayschedule()" class="form-horizontal">
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">Tên ĐTH CNTT-VT</label>
+                <div class="col-sm-8">
+                    <input ng-model="formData.name" name="name" type="text" class="form-control" id="name"
+                        placeholder="THA_HPU_01" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dthID" class="col-sm-2 control-label">Lịch phát</label>
+                <div class="col-sm-8">
+                    <input ng-model="formData.dthID" name="dthID" type="text" class="form-control" id="dthID"
+                        placeholder="Địa điểm lịch phát thanh" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="field" class="col-sm-2 control-label">Lĩnh vực</label>
+                <div class="col-sm-8">
+                    <input ng-model="formData.field" name="field" type="text" class="form-control" id="field"
+                        placeholder="Nhập vào lĩnh vực" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="type" class="col-sm-2 control-label">Loại</label>
+                <div class="col-sm-8">
+                    <input ng-model="formData.type" name="type" type="text" class="form-control" id="type"
+                        placeholder="Nhập loại" required>
+                </div>
+            </div>
+            <div class="form-group" style="margin:0;margin-bottom:15px">
+                <label class="col-xs-2 control-label" for="c_active">Trạng thái</label>
+                <div class="col-xs-6">
+                    <label>
+                        <input type="radio" name="c_active" ng-model="formData.c_active" value="1">
+                        Đang hoạt động &emsp;
+                    </label>
+                    <label>
+                        <input type="radio" name="c_active" ng-model="formData.c_active" value="0">
+                        Dừng hoạt động &emsp;
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description" class="col-sm-2 control-label">Ghi chú</label>
+                <div class="col-sm-8">
+                    <input ng-model="formData.description" name="description" type="text" class="form-control"
+                        id="description" placeholder="">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-8">
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

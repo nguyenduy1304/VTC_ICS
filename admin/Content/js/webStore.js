@@ -7,40 +7,6 @@ const domain_api = 'http://ttn.onephone.online/index.php/api/';
 
 const url_host_api = 'http://127.0.0.1:5500/';
 
-const listAPI = {
-    device: {
-        getListDevice1: url_host_api + 'admin/data/thietBi1.json',
-        getListDevice: url_host_api + 'admin/data/thietBi.json',
-        getDevice: url_host_api + 'admin/data/editDevice.json',
-        deleteDevice: url_host_api + 'xoa-thiet-bi-cum-loa',
-        editDevice: url_host_api + 'cap-nhat-thiet-bi-cum-loa',
-        addDevice: url_host_api + 'them-thiet-bi-cum-loa'
-    },
-    radioApp: {
-        getListRadioApp: url_host_api + 'admin/data/truyenThanh.json',
-        getListRadioApp1: url_host_api + 'admin/data/truyenThanh1.json',
-        getRadioApp: url_host_api + 'admin/data/editRadioApp.json',
-        deleteRadioApp: url_host_api + 'xoa-truyen-thanh-va-ung-dung',
-        editRadioApp: url_host_api + 'cap-nhat-dai-truyen-thanh-va-ung-dung',
-        addRadioApp: url_host_api + 'them-dai-truyen-thanh-va-ung-dung'
-    },
-    lichPhat: {
-        getListLichPhat: url_host_api + 'admin/data/lichPhat.json',
-        getListLichPhat1: url_host_api + 'admin/data/lichPhat1.json',
-        getLichPhat: url_host_api + 'admin/data/editLichPhat.json',
-        deleteLichPhat: url_host_api + 'xoa-lich-phat',
-        editLichPhat: url_host_api + 'cap-nhat-lich-phat',
-        addLichPhat: url_host_api + 'them-lich-phat'
-    },
-    publicNews: {
-        getListPublicNews: url_host_api + 'admin/data/publicNews.json',
-        getListPublicNews1: url_host_api + 'admin/data/publicNews1.json',
-        getPublicNews: url_host_api + 'admin/data/editPublicNews.json',
-        deletePublicNews: url_host_api + 'xoa-bang-thong-tin-dien-tu',
-        editPublicNews: url_host_api + 'cap-nhat-bang-thong-tin-dien-tu',
-        addPublicNews: url_host_api + 'them-bang-thong-tin-dien-tu'
-    }
-};
 const listapi = {
     sourcelibrary: {
         getlist: host_api + 'admin/Template/17-22/data_json/sourcelibrary.json',
@@ -149,23 +115,23 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             controller: 'addDevice',
             templateUrl: window.templateUrl + "/manageDevice/addDevice.html"
         })
-        .state('manageLichPhat', {
+        .state('managePlayschedule', {
             url: '/quan-ly-thiet-bi/lich-phat',
             cache: false,
-            controller: 'manageLichPhat',
-            templateUrl: window.templateUrl + "/manageDevice/lichPhat.html"
+            controller: 'managePlayschedule',
+            templateUrl: window.templateUrl + "/manageDevice/playschedule.html"
         })
-        .state('editLichPhat', {
+        .state('editPlayschedule', {
             url: '/quan-ly-thiet-bi/lich-phat/cap-nhat/:id',
             cache: false,
-            controller: 'editLichPhat',
-            templateUrl: window.templateUrl + "/manageDevice/editLichPhat.html"
+            controller: 'editPlayschedule',
+            templateUrl: window.templateUrl + "/manageDevice/editplayschedule.html"
         })
-        .state('addLichPhat', {
+        .state('addPlayschedule', {
             url: '/quan-ly-thiet-bi/lich-phat/them',
             cache: false,
-            controller: 'addLichPhat',
-            templateUrl: window.templateUrl + "/manageDevice/addLichPhat.html"
+            controller: 'addPlayschedule',
+            templateUrl: window.templateUrl + "/manageDevice/addplayschedule.html"
         })
         .state('managePublicNews', {
             url: '/quan-ly-thiet-bi/bang-tin-cong-cong',
@@ -386,7 +352,6 @@ app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $st
             return;
         }
     })
-
     $rootScope.logOut = function () {
         $rootScope.$user = null;
         $rootScope.login_active = true;
@@ -405,12 +370,10 @@ app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $st
                     plotBorderWidth: null,
                     plotShadow: false,
                     type: 'pie'
-
                 },
                 title: {
                     text: title
                 },
-
                 accessibility: {
                     point: {
                         valueSuffix: '%'
@@ -533,6 +496,17 @@ app.controller('sourcelibraryCtrl', function ($dialogConfirm, $http, $scope, $st
             $rootScope.checkError(e, $dialogAlert);
         }
     });
+    // // Hàm tìm kiếm dữ liệu
+    // $scope.searchData = function () {
+    //     // Sử dụng filter để lọc dữ liệu từ mảng gốc và lưu vào mảng kết quả
+    //     $scope.items = $filter('filter')($scope.items, $scope.filter);
+    //     console
+    // };
+    // // Gọi hàm tìm kiếm khi có thay đổi trên biến $scope.filter
+    // $scope.$watch('filter', function (newVal, oldVal) {
+    //     $scope.searchData();
+    // });
+
     $scope.deletesourcelibrary = function (id) {
         $dialogConfirm("Bạn chắc chắn muốn xóa thư viện nguồn có mã <span style='color:red;font-weight:bold;'>" + id + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
@@ -560,30 +534,29 @@ app.controller('sourcelibraryCtrl', function ($dialogConfirm, $http, $scope, $st
             }
         })
     }
-    $scope.filtersourcelibrary = function () {
-        console.log('filter=' + $scope.filter);
-        $http({
-            method: 'GET',
-            url: listapi.sourcelibrary.getsourcelibrarycopy,
-            data: {
-                filter: $scope.filter
-            },
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            //console.log(res);
-            console.log('ddaay la filter' + $scope.filter);
-            if (res.status != 404 && res.status != 405) {
-                $scope.items = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
-
+    // $scope.filtersourcelibrary = function () {
+    //     console.log('filter=' + $scope.filter);
+    //     $http({
+    //         method: 'GET',
+    //         url: listapi.sourcelibrary.getsourcelibrarycopy,
+    //         data: {
+    //             filter: $scope.filter
+    //         },
+    //         headers: {
+    //             'Authorization': "Bearer " + $window.localStorage.token
+    //         }
+    //     }).then(function (res) {
+    //         //console.log(res);
+    //         console.log('ddaay la filter' + $scope.filter);
+    //         if (res.status != 404 && res.status != 405) {
+    //             $scope.items = res.data;
+    //         } else {
+    //             $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+    //         }
+    //     }, function err(e) {
+    //         $rootScope.checkError(e, $dialogAlert);
+    //     })
+    // }
 });
 app.controller('add_sourcelibraryCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $scope.addlibrary = function () {
@@ -596,8 +569,8 @@ app.controller('add_sourcelibraryCtrl', function ($http, $scope, $state, $rootSc
             url: domain_api + 'create/model/Mediasource',
             type: 'POST',
             data: {
-                user: 'vtc',
-                userKey: 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM',
+                user: user,
+                userKey: user_Key,
                 nodetype: "VTC",
                 name: $scope.name,
                 uri: $scope.uri,
@@ -905,9 +878,7 @@ app.controller('editmanageruserCtrl', function ($http, $scope, $state, $rootScop
                 'Authorization': "Bearer " + $window.localStorage.token
             }
         }).then(function (res) {
-            //console.log(res);
             if (res.result > 0) {
-                //console.log(res);
                 $dialogAlert("Cập nhật thư viện nguồn thành côngi", "Thông báo!", "success", function (res) {
                     $state.go("manageruserCtrl");
                 });
@@ -935,8 +906,8 @@ app.controller('recommendCtrl', function ($http, $scope, $state, $rootScope, $di
         success: function (response) {
             const arr = Object.values(response);
             $scope.$apply(function () {
-            $scope.items = arr;
-            console.log($scope.items);
+                $scope.items = arr;
+                console.log($scope.items);
             });
         },
         error: function err(e) {
@@ -1211,7 +1182,7 @@ app.controller('editDevice', function ($scope, $state, $stateParams, $http, $win
         success: function (response) {
             $scope.$apply(function () {
                 $scope.formData = response[id];
-                console.log($scope.formData);
+                $scope.createDate = new Date($scope.formData.createDate * 1000);
             });
         },
         error: function (xhr, status, error) {
@@ -1219,10 +1190,35 @@ app.controller('editDevice', function ($scope, $state, $stateParams, $http, $win
             $rootScope.checkError(e, $dialogAlert);
         }
     });
-    
-
     $scope.editDevice = function () {
-        ($scope.formData);
+        $.ajax({
+            url: domain_api + 'update/model/Ippbxextenlocation',
+            type: 'POST',
+            data: {
+                user: user,
+                userKey: user_Key,
+                id: id,
+                name: $scope.formData.name,
+                createDate: $scope.createDate,
+                latitude: $scope.formData.latitude,
+                longitude: $scope.formData.longitude,
+                status: $scope.formData.status,
+                deviceType: $scope.formData.deviceType,
+                note: $scope.formData.note,
+            },
+            success: function (response) {
+                if (response.id == id) {
+                    $dialogAlert("Cập nhật thiết bị thành công thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageDevice");
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
+            }
+        });
+
         $http({
             method: 'POST',
             url: listAPI.device.editDevice,
@@ -1273,7 +1269,7 @@ app.controller('addDevice', function ($scope, $state, $http, $window, $dialogAle
         });
     };
 })
-app.controller('manageLichPhat', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+app.controller('managePlayschedule', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     $scope.filter = '';
     $.ajax({
         url: domain_api + 'lookups/model/Playschedule',
@@ -1287,7 +1283,6 @@ app.controller('manageLichPhat', function ($scope, $state, $http, $window, $dial
             $scope.$apply(function () {
                 $scope.data = arr;
             });
-            // console.log($scope.items);
         },
         error: function (xhr, status, error) {
             console.log('error');
@@ -1317,7 +1312,7 @@ app.controller('manageLichPhat', function ($scope, $state, $http, $window, $dial
         $scope.size = $window.Math.ceil(size / pageSize);
         return $window.Math.ceil(size / pageSize);
     }
-    $scope.filterLichPhat = function () {
+    $scope.filterPlayschedule = function () {
         if ($scope.filter != '') {
             $http({
                 method: 'GET',
@@ -1341,92 +1336,111 @@ app.controller('manageLichPhat', function ($scope, $state, $http, $window, $dial
         }
         $scope.filter = '';
     }
-    $scope.deleteLichPhat = function (ID) {
-        $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
+    $scope.deletePlayschedule = function (id) {
+        $dialogConfirm("Bạn chắc chắn muốn xóa lịch phát thanh có mã <span style='color:red;font-weight:bold;'>" + id + "</span>  khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
-                $http({
-                    method: 'POST',
-                    url: listAPI.lichPhat.deleteLichPhat,
+                $.ajax({
+                    url: domain_api + 'delete/model/Playschedule',
+                    type: 'POST',
                     data: {
-                        id: ID
+                        user: user,
+                        userKey: user_Key,
+                        id: id
                     },
-                    headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token
+                    success: function (response) {
+
+                        if (response.status == 200) {
+                            $dialogAlert("Đã xóa lịch phát thanh thành công", "Thông báo!", "success", function (res) {
+                                $window.location.reload();
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('error');
+                        $rootScope.checkError(e, $dialogAlert);
                     }
-                }).then(function (res) {
-                    if (res.data.result > 0) {
-                        $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
-                    } else {
-                        $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
-                    }
-                }, function err(e) {
-                    $rootScope.checkError(e, $dialogAlert);
-                })
+                });
             }
         })
     }
 })
-app.controller('editLichPhat', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.formData = {};
-    $http({
-        method: 'GET',
-        url: listAPI.lichPhat.getLichPhat,
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        if (res.status != 404 && res.status != 405) {
-            $scope.formData = res.data;
-            $scope.formData.date_set = new Date($scope.formData.date_set);
-        } else {
-            $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-        }
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-
-    $scope.editLichPhat = function () {
-        $http({
-            method: 'POST',
-            url: listAPI.lichPhat.editLichPhat,
-            data: $scope.formData,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            if (res.result > 0) {
-                $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
-                    $state.go("manageLichPhat");
-                });
-            } else {
-                $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-            }
-        }, function err(e) {
+app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+    var id = $stateParams.id;
+    $.ajax({
+        url: domain_api + 'lookups/model/Playschedule',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+            id: id
+        },
+        success: function (response) {
+            console.log(response);
+            $scope.$apply(function () {
+                $scope.formData = response[id];
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log(error);
             $rootScope.checkError(e, $dialogAlert);
-        })
+        }
+    });
+    $scope.editPlayschedule = function () {
+        $.ajax({
+            url: domain_api + 'update/model/Playschedule',
+            type: 'POST',
+            data: {
+                user: user,
+                userKey: user_Key,
+                id: id,
+                name: $scope.formData.name,
+                dthID: $scope.formData.dthID,
+                field: $scope.formData.field,
+                type: $scope.formData.type,
+                c_active: $scope.formData.c_active,
+                description: $scope.formData.description
+            },
+            success: function (response) {
+                if (response.id == id) {
+                    $dialogAlert("Cập nhật lịch phát thành công", "Thông báo!", "success", function (res) {
+                        $state.go("managePlayschedule");
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
+            }
+        });
     };
 })
-app.controller('addLichPhat', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.formData = {};
-    $scope.addLichPhat = function () {
-        $http({
-            method: 'POST',
-            url: listAPI.lichPhat.addLichPhat,
-            data: $scope.formData,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
+app.controller('addPlayschedule', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+    $scope.addPlayschedule = function () {
+        $.ajax({
+            url: domain_api + 'create/model/Playschedule',
+            type: 'POST',
+            data: {
+                user: user,
+                userKey: user_Key,
+                name: $scope.formData.name,
+                dthID: $scope.formData.dthID,
+                field: $scope.formData.field,
+                type: $scope.formData.type,
+                c_active: $scope.formData.c_active,
+                description: $scope.formData.description
+            },
+            success: function (response) {
+                if (response.status == 200) {
+                    $dialogAlert("Thêm thư viện nguồn thành công", "Thông báo!", "success", function (res) {
+                        $state.go("managePlayschedule");
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
             }
-        }).then(function (res) {
-            if (res.result > 0) {
-                $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
-                    $state.go("manageLichPhat");
-                });
-            } else {
-                $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
+        });
     };
 })
 app.controller('managePublicNews', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
@@ -1494,27 +1508,30 @@ app.controller('managePublicNews', function ($scope, $state, $http, $window, $di
             $rootScope.checkError(e, $dialogAlert);
         })
     }
-    $scope.deletePublicNews = function (ID) {
-        $dialogConfirm("Bạn chắc chắn muốn xóa thông tin này khỏi hệ thống?", "Xác nhận", function (res) {
+    $scope.deletePublicNews = function (id) {
+        $dialogConfirm("Bạn chắc chắn muốn xóa bản tin điện tử <span style='color:red;font-weight:bold;'>" + id + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
-                $http({
-                    method: 'POST',
-                    url: listAPI.publicNews.deletePublicNews,
+                $.ajax({
+                    url: domain_api + 'delete/model/Inforboard',
+                    type: 'POST',
                     data: {
-                        id: ID
+                        user: user,
+                        userKey: user_Key,
+                        id: id
                     },
-                    headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token
+                    success: function (response) {
+
+                        if (response.status == 200) {
+                            $dialogAlert("Đã Xóa bảng tin điện tử thành công", "Thông báo!", "success", function (res) {
+                                $window.location.reload();
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('error');
+                        $rootScope.checkError(e, $dialogAlert);
                     }
-                }).then(function (res) {
-                    if (res.data.result > 0) {
-                        $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
-                    } else {
-                        $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
-                    }
-                }, function err(e) {
-                    $rootScope.checkError(e, $dialogAlert);
-                })
+                });
             }
 
         })
@@ -1522,66 +1539,90 @@ app.controller('managePublicNews', function ($scope, $state, $http, $window, $di
     }
 })
 app.controller('editPublicNews', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.formData = {};
-    $http({
-        method: 'GET',
-        url: listAPI.publicNews.getPublicNews,
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
-        }
-    }).then(function (res) {
-        if (res.status != 404 && res.status != 405) {
-            $scope.formData = res.data;
-            $scope.formData.date_set = new Date($scope.formData.date_set);
-        } else {
-            $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-        }
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
-
-    $scope.editPublicNews = function () {
-        $http({
-            method: 'POST',
-            url: listAPI.publicNews.editPublicNews,
-            data: $scope.formData,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            if (res.result > 0) {
-                $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
-                    $state.go("managePublicNews");
-                });
-            } else {
-                $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-            }
-        }, function err(e) {
+    var id = $stateParams.id;
+    console.log(id);
+    $.ajax({
+        url: domain_api + 'lookups/model/Inforboard',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+            id: id
+        },
+        success: function (response) {
+            console.log(response);
+            $scope.$apply(function () {
+                $scope.formData = response[id];
+                $scope.createDate = new Date($scope.formData.createDate * 1000);
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
             $rootScope.checkError(e, $dialogAlert);
-        })
+        }
+    });
+    $scope.editPublicNews = function () {
+        $.ajax({
+            url: domain_api + 'update/model/Inforboard',
+            type: 'POST',
+            data: {
+                user: user,
+                userKey: user_Key,
+                id: id,
+                name: $scope.formData.name,
+                createDate: $scope.formData.createDate,
+                lat: $scope.formData.lat,
+                lng: $scope.formData.lng,
+                status: $scope.formData.status,
+                deviceType: $scope.formData.deviceType,
+                note: $scope.formData.note,
+            },
+            success: function (response) {
+                if (response.id == id) {
+                    $dialogAlert("Cập nhật bảng tin điện tử thành công thành công", "Thông báo!", "success", function (res) {
+                        //$location.path("/quan-ly-thiet-bi/bang-tin-cong-cong");
+                        $state.go("managePublicNews")
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
+            }
+        });
     };
 })
 app.controller('addPublicNews', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.formData = {};
     $scope.addPublicNews = function () {
-        $http({
-            method: 'POST',
-            url: listAPI.publicNews.addPublicNews,
-            data: $scope.formData,
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
+        console.log($scope.formData);
+        console.log($scope.formData.status);
+        $.ajax({
+            url: domain_api + 'create/model/Inforboard',
+            type: 'POST',
+            data: {
+                user: user,
+                userKey: user_Key,
+                name: $scope.formData.name,
+                createDate: $scope.formData.createDate,
+                lat: $scope.formData.lat,
+                lng: $scope.formData.lng,
+                status: $scope.formData.status,
+                deviceType: $scope.formData.deviceType,
+                note: $scope.formData.note,
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status == 200) {
+                    $dialogAlert("Thêm bảng tin điện tử thành công", "Thông báo!", "success", function (res) {
+                        $state.go("managePublicNews");
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
             }
-        }).then(function (res) {
-            if (res.result > 0) {
-                $dialogAlert("Thêm thông tin thành công", "Thông báo!", "success", function (res) {
-                    $state.go("managePublicNews");
-                });
-            } else {
-                $dialogAlert("\n" + res.message, "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
+        });
     };
 })
 app.controller('manageRadioApp', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
