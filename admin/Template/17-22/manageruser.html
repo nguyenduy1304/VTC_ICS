@@ -1,58 +1,52 @@
-<div class="title">
-    <h3>Quản trị tài khoản người dùng</h3>
-</div>
-
-<div class=" row" style="margin:0">
-<div class="has-search search-date">
-  <form ng-submit="searchFilter()">
-    <div class="form-group has-feedback has-search" style="float:left;width:250px;margin-top: 8px;">
-      <input ng-model="filter" type="text" placeholder="Nhập mã tìm kiếm tại đây" name="search2" required>
-      <button type="submit"><i class="fa fa-search"></i></button>
-    </div>
-  </form>
-    <div class="function">
-        <a class="glyphicon glyphicon-plus icon" href="../#!/quan-tri-tai-khoan-nguoi-dung/them-moi"></a>
-    </div>
-</div>
-<style>
-.function{
-float: right;
-margin-top: 7px;
-
-}
-.has-search{
-margin-bottom: 0;
-}
-
-.icon{
-color: #0d67b1;;
-padding: 10px;
-}
-</style>
-
-</div>
 <div>
-    <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
-      <thead>
-        <tr class="panel-info list-group-item-info" style="text-transform: uppercase;font-weight: bold;">
-          <th style="text-align:center;width:60px">STT</th>
-          <th>Tên người dùng</th>
-          <th>Tài khoản</th>
-          <th>Nhóm</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="user in users">
-          <td style="text-align: center;">{{$index+1}}</td>
-          <td>{{user.firstName}} {{user.lastName}}</td>
-          <td>{{user.username}}</td>
-          <td>{{user.department}}</td>
-          <td style="text-align:center;">
-            <a class="glyphicon glyphicon-pencil icon" href="http://127.0.0.1:5500/#!/cap-nhat-tai-khoan-nguoi-dung/id={{user.id}}"></a>
-            <a class="glyphicon glyphicon-remove icon" ng-click="deletemanageruser(item.stt)"></a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="title">
+    <h3>Quản trị tài khoản người dùng</h3>
   </div>
+  <div class="input-group" style="width: 40%; float: left; margin-bottom: 10px;">
+    <input class="form-control" type="text" ng-model="searchKeyword" placeholder="Nhập từ khóa tìm kiếm">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+  </div>
+
+  <div class=" row" style="margin:0">
+    <div class="function">
+      <a class="glyphicon glyphicon-plus icon" href="../index.html#!/quan-tri-tai-khoan-nguoi-dung/them-moi"></a>
+    </div>
+  </div>
+</div>
+
+<div>
+  <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
+    <thead>
+      <tr class="panel-info list-group-item-info" style="text-transform: uppercase;font-weight: bold;">
+        <th style="text-align:center;width:60px">STT</th>
+        <th>Tên người dùng</th>
+        <th>Tài khoản</th>
+        <th>Nhóm</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="user in users | filter: searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
+        <td style="text-align: center;">{{$index+1}}</td>
+        <td>{{user.firstName}} {{user.lastName}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.department}}</td>
+        <td style="text-align:center;">
+          <a class="glyphicon glyphicon-pencil icon"
+            href="http://127.0.0.1:5500/#!/cap-nhat-tai-khoan-nguoi-dung/id={{user.id}}"></a>
+          <a class="glyphicon glyphicon-remove icon" ng-click="deletemanageruser(item.stt)"></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="pagelist">
+  <div class="pagination-wrapper">
+      <div class="pagination">
+          <a class="prev page-numbers" href="javascript:;" ng-click="prevPage()">Trước</a>
+          <a class="page-numbers" href="javascript:;" ng-repeat="page in range()"
+              ng-class="{active: currentPage == page}" ng-click="setPage(page)">{{ page }}</a>
+          <a class="next page-numbers" href="javascript:;" ng-click="nextPage()">Sau</a>
+      </div>
+  </div>
+</div>

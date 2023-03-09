@@ -4,37 +4,17 @@
   </div>
 
   <div class="input-group" style="width: 40%; float: left; margin-bottom: 10px;">
-    <input class="form-control" type="text" ng-model="searchKeyword"
-      placeholder="Nhập từ khóa tìm kiếm">
+    <input class="form-control" type="text" ng-model="searchKeyword" placeholder="Nhập từ khóa tìm kiếm">
     <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
   </div>
 
   <div class=" row" style="margin:0">
-
     <div class="function">
       <a class="glyphicon glyphicon-plus icon" href="../#!/them-thu-vien-nguon"></a>
     </div>
   </div>
-
-
 </div>
 
-<style>
-  .function {
-    float: right;
-    margin-top: 7px;
-  }
-
-  .has-search {
-    margin-bottom: 0;
-  }
-
-  .icon {
-    color: #0d67b1;
-    ;
-    padding: 10px;
-  }
-</style>
 <div>
   <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
     <thead>
@@ -50,7 +30,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="item in items | filter: searchKeyword">
+      <tr ng-repeat="item in items | filter: searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
         <td style="text-align:center;">{{$index+1}}</td>
         <td>{{item.name}}</td>
         <td>{{item.uri}}</td>
@@ -67,3 +47,15 @@
   </table>
 </div>
 </div>
+
+
+<div class="pagelist">
+  <div class="pagination-wrapper">
+    <div class="pagination">
+      <a class="prev page-numbers" href="javascript:;" ng-click="prevPage()">Trước</a>
+      <a class="page-numbers" href="javascript:;"ng-repeat="page in range()" ng-class="{active: currentPage == page}" ng-click="setPage(page)">{{ page }}</a>
+      <a class="next page-numbers" href="javascript:;" ng-click="nextPage()">Sau</a>
+    </div>
+  </div>
+</div>
+

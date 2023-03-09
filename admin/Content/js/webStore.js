@@ -1,40 +1,13 @@
 var host = window.host;
 var host_api = window.host_api;
 var timer = 10000;
+var PerPage = 4;
 var user = 'vtc';
 var user_Key = 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM';
 const domain_api = 'http://ttn.onephone.online/index.php/api/';
 
-const url_host_api = 'http://127.0.0.1:5500/';
+//const url_host_api = 'http://127.0.0.1:5500/';
 
-const listapi = {
-    sourcelibrary: {
-        getlist: host_api + 'admin/Template/17-22/data_json/sourcelibrary.json',
-        getedit: host_api + 'admin/Template/17-22/data_json/detail/sourcelibratydetail.json',
-        getsourcelibrarycopy: host_api + 'admin/Template/17-22/data_json/sourcelibrarycopy.json'
-    },
-    recommend: {
-        getlist: host_api + 'admin/Template/17-22/data_json/recommend.json',
-        getedit: host_api + '',
-        getrecommendcopy: host_api + 'admin/Template/17-22/data_json/recommendcopy.json'
-    },
-    managergroupuser: {
-        getlist: host_api + 'admin/Template/17-22/data_json/managergroupuser.json',
-        getedit: host_api + 'admin/Template/17-22/data_json/detail/managergroupuserdetail.json',
-        getmanagergroupusercopy: host_api + 'admin/Template/17-22/data_json/managergroupusercopy.json'
-    },
-    manageruser: {
-        getlist: host_api + 'admin/Template/17-22/data_json/manageruser.json',
-        getedit: host_api + 'admin/Template/17-22/data_json/detail/manageruserdetail.json',
-        getmanagerusercopy: host_api + 'admin/Template/17-22/data_json/managerusercopy.json'
-    },
-    userlog: {
-        getlist: host_api + 'admin/Template/17-22/data_json/userlog.json',
-        getedit: host_api + 'admin/Template/17-22/data_json/detail/userlogdetail.json',
-        getuserlogcopy: host_api + 'admin/Template/17-22/data_json/userlogcopy.json'
-    }
-
-}
 var formatNumbers = function (amount, decimalCount, decimal, thousands) {
     decimalCount = decimalCount || 0;
     decimal = decimal || '.';
@@ -282,6 +255,18 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             controller: 'recommendCtrl',
             templateUrl: window.templateUrl + "/17-22/recommend.html"
         })
+        .state('17-22-add_recommend', {
+            url: '/them-kien-nghi-cua-nguoi-dan',
+            allowAnonymous: true,
+            controller: 'add_recommendCtrl',
+            templateUrl: window.templateUrl + "/17-22/addrecommend.html"
+        })
+        .state('17-22-edit_recommend', {
+            url: '/cap-nhat-kien-nghi-cua-nguoi-dan/:id',
+            allowAnonymous: true,
+            controller: 'edit_recommendCtrl',
+            templateUrl: window.templateUrl + "/17-22/editrecommend.html"
+        })
         //Quản trị tài khoản người dùng ==================
         .state('17-22-manageruser', {
             url: '/quan-tri-tai-khoan-nguoi-dung',
@@ -481,32 +466,55 @@ app.controller('sourcelibraryCtrl', function ($dialogConfirm, $http, $scope, $st
         url: domain_api + 'lookups/model/Mediasource',
         type: 'POST',
         data: {
-            user: 'vtc',
-            userKey: 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM'
+            user: user,
+            userKey: user_Key
         },
         success: function (response) {
             const arr = Object.values(response);
             $scope.$apply(function () {
                 $scope.items = arr;
+                $scope.currentPage = 1;
+                $scope.itemsPerPage = PerPage;
+                $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
+                $scope.setPage = function (pageNo) {
+                    $scope.currentPage = pageNo;
+                };
+                $scope.prevPage = function () {
+                    if ($scope.currentPage > 1) {
+                        $scope.currentPage--;
+                    }
+                };
+                $scope.nextPage = function () {
+                    if ($scope.currentPage < $scope.numPages) {
+                        $scope.currentPage++;
+                    }
+                };
+                $scope.range = function () {
+                    var rangeSize = $scope.itemsPerPage;
+                    var ret = [];
+                    var start;
+                    start = $scope.currentPage;
+                    if (start > $scope.numPages - rangeSize) {
+                        start = $scope.numPages - rangeSize + 1;
+                    }
+                    var numbers = [];
+                    for (var i = start; i < start + rangeSize; i++) {
+                        numbers.push(i);
+                    }
+                    for (var i = 0; i < numbers.length; i++) {
+                        if (numbers[i] > 0) {
+                            ret.push(numbers[i]);
+                        }
+                    }
+                    return ret;
+                };
             });
-            // console.log($scope.items);
         },
         error: function (xhr, status, error) {
             console.log('error');
             $rootScope.checkError(e, $dialogAlert);
         }
     });
-    // // Hàm tìm kiếm dữ liệu
-    // $scope.searchData = function () {
-    //     // Sử dụng filter để lọc dữ liệu từ mảng gốc và lưu vào mảng kết quả
-    //     $scope.items = $filter('filter')($scope.items, $scope.filter);
-    //     console
-    // };
-    // // Gọi hàm tìm kiếm khi có thay đổi trên biến $scope.filter
-    // $scope.$watch('filter', function (newVal, oldVal) {
-    //     $scope.searchData();
-    // });
-
     $scope.deletesourcelibrary = function (id) {
         $dialogConfirm("Bạn chắc chắn muốn xóa thư viện nguồn có mã <span style='color:red;font-weight:bold;'>" + id + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
@@ -534,29 +542,6 @@ app.controller('sourcelibraryCtrl', function ($dialogConfirm, $http, $scope, $st
             }
         })
     }
-    // $scope.filtersourcelibrary = function () {
-    //     console.log('filter=' + $scope.filter);
-    //     $http({
-    //         method: 'GET',
-    //         url: listapi.sourcelibrary.getsourcelibrarycopy,
-    //         data: {
-    //             filter: $scope.filter
-    //         },
-    //         headers: {
-    //             'Authorization': "Bearer " + $window.localStorage.token
-    //         }
-    //     }).then(function (res) {
-    //         //console.log(res);
-    //         console.log('ddaay la filter' + $scope.filter);
-    //         if (res.status != 404 && res.status != 405) {
-    //             $scope.items = res.data;
-    //         } else {
-    //             $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-    //         }
-    //     }, function err(e) {
-    //         $rootScope.checkError(e, $dialogAlert);
-    //     })
-    // }
 });
 app.controller('add_sourcelibraryCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $scope.addlibrary = function () {
@@ -657,6 +642,41 @@ app.controller('managergroupuserCtrl', function ($dialogConfirm, $http, $scope, 
             const arr = Object.values(response);
             $scope.$apply(function () {
                 $scope.groups = arr;
+                $scope.currentPage = 1;
+                $scope.itemsPerPage = PerPage;
+                $scope.numPages = Math.ceil($scope.groups.length / $scope.itemsPerPage);
+                $scope.setPage = function (pageNo) {
+                    $scope.currentPage = pageNo;
+                };
+                $scope.prevPage = function () {
+                    if ($scope.currentPage > 1) {
+                        $scope.currentPage--;
+                    }
+                };
+                $scope.nextPage = function () {
+                    if ($scope.currentPage < $scope.numPages) {
+                        $scope.currentPage++;
+                    }
+                };
+                $scope.range = function () {
+                    var rangeSize = $scope.itemsPerPage;
+                    var ret = [];
+                    var start;
+                    start = $scope.currentPage;
+                    if (start > $scope.numPages - rangeSize) {
+                        start = $scope.numPages - rangeSize + 1;
+                    }
+                    var numbers = [];
+                    for (var i = start; i < start + rangeSize; i++) {
+                        numbers.push(i);
+                    }
+                    for (var i = 0; i < numbers.length; i++) {
+                        if (numbers[i] > 0) {
+                            ret.push(numbers[i]);
+                        }
+                    }
+                    return ret;
+                };
             });
         },
         error: function err(e) {
@@ -780,6 +800,41 @@ app.controller('manageruserCtrl', function ($dialogConfirm, $http, $scope, $stat
             const arr = Object.values(response);
             $scope.$apply(function () {
                 $scope.users = arr;
+                $scope.currentPage = 1;
+                $scope.itemsPerPage = PerPage;
+                $scope.numPages = Math.ceil($scope.users.length / $scope.itemsPerPage);
+                $scope.setPage = function (pageNo) {
+                    $scope.currentPage = pageNo;
+                };
+                $scope.prevPage = function () {
+                    if ($scope.currentPage > 1) {
+                        $scope.currentPage--;
+                    }
+                };
+                $scope.nextPage = function () {
+                    if ($scope.currentPage < $scope.numPages) {
+                        $scope.currentPage++;
+                    }
+                };
+                $scope.range = function () {
+                    var rangeSize = $scope.itemsPerPage;
+                    var ret = [];
+                    var start;
+                    start = $scope.currentPage;
+                    if (start > $scope.numPages - rangeSize) {
+                        start = $scope.numPages - rangeSize + 1;
+                    }
+                    var numbers = [];
+                    for (var i = start; i < start + rangeSize; i++) {
+                        numbers.push(i);
+                    }
+                    for (var i = 0; i < numbers.length; i++) {
+                        if (numbers[i] > 0) {
+                            ret.push(numbers[i]);
+                        }
+                    }
+                    return ret;
+                };
             });
         },
         error: function err(e) {
@@ -892,10 +947,7 @@ app.controller('editmanageruserCtrl', function ($http, $scope, $state, $rootScop
         })
     };
 });
-
-
-
-app.controller('recommendCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+app.controller('recommendCtrl', function ($dialogConfirm, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $.ajax({
         url: domain_api + 'lookups/model/Custfeedback',
         type: 'POST',
@@ -915,28 +967,128 @@ app.controller('recommendCtrl', function ($http, $scope, $state, $rootScope, $di
             $rootScope.checkError(e, $dialogAlert);
         }
     });
-    $scope.searchFilter = function () {
-        console.log($scope.filter);
-        $http({
-            method: 'GET',
-            url: listapi.recommend.getrecommendcopy,
-            data: {
-                filter: $scope.filter
-            },
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
+    //=====================================================
+    $scope.searchKeyword = '';
+    $scope.startDate = null;
+    $scope.endDate = null;
+    $scope.filterData = function () {
+        // Sử dụng filter để lọc dữ liệu dựa trên từ khóa tìm kiếm
+        var filteredData = $filter('filter')($scope.items, $scope.searchKeyword);
+
+        // Nếu có tiêu chí lọc theo ngày, thực hiện lọc thêm
+        if ($scope.startDate !== null && $scope.endDate !== null) {
+            filteredData = $filter('filter')(filteredData, function (item) {
+                return (parseInt(item.createDate) >= $scope.startDate.getTime() / 1000) && (parseInt(item.createDate) <= $scope.endDate.getTime() / 1000);
+            });
+        }
+
+        // Lưu kết quả lọc vào biến $scope.filteredData
+        $scope.filteredData = filteredData;
+    };
+
+    $scope.deleterecommend = function (id) {
+        $dialogConfirm("Bạn chắc chắn muốn kiến nghị người dân có mã <span style='color:red;font-weight:bold;'>" + id + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+            if (res) {
+                $.ajax({
+                    url: domain_api + 'delete/model/Custfeedback',
+                    type: 'POST',
+                    data: {
+                        user: user,
+                        userKey: user_Key,
+                        id: id
+                    },
+                    success: function (response) {
+
+                        if (response.status == 200) {
+                            $dialogAlert("Đã xóa kiến nghị của người dân có mã <span style='color:red;font-weight:bold;'>" + id + "</span> thành công", "Thông báo!", "success", function (res) {
+                                $window.location.reload();
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('error');
+                        $rootScope.checkError(e, $dialogAlert);
+                    }
+                });
             }
-        }).then(function (res) {
-            if (res.status != 404 && res.status != 405) {
-                $scope.items = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
         })
     }
 });
+app.controller('add_recommendCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    $scope.addrecommend = function () {
+        $.ajax({
+            url: domain_api + 'create/model/Custfeedback',
+            type: 'POST',
+            data: {
+                user: user,
+                userKey: user_Key,
+                name: $scope.dataForm.name,
+                description: $scope.dataForm.description,
+                note: $scope.dataForm.note
+            },
+            success: function (response) {
+                if (response.status == 200) {
+                    $dialogAlert("Thêm kiến nghị người dân thành công", "Thông báo!", "success", function (res) {
+                        $location.path("/kien-nghi-cua-nguoi-dan");
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
+            }
+        });
+    };
+});
+app.controller('edit_recommendCtrl', function ($dialogConfirm, $scope, $state, $stateParams, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    var id = $stateParams.id;
+    console.log(id);
+    $.ajax({
+        url: domain_api + 'lookups/model/Custfeedback',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+            id: id
+        },
+        success: function (response) {
+            console.log(response);
+            $scope.$apply(function () {
+                $scope.dataForm = response[id];
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    $scope.editrecommend = function () {
+        $.ajax({
+            url: domain_api + 'update/model/Custfeedback',
+            type: 'POST',
+            data: {
+                user: user,
+                userKey: user_Key,
+                id: id,
+                name: $scope.dataForm.name,
+                description: $scope.dataForm.description,
+                note: $scope.dataForm.note
+            },
+            success: function (response) {
+                if (response.id == id) {
+                    $dialogAlert("Cập nhật thư viện nguồn thành công thành công", "Thông báo!", "success", function (res) {
+                        $location.path("/kien-nghi-cua-nguoi-dan");
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
+            }
+        });
+    };
+});
+
 
 app.controller('reportnewsCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $http({
@@ -1070,6 +1222,41 @@ app.controller('manageDevice', function ($scope, $state, $http, $window, $dialog
             const arr = Object.values(response);
             $scope.$apply(function () {
                 $scope.data = arr;
+                $scope.currentPage = 1;
+                $scope.itemsPerPage = PerPage;
+                $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
+                $scope.setPage = function (pageNo) {
+                    $scope.currentPage = pageNo;
+                };
+                $scope.prevPage = function () {
+                    if ($scope.currentPage > 1) {
+                        $scope.currentPage--;
+                    }
+                };
+                $scope.nextPage = function () {
+                    if ($scope.currentPage < $scope.numPages) {
+                        $scope.currentPage++;
+                    }
+                };
+                $scope.range = function () {
+                    var rangeSize = $scope.itemsPerPage;
+                    var ret = [];
+                    var start;
+                    start = $scope.currentPage;
+                    if (start > $scope.numPages - rangeSize) {
+                        start = $scope.numPages - rangeSize + 1;
+                    }
+                    var numbers = [];
+                    for (var i = start; i < start + rangeSize; i++) {
+                        numbers.push(i);
+                    }
+                    for (var i = 0; i < numbers.length; i++) {
+                        if (numbers[i] > 0) {
+                            ret.push(numbers[i]);
+                        }
+                    }
+                    return ret;
+                };
             });
         },
         error: function (xhr, status, error) {
@@ -1282,6 +1469,41 @@ app.controller('managePlayschedule', function ($scope, $state, $http, $window, $
             const arr = Object.values(response);
             $scope.$apply(function () {
                 $scope.data = arr;
+                $scope.currentPage = 1;
+                $scope.itemsPerPage = PerPage;
+                $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
+                $scope.setPage = function (pageNo) {
+                    $scope.currentPage = pageNo;
+                };
+                $scope.prevPage = function () {
+                    if ($scope.currentPage > 1) {
+                        $scope.currentPage--;
+                    }
+                };
+                $scope.nextPage = function () {
+                    if ($scope.currentPage < $scope.numPages) {
+                        $scope.currentPage++;
+                    }
+                };
+                $scope.range = function () {
+                    var rangeSize = $scope.itemsPerPage;
+                    var ret = [];
+                    var start;
+                    start = $scope.currentPage;
+                    if (start > $scope.numPages - rangeSize) {
+                        start = $scope.numPages - rangeSize + 1;
+                    }
+                    var numbers = [];
+                    for (var i = start; i < start + rangeSize; i++) {
+                        numbers.push(i);
+                    }
+                    for (var i = 0; i < numbers.length; i++) {
+                        if (numbers[i] > 0) {
+                            ret.push(numbers[i]);
+                        }
+                    }
+                    return ret;
+                };
             });
         },
         error: function (xhr, status, error) {
@@ -1289,29 +1511,6 @@ app.controller('managePlayschedule', function ($scope, $state, $http, $window, $
             $rootScope.checkError(e, $dialogAlert);
         }
     });
-    //pagination
-    $scope.currentPage = 0;
-    $scope.pageSize = 15;
-    $scope.size = 0;
-    $scope.first = function () {
-        $scope.currentPage = 0;
-    }
-    $scope.next = function () {
-        $scope.currentPage += 1;
-    }
-    $scope.previous = function () {
-        $scope.currentPage -= 1;
-    }
-    $scope.last = function (last) {
-        $scope.currentPage = last;
-    }
-    $scope.thisPage = function (i) {
-        $scope.currentPage = i;
-    }
-    $scope.totalPage = function (size, pageSize) {
-        $scope.size = $window.Math.ceil(size / pageSize);
-        return $window.Math.ceil(size / pageSize);
-    }
     $scope.filterPlayschedule = function () {
         if ($scope.filter != '') {
             $http({
@@ -1456,6 +1655,41 @@ app.controller('managePublicNews', function ($scope, $state, $http, $window, $di
             const arr = Object.values(response);
             $scope.$apply(function () {
                 $scope.data = arr;
+                $scope.currentPage = 1;
+                $scope.itemsPerPage = PerPage;
+                $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
+                $scope.setPage = function (pageNo) {
+                    $scope.currentPage = pageNo;
+                };
+                $scope.prevPage = function () {
+                    if ($scope.currentPage > 1) {
+                        $scope.currentPage--;
+                    }
+                };
+                $scope.nextPage = function () {
+                    if ($scope.currentPage < $scope.numPages) {
+                        $scope.currentPage++;
+                    }
+                };
+                $scope.range = function () {
+                    var rangeSize = $scope.itemsPerPage;
+                    var ret = [];
+                    var start;
+                    start = $scope.currentPage;
+                    if (start > $scope.numPages - rangeSize) {
+                        start = $scope.numPages - rangeSize + 1;
+                    }
+                    var numbers = [];
+                    for (var i = start; i < start + rangeSize; i++) {
+                        numbers.push(i);
+                    }
+                    for (var i = 0; i < numbers.length; i++) {
+                        if (numbers[i] > 0) {
+                            ret.push(numbers[i]);
+                        }
+                    }
+                    return ret;
+                };
             });
         },
         error: function (xhr, status, error) {
@@ -1638,6 +1872,41 @@ app.controller('manageRadioApp', function ($scope, $state, $http, $window, $dial
             const arr = Object.values(response);
             $scope.$apply(function () {
                 $scope.data = arr;
+                $scope.currentPage = 1;
+                $scope.itemsPerPage = PerPage;
+                $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
+                $scope.setPage = function (pageNo) {
+                    $scope.currentPage = pageNo;
+                };
+                $scope.prevPage = function () {
+                    if ($scope.currentPage > 1) {
+                        $scope.currentPage--;
+                    }
+                };
+                $scope.nextPage = function () {
+                    if ($scope.currentPage < $scope.numPages) {
+                        $scope.currentPage++;
+                    }
+                };
+                $scope.range = function () {
+                    var rangeSize = $scope.itemsPerPage;
+                    var ret = [];
+                    var start;
+                    start = $scope.currentPage;
+                    if (start > $scope.numPages - rangeSize) {
+                        start = $scope.numPages - rangeSize + 1;
+                    }
+                    var numbers = [];
+                    for (var i = start; i < start + rangeSize; i++) {
+                        numbers.push(i);
+                    }
+                    for (var i = 0; i < numbers.length; i++) {
+                        if (numbers[i] > 0) {
+                            ret.push(numbers[i]);
+                        }
+                    }
+                    return ret;
+                };
             });
         },
         error: function (xhr, status, error) {
@@ -1645,29 +1914,6 @@ app.controller('manageRadioApp', function ($scope, $state, $http, $window, $dial
             $rootScope.checkError(e, $dialogAlert);
         }
     });
-    //pagination
-    $scope.currentPage = 0;
-    $scope.pageSize = 15;
-    $scope.size = 0;
-    $scope.first = function () {
-        $scope.currentPage = 0;
-    }
-    $scope.next = function () {
-        $scope.currentPage += 1;
-    }
-    $scope.previous = function () {
-        $scope.currentPage -= 1;
-    }
-    $scope.last = function (last) {
-        $scope.currentPage = last;
-    }
-    $scope.thisPage = function (i) {
-        $scope.currentPage = i;
-    }
-    $scope.totalPage = function (size, pageSize) {
-        $scope.size = $window.Math.ceil(size / pageSize);
-        return $window.Math.ceil(size / pageSize);
-    }
     $scope.filterRadioApp = function () {
         console.log('filter=' + $scope.filter);
         $.ajax({

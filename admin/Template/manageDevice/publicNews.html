@@ -1,69 +1,60 @@
-<div style="margin-left: 10px;">
-    <div style="min-height: 800px;">
-        <div>
-            <h2 style="text-align: center;color: #0d67b1;font-weight: 700">Bảng tin điện tử công cộng</h2>
-        </div>
-        <div class=" row" style="margin:0 0px;display: inline;">
-            <form class="search-click" ng-submit="filterPublicNews()" style="max-width:300px">
-                <input ng-model="filter" type="text" placeholder="Search.." name="search2">
-                <button type="submit"><i class="fa fa-search"></i></button>
-            </form>
-            <div style="line-height: 34px;float: right;padding-right: 10px;">
-                <a href="http://127.0.0.1:5500/index.html#!/quan-ly-thiet-bi/bang-tin-cong-cong/them"
-                    style="background-color: #F3F5F8;border: none;margin: 0 10px;">
-                    <span class="glyphicon glyphicon-plus" style=" color: rgb(93, 170, 241);"></span>
-                </a>
-            </div>
-        </div>
-        <div>
-            <table class="table table-bordered table-style-three" style="width:100%;margin-top:10px;font-size:smaller;">
-                <thead>
-                    <tr class="panel-info list-group-item-info" style="color:white;background-color: rgb(11, 72, 129);">
-                        <th style="text-align:center;width:10px;">STT</th>
-                        <th style="width:16%;">MÃ_ĐTH CNTT - VT</th>
-                        <th style="width:13%;">NGÀY LẮP</th>
-                        <th style="width:16%;">TÊN</th>
-                        <th style="width:16%;">VỊ TRÍ</th>
-                        <th>TRẠNG THÁI</th>
-                        <th>LOẠI THIẾT BỊ</th>
-                        <th>GHI CHÚ</th>
-                        <th>ACTION</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="item in data | filter:filter | startFrom:currentPage*pageSize | limitTo:pageSize">
-                        <td style="text-align:center">{{$index+ currentPage*pageSize}}</td>
-                        <td>{{item.nameId}}</td>
-                        <td>{{item.createDate*1000 | date:'dd/MM/yyyy'}}</td>
-                        <td>{{item.name}}</td>
-                        <td>{{item.lat}} - {{item.lng}} </td>
-                        <td>{{item.status}}</td>
-                        <td>{{item.deviceType}}</td>
-                        <td>{{item.note}}</td>
-                        <th
-                            style="width:70px;background-color: white;border: 1px solid #ddd;  padding: 0px;margin: 0px;line-height:39px;">
-                            <a href="../index.html#!/quan-ly-thiet-bi/bang-tin-cong-cong/cap-nhat/{{item.id}}"
-                                style="background-color: #fff;border: none;margin-left: 10px;">
-                                <span class="glyphicon glyphicon-pencil" style=" color: rgb(93, 170, 241);"></span>
-                            </a>
-                            <button ng-click="deletePublicNews(item.id)" type="button"
-                                style="background-color: #fff;border: none;margin-left: 10px;">
-                                <span class="glyphicon glyphicon-remove" style="color: rgb(93, 170, 241);"></span>
-                            </button>
-                        </th>
-                    </tr>
+<div>
+    <div class="title">
+        <h3>Bảng tin điện tử công cộng</h3>
+    </div>
+    <div class="input-group" style="width: 40%; float: left; margin-bottom: 10px;">
+        <input class="form-control" type="text" ng-model="searchKeyword" placeholder="Nhập từ khóa tìm kiếm">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+    </div>
+    <div class=" row" style="margin:0">
 
-                </tbody>
-            </table>
+        <div class="function">
+            <a class="glyphicon glyphicon-plus icon"
+                href="../index.html#!/quan-ly-thiet-bi/bang-tin-cong-cong/them"></a>
         </div>
     </div>
-
-    <div class="pagination"
-        style="float: right;padding-right: 10px;font-size: 18px;margin-bottom: 50px;margin-top: 0px;">
-        <button type="button" ng-click="first()" ng-hide="currentPage==0">&laquo;</button>
-        <button ng-click="previous()" ng-hide="currentPage==0">‹</button>
-        <button ng-repeat="n in [] | range:totalPage(data.length,pageSize)" ng-click="thisPage(n)">{{n+1}}</button>
-        <button ng-click="next()" ng-hide="currentPage>=size-1">›</button>
-        <button ng-click="size=last(totalPage(data.length,pageSize)-1)" ng-hide="currentPage>=size-1">&raquo;</button>
+</div>
+<div>
+    <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
+        <thead>
+            <tr class="panel-info list-group-item-info" style="color:white;background-color: rgb(11, 72, 129);">
+                <th style="text-align:center;width:10px;">STT</th>
+                <th style="width:16%;">MÃ_ĐTH CNTT - VT</th>
+                <th style="width:13%;">NGÀY LẮP</th>
+                <th style="width:16%;">TÊN</th>
+                <th style="width:16%;">VỊ TRÍ</th>
+                <th>TRẠNG THÁI</th>
+                <th>LOẠI THIẾT BỊ</th>
+                <th>GHI CHÚ</th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in data | filter:searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
+                <td style="text-align:center">{{$index+ currentPage*pageSize}}</td>
+                <td>{{item.nameId}}</td>
+                <td>{{item.createDate*1000 | date:'dd/MM/yyyy'}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.lat}} - {{item.lng}} </td>
+                <td>{{item.status}}</td>
+                <td>{{item.deviceType}}</td>
+                <td>{{item.note}}</td>
+                <td style="text-align:center;">
+                    <a class="glyphicon glyphicon-pencil icon"
+                        href="/index.html#!/quan-ly-thiet-bi/bang-tin-cong-cong/cap-nhat/{{item.id}}"></a>
+                    <a class="glyphicon glyphicon-remove icon" ng-click="deletePublicNews(item.id)"></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="pagelist">
+    <div class="pagination-wrapper">
+        <div class="pagination">
+            <a class="prev page-numbers" href="javascript:;" ng-click="prevPage()">Trước</a>
+            <a class="page-numbers" href="javascript:;" ng-repeat="page in range()"
+                ng-class="{active: currentPage == page}" ng-click="setPage(page)">{{ page }}</a>
+            <a class="next page-numbers" href="javascript:;" ng-click="nextPage()">Sau</a>
+        </div>
     </div>
 </div>

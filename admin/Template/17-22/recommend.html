@@ -1,58 +1,57 @@
 <div class="title">
-    <h3>Kiến nghị của người dân</h3>
+  <h3>Kiến nghị của người dân</h3>
 </div>
 
 <div class=" row" style="margin:0">
-    <div class="has-search search-date">
-        <form class="navbar-form navbar-left" ng-submit="searchFilter()" style="padding:0;padding-left: 15px;">
-            <div class="form-group" style="padding-right: 50px;">
-              <input ng-model="filter" type="text" placeholder="Nhập mã tìm kiếm tại đây" name="search2" required>
-            <button type="submit"><i class="fa fa-search"></i></button>
-            </div>
-            <div class="form-group">
-                <label>Từ ngày </label>
-                <input  type="date" class="form-control dateTimePicker" ng-model="from_date" ng-value="from_date" placeholder="yyyy-mm-dd">
-                <label> đến </label>
-                <input type="date" class="form-control dateTimePicker" ng-model="to_date" ng-value="to_date" placeholder="yyyy-mm-dd">
-            </div>
-            
-        </form>
-        <!-- <div class="function">
-            <a class="glyphicon glyphicon-plus icon" href="#" ></a>
-            <a class="glyphicon glyphicon-pencil icon"href="#" ></a>
-            <a class="glyphicon glyphicon-remove icon"href="#" ></a>
-        </div> -->
+  <div class="has-search search-date">
+    <div class="input-group" style="width: 30%; float: left; margin-bottom: 5px;">
+      <input class="form-control" type="text" ng-model="searchKeyword" placeholder="Nhập từ khóa tìm kiếm">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
     </div>
-</div>
-<style>
-    .function{
-    float: right;
-    margin-top: 7px;
-    }
-    .icon{
-        color: #0d67b1;;
-        padding: 10px;
-    }
-</style>
-<div>
-    <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
-      <thead>
-        <tr class="panel-info list-group-item-info" style="text-transform: uppercase;font-weight: bold;">
-          <th style="text-align:center;width:60px;">STT</th>
-          <th style="width:200px">thời gian</th>
-          <th>kiến nghị</th>
-          <th>phản hồi</th>
-          <th>trạng thái</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="item in items">
-          <td style="text-align:center">{{$index+1}}</td>
-          <td>{{item.createDate | date:'dd/MM/yyyy'}}</td>
-          <td>{{item.request}}</td>
-          <td>{{item.response}}</td>
-          <td>{{item.status}}</td>
-        </tr>
-      </tbody>
-    </table>
+    <form class="navbar-form navbar-left" style="padding:0;padding-left: 15px;">
+      <div class="form-group">
+        <label>Từ ngày </label>
+        <input type="date" class="form-control dateTimePicker" ng-model="from_date">
+        <label> đến </label>
+        <input type="date" class="form-control dateTimePicker" ng-model="to_date" >
+      </div>
+    </form>
+    <div class=" row" style="margin:0">
+      <div class="function">
+        <a class="glyphicon glyphicon-plus icon" href="../index.html#!/them-kien-nghi-cua-nguoi-dan"></a>
+      </div>
+    </div>
   </div>
+</div>
+<div>
+  <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
+    <thead>
+      <tr class="panel-info list-group-item-info" style="text-transform: uppercase;font-weight: bold;">
+        <th style="text-align:center;width:60px;">STT</th>
+        <th style="width:200px">thời gian</th>
+        <th>ten</th>
+        <th>kiến nghị</th>
+        <th>trạng thái</th>
+        <th></th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in items | filter: searchKeyword">
+        <td style="text-align:center">{{$index+1}}</td>
+        <td>{{item.createDate*1000 | date:'dd/MM/yyyy'}}</td>
+        <td>{{item.name}}</td                                                                                                           >
+        <td>{{item.description}}</td>
+        <td>
+          <span ng-if="item.note == 1">Chưa xử lý</span>
+          <span ng-if="item.note == 2">Đang xử lý</span>
+          <span ng-if="item.note == 3">Đã xử lý</span>
+        </td>
+        <td style="text-align:center;">
+          <a class="glyphicon glyphicon-pencil icon" href="../index.html#!/cap-nhat-kien-nghi-cua-nguoi-dan/{{item.id}}"></a>
+          <a class="glyphicon glyphicon-remove icon" ng-click="deleterecommend(item.id)"></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
