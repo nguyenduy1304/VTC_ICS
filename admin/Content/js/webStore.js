@@ -544,11 +544,55 @@ app.controller('sourcelibraryCtrl', function ($dialogConfirm, $http, $scope, $st
     }
 });
 app.controller('add_sourcelibraryCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    $.ajax({
+        url: host_api + 'admin/data/data.json',
+        type: 'GET',
+        success: function (response) {
+            const arr = Object.values(response);
+            $scope.$apply(function () {
+                $scope.cities = response;
+                console.log($scope.cities);
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    $scope.listDistricts = function () {
+        if ($scope.dataForm.provinceID != '') {
+            for (i in $scope.cities) {
+                if ($scope.dataForm.provinceID == $scope.cities[i].Name) {
+                    $scope.districts = $scope.cities[i].Districts;
+                    break;
+                }
+            }
+        }
+    }
+    $scope.listWards = function () {
+        if ($scope.dataForm.districId != '') {
+            for (i in $scope.districts) {
+                if ($scope.dataForm.districId == $scope.districts[i].Name) {
+                    $scope.wards = $scope.districts[i].Wards;
+                    break;
+                }
+            }
+        }
+    }
     $scope.addlibrary = function () {
         $scope.name = $scope.dataForm.name;
+        $scope.ipaddress = $scope.dataForm.ipaddress;
         $scope.uri = $scope.dataForm.uri;
-        $scope.contenttype = $scope.dataForm.contenttype;
+        $scope.channel = $scope.dataForm.channel;
+        $scope.devicetype = $scope.dataForm.devicetype;
+        $scope.miclevel = $scope.dataForm.miclevel;
         $scope.status = $scope.dataForm.status;
+        $scope.starttime = $scope.dataForm.starttime;
+        $scope.starttime = new Date($scope.dataForm.starttime).getTime()/1000;
+        $scope.provinceID = $scope.dataForm.provinceID;
+        $scope.districId = $scope.dataForm.districId;
+        $scope.wardId = $scope.dataForm.wardId;
+        $scope.contenttype = $scope.dataForm.contenttype;
         $scope.description = $scope.dataForm.description;
         $.ajax({
             url: domain_api + 'create/model/Mediasource',
@@ -558,9 +602,17 @@ app.controller('add_sourcelibraryCtrl', function ($http, $scope, $state, $rootSc
                 userKey: user_Key,
                 nodetype: "VTC",
                 name: $scope.name,
+                ipaddress: $scope.ipaddress,
                 uri: $scope.uri,
-                contenttype: $scope.contenttype,
+                channel: $scope.channel,
+                devicetype: $scope.devicetype,
+                miclevel: $scope.miclevel,
                 status: $scope.status,
+                starttime: $scope.starttime,
+                provinceID: $scope.provinceID,
+                districId: $scope.districId,
+                wardId: $scope.wardId,
+                contenttype: $scope.contenttype,
                 description: $scope.description
             },
             dataType: 'json',
@@ -581,7 +633,6 @@ app.controller('add_sourcelibraryCtrl', function ($http, $scope, $state, $rootSc
 
 app.controller('edit_sourcelibraryCtrl', function ($http, $scope, $state, $stateParams, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     var id = $stateParams.id;
-    console.log(id);
     $.ajax({
         url: domain_api + 'lookups/model/Mediasource',
         type: 'POST',
@@ -591,9 +642,9 @@ app.controller('edit_sourcelibraryCtrl', function ($http, $scope, $state, $state
             id: id
         },
         success: function (response) {
-            console.log(response);
             $scope.$apply(function () {
-                $scope.sourcelibrarydetail = response[id];
+                $scope.dataForm = response[id];
+                $scope.createDate = new Date($scope.dataForm.starttime * 1000);
             });
         },
         error: function (xhr, status, error) {
@@ -601,6 +652,42 @@ app.controller('edit_sourcelibraryCtrl', function ($http, $scope, $state, $state
             $rootScope.checkError(e, $dialogAlert);
         }
     });
+
+    $.ajax({
+        url: host_api + 'admin/data/data.json',
+        type: 'GET',
+        success: function (response) {
+            const arr = Object.values(response);
+            $scope.$apply(function () {
+                $scope.cities = response;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    $scope.listDistricts = function () {
+        if ($scope.dataForm.provinceID != '') {
+            for (i in $scope.cities) {
+                if ($scope.dataForm.provinceID == $scope.cities[i].Name) {
+                    $scope.districts = $scope.cities[i].Districts;
+                    console.log($scope.districts);
+                    break;
+                }
+            }
+        }
+    }
+    $scope.listWards = function () {
+        if ($scope.dataForm.districId != '') {
+            for (i in $scope.districts) {
+                if ($scope.dataForm.districId == $scope.districts[i].Name) {
+                    $scope.wards = $scope.districts[i].Wards;
+                    break;
+                }
+            }
+        }
+    }
     $scope.editsourcelibrary = function () {
         $.ajax({
             url: domain_api + 'update/model/Mediasource',
@@ -959,7 +1046,15 @@ app.controller('recommendCtrl', function ($dialogConfirm, $scope, $state, $rootS
             const arr = Object.values(response);
             $scope.$apply(function () {
                 $scope.items = arr;
-                console.log($scope.items);
+                var filteredData = $filter('filter')($scope.items, $scope.searchKeyword);
+
+                if ($scope.from_date !== null && $scope.to_date !== null) {
+                    filteredData = $filter('filter')($scope.items, function (item) {
+                        return (parseInt(item.createDate) >= $scope.from_date.getTime() / 1000) && (parseInt(item.createDate) <= $scope.to_date.getTime() / 1000);
+                    });
+                }
+                $scope.filteredData = filteredData;
+                console.log($scope.filteredData);
             });
         },
         error: function err(e) {
@@ -1264,51 +1359,6 @@ app.controller('manageDevice', function ($scope, $state, $http, $window, $dialog
             $rootScope.checkError(e, $dialogAlert);
         }
     });
-    //pagination
-    $scope.currentPage = 0;
-    $scope.pageSize = 15;
-    $scope.size = 0;
-    $scope.first = function () {
-        $scope.currentPage = 0;
-    }
-    $scope.next = function () {
-        $scope.currentPage += 1;
-    }
-    $scope.previous = function () {
-        $scope.currentPage -= 1;
-    }
-    $scope.last = function (last) {
-        $scope.currentPage = last;
-    }
-    $scope.thisPage = function (i) {
-        $scope.currentPage = i;
-    }
-    $scope.totalPage = function (size, pageSize) {
-        $scope.size = $window.Math.ceil(size / pageSize);
-        return $window.Math.ceil(size / pageSize);
-    }
-    $scope.filterDevice = function () {
-        console.log('filter=' + $scope.filter);
-        $http({
-            method: 'GET',
-            url: listAPI.device.getListDevice1,
-            data: {
-                filter: $scope.filter
-            },
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            console.log('ddaay la filter' + $scope.filter);
-            if (res.status != 404 && res.status != 405) {
-                $scope.data = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
     $scope.deleteDevice = function (id) {
         $dialogConfirm("Bạn chắc chắn muốn xóa thiết bị có mã <span style='color:red;font-weight:bold;'>" + id + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
@@ -1321,7 +1371,6 @@ app.controller('manageDevice', function ($scope, $state, $http, $window, $dialog
                         id: id
                     },
                     success: function (response) {
-
                         if (response.status == 200) {
                             $dialogAlert("Đã xóa thiết bị thành công", "Thông báo!", "success", function (res) {
                                 $window.location.reload();
@@ -1336,25 +1385,6 @@ app.controller('manageDevice', function ($scope, $state, $http, $window, $dialog
             }
         })
     }
-})
-app.filter('startFrom', ['$timeout', function ($timeout) {
-    return function (input, start) {
-        start += start;
-        if (start != 1)
-            start = start / 2;
-        if (!input)
-            return;
-        return input.slice(start);
-    }
-}])
-app.filter('range', function () {
-    return function (input, total) {
-        total = parseInt(total);
-        for (var i = 0; i < total; i++) {
-            input.push(i);
-        }
-        return input;
-    };
 })
 app.controller('editDevice', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     var id = $stateParams.id;
@@ -1914,28 +1944,6 @@ app.controller('manageRadioApp', function ($scope, $state, $http, $window, $dial
             $rootScope.checkError(e, $dialogAlert);
         }
     });
-    $scope.filterRadioApp = function () {
-        console.log('filter=' + $scope.filter);
-        $.ajax({
-            url: domain_api + 'lookups/model/Radionode',
-            type: 'POST',
-            data: {
-                user: user,
-                userKey: user_Key,
-                name: $scope.filter
-            },
-            success: function (response) {
-                const arr = Object.values(response);
-                $scope.$apply(function () {
-                    $scope.data = arr;
-                });
-            },
-            error: function (xhr, status, error) {
-                console.log('error');
-                $rootScope.checkError(e, $dialogAlert);
-            }
-        });
-    }
     $scope.deleteRadioApp = function (id) {
         $dialogConfirm("Bạn chắc chắn muốn xóa đài truyền thanh mã <span style='color:red;font-weight:bold;'>" + id + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
@@ -1996,9 +2004,11 @@ app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $w
                 userKey: user_Key,
                 id: id,
                 name: $scope.formData.name,
+                status: $scope.formData.status,
                 province: $scope.formData.province,
                 districId: $scope.formData.districId,
-                communeId: $scope.formData.communeId
+                communeId: $scope.formData.communeId,
+                description: $scope.formData.description
             },
             success: function (response) {
 
@@ -2064,9 +2074,11 @@ app.controller('addRadioApp', function ($scope, $state, $http, $window, $dialogA
                 user: user,
                 userKey: user_Key,
                 name: $scope.formData.nameId,
+                status: $scope.formData.status,
                 province: $scope.formData.province,
                 districId: $scope.formData.district,
-                communeId: $scope.formData.commune
+                communeId: $scope.formData.commune,
+                description: $scope.formData.description
             },
             success: function (response) {
 

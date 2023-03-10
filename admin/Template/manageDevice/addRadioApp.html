@@ -11,9 +11,25 @@
                             id="inputPassword3" placeholder="Nhập tên đài truyền thanh ứng dụng cntt">
                     </div>
                 </div>
-
+                <div class="form-group" style="margin:0;margin-bottom:15px">
+                    <label class="col-xs-2 control-label" for="status">Tình trạng</label>
+                    <div class="col-xs-6">
+                        <label>
+                            <input type="radio" name="status" ng-model="formData.status" value="NORMAL">
+                            Bình thường &emsp;
+                        </label>
+                        <label>
+                            <input type="radio" name="status" ng-model="formData.status" value="PLAYING">
+                            Đang phát &emsp;
+                        </label>
+                        <label>
+                            <input type="radio" name="status" ng-model="formData.status" value="PAUSE">
+                            Tạm dừng &emsp;
+                        </label>
+                    </div>
+                </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">Tỉnh</label>
+                    <label for="province" class="col-sm-2 control-label">Tỉnh</label>
                     <div class="col-sm-8">
                         <select class="form-control" aria-label=".form-select-sm" style="padding: 5px;"
                             ng-selected="formData.province" ng-model="formData.province" ng-change="listDistricts()"
@@ -25,7 +41,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">Huyện</label>
+                    <label for="district" class="col-sm-2 control-label">Huyện</label>
                     <div class="col-sm-8">
                         <select class="form-control" id="district" aria-label=".form-select-sm" required
                             ng-selected="formData.district" ng-model="formData.district" ng-change="listWards()">
@@ -36,7 +52,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">Xã</label>
+                    <label for="ward" class="col-sm-2 control-label">Xã</label>
                     <div class="col-sm-8">
                         <select class="form-control" id="ward" aria-label=".form-select-sm" required
                             ng-selected="formData.commune" ng-model="formData.commune">
@@ -46,8 +62,15 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="description" class="col-sm-2 control-label">Mô tả</label>
+                    <div class="col-sm-8">
+                        <textarea ng-model="formData.description" name="description" type="text" class="form-control"
+                            id="description" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-8">
-                        <button type="submit" class="btn btn-primary">Thêm</button>
+                        <button type="submit" class="btn btn-primary">Thêm mới</button>
                     </div>
                 </div>
             </form>

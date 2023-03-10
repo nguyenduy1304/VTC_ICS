@@ -12,6 +12,23 @@
                             id="name">
                     </div>
                 </div>
+                <div class="form-group" style="margin:0;margin-bottom:15px">
+                    <label class="col-xs-2 control-label" for="status">Tình trạng</label>
+                    <div class="col-xs-6">
+                        <label>
+                            <input type="radio" name="status" ng-model="formData.status" value="NORMAL">
+                            Bình thường &emsp;
+                        </label>
+                        <label>
+                            <input type="radio" name="status" ng-model="formData.status" value="PLAYING">
+                            Đang phát &emsp;
+                        </label>
+                        <label>
+                            <input type="radio" name="status" ng-model="formData.status" value="PAUSE">
+                            Tạm dừng &emsp;
+                        </label>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="province" class="col-sm-2 control-label">Tỉnh</label>
                     <div class="col-sm-8">
@@ -33,6 +50,13 @@
                             id="communeId">
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="description" class="col-sm-2 control-label">Mô tả</label>
+                    <div class="col-sm-8">
+                        <textarea ng-model="formData.description" name="description" type="text" class="form-control"
+                            id="description" rows="3"></textarea>
+                    </div>
+                </div>  
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-8">
                         <button type="submit" class="btn btn-primary">Lưu thay đổi</button>

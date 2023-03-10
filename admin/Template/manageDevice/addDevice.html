@@ -9,55 +9,63 @@
         <div>
             <form ng-submit="addDevice()" class="form-horizontal">
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">Tên ĐTH CNTT-VT</label>
+                    <label for="name" class="col-sm-2 control-label">Tên ĐTH CNTT-VT</label>
                     <div class="col-sm-8">
-                        <input ng-model="formData.name" name="name" type="text" class="form-control" id="name"
-                            placeholder="nhập tên thiết bị" required>
+                        <input ng-model="formData.name" name="name" type="text" class="form-control"
+                            id="name" placeholder="Nhập tên ĐTH CNTT-VT" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Ngày lắp</label>
-                    <div class="col-sm-8">
-                        <input ng-model="formData.createDate" name="createDate" type="date" class="form-control"
-                            id="createDate" required>
+                    <label for="latitude" class="col-sm-2 control-label">Vị trí</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.latitude" name="latitude" type="text" class="form-control" id="latitude"
+                            placeholder="Nhập kinh độ">
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="latitude" class="col-sm-2 control-label">Kinh độ</label>
-                    <div class="col-sm-8">
-                        <input ng-model="formData.latitude" name="latitude" type="text" class="form-control"
-                            id="latitude" placeholder="Nhập kinh độ" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="longitude" class="col-sm-2 control-label">Vĩ độ</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-4">
                         <input ng-model="formData.longitude" name="longitude" type="text" class="form-control"
-                            id="longitude" placeholder="Nhập vĩ độ" required>
+                            id="longitude" placeholder="Nhập vĩ độ">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="status" class="col-sm-2 control-label">Trạng thái</label>
-                    <div class="col-sm-8">
-                        <select class="form-control" name="" ng-selected="formData.status" ng-model="formData.status"
-                            ng-init="formData.status='ONLINE'" id="" required>
-                            <option value="ONLINE" selected>ONLINE</option>
-                            <option value="OFFLINE">OFFLINE</option>
-                        </select>
+                <div class="form-group" style="margin:0;margin-bottom:15px">
+                    <label class="col-xs-2 control-label" for="status">Trạng thái</label>
+                    <div class="col-xs-6">
+                        <label>
+                            <input type="radio" name="status" ng-model="formData.status" value="ONLINE">
+                            ONLINE &emsp;
+                        </label>
+                        <label>
+                            <input type="radio" name="status" ng-model="formData.status" value="OFFLINE">
+                            OFFLINE &emsp;
+                        </label>
+                        <label>
+                            <input type="radio" name="status" ng-model="formData.status" value="INCOMING">
+                            INCOMING &emsp;
+                        </label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="deviceType" class="col-sm-2 control-label">Loại thiết bị</label>
                     <div class="col-sm-8">
-                        <input required ng-model="formData.deviceType" name="deviceType" type="text"
-                            class="form-control" id="deviceType" placeholder="AUDIO BOX" required>
+                        <input ng-model="formData.deviceType" name="deviceType" type="text" class="form-control"
+                            id="deviceType" placeholder="Nhập loại thiêt bị ">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="deviceType" class="col-sm-2 control-label">Ghi chú</label>
+                    <label for="c_ssid" class="col-sm-2 control-label">Wifi</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.c_ssid" name="c_ssid" type="text" class="form-control" id="c_ssid"
+                            placeholder="Nhập tên wifi">
+                    </div>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.c_ssid_pwd" name="c_ssid_pwd" type="password" class="form-control"
+                            id="c_ssid_pwd" placeholder="Nhập mật khẩu wifi">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="note" class="col-sm-2 control-label">Ghi chú</label>
                     <div class="col-sm-8">
-                        <input ng-model="formData.note" name="deviceType" type="text" class="form-control"
-                            id="deviceType" placeholder="">
+                        <input ng-model="formData.note" name="note" type="text" class="form-control"
+                            id="note" placeholder="Ghi chú">
                     </div>
                 </div>
 
