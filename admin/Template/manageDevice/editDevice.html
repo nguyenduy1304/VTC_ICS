@@ -4,55 +4,185 @@
     <div>
         <form ng-submit="editDevice()" class="form-horizontal">
             <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label form-label">Tên</label>
-                <div class="col-sm-8">
-                    <input ng-model="formData.name" name="name" type="text" class="form-control form-label" id="name"
-                        placeholder="Nhập tên" required>
+                <label for="name" class="col-sm-2 control-label">Tên ĐTH CNTT-VT</label>
+                <div class="col-sm-10">
+                    <input ng-model="dataForm.name" name="name" type="text" class="form-control"
+                        id="name" placeholder="Nhập tên ĐTH CNTT-VT" required>
                 </div>
             </div>
             <div class="form-group">
-                <label for="createDate" class="col-sm-2 control-label">Ngày lắp</label>
-                <div class="col-sm-8">
-                    <input ng-model="createDate" name="createDate" type="date" class="form-control"
-                        id="createDate" required>
+                <label for="latitude" class="col-sm-2 control-label">Vị trí</label>
+                <div class="col-sm-5">
+                    <input ng-model="dataForm.latitude" name="latitude" type="text" class="form-control" id="latitude"
+                        placeholder="Nhập kinh độ">
+                </div>
+                <div class="col-sm-5">
+                    <input ng-model="dataForm.longitude" name="longitude" type="text" class="form-control"
+                        id="longitude" placeholder="Nhập vĩ độ">
                 </div>
             </div>
             <div class="form-group">
-                <label for="latitude" class="col-sm-2 control-label">Kinh độ</label>
-                <div class="col-sm-8">
-                    <input ng-model="formData.latitude" name="latitude" type="text" class="form-control"
-                        id="latitude" placeholder="Nhập kinh độ" required>
+                <label class="col-xs-2 control-label" for="deviceId">Mã thiết bị</label>
+                <div class="col-xs-4">
+                    <input ng-model="dataForm.deviceId" name="deviceId" type="text" class="form-control"
+                        id="deviceId" placeholder="Nhập mã thiết bị">
+                </div>
+                <label class="col-xs-2 control-label" for="c_simphonenumber">Số điện thoại</label>
+                <div class="col-xs-4">
+                    <input ng-model="dataForm.c_simphonenumber" name="c_simphonenumber" type="text" class="form-control"
+                        id="c_simphonenumber" placeholder="Nhập số điện thoại">
+                </div>
+                
+            </div>
+            <div class="form-group">
+                <label for="c_ssid" class="col-sm-2 control-label">Wifi</label>
+                <div class="col-sm-5">
+                    <input ng-model="dataForm.c_ssid" name="c_ssid" type="text" class="form-control" id="c_ssid"
+                        placeholder="Nhập tên wifi">
+                </div>
+                <div class="col-sm-5">
+                    <input ng-model="dataForm.c_ssid_pwd" name="c_ssid_pwd" type="password" class="form-control"
+                        id="c_ssid_pwd" placeholder="Nhập mật khẩu wifi">
                 </div>
             </div>
             <div class="form-group">
-                <label for="longitude" class="col-sm-2 control-label">Vĩ độ</label>
-                <div class="col-sm-8">
-                    <input ng-model="formData.longitude" name="longitude" type="text" class="form-control"
-                        id="longitude" placeholder="Nhập vĩ độ" required>
+                <label class="col-xs-2 control-label" for="c_pausestatus">Tình trạng tạm dừng</label>
+                <div class="col-xs-4">
+                    <select ng-selected="dataForm.c_pausestatus" name="c_pausestatus"
+                        ng-model="dataForm.c_pausestatus" class="form-control">
+                        <option value="" selected>--Chọn một tùy chọn--</option>
+                        <option value="1" selected>Bình thường</option>
+                        <option value="2" selected>Tạm dừng </option>
+                        <option value="3" selected>Đã dừng</option>
+                    </select>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="status" class="col-sm-2 control-label">Trạng thái</label>
-                <div class="col-sm-8">
-                    <select class="form-control" name="" ng-selected="formData.status" ng-model="formData.status" id=""
-                        required>
-                        <option value="ONLINE">ONLINE</option>
-                        <option value="OFFLINE">OFFLINE</option>
+                <label class="col-xs-2 control-label" for="c_techinterface">Kênh giao tiếp</label>
+                <div class="col-xs-4">
+                    <select ng-selected="dataForm.c_techinterface" name="c_techinterface"
+                        ng-model="dataForm.c_techinterface" class="form-control">
+                        <option value="" selected>--Chọn một tùy chọn--</option>
+                        <option value="SIP" selected>SIP</option>
+                        <option value="PJSIP" selected>PJSIP</option>
+                        <option value="SCCP" selected>SCCP</option>
+                        <option value="Android" selected>Android</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label for="deviceType" class="col-sm-2 control-label">Loại thiết bị</label>
-                <div class="col-sm-8">
-                    <input required ng-model="formData.deviceType" name="deviceType" type="text" class="form-control"
-                        id="deviceType" placeholder="AUDIO BOX" required>
+                <label class="col-xs-2 control-label" for="status">Mic-volume</label>
+                <div class="col-xs-4">
+                    <input ng-model="dataForm.miclevel" name="miclevel" type="text" class="form-control"
+                        id="miclevel" placeholder="Nhập âm lượng MIC">
+                </div>
+                <label class="col-xs-2 control-label" for="spklevel">Speaker-volume</label>
+                <div class="col-xs-4">
+                    <input ng-model="dataForm.spklevel" name="spklevel" type="text" class="form-control"
+                        id="spklevel" placeholder="Nhập âm lượng loa">
+                </div>
+                
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label" for="broadcaster">Phát thanh viên</label>
+                <div class="col-xs-4">
+                    <select ng-selected="dataForm.broadcaster" name="broadcaster"
+                    ng-model="dataForm.broadcaster" class="form-control">
+                    <option value="" selected>--Chọn một tùy chọn--</option>
+                    <option value="1" selected>Có</option>
+                    <option value="0" selected>Không</option>
+                </select>
+                </div>
+                <label class="col-xs-2 control-label" for="c_micstatus">Tình trạng mic</label>
+                <div class="col-xs-4">
+                    <select ng-selected="dataForm.c_micstatus" name="c_micstatus"
+                    ng-model="dataForm.c_micstatus" class="form-control">
+                    <option value="" selected>--Chọn một tùy chọn--</option>
+                    <option value="1" selected>Có</option>
+                    <option value="0" selected>Không</option>
+                </select>
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-2 control-label" for="city">Tỉnh/Tp</label>
+                <div class="col-xs-4">
+                    <select ng-selected="dataForm.city" class="form-control"
+                        ng-model="dataForm.city" ng-change="listDistricts()" >
+                        <option value="" selected>--Chọn tỉnh thành--</option>
+                        <option ng-repeat="item in cities" value={{item.Name}}>
+                            {{item.Name}}</option>
+                    </select>
+                </div>
+                <label for="c_endpointtype" class="col-sm-2 control-label">Thiết bị đầu cuối</label>
+                <div class="col-sm-4">
+                    <input ng-model="dataForm.c_endpointtype" name="c_endpointtype" type="text" class="form-control"
+                        id="c_endpointtype" placeholder="Nhập loại thiêt bị ">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-xs-2 control-label" for="district">Quận/Huyện</label>
+                <div class="col-xs-4">
+                    <select ng-selected="dataForm.district" class="form-control"
+                        ng-model="dataForm.district" ng-change="listWards()" >
+                        <option value="" selected>--Chọn huyện--</option>
+                        <option ng-repeat="item in districts" value={{item.Name}}>
+                            {{item.Name}}</option>
+                    </select>
+                </div>
+                <label for="c_channelId" class="col-sm-2 control-label">Kênh kết nối</label>
+                <div class="col-sm-4">
+                    <input ng-model="dataForm.c_channelId" name="c_channelId" type="text" class="form-control"
+                        id="c_channelId" placeholder="Nhập kênh kết nối" >
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-xs-2 control-label" for="ward">Phường/Xã</label>
+                <div class="col-xs-4">
+                    <select class="form-control" ng-selected="dataForm.ward"
+                        ng-model="dataForm.ward" >
+                        <option value="" selected>--Chọn phường xã--</option>
+                        <option ng-repeat="item in wards" value={{item.Name}}>{{item.Name}}</option>
+                    </select>
+                </div>
+                <label class="col-xs-2 control-label" for="c_playstatus">Tình trạng phát</label>
+                <div class="col-xs-4">
+                    <select ng-selected="dataForm.c_playstatus" name="c_playstatus"
+                    ng-model="dataForm.c_playstatus" class="form-control">
+                    <option value="" selected>ONLINE</option>
+                    <option value="-1" selected>OFFLINE</option>
+                    <option value="1" selected>INCOMING</option>
+
+                </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label" for="issetting">Thiết lập</label>
+                <div class="col-xs-4">
+                    <select ng-selected="dataForm.issetting" name="issetting"
+                    ng-model="dataForm.issetting" class="form-control">
+                    <option value="" selected>--Chọn một tùy chọn--</option>
+                    <option value="SD001" selected>Chưa thiết lập</option>
+                    <option value="SD002" selected>Đang thiết lập</option>
+                    <option value="SD003" selected>Đã thiết lập</option>
+
+                </select>
+                </div>
+                <label class="col-xs-2 control-label" for="status">Tình trạng</label>
+                <div class="col-xs-4">
+                    <select ng-selected="dataForm.status" name="contenttype"
+                    ng-model="dataForm.status" class="form-control">
+                    <option value="" selected>ONLINE</option>
+                    <option value="-1" selected>OFFLINE</option>
+                    <option value="1" selected>INCOMING</option>
+
+                </select>
+                </div>
+                
+            </div>
+            <div class="form-group">
                 <label for="note" class="col-sm-2 control-label">Ghi chú</label>
-                <div class="col-sm-8">
-                    <input data-bv-message="Vui lòng nhập ngày sinh" ng-model="formData.note" name="note" type="text"
-                        class="form-control" id="note" placeholder="">
+                <div class="col-sm-10">
+                    <textarea ng-model="dataForm.note" name="note" type="text" class="form-control"
+                    id="note" placeholder="Ghi chú" rows="3"></textarea>
                 </div>
             </div>
             <div class="form-group">

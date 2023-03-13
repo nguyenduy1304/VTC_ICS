@@ -1398,6 +1398,41 @@ app.controller('manageDevice', function ($scope, $state, $http, $window, $dialog
 app.controller('editDevice', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     var id = $stateParams.id;
     $.ajax({
+        url: host_api + 'admin/data/data.json',
+        type: 'GET',
+        success: function (response) {
+            const arr = Object.values(response);
+            $scope.$apply(function () {
+                $scope.cities = response;
+                console.log($scope.cities);
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    $scope.listDistricts = function () {
+        if ($scope.dataForm.city != '') {
+            for (i in $scope.cities) {
+                if ($scope.dataForm.city == $scope.cities[i].Name) {
+                    $scope.districts = $scope.cities[i].Districts;
+                    break;
+                }
+            }
+        }
+    }
+    $scope.listWards = function () {
+        if ($scope.dataForm.district != '') {
+            for (i in $scope.districts) {
+                if ($scope.dataForm.district == $scope.districts[i].Name) {
+                    $scope.wards = $scope.districts[i].Wards;
+                    break;
+                }
+            }
+        }
+    }
+    $.ajax({
         url: domain_api + 'lookups/model/Ippbxextenlocation',
         type: 'POST',
         data: {
@@ -1407,8 +1442,23 @@ app.controller('editDevice', function ($scope, $state, $stateParams, $http, $win
         },
         success: function (response) {
             $scope.$apply(function () {
-                $scope.formData = response[id];
-                $scope.createDate = new Date($scope.formData.createDate * 1000);
+                $scope.dataForm = response[id];
+                if ($scope.dataForm.city != '') {
+                    for (i in $scope.cities) {
+                        if ($scope.dataForm.city == $scope.cities[i].Name) {
+                            $scope.districts = $scope.cities[i].Districts;
+                            break;
+                        }
+                    }
+                }
+                if ($scope.dataForm.district != '') {
+                    for (i in $scope.districts) {
+                        if ($scope.dataForm.district == $scope.districts[i].Name) {
+                            $scope.wards = $scope.districts[i].Wards;
+                            break;
+                        }
+                    }
+                }
             });
         },
         error: function (xhr, status, error) {
@@ -1424,13 +1474,28 @@ app.controller('editDevice', function ($scope, $state, $stateParams, $http, $win
                 user: user,
                 userKey: user_Key,
                 id: id,
-                name: $scope.formData.name,
-                createDate: $scope.createDate,
-                latitude: $scope.formData.latitude,
-                longitude: $scope.formData.longitude,
-                status: $scope.formData.status,
-                deviceType: $scope.formData.deviceType,
-                note: $scope.formData.note,
+                name: $scope.dataForm.name,
+                latitude: $scope.dataForm.latitude,
+                longitude: $scope.dataForm.longitude,
+                deviceId: $scope.dataForm.deviceId,
+                c_simphonenumber: $scope.dataForm.c_simphonenumber,
+                c_ssid: $scope.dataForm.c_ssid,
+                c_ssid_pwd: $scope.dataForm.c_ssid_pwd,
+                c_pausestatus: $scope.dataForm.c_pausestatus,
+                c_techinterface: $scope.dataForm.c_techinterface,
+                miclevel: $scope.dataForm.miclevel,
+                spklevel: $scope.dataForm.spklevel,
+                broadcaster: $scope.dataForm.broadcaster,
+                c_micstatus: $scope.dataForm.c_micstatus,
+                city: $scope.dataForm.city,
+                district: $scope.dataForm.district,
+                ward: $scope.dataForm.ward,
+                c_endpointtype: $scope.dataForm.c_endpointtype,
+                c_channelId: $scope.dataForm.c_channelId,
+                issetting: $scope.dataForm.issetting,
+                status: $scope.dataForm.status,
+                c_playstatus: $scope.dataForm.c_playstatus,
+                note: $scope.dataForm.note
             },
             success: function (response) {
                 if (response.id == id) {
@@ -1510,13 +1575,28 @@ app.controller('addDevice', function ($scope, $state, $http, $window, $dialogAle
             data: {
                 user: user,
                 userKey: user_Key,
-                name: $scope.formData.name,
-                createDate: $scope.formData.createDate,
-                latitude: $scope.formData.latitude,
-                longitude: $scope.formData.longitude,
-                status: $scope.formData.status,
-                deviceType: $scope.formData.deviceType,
-                note: $scope.formData.note
+                name: $scope.dataForm.name,
+                latitude: $scope.dataForm.latitude,
+                longitude: $scope.dataForm.longitude,
+                deviceId: $scope.dataForm.deviceId,
+                c_simphonenumber: $scope.dataForm.c_simphonenumber,
+                c_ssid: $scope.dataForm.c_ssid,
+                c_ssid_pwd: $scope.dataForm.c_ssid_pwd,
+                c_pausestatus: $scope.dataForm.c_pausestatus,
+                c_techinterface: $scope.dataForm.c_techinterface,
+                miclevel: $scope.dataForm.miclevel,
+                spklevel: $scope.dataForm.spklevel,
+                broadcaster: $scope.dataForm.broadcaster,
+                c_micstatus: $scope.dataForm.c_micstatus,
+                city: $scope.dataForm.city,
+                district: $scope.dataForm.district,
+                ward: $scope.dataForm.ward,
+                c_endpointtype: $scope.dataForm.c_endpointtype,
+                c_channelId: $scope.dataForm.c_channelId,
+                issetting: $scope.dataForm.issetting,
+                status: $scope.dataForm.status,
+                c_playstatus: $scope.dataForm.c_playstatus,
+                note: $scope.dataForm.note
             },
             success: function (response) {
                 if (response.status == 200) {
@@ -1586,30 +1666,6 @@ app.controller('managePlayschedule', function ($scope, $state, $http, $window, $
             $rootScope.checkError(e, $dialogAlert);
         }
     });
-    $scope.filterPlayschedule = function () {
-        if ($scope.filter != '') {
-            $http({
-                method: 'GET',
-                url: listAPI.lichPhat.getListLichPhat1,
-                data: {
-                    filter: $scope.filter
-                },
-                headers: {
-                    'Authorization': "Bearer " + $window.localStorage.token
-                }
-            }).then(function (res) {
-                console.log('ddaay la filter' + $scope.filter);
-                if (res.status != 404 && res.status != 405) {
-                    $scope.data = res.data;
-                } else {
-                    $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-                }
-            }, function err(e) {
-                $rootScope.checkError(e, $dialogAlert);
-            })
-        }
-        $scope.filter = '';
-    }
     $scope.deletePlayschedule = function (id) {
         $dialogConfirm("Bạn chắc chắn muốn xóa lịch phát thanh có mã <span style='color:red;font-weight:bold;'>" + id + "</span>  khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
@@ -1641,6 +1697,40 @@ app.controller('managePlayschedule', function ($scope, $state, $http, $window, $
 app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     var id = $stateParams.id;
     $.ajax({
+        url: host_api + 'admin/data/data.json',
+        type: 'GET',
+        success: function (response) {
+            const arr = Object.values(response);
+            $scope.$apply(function () {
+                $scope.cities = response;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    $scope.listDistricts = function () {
+        if ($scope.formData.city != '') {
+            for (i in $scope.cities) {
+                if ($scope.formData.city == $scope.cities[i].Name) {
+                    $scope.districts = $scope.cities[i].Districts;
+                    break;
+                }
+            }
+        }
+    }
+    $scope.listWards = function () {
+        if ($scope.formData.district != '') {
+            for (i in $scope.districts) {
+                if ($scope.formData.district == $scope.districts[i].Name) {
+                    $scope.wards = $scope.districts[i].Wards;
+                    break;
+                }
+            }
+        }
+    }
+    $.ajax({
         url: domain_api + 'lookups/model/Playschedule',
         type: 'POST',
         data: {
@@ -1649,9 +1739,50 @@ app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http
             id: id
         },
         success: function (response) {
-            console.log(response);
             $scope.$apply(function () {
                 $scope.formData = response[id];
+                
+                $scope.formData.date_from = new Date($scope.formData.date_from * 1000);
+                $scope.formData.date_to = new Date($scope.formData.date_to * 1000);
+
+                $scope.formData.hour_from = new Date($scope.formData.hour_from);
+                $scope.formData.hour_to = new Date($scope.formData.hour_to);
+
+                $scope.formData.hour_from1 = new Date($scope.formData.hour_from1);
+                $scope.formData.hour_to1 = new Date($scope.formData.hour_to1);
+
+                $scope.formData.c_hour_from2 = new Date($scope.formData.c_hour_from2);
+                $scope.formData.c_hour_to2 = new Date($scope.formData.c_hour_to2);
+
+                $scope.formData.c_hour_from3 = new Date($scope.formData.c_hour_from3);
+                $scope.formData.c_hour_to3 = new Date($scope.formData.c_hour_to3);
+
+                $scope.formData.c_hour_from4 = new Date($scope.formData.c_hour_from4);
+                $scope.formData.c_hour_to4 = new Date($scope.formData.c_hour_to4);
+
+                $scope.formData.c_hour_from5 = new Date($scope.formData.c_hour_from5);
+                $scope.formData.c_hour_to5 = new Date($scope.formData.c_hour_to5);
+
+                $scope.week = $scope.formData.week_day;
+                $scope.day = $scope.formData.day;
+                $scope.month = $scope.formData.month;
+                
+                if ($scope.formData.city != '') {
+                    for (i in $scope.cities) {
+                        if ($scope.formData.city == $scope.cities[i].Name) {
+                            $scope.districts = $scope.cities[i].Districts;
+                            break;
+                        }
+                    }
+                }
+                if ($scope.formData.district != '') {
+                    for (i in $scope.districts) {
+                        if ($scope.formData.district == $scope.districts[i].Name) {
+                            $scope.wards = $scope.districts[i].Wards;
+                            break;
+                        }
+                    }
+                }
             });
         },
         error: function (xhr, status, error) {
@@ -1659,7 +1790,37 @@ app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http
             $rootScope.checkError(e, $dialogAlert);
         }
     });
+   
+    $scope.updateWeek = function() {
+        $scope.week = "";
+        for (var i = 0; i < 8; i++) {
+            if ($scope.formData['week_day_' + i]) {
+                $scope.week += i.toString() + ",";
+            }
+        }
+        $scope.week = $scope.week.slice(0, -1); // Xóa dấu ',' ở cuối chuỗi
+    };
+    $scope.updateDay = function () {
+        var selectedDay = [];
+        for (var i = 1; i <= 31; i++) {
+          if ($scope.formData['day_' + i]) selectedDay.push(i.toString());
+        }
+        $scope.day = selectedDay.join(',');
+      };
+      $scope.updateMonth = function () {
+        var selectedMonth = [];
+        for (var i = 1; i <= 12; i++) {
+          if ($scope.formData['month_' + i]) selectedMonth.push(i);
+        }
+        $scope.month = selectedMonth.join(',');
+      };
+
     $scope.editPlayschedule = function () {
+        console.log($scope.week);
+        console.log($scope.day);
+        console.log($scope.week);
+        $scope.date_from = new Date($scope.formData.date_from).getTime() / 1000;
+        $scope.date_to = new Date($scope.formData.date_to).getTime() / 1000;
         $.ajax({
             url: domain_api + 'update/model/Playschedule',
             type: 'POST',
@@ -1669,8 +1830,37 @@ app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http
                 id: id,
                 name: $scope.formData.name,
                 dthID: $scope.formData.dthID,
+                c_active: $scope.formData.c_active,
+                c_scheduletype: $scope.formData.c_scheduletype,
+                city: $scope.formData.city,
+                district: $scope.formData.district,
+                ward: $scope.formData.ward,
                 field: $scope.formData.field,
                 type: $scope.formData.type,
+
+                date_from: $scope.date_from,
+                date_to: $scope.date_to,
+                hour_from: $scope.formData.hour_from,
+                hour_to: $scope.formData.hour_to,
+
+                hour_from1: $scope.formData.hour_from1,
+                hour_to1: $scope.formData.hour_to1,
+
+                c_hour_from2: $scope.formData.c_hour_from2,
+                c_hour_to2: $scope.formData.c_hour_to2,
+
+                c_hour_from3: $scope.formData.c_hour_from3,
+                c_hour_to3: $scope.formData.c_hour_to3,
+
+                c_hour_from4: $scope.formData.c_hour_from4,
+                c_hour_to4: $scope.formData.c_hour_to4,
+
+                c_hour_from5: $scope.formData.c_hour_from5,
+                c_hour_to5: $scope.formData.c_hour_to5,
+
+                week_day: $scope.week,
+                day: $scope.day,
+                month: $scope.month,
                 c_active: $scope.formData.c_active,
                 description: $scope.formData.description
             },
@@ -1689,7 +1879,76 @@ app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http
     };
 })
 app.controller('addPlayschedule', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+    $.ajax({
+        url: host_api + 'admin/data/data.json',
+        type: 'GET',
+        success: function (response) {
+            const arr = Object.values(response);
+            $scope.$apply(function () {
+                $scope.cities = response;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    $scope.listDistricts = function () {
+        if ($scope.formData.city != '') {
+            for (i in $scope.cities) {
+                if ($scope.formData.city == $scope.cities[i].Name) {
+                    $scope.districts = $scope.cities[i].Districts;
+                    break;
+                }
+            }
+        }
+    }
+    $scope.listWards = function () {
+        if ($scope.formData.district != '') {
+            for (i in $scope.districts) {
+                if ($scope.formData.district == $scope.districts[i].Name) {
+                    $scope.wards = $scope.districts[i].Wards;
+                    break;
+                }
+            }
+        }
+    }
+    $scope.week = '';
+    $scope.day = '';
+    $scope.month = '';
+    $scope.updateWeek = function() {
+        var selectedWeek = [];
+        for (var i = 1; i <= 7; i++) {
+            if ($scope.formData['week_day_' + i]) {
+                selectedWeek.push(i.toString());
+            }
+        }
+        $scope.week = selectedWeek.join(',');
+    };
+    $scope.updateDay = function () {
+        var selectedDay = [];
+        for (var i = 1; i <= 31; i++) {
+          if ($scope.formData['day_' + i]) selectedDay.push(i.toString());
+        }
+        $scope.day = selectedDay.join(',');
+      };
+      $scope.updateMonth = function () {
+        var selectedMonth = [];
+        for (var i = 1; i <= 12; i++) {
+          if ($scope.formData['month_' + i]) selectedMonth.push(i);
+        }
+        $scope.month = selectedMonth.join(',');
+      };
     $scope.addPlayschedule = function () {
+        $scope.date_from = new Date($scope.formData.date_from).getTime() / 1000;
+        $scope.date_to = new Date($scope.formData.date_to).getTime() / 1000;
+
+        $scope.hour_from = $scope.formData.hour_from;
+        $scope.hour_to = $scope.formData.hour_to;
+        console.log($scope.week);
+        console.log($scope.day);
+        console.log($scope.month);
+
         $.ajax({
             url: domain_api + 'create/model/Playschedule',
             type: 'POST',
@@ -1698,10 +1957,40 @@ app.controller('addPlayschedule', function ($scope, $state, $http, $window, $dia
                 userKey: user_Key,
                 name: $scope.formData.name,
                 dthID: $scope.formData.dthID,
+                c_active: $scope.formData.c_active,
+                c_scheduletype: $scope.formData.c_scheduletype,
+                city: $scope.formData.city,
+                district: $scope.formData.district,
+                ward: $scope.formData.ward,
                 field: $scope.formData.field,
                 type: $scope.formData.type,
+
+                date_from: $scope.date_from,
+                date_to: $scope.date_to,
+                hour_from: $scope.formData.hour_from,
+                hour_to: $scope.formData.hour_to,
+
+                hour_from1: $scope.formData.hour_from1,
+                hour_to1: $scope.formData.hour_to1,
+
+                c_hour_from2: $scope.formData.c_hour_from2,
+                c_hour_to2: $scope.formData.c_hour_to2,
+
+                c_hour_from3: $scope.formData.c_hour_from3,
+                c_hour_to3: $scope.formData.c_hour_to3,
+
+                c_hour_from4: $scope.formData.c_hour_from4,
+                c_hour_to4: $scope.formData.c_hour_to4,
+
+                c_hour_from5: $scope.formData.c_hour_from5,
+                c_hour_to5: $scope.formData.c_hour_to5,
+
+                week_day: $scope.week,
+                day: $scope.day,
+                month: $scope.month,
                 c_active: $scope.formData.c_active,
                 description: $scope.formData.description
+
             },
             success: function (response) {
                 if (response.status == 200) {
@@ -1849,7 +2138,7 @@ app.controller('managePublicNews', function ($scope, $state, $http, $window, $di
 })
 app.controller('editPublicNews', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     var id = $stateParams.id;
-    console.log(id);
+
     $.ajax({
         url: domain_api + 'lookups/model/Inforboard',
         type: 'POST',
@@ -1862,7 +2151,8 @@ app.controller('editPublicNews', function ($scope, $state, $stateParams, $http, 
             console.log(response);
             $scope.$apply(function () {
                 $scope.formData = response[id];
-                $scope.createDate = new Date($scope.formData.createDate * 1000);
+                console.log($scope.formData.createDate);
+                $scope.formData.createDate = new Date($scope.formData.createDate * 1000);
             });
         },
         error: function (xhr, status, error) {
@@ -1879,7 +2169,8 @@ app.controller('editPublicNews', function ($scope, $state, $stateParams, $http, 
                 userKey: user_Key,
                 id: id,
                 name: $scope.formData.name,
-                createDate: $scope.formData.createDate,
+                dthID: $scope.formData.dthID,
+                address: $scope.formData.address,
                 lat: $scope.formData.lat,
                 lng: $scope.formData.lng,
                 status: $scope.formData.status,
@@ -1889,7 +2180,6 @@ app.controller('editPublicNews', function ($scope, $state, $stateParams, $http, 
             success: function (response) {
                 if (response.id == id) {
                     $dialogAlert("Cập nhật bảng tin điện tử thành công thành công", "Thông báo!", "success", function (res) {
-                        //$location.path("/quan-ly-thiet-bi/bang-tin-cong-cong");
                         $state.go("managePublicNews")
                     });
                 }
@@ -1912,7 +2202,8 @@ app.controller('addPublicNews', function ($scope, $state, $http, $window, $dialo
                 user: user,
                 userKey: user_Key,
                 name: $scope.formData.name,
-                createDate: $scope.formData.createDate,
+                dthID: $scope.formData.dthID,
+                address: $scope.formData.address,
                 lat: $scope.formData.lat,
                 lng: $scope.formData.lng,
                 status: $scope.formData.status,
@@ -2042,7 +2333,7 @@ app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $w
     $scope.editRadioApp = function () {
         console.log($scope.formData.status);
         console.log($scope.formData.nodetype);
-        
+
         $.ajax({
             url: domain_api + 'update/model/Radionode',
             type: 'POST',

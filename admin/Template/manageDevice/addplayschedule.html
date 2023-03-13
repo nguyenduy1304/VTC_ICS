@@ -5,48 +5,355 @@
         <div>
             <form ng-submit="addPlayschedule()" class="form-horizontal">
                 <div class="form-group">
-                    <label for="name" class="col-sm-2 control-label">Tên ĐTH CNTT-VT</label>
-                    <div class="col-sm-8">
+                    <label for="name" class="col-sm-2 control-label">Tên lịch phát</label>
+                    <div class="col-sm-10">
                         <input ng-model="formData.name" name="name" type="text" class="form-control" id="name"
-                            placeholder="THA_HPU_01" required>
+                            placeholder="Nhập tên lịch phát thanh" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="dthID" class="col-sm-2 control-label">Lịch phát</label>
-                    <div class="col-sm-8">
+                    <label for="dthID" class="col-sm-2 control-label">Trạm phát thanh</label>
+                    <div class="col-sm-10">
                         <input ng-model="formData.dthID" name="dthID" type="text" class="form-control" id="dthID"
-                            placeholder="Địa điểm lịch phát thanh" required>
+                            placeholder="Nhập trạm phát thanh">
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="c_active" class="col-sm-2 control-label">Hoạt động</label>
+                    <div class="col-sm-4">
+                        <select ng-selected="formData.c_active" name="c_active" ng-model="formData.c_active"
+                            class="form-control">
+                            <option value="" selected>--Chọn--</option>
+                            <option value="1" selected>Có</option>
+                            <option value="0" selected>Không</option>
+                        </select>
+                    </div>
+                    <label for="c_scheduletype" class="col-sm-2 control-label">Loại kết hoạch</label>
+                    <div class="col-sm-4">
+                        <select ng-selected="formData.c_scheduletype" name="c_scheduletype"
+                            ng-model="formData.c_scheduletype" class="form-control">
+                            <option value="" selected>--Chọn một tùy chọn--</option>
+                            <option value="SP01" selected>Hằng ngày</option>
+                            <option value="SP02" selected>Đột xuất</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label" for="city">Tỉnh/Tp</label>
+                    <div class="col-xs-4">
+                        <select ng-selected="formData.city" class="form-control" ng-model="formData.city"
+                            ng-change="listDistricts()">
+                            <option value="" selected>--Chọn tỉnh thành--</option>
+                            <option ng-repeat="item in cities" value={{item.Name}}>
+                                {{item.Name}}</option>
+                        </select>
+                    </div>
                     <label for="field" class="col-sm-2 control-label">Lĩnh vực</label>
-                    <div class="col-sm-8">
-                        <input ng-model="formData.field" name="field" type="text" class="form-control" id="field"
-                            placeholder="Nhập vào lĩnh vực" required>
+                    <div class="col-sm-4">
+                        <select ng-selected="formData.field" name="field" ng-model="formData.field "
+                            class="form-control">
+                            <option value="" selected>--Chọn một tùy chọn--</option>
+                            <option value="NEWS" selected>Tin tức</option>
+                            <option value="ECON" selected>Kinh tế</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="type" class="col-sm-2 control-label">Loại</label>
-                    <div class="col-sm-8">
-                        <input ng-model="formData.type" name="type" type="text" class="form-control" id="type"
-                            placeholder="Nhập loại" required>
+                    <label class="col-xs-2 control-label" for="district">Quận/Huyện</label>
+                    <div class="col-xs-4">
+                        <select ng-selected="formData.district" class="form-control" ng-model="formData.district"
+                            ng-change="listWards()">
+                            <option value="" selected>--Chọn huyện--</option>
+                            <option ng-repeat="item in districts" value={{item.Name}}>
+                                {{item.Name}}</option>
+                        </select>
                     </div>
-                </div>
-                <div class="form-group" style="margin:0;margin-bottom:15px">
-                    <label class="col-xs-2 control-label" for="c_active">Trạng thái</label>
-                    <div class="col-xs-6">
-                        <label>
-                            <input type="radio" name="c_active" ng-model="formData.c_active" value="1">
-                            Đang hoạt động &emsp;
-                        </label>
-                        <label>
-                            <input type="radio" name="c_active" ng-model="formData.c_active" value="0">
-                            Dừng hoạt động &emsp;
-                        </label>
+                    <label class="col-xs-2 control-label" for="type">Phân loại</label>
+                    <div class="col-xs-4">
+                        <select ng-selected="formData.type" name="type" ng-model="formData.type " class="form-control">
+                            <option value="" selected>--Chọn một tùy chọn--</option>
+                            <option value="TYPE1" selected>Loại 1</option>
+                            <option value="TYPE2" selected>Loại 2</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="description" class="col-sm-2 control-label">Ghi chú</label>
+                    <label class="col-xs-2 control-label" for="ward">Phường/Xã</label>
+                    <div class="col-xs-4">
+                        <select class="form-control" ng-selected="formData.ward" ng-model="formData.ward">
+                            <option value="" selected>--Chọn phường xã--</option>
+                            <option ng-repeat="item in wards" value={{item.Name}}>{{item.Name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="date_from" class="col-sm-2 control-label">Từ ngày</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.date_from" name="date_from" type="date" class="form-control"
+                            id="date_from">
+                    </div>
+                    <label for="date_to" class="col-sm-2 control-label">Đến ngày</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.date_to" name="date_to" type="date" class="form-control" id="date_to">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="hour_from" class="col-sm-2 control-label">Giờ từ</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.hour_from" name="hour_from" type="time" class="form-control"
+                            id="hour_from">
+                    </div>
+                    <label for="hour_to" class="col-sm-2 control-label">đến</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.hour_to" name="hour_to" type="time" class="form-control" id="hour_to">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="hour_from1" class="col-sm-2 control-label">[Giờ từ]</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.hour_from1" name="hour_from1" type="time" class="form-control"
+                            id="hour_from1">
+                    </div>
+                    <label for="hour_to1" class="col-sm-2 control-label">[đến]</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.hour_to1" name="hour_to1" type="time" class="form-control"
+                            id="hour_to1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="c_c_hour_from2" class="col-sm-2 control-label">[Giờ từ-2]</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.c_hour_from2" name="c_hour_from2" type="time" class="form-control"
+                            id="c_hour_from2">
+                    </div>
+                    <label for="c_hour_to2" class="col-sm-2 control-label">[đến-2]</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.c_hour_to2" name="c_hour_to2" type="time" class="form-control"
+                            id="c_hour_to2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="c_hour_from3" class="col-sm-2 control-label">[Giờ từ-3]</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.c_hour_from3" name="c_hour_from3" type="time" class="form-control"
+                            id="c_our_from3">
+                    </div>
+                    <label for="c_hour_to3" class="col-sm-2 control-label">[đến-3]</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.c_hour_to3" name="c_hour_to3" type="time" class="form-control"
+                            id="c_hour_to3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="c_hour_from4" class="col-sm-2 control-label">[Giờ từ-4]</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.c_hour_from4" name="c_hour_from4" type="time" class="form-control"
+                            id="c_hour_from4">
+                    </div>
+                    <label for="hour_to4" class="col-sm-2 control-label">[đến-4]</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.c_hour_to4" name="c_hour_to4" type="time" class="form-control"
+                            id="c_hour_to4">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="c_hour_from5" class="col-sm-2 control-label">[Giờ từ-5]</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.c_hour_from5" name="c_hour_from5" type="time" class="form-control"
+                            id="c_hour_from5">
+                    </div>
+                    <label for="c_hour_to5" class="col-sm-2 control-label">[đến-5]</label>
+                    <div class="col-sm-4">
+                        <input ng-model="formData.c_hour_to5" name="c_hour_to5" type="time" class="form-control"
+                            id="c_hour_to5">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="type" class="col-sm-2 control-label">Ngày trong tuần</label>
+                    <div class="col-sm-8">
+                        <label>
+                            <input type="checkbox" ng-model="formData.week_day_1" value="1" ng-change="updateWeek()">
+                            Chủ nhật &emsp;
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="formData.week_day_2" value="2" ng-change="updateWeek()">
+                            Thứ 2 &emsp;
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="formData.week_day_3" value="3" ng-change="updateWeek()">
+                            Thứ 3 &emsp;
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="formData.week_day_4" value="4" ng-change="updateWeek()">
+                            Thứ 4 &emsp;
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="formData.week_day_5" value="5" ng-change="updateWeek()">
+                            Thứ 5 &emsp;
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="formData.week_day_6" value="6" ng-change="updateWeek()">
+                            Thứ 6 &emsp;
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="formData.week_day_7" value="7" ng-change="updateWeek()">
+                            Thứ 7 &emsp;
+                        </label>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="type" class="col-sm-2 control-label">Ngày</label>
+                    <div class="col-sm-8">
+                        <label>
+                            <input type="checkbox" ng-model="formData.day_1" value="1" ng-change="updateDay()">
+                            1 &emsp;
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="formData.day_2" value="2"ng-change="updateDay()">
+                            2 &emsp;
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="formData.day_3" value="3"ng-change="updateDay()">
+                            3 &emsp;
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="formData.day_4" value="4"ng-change="updateDay()">
+                            4 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_5" value="5"ng-change="updateDay()">
+                            5 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_6" value="6"ng-change="updateDay()">
+                            6 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_7" value="7"ng-change="updateDay()">
+                            7 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_8" value="8"ng-change="updateDay()">
+                            8 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_9" value="9"ng-change="updateDay()">
+                            9 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_10" value="10"ng-change="updateDay()">
+                            10 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_11" value="11"ng-change="updateDay()">
+                            11 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_12" value="12"ng-change="updateDay()">
+                            12 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_13" value="13"ng-change="updateDay()">
+                            13 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_14" value="14"ng-change="updateDay()">
+                            14 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_15" value="15"ng-change="updateDay()">
+                            15 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_16" value="16"ng-change="updateDay()">
+                            16 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_17" value="17"ng-change="updateDay()">
+                            17 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_18" value="18"ng-change="updateDay()">
+                            18 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_19" value="19"ng-change="updateDay()">
+                            19 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_20" value="20"ng-change="updateDay()">
+                            20 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_21" value="21"ng-change="updateDay()">
+                            21 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_22" value="22"ng-change="updateDay()">
+                            22 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_23" value="23"ng-change="updateDay()">
+                            23 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_24" value="24"ng-change="updateDay()">
+                            24 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_25" value="25"ng-change="updateDay()">
+                            25 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_26" value="26"ng-change="updateDay()">
+                            26 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_27" value="27"ng-change="updateDay()">
+                            27 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_28" value="28"ng-change="updateDay()">
+                            28 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_29" value="29"ng-change="updateDay()">
+                            29 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_30" value="30"ng-change="updateDay()">
+                            30 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.day_31" value="31"ng-change="updateDay()">
+                            31 &emsp;
+                        </label>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="type" class="col-sm-2 control-label">Tháng</label>
+                    <div class="col-sm-8">
+                        <label>
+                            <input type="checkbox" ng-model="formData.month_1" value="1" ng-change="updateMonth()">
+                            Tháng giêng &emsp;
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="formData.month_2" value="2" ng-change="updateMonth()">
+                            Tháng 2 &emsp;
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="formData.month_3" value="3" ng-change="updateMonth()">
+                            Tháng 3 &emsp;
+                        </label>
+                        <label>
+                            <input type="checkbox" ng-model="formData.month_4" value="4" ng-change="updateMonth()">
+                            Tháng 4 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.month_5" value="5" ng-change="updateMonth()">
+                            Tháng 5 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.month_6" value="6" ng-change="updateMonth()">
+                            Tháng 6 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.month_7" value="7" ng-change="updateMonth()">
+                            Tháng 7 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.month_8" value="8" ng-change="updateMonth()">
+                            Tháng 8 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.month_9" value="9" ng-change="updateMonth()">
+                            Tháng 9 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.month_10" value="10" ng-change="updateMonth()">
+                            Tháng 10 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.month_11" value="11" ng-change="updateMonth()">
+                            Tháng 11 &emsp;
+                        </label> <label>
+                            <input type="checkbox" ng-model="formData.month_12" value="12" ng-change="updateMonth()">
+                            Tháng 12 &emsp;
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description" class="col-sm-2 control-label">Mô tả</label>
                     <div class="col-sm-8">
                         <input ng-model="formData.description" name="description" type="text" class="form-control"
                             id="description" placeholder="">

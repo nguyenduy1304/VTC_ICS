@@ -5,67 +5,78 @@
         <div>
             <form ng-submit="addPublicNews()" class="form-horizontal">
                 <div class="form-group">
-                    <label for="name" class="col-sm-2 control-label">Tên ĐTH CNTT-VT</label>
+                    <label for="name" class="col-sm-2 control-label">Tên BT_ĐT</label>
                     <div class="col-sm-8">
-                        <input ng-model="formData.name" name="name" type="text" class="form-control"
-                            id="name" placeholder="Nhập tên ĐTH CNTT-VT" required>
+                        <input ng-model="formData.name" name="name" type="text" class="form-control" id="name"
+                            placeholder="Nhập tên ĐTH CNTT-VT" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dthID" class="col-sm-2 control-label">Trạm phát thanh</label>
+                    <div class="col-sm-8">
+                        <input ng-model="formData.dthID" name="dthID" type="text" class="form-control" id="dthID"
+                            placeholder="Nhập trạm phát thanh" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address" class="col-sm-2 control-label">Địa chỉ</label>
+                    <div class="col-sm-8">
+                        <input ng-model="formData.address" name="address" type="text" class="form-control" id="address"
+                            placeholder="Nhập địa chỉ" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lat" class="col-sm-2 control-label">Vị trí</label>
+                    <div class="col-xs-4">
+                        <input ng-model="formData.lat" name="lat" type="text" class="form-control" id="lat"
+                            placeholder="Nhập kinh độ">
+                    </div>
+                    <div class="col-xs-4">
+                        <input ng-model="formData.lng" name="lng" type="text" class="form-control" id="lng"
+                            placeholder="Nhập vĩ độ">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="createDate" class="col-sm-2 control-label">Ngày lắp</label>
-                    <div class="col-sm-8">
-                        <input required ng-model="formData.createDate" name="createDate" type="date" class="form-control"
-                            id="createDate">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="lat" class="col-sm-2 control-label">Kinh độ</label>
-                    <div class="col-sm-8">
-                        <input ng-model="formData.lat" name="lat" type="text" class="form-control"
-                            id="lat" placeholder="Nhập kinh độ" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="lng" class="col-sm-2 control-label">Vĩ độ</label>
-                    <div class="col-sm-8">
-                        <input ng-model="formData.lng" name="lng" type="text" class="form-control"
-                            id="lng" placeholder="Nhập vĩ độ" required>
-                    </div>
-                </div>
-                <div class="form-group" style="margin:0;margin-bottom:15px">
+
                     <label class="col-xs-2 control-label" for="status">Trạng thái</label>
                     <div class="col-xs-6">
                         <label>
-                            <input type="radio" name="status" ng-model="formData.status" value="ACTIVE">
+                            <input type="radio" name="status" ng-model="formData.status" value="IDLE">
                             Đang hoạt động &emsp;
-                          </label>
-                          <label>
-                            <input type="radio" name="status" ng-model="formData.status" value="GUESS">
+                        </label>
+                        <label>
+                            <input type="radio" name="status" ng-model="formData.status" value="REVERT">
                             Dự kiến &emsp;
-                          </label>
-                          <label>
-                            <input type="radio" name="status" ng-model="formData.status" value="REPAIR">
+                        </label>
+                        <label>
+                            <input type="radio" name="status" ng-model="formData.status" value="PAUSE">
                             Sửa chữa &emsp;
-                          </label>
-                          <label>
-                            <input type="radio" name="status" ng-model="formData.status" value="MOVE">
+                        </label>
+                        <label>
+                            <input type="radio" name="status" ng-model="formData.status" value="REVOKE">
                             Di dời
-                          </label>
+                        </label>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="deviceType" class="col-sm-2 control-label">Loại thiết bị</label>
-                    <div class="col-sm-8">
-                        <input required ng-model="formData.deviceType" name="deviceType" type="text"
-                            class="form-control" id="deviceType" placeholder="Nhập loại thiết bị" pattern="[^0-9]{1,50}">
+                    <div class="col-xs-4">
+                        <select ng-selected="formData.deviceType" name="deviceType" ng-model="formData.deviceType"
+                            class="form-control">
+                            <option value="" selected>--Chọn một tùy chọn--</option>
+                            <option value="TIVI" selected>Tivi</option>
+                            <option value="LARGE_TV" selected>Màng hình TV</option>
+                            <option value="LED_SCREEN" selected>Màng hình LED</option>
+                        </select>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="note" class="col-sm-2 control-label">Ghi chú</label>
                     <div class="col-sm-8">
-                        <input ng-model="formData.note" name="note" type="text" class="form-control" id="note" />
+                        <textarea rows="3"  ng-model="formData.note" name="note" type="text" class="form-control" id="note"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
