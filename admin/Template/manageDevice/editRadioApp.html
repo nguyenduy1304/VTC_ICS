@@ -5,58 +5,81 @@
         </h1>
         <div>
             <form ng-submit="editRadioApp()" class="form-horizontal">
-                <div class="form-group">
-                    <label for="name" class="col-sm-2 control-label">Mã</label>
-                    <div class="col-sm-8">
-                        <input required ng-model="formData.name" name="name" type="text" class="form-control"
-                            id="name">
+                <div class="form-group " >
+                    <label class="col-xs-2 control-label" for="name">Tên đài</label>
+                    <div class="col-xs-10">
+                        <input type="text" data-bv-message="Vui lòng nhập nguồn" id="name" ng-model="formData.name" name="name"
+                            class="form-control" placeholder="Nhập đài truyền thanh và ứng dụng cntt - vt" required>
                     </div>
                 </div>
-                <div class="form-group" style="margin:0;margin-bottom:15px">
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label" for="confId">Mã số phát thanh</label>
+                    <div class="col-xs-4">
+                        <input type="text" ng-model="formData.confId" id="confId" name="confId" class="form-control"
+                            placeholder="Nhập mã số phát thanh">
+                    </div>
+                    <label class="col-xs-2 control-label" for="channel">Kênh kết nối</label>
+                    <div class="col-xs-4">
+                        <input type="text" ng-model="formData.channel" id="channel" name="channel" class="form-control"
+                            placeholder="Nhập kênh kết nối">
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <label class="col-xs-2 control-label" for="nodetype">Loại trạm</label>
+                    <div class="col-xs-4">
+                            <label>
+                                <input type="radio" name="nodetype" ng-model="formData.nodetype" value="THIRDPARTY">
+                                Bêm thứ 3 &emsp;
+                            </label>
+                            <label>
+                                <input type="radio" name="nodetype" ng-model="formData.nodetype" value="TTTT">
+                                Sở TTTT &emsp;
+                            </label>
+                            <label>
+                                <input type="radio" name="nodetype" ng-model="formData.nodetype" value="VTC">
+                                VTC
+                            </label>
+                    </div>
                     <label class="col-xs-2 control-label" for="status">Tình trạng</label>
-                    <div class="col-xs-6">
+                    <div class="col-xs-4">
                         <label>
-                            <input type="radio" name="status" ng-model="formData.status" value="NORMAL">
+                            <input type="radio" name="status" ng-model="formData.status" value="IDLE">
                             Bình thường &emsp;
                         </label>
                         <label>
-                            <input type="radio" name="status" ng-model="formData.status" value="PLAYING">
+                            <input type="radio" name="status" ng-model="formData.status" value="PLAY">
                             Đang phát &emsp;
                         </label>
                         <label>
                             <input type="radio" name="status" ng-model="formData.status" value="PAUSE">
-                            Tạm dừng &emsp;
+                            Tạm dừng
                         </label>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="province" class="col-sm-2 control-label">Tỉnh</label>
-                    <div class="col-sm-8">
+                <div class="form-group " >
+                    <label for="province" class="col-xs-2 control-label">Địa chỉ</label>
+                    <div class="col-xs-3">
                         <input required ng-model="formData.province" name="province" type="text" class="form-control"
-                            id="province">
+                        id="province">
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="districId" class="col-sm-2 control-label">Huyện</label>
-                    <div class="col-sm-8">
+
+                    <div class="col-xs-3">
                         <input required ng-model="formData.districId" name="districId" type="text" class="form-control"
-                            id="districId">
+            id="districId">
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="communeId" class="col-sm-2 control-label">Xã</label>
-                    <div class="col-sm-8">
+                    <div class="col-xs-4">
                         <input required ng-model="formData.communeId" name="communeId" type="text" class="form-control"
-                            id="communeId">
+            id="communeId">
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <label for="description" class="col-sm-2 control-label">Mô tả</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         <textarea ng-model="formData.description" name="description" type="text" class="form-control"
                             id="description" rows="3"></textarea>
                     </div>
-                </div>  
+                </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-8">
                         <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
@@ -66,3 +89,4 @@
         </div>
     </div>
 </div>
+

@@ -588,7 +588,7 @@ app.controller('add_sourcelibraryCtrl', function ($http, $scope, $state, $rootSc
         $scope.miclevel = $scope.dataForm.miclevel;
         $scope.status = $scope.dataForm.status;
         $scope.starttime = $scope.dataForm.starttime;
-        $scope.starttime = new Date($scope.dataForm.starttime).getTime()/1000;
+        $scope.starttime = new Date($scope.dataForm.starttime).getTime() / 1000;
         $scope.provinceID = $scope.dataForm.provinceID;
         $scope.districId = $scope.dataForm.districId;
         $scope.wardId = $scope.dataForm.wardId;
@@ -696,11 +696,20 @@ app.controller('edit_sourcelibraryCtrl', function ($http, $scope, $state, $state
                 user: user,
                 userKey: user_Key,
                 id: id,
-                name: $scope.sourcelibrarydetail.name,
-                uri: $scope.sourcelibrarydetail.uri,
-                contenttype: $scope.sourcelibrarydetail.contenttype,
-                status: $scope.sourcelibrarydetail.status,
-                description: $scope.sourcelibrarydetail.description,
+                name: $scope.dataForm.name,
+
+                ipaddress: $scope.dataForm.ipaddress,
+                uri: $scope.dataForm.uri,
+                channel: $scope.dataForm.channel,
+                devicetype: $scope.dataForm.devicetype,
+                miclevel: $scope.dataForm.miclevel,
+                status: $scope.dataForm.status,
+                starttime: new Date($scope.createDate).getTime() / 1000,
+                provinceID: $scope.dataForm.provinceID,
+                districId: $scope.dataForm.districId,
+                wardId: $scope.dataForm.wardId,
+                contenttype: $scope.dataForm.contenttype,
+                description: $scope.dataForm.description
             },
             success: function (response) {
                 if (response.id == id) {
@@ -1458,6 +1467,42 @@ app.controller('editDevice', function ($scope, $state, $stateParams, $http, $win
 })
 app.controller('addDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     $scope.formData = {};
+    $.ajax({
+        url: host_api + 'admin/data/data.json',
+        type: 'GET',
+        success: function (response) {
+            const arr = Object.values(response);
+            $scope.$apply(function () {
+                $scope.cities = response;
+                console.log($scope.cities);
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    $scope.listDistricts = function () {
+        if ($scope.dataForm.city != '') {
+            for (i in $scope.cities) {
+                if ($scope.dataForm.city == $scope.cities[i].Name) {
+                    $scope.districts = $scope.cities[i].Districts;
+                    break;
+                }
+            }
+        }
+    }
+    $scope.listWards = function () {
+        if ($scope.dataForm.district != '') {
+            for (i in $scope.districts) {
+                if ($scope.dataForm.district == $scope.districts[i].Name) {
+                    $scope.wards = $scope.districts[i].Wards;
+                    break;
+                }
+            }
+        }
+    }
+
     $scope.addDevice = function () {
         $.ajax({
             url: domain_api + 'create/model/Ippbxextenlocation',
@@ -1985,7 +2030,7 @@ app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $w
         success: function (response) {
             $scope.$apply(function () {
                 $scope.formData = response[id];
-                console.log($scope.formData);
+                //console.log($scope.formData);
             });
         },
         error: function (xhr, status, error) {
@@ -1995,7 +2040,9 @@ app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $w
     });
 
     $scope.editRadioApp = function () {
-        console.log($scope.formData);
+        console.log($scope.formData.status);
+        console.log($scope.formData.nodetype);
+        
         $.ajax({
             url: domain_api + 'update/model/Radionode',
             type: 'POST',
@@ -2005,6 +2052,9 @@ app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $w
                 id: id,
                 name: $scope.formData.name,
                 status: $scope.formData.status,
+                channel: $scope.formData.channel,
+                nodetype: $scope.formData.nodetype,
+                confId: $scope.formData.confId,
                 province: $scope.formData.province,
                 districId: $scope.formData.districId,
                 communeId: $scope.formData.communeId,
@@ -2073,15 +2123,17 @@ app.controller('addRadioApp', function ($scope, $state, $http, $window, $dialogA
             data: {
                 user: user,
                 userKey: user_Key,
-                name: $scope.formData.nameId,
+                name: $scope.formData.name,
                 status: $scope.formData.status,
+                channel: $scope.formData.channel,
+                nodetype: $scope.formData.nodetype,
+                confId: $scope.formData.confId,
                 province: $scope.formData.province,
                 districId: $scope.formData.district,
                 communeId: $scope.formData.commune,
                 description: $scope.formData.description
             },
             success: function (response) {
-
                 if (response.status == 200) {
                     $dialogAlert("Thêm đài truyền thanh và ứng dụng cntt - vt thành công", "Thông báo!", "success", function (res) {
                         $state.go("manageRadioApp");
@@ -2089,6 +2141,8 @@ app.controller('addRadioApp', function ($scope, $state, $http, $window, $dialogA
                 }
             },
             error: function (xhr, status, error) {
+                console.log("Data:" + data);
+
                 console.log('error');
                 $rootScope.checkError(e, $dialogAlert);
             }
