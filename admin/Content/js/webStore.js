@@ -2331,9 +2331,10 @@ app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $w
     });
 
     $scope.editRadioApp = function () {
-        console.log($scope.formData.status);
-        console.log($scope.formData.nodetype);
-
+        
+        const file = document.getElementById("file-name").textContent;
+        $scope.icecast_url = file;
+        console.log($scope.icecast_url);
         $.ajax({
             url: domain_api + 'update/model/Radionode',
             type: 'POST',
@@ -2349,7 +2350,9 @@ app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $w
                 province: $scope.formData.province,
                 districId: $scope.formData.districId,
                 communeId: $scope.formData.communeId,
-                description: $scope.formData.description
+                description: $scope.formData.description,
+
+                icecast_url: $scope.icecast_url
             },
             success: function (response) {
 
@@ -2407,7 +2410,9 @@ app.controller('addRadioApp', function ($scope, $state, $http, $window, $dialogA
         }
     }
     $scope.addRadioApp = function () {
-        console.log($scope.formData);
+        const file = document.getElementById("upload-file").files[0];
+        $scope.icecast_url = file.name;
+        console.log($scope.icecast_url);
         $.ajax({
             url: domain_api + 'create/model/Radionode',
             type: 'POST',
@@ -2422,7 +2427,9 @@ app.controller('addRadioApp', function ($scope, $state, $http, $window, $dialogA
                 province: $scope.formData.province,
                 districId: $scope.formData.district,
                 communeId: $scope.formData.commune,
-                description: $scope.formData.description
+                description: $scope.formData.description,
+
+                icecast_url:$scope.icecast_url
             },
             success: function (response) {
                 if (response.status == 200) {

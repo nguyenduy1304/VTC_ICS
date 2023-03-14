@@ -38,7 +38,11 @@
                     <td>{{item.createDate*1000 | date: 'dd/MM/yyyy'}}</td>
                     <td>{{item.name}}</td>
                     <td>{{item.latitude}}, {{item.longitude}}</td>
-                    <td>{{item.status}}</td>
+                    <td>
+                        <span ng-if="item.status != -1 && item.status != 1">ONLINE</span>
+                        <span ng-if="item.status == -1">OFFLINE</span>
+                        <span ng-if="item.status == 1">INCOMING</span>
+                    </td>
                     <td>{{item.deviceType}}</td>
                     <td>{{item.note}}</td>
                     <td style="text-align:center;">

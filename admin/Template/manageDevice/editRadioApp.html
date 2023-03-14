@@ -5,14 +5,15 @@
         </h1>
         <div>
             <form ng-submit="editRadioApp()" class="form-horizontal">
-                <div class="form-group " >
+                <div class="form-group ">
                     <label class="col-xs-2 control-label" for="name">Tên đài</label>
                     <div class="col-xs-10">
-                        <input type="text" data-bv-message="Vui lòng nhập nguồn" id="name" ng-model="formData.name" name="name"
-                            class="form-control" placeholder="Nhập đài truyền thanh và ứng dụng cntt - vt" required>
+                        <input type="text" data-bv-message="Vui lòng nhập nguồn" id="name" ng-model="formData.name"
+                            name="name" class="form-control" placeholder="Nhập đài truyền thanh và ứng dụng cntt - vt"
+                            required>
                     </div>
                 </div>
-                <div class="form-group" >
+                <div class="form-group">
                     <label class="col-xs-2 control-label" for="confId">Mã số phát thanh</label>
                     <div class="col-xs-4">
                         <input type="text" ng-model="formData.confId" id="confId" name="confId" class="form-control"
@@ -24,21 +25,21 @@
                             placeholder="Nhập kênh kết nối">
                     </div>
                 </div>
-                <div class="form-group" >
+                <div class="form-group">
                     <label class="col-xs-2 control-label" for="nodetype">Loại trạm</label>
                     <div class="col-xs-4">
-                            <label>
-                                <input type="radio" name="nodetype" ng-model="formData.nodetype" value="THIRDPARTY">
-                                Bêm thứ 3 &emsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="nodetype" ng-model="formData.nodetype" value="TTTT">
-                                Sở TTTT &emsp;
-                            </label>
-                            <label>
-                                <input type="radio" name="nodetype" ng-model="formData.nodetype" value="VTC">
-                                VTC
-                            </label>
+                        <label>
+                            <input type="radio" name="nodetype" ng-model="formData.nodetype" value="THIRDPARTY">
+                            Bêm thứ 3 &emsp;
+                        </label>
+                        <label>
+                            <input type="radio" name="nodetype" ng-model="formData.nodetype" value="TTTT">
+                            Sở TTTT &emsp;
+                        </label>
+                        <label>
+                            <input type="radio" name="nodetype" ng-model="formData.nodetype" value="VTC">
+                            VTC
+                        </label>
                     </div>
                     <label class="col-xs-2 control-label" for="status">Tình trạng</label>
                     <div class="col-xs-4">
@@ -56,28 +57,36 @@
                         </label>
                     </div>
                 </div>
-                <div class="form-group " >
+                <div class="form-group ">
                     <label for="province" class="col-xs-2 control-label">Địa chỉ</label>
                     <div class="col-xs-3">
-                        <input required ng-model="formData.province" name="province" type="text" class="form-control"
-                        id="province">
+                        <input  ng-model="formData.province" name="province" type="text" class="form-control"
+                            id="province">
                     </div>
 
                     <div class="col-xs-3">
-                        <input required ng-model="formData.districId" name="districId" type="text" class="form-control"
-            id="districId">
+                        <input  ng-model="formData.districId" name="districId" type="text" class="form-control"
+                            id="districId">
                     </div>
                     <div class="col-xs-4">
-                        <input required ng-model="formData.communeId" name="communeId" type="text" class="form-control"
-            id="communeId">
+                        <input  ng-model="formData.communeId" name="communeId" type="text" class="form-control"
+                            id="communeId">
                     </div>
                 </div>
-                
+                <div class="form-group ">
+                    <label class="col-xs-2 control-label">Liên kết ICECAST</label>
+                    <div class="col-xs-10">
+                        <label for="upload-file" class="btn btn-primary">Tải file lên</label>
+                        <input type="file" id="upload-file" ng-model="formData.icecast_url" accept=".mp3"
+                            style="display: none;">
+                        <span id="file-name">{{formData.icecast_url}}</span>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="description" class="col-sm-2 control-label">Mô tả</label>
                     <div class="col-sm-10">
                         <textarea ng-model="formData.description" name="description" type="text" class="form-control"
-                            id="description" rows="3"></textarea>
+                            id="description" rows="3" style="resize: none;"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -89,4 +98,12 @@
         </div>
     </div>
 </div>
+<script>
+    const input = document.getElementById("upload-file");
+    const fileName = document.getElementById("file-name");
 
+    input.addEventListener("change", function (event) {
+        const file = event.target.files[0];
+        fileName.textContent = file.name;
+    });
+</script>
