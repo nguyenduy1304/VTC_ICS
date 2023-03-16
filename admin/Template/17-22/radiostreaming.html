@@ -1,0 +1,62 @@
+<div>
+    <div class="title">
+      <h3>Phát thanh</h3>
+    </div>
+  
+    <div class="input-group" style="width: 40%; float: left; margin-bottom: 10px;">
+      <input class="form-control" type="text" ng-model="searchKeyword" placeholder="Nhập từ khóa tìm kiếm">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+    </div>
+  
+    <div class=" row" style="margin:0">
+      <div class="function">
+        <a class="glyphicon glyphicon-plus icon" href="../#!/phat-thanh/them-moi"></a>
+      </div>
+    </div>
+  </div>
+  
+  <div>
+    <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
+      <thead>
+        <tr class="panel-info list-group-item-info" style="text-transform: uppercase;font-weight: bold;">
+          <th style="text-align:center;width:60px">STT</th>
+          <th style="width:200px">Tên phát thanh</th>
+          <th>Mã phát thanh</th>
+          <th>Tỉnh/Tp</th>
+          <th>Quận/Huyện</th>
+          <th>Phường/xã</th>
+          <th>Tình trạng</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in items | filter: searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
+          <td style="text-align:center;">{{$index+1}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.confId}}</td>
+          <td>{{item.city}}</td>
+          <td>{{item.district}}</td>
+          <td>{{item.ward}}</td>
+          <td>{{item.status}}</td>
+          <td style="text-align:center;">
+            <a class="glyphicon glyphicon-pencil icon" href="../index.html#!/phat-thanh/cap-nhat/{{item.id}}"></a>
+            <a class="glyphicon glyphicon-remove icon" ng-click="deleteradiostreaming(item.id,item.name)"></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+  
+  
+  <div class="pagelist">
+    <div class="pagination-wrapper">
+      <div class="pagination">
+        <a class="prev page-numbers" href="javascript:;" ng-click="prevPage()">Trước</a>
+        <a class="page-numbers" href="javascript:;"ng-repeat="page in range()" ng-class="{active: currentPage == page}" ng-click="setPage(page)">{{ page }}</a>
+        <a class="next page-numbers" href="javascript:;" ng-click="nextPage()">Sau</a>
+      </div>
+    </div>
+  </div>
+  
+  

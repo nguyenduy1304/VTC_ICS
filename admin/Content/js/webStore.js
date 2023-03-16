@@ -325,9 +325,25 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             controller: 'edituserlogCtrl',
             templateUrl: window.templateUrl + "/17-22/edituserlog.html"
         })
-
-
-    //$locationProvider.html5Mode(true);
+        //Phát thanh ========================
+        .state('17-22-radiostreaming', {
+            url: '/phat-thanh',
+            allowAnonymous: true,
+            controller: 'radiostreamingCtrl',
+            templateUrl: window.templateUrl + "/17-22/radiostreaming.html"
+        })
+        .state('17-22-add-radiostreaming', {
+            url: '/phat-thanh/them-moi',
+            allowAnonymous: true,
+            controller: 'addradiostreamingCtrl',
+            templateUrl: window.templateUrl + "/17-22/addradiostreaming.html"
+        })
+        .state('17-22-edit-radiostreaming', {
+            url: '/phat-thanh/cap-nhat/:id',
+            allowAnonymous: true,
+            controller: 'editradiostreamingCtrl',
+            templateUrl: window.templateUrl + "/17-22/editradiostreaming.html"
+        })
 });
 app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $state, $interval) {
     $rootScope.$watch('$user', function () {
@@ -461,6 +477,222 @@ app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $st
     }
 })
 
+
+app.controller('radiostreamingCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    $.ajax({
+        url: domain_api + 'lookups/model/Radiostreaming',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key
+        },
+        success: function (response) {
+            const arr = Object.values(response);
+            $scope.$apply(function () {
+                $scope.items = arr;
+                $scope.currentPage = 1;
+                $scope.itemsPerPage = PerPage;
+                $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
+                $scope.setPage = function (pageNo) {
+                    $scope.currentPage = pageNo;
+                };
+                $scope.prevPage = function () {
+                    if ($scope.currentPage > 1) {
+                        $scope.currentPage--;
+                    }
+                };
+                $scope.nextPage = function () {
+                    if ($scope.currentPage < $scope.numPages) {
+                        $scope.currentPage++;
+                    }
+                };
+                $scope.range = function () {
+                    var rangeSize = $scope.itemsPerPage;
+                    var ret = [];
+                    var start;
+                    start = $scope.currentPage;
+                    if (start > $scope.numPages - rangeSize) {
+                        start = $scope.numPages - rangeSize + 1;
+                    }
+                    var numbers = [];
+                    for (var i = start; i < start + rangeSize; i++) {
+                        numbers.push(i);
+                    }
+                    for (var i = 0; i < numbers.length; i++) {
+                        if (numbers[i] > 0) {
+                            ret.push(numbers[i]);
+                        }
+                    }
+                    return ret;
+                };
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    $scope.deleteradiostreaming = function (id, name) {
+        console.log(id);
+        $dialogConfirm("Bạn chắc chắn muốn xóa phát thanh có tên <span style='color:red;font-weight:bold;'>" + name + "_" + id + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+            if (res) {
+                $.ajax({
+                    url: domain_api + 'delete/model/Radiostreaming',
+                    type: 'POST',
+                    data: {
+                        user: user,
+                        userKey: user_Key,
+                        id: id
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        if (response.status == 200) {
+                            $dialogAlert("Đã xóa phát thanh thành công", "Thông báo!", "success", function (res) {
+                                $window.location.reload();
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                        $rootScope.checkError(e, $dialogAlert);
+                    }
+                });
+            }
+        })
+    }
+});
+app.controller('addradiostreamingCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    //Citys
+    $.ajax({
+        url: domain_api + 'lookups/model/Provinces',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.cities = response;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    //Districts
+    $.ajax({
+        url: domain_api + 'lookups/model/Districts',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_districts = response;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    //Wards
+    $.ajax({
+        url: domain_api + 'lookups/model/Wards',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_wards = response;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    $scope.listDistricts = function () {
+        if ($scope.dataForm.provinceID != '') {
+            $scope.districts = [];
+            for (var districtId in $scope.list_districts) {
+                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.provinceID) {
+                    $scope.districts.push($scope.list_districts[districtId]);
+                }
+            }
+        }
+    }
+    $scope.listWards = function () {
+        if ($scope.dataForm.districId != '') {
+            $scope.wards = [];
+            for (var wardId in $scope.list_wards) {
+                if ($scope.list_wards[wardId].districtId === $scope.dataForm.districId) {
+                    $scope.wards.push($scope.list_wards[wardId]);
+                }
+            }
+            console.log($scope.wards);
+        }
+    }
+    $.ajax({
+        url: domain_api + 'lookups/model/Playschedule',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key
+        },
+        success: function (response) {
+            const arr = Object.values(response);
+            $scope.$apply(function () {
+                $scope.playschedule = arr;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    $scope.searchText = "";
+    $scope.selectedPlay = "";
+    $scope.showList = false;
+    
+    $scope.selectPlay = function(play) {
+      $scope.selectedPlay = play;
+      $scope.searchText = play.nameId;
+      $scope.showList = false;
+    };
+
+    $scope.addradiostreaming = function () {
+        console.log($scope.searchText);
+        // $.ajax({
+        //     url: domain_api + 'create/model/Radiostreaming',
+        //     type: 'POST',
+        //     data: {
+        //         user: user,
+        //         userKey: user_Key,
+        //         nodetype: "VTC",
+        //     },
+        //     dataType: 'json',
+        //     success: function (response) {
+        //         if (response.status == 200) {
+        //             $dialogAlert("Thêm mới phát thanh thành công", "Thông báo!", "success", function (res) {
+        //                 $state.go("radiostreamingCtrl");
+        //             });
+        //         }
+        //     },
+        //     error: function (xhr, status, error) {
+        //         console.log('error');
+        //         $rootScope.checkError(e, $dialogAlert);
+        //     }
+        // });
+    };
+});
+
+//============================================================================================================
+
 app.controller('sourcelibraryCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $.ajax({
         url: domain_api + 'lookups/model/Mediasource',
@@ -544,14 +776,53 @@ app.controller('sourcelibraryCtrl', function ($dialogConfirm, $http, $scope, $st
     }
 });
 app.controller('add_sourcelibraryCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    //Citys
     $.ajax({
-        url: host_api + 'admin/data/data.json',
-        type: 'GET',
+        url: domain_api + 'lookups/model/Provinces',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
         success: function (response) {
-            const arr = Object.values(response);
             $scope.$apply(function () {
                 $scope.cities = response;
-                console.log($scope.cities);
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    //Districts
+    $.ajax({
+        url: domain_api + 'lookups/model/Districts',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_districts = response;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    //Wards
+    $.ajax({
+        url: domain_api + 'lookups/model/Wards',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_wards = response;
             });
         },
         error: function (xhr, status, error) {
@@ -561,22 +832,23 @@ app.controller('add_sourcelibraryCtrl', function ($http, $scope, $state, $rootSc
     });
     $scope.listDistricts = function () {
         if ($scope.dataForm.provinceID != '') {
-            for (i in $scope.cities) {
-                if ($scope.dataForm.provinceID == $scope.cities[i].Name) {
-                    $scope.districts = $scope.cities[i].Districts;
-                    break;
+            $scope.districts = [];
+            for (var districtId in $scope.list_districts) {
+                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.provinceID) {
+                    $scope.districts.push($scope.list_districts[districtId]);
                 }
             }
         }
     }
     $scope.listWards = function () {
         if ($scope.dataForm.districId != '') {
-            for (i in $scope.districts) {
-                if ($scope.dataForm.districId == $scope.districts[i].Name) {
-                    $scope.wards = $scope.districts[i].Wards;
-                    break;
+            $scope.wards = [];
+            for (var wardId in $scope.list_wards) {
+                if ($scope.list_wards[wardId].districtId === $scope.dataForm.districId) {
+                    $scope.wards.push($scope.list_wards[wardId]);
                 }
             }
+            console.log($scope.wards);
         }
     }
     $scope.addlibrary = function () {
@@ -633,6 +905,98 @@ app.controller('add_sourcelibraryCtrl', function ($http, $scope, $state, $rootSc
 
 app.controller('edit_sourcelibraryCtrl', function ($http, $scope, $state, $stateParams, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     var id = $stateParams.id;
+    //Citys
+    $.ajax({
+        url: domain_api + 'lookups/model/Provinces',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.cities = response;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    //Districts
+    $.ajax({
+        url: domain_api + 'lookups/model/Districts',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_districts = response;
+                if ($scope.dataForm.provinceID != '') {
+                    $scope.districts = [];
+                    for (var districtId in $scope.list_districts) {
+                        if ($scope.list_districts[districtId].provinceId === $scope.dataForm.provinceID) {
+                            $scope.districts.push($scope.list_districts[districtId]);
+                        }
+                    }
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    //Wards
+    $.ajax({
+        url: domain_api + 'lookups/model/Wards',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_wards = response;
+                if ($scope.dataForm.districId != '') {
+                    $scope.wards = [];
+                    for (var wardId in $scope.list_wards) {
+                        if ($scope.list_wards[wardId].districtId === $scope.dataForm.districId) {
+                            $scope.wards.push($scope.list_wards[wardId]);
+                        }
+                    }
+                    console.log($scope.wards);
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    $scope.listDistricts = function () {
+        if ($scope.dataForm.provinceID != '') {
+            $scope.districts = [];
+            for (var districtId in $scope.list_districts) {
+                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.provinceID) {
+                    $scope.districts.push($scope.list_districts[districtId]);
+                }
+            }
+        }
+    }
+    $scope.listWards = function () {
+        if ($scope.dataForm.districId != '') {
+            $scope.wards = [];
+            for (var wardId in $scope.list_wards) {
+                if ($scope.list_wards[wardId].districtId === $scope.dataForm.districId) {
+                    $scope.wards.push($scope.list_wards[wardId]);
+                }
+            }
+            console.log($scope.wards);
+        }
+    }
     $.ajax({
         url: domain_api + 'lookups/model/Mediasource',
         type: 'POST',
@@ -652,42 +1016,6 @@ app.controller('edit_sourcelibraryCtrl', function ($http, $scope, $state, $state
             $rootScope.checkError(e, $dialogAlert);
         }
     });
-
-    $.ajax({
-        url: host_api + 'admin/data/data.json',
-        type: 'GET',
-        success: function (response) {
-            const arr = Object.values(response);
-            $scope.$apply(function () {
-                $scope.cities = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
-    });
-    $scope.listDistricts = function () {
-        if ($scope.dataForm.provinceID != '') {
-            for (i in $scope.cities) {
-                if ($scope.dataForm.provinceID == $scope.cities[i].Name) {
-                    $scope.districts = $scope.cities[i].Districts;
-                    console.log($scope.districts);
-                    break;
-                }
-            }
-        }
-    }
-    $scope.listWards = function () {
-        if ($scope.dataForm.districId != '') {
-            for (i in $scope.districts) {
-                if ($scope.dataForm.districId == $scope.districts[i].Name) {
-                    $scope.wards = $scope.districts[i].Wards;
-                    break;
-                }
-            }
-        }
-    }
     $scope.editsourcelibrary = function () {
         $.ajax({
             url: domain_api + 'update/model/Mediasource',
@@ -1397,14 +1725,70 @@ app.controller('manageDevice', function ($scope, $state, $http, $window, $dialog
 })
 app.controller('editDevice', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     var id = $stateParams.id;
+    //Citys
     $.ajax({
-        url: host_api + 'admin/data/data.json',
-        type: 'GET',
+        url: domain_api + 'lookups/model/Provinces',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
         success: function (response) {
-            const arr = Object.values(response);
             $scope.$apply(function () {
                 $scope.cities = response;
-                console.log($scope.cities);
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    //Districts
+    $.ajax({
+        url: domain_api + 'lookups/model/Districts',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_districts = response;
+                if ($scope.dataForm.city != '') {
+                    $scope.districts = [];
+                    for (var districtId in $scope.list_districts) {
+                        if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
+                            $scope.districts.push($scope.list_districts[districtId]);
+                        }
+                    }
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    //Wards
+    $.ajax({
+        url: domain_api + 'lookups/model/Wards',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_wards = response;
+                if ($scope.dataForm.district != '') {
+                    console.log($scope.dataForm.district);
+                    $scope.wards = [];
+                    for (var wardId in $scope.list_wards) {
+                        if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
+                            $scope.wards.push($scope.list_wards[wardId]);
+                        }
+                    }
+                }
             });
         },
         error: function (xhr, status, error) {
@@ -1414,20 +1798,20 @@ app.controller('editDevice', function ($scope, $state, $stateParams, $http, $win
     });
     $scope.listDistricts = function () {
         if ($scope.dataForm.city != '') {
-            for (i in $scope.cities) {
-                if ($scope.dataForm.city == $scope.cities[i].Name) {
-                    $scope.districts = $scope.cities[i].Districts;
-                    break;
+            $scope.districts = [];
+            for (var districtId in $scope.list_districts) {
+                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
+                    $scope.districts.push($scope.list_districts[districtId]);
                 }
             }
         }
     }
     $scope.listWards = function () {
         if ($scope.dataForm.district != '') {
-            for (i in $scope.districts) {
-                if ($scope.dataForm.district == $scope.districts[i].Name) {
-                    $scope.wards = $scope.districts[i].Wards;
-                    break;
+            $scope.wards = [];
+            for (var wardId in $scope.list_wards) {
+                if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
+                    $scope.wards.push($scope.list_wards[wardId]);
                 }
             }
         }
@@ -1443,22 +1827,7 @@ app.controller('editDevice', function ($scope, $state, $stateParams, $http, $win
         success: function (response) {
             $scope.$apply(function () {
                 $scope.dataForm = response[id];
-                if ($scope.dataForm.city != '') {
-                    for (i in $scope.cities) {
-                        if ($scope.dataForm.city == $scope.cities[i].Name) {
-                            $scope.districts = $scope.cities[i].Districts;
-                            break;
-                        }
-                    }
-                }
-                if ($scope.dataForm.district != '') {
-                    for (i in $scope.districts) {
-                        if ($scope.dataForm.district == $scope.districts[i].Name) {
-                            $scope.wards = $scope.districts[i].Wards;
-                            break;
-                        }
-                    }
-                }
+
             });
         },
         error: function (xhr, status, error) {
@@ -1532,14 +1901,53 @@ app.controller('editDevice', function ($scope, $state, $stateParams, $http, $win
 })
 app.controller('addDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     $scope.formData = {};
+    //Citys
     $.ajax({
-        url: host_api + 'admin/data/data.json',
-        type: 'GET',
+        url: domain_api + 'lookups/model/Provinces',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
         success: function (response) {
-            const arr = Object.values(response);
             $scope.$apply(function () {
                 $scope.cities = response;
-                console.log($scope.cities);
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    //Districts
+    $.ajax({
+        url: domain_api + 'lookups/model/Districts',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_districts = response;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    //Wards
+    $.ajax({
+        url: domain_api + 'lookups/model/Wards',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_wards = response;
             });
         },
         error: function (xhr, status, error) {
@@ -1549,25 +1957,26 @@ app.controller('addDevice', function ($scope, $state, $http, $window, $dialogAle
     });
     $scope.listDistricts = function () {
         if ($scope.dataForm.city != '') {
-            for (i in $scope.cities) {
-                if ($scope.dataForm.city == $scope.cities[i].Name) {
-                    $scope.districts = $scope.cities[i].Districts;
-                    break;
+            $scope.districts = [];
+            for (var districtId in $scope.list_districts) {
+                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
+                    $scope.districts.push($scope.list_districts[districtId]);
                 }
             }
         }
     }
     $scope.listWards = function () {
         if ($scope.dataForm.district != '') {
-            for (i in $scope.districts) {
-                if ($scope.dataForm.district == $scope.districts[i].Name) {
-                    $scope.wards = $scope.districts[i].Wards;
-                    break;
+            console.log($scope.dataForm.district);
+            $scope.wards = [];
+            for (var wardId in $scope.list_wards) {
+                if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
+                    $scope.wards.push($scope.list_wards[wardId]);
                 }
             }
+            console.log($scope.wards);
         }
     }
-
     $scope.addDevice = function () {
         $.ajax({
             url: domain_api + 'create/model/Ippbxextenlocation',
@@ -1696,11 +2105,15 @@ app.controller('managePlayschedule', function ($scope, $state, $http, $window, $
 })
 app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     var id = $stateParams.id;
+    //Citys
     $.ajax({
-        url: host_api + 'admin/data/data.json',
-        type: 'GET',
+        url: domain_api + 'lookups/model/Provinces',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
         success: function (response) {
-            const arr = Object.values(response);
             $scope.$apply(function () {
                 $scope.cities = response;
             });
@@ -1710,24 +2123,78 @@ app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http
             $rootScope.checkError(e, $dialogAlert);
         }
     });
+    //Districts
+    $.ajax({
+        url: domain_api + 'lookups/model/Districts',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_districts = response;
+                if ($scope.formData.city != '') {
+                    $scope.districts = [];
+                    for (var districtId in $scope.list_districts) {
+                        if ($scope.list_districts[districtId].provinceId === $scope.formData.city) {
+                            $scope.districts.push($scope.list_districts[districtId]);
+                        }
+                    }
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    //Wards
+    $.ajax({
+        url: domain_api + 'lookups/model/Wards',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_wards = response;
+                if ($scope.formData.district != '') {
+                    $scope.wards = [];
+                    for (var wardId in $scope.list_wards) {
+                        if ($scope.list_wards[wardId].districtId === $scope.formData.district) {
+                            $scope.wards.push($scope.list_wards[wardId]);
+                        }
+                    }
+                    console.log($scope.wards);
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
     $scope.listDistricts = function () {
         if ($scope.formData.city != '') {
-            for (i in $scope.cities) {
-                if ($scope.formData.city == $scope.cities[i].Name) {
-                    $scope.districts = $scope.cities[i].Districts;
-                    break;
+            $scope.districts = [];
+            for (var districtId in $scope.list_districts) {
+                if ($scope.list_districts[districtId].provinceId === $scope.formData.city) {
+                    $scope.districts.push($scope.list_districts[districtId]);
                 }
             }
         }
     }
     $scope.listWards = function () {
         if ($scope.formData.district != '') {
-            for (i in $scope.districts) {
-                if ($scope.formData.district == $scope.districts[i].Name) {
-                    $scope.wards = $scope.districts[i].Wards;
-                    break;
+            $scope.wards = [];
+            for (var wardId in $scope.list_wards) {
+                if ($scope.list_wards[wardId].districtId === $scope.formData.district) {
+                    $scope.wards.push($scope.list_wards[wardId]);
                 }
             }
+            console.log($scope.wards);
         }
     }
     $.ajax({
@@ -1741,7 +2208,7 @@ app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http
         success: function (response) {
             $scope.$apply(function () {
                 $scope.formData = response[id];
-                
+
                 $scope.formData.date_from = new Date($scope.formData.date_from * 1000);
                 $scope.formData.date_to = new Date($scope.formData.date_to * 1000);
 
@@ -1766,7 +2233,7 @@ app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http
                 $scope.week = $scope.formData.week_day;
                 $scope.day = $scope.formData.day;
                 $scope.month = $scope.formData.month;
-                
+
                 if ($scope.formData.city != '') {
                     for (i in $scope.cities) {
                         if ($scope.formData.city == $scope.cities[i].Name) {
@@ -1790,8 +2257,8 @@ app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http
             $rootScope.checkError(e, $dialogAlert);
         }
     });
-   
-    $scope.updateWeek = function() {
+
+    $scope.updateWeek = function () {
         $scope.week = "";
         for (var i = 0; i < 8; i++) {
             if ($scope.formData['week_day_' + i]) {
@@ -1803,17 +2270,17 @@ app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http
     $scope.updateDay = function () {
         var selectedDay = [];
         for (var i = 1; i <= 31; i++) {
-          if ($scope.formData['day_' + i]) selectedDay.push(i.toString());
+            if ($scope.formData['day_' + i]) selectedDay.push(i.toString());
         }
         $scope.day = selectedDay.join(',');
-      };
-      $scope.updateMonth = function () {
+    };
+    $scope.updateMonth = function () {
         var selectedMonth = [];
         for (var i = 1; i <= 12; i++) {
-          if ($scope.formData['month_' + i]) selectedMonth.push(i);
+            if ($scope.formData['month_' + i]) selectedMonth.push(i);
         }
         $scope.month = selectedMonth.join(',');
-      };
+    };
 
     $scope.editPlayschedule = function () {
         console.log($scope.week);
@@ -1879,11 +2346,15 @@ app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http
     };
 })
 app.controller('addPlayschedule', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+    //Citys
     $.ajax({
-        url: host_api + 'admin/data/data.json',
-        type: 'GET',
+        url: domain_api + 'lookups/model/Provinces',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
         success: function (response) {
-            const arr = Object.values(response);
             $scope.$apply(function () {
                 $scope.cities = response;
             });
@@ -1893,30 +2364,67 @@ app.controller('addPlayschedule', function ($scope, $state, $http, $window, $dia
             $rootScope.checkError(e, $dialogAlert);
         }
     });
+    //Districts
+    $.ajax({
+        url: domain_api + 'lookups/model/Districts',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_districts = response;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    //Wards
+    $.ajax({
+        url: domain_api + 'lookups/model/Wards',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_wards = response;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
     $scope.listDistricts = function () {
         if ($scope.formData.city != '') {
-            for (i in $scope.cities) {
-                if ($scope.formData.city == $scope.cities[i].Name) {
-                    $scope.districts = $scope.cities[i].Districts;
-                    break;
+            $scope.districts = [];
+            for (var districtId in $scope.list_districts) {
+                if ($scope.list_districts[districtId].provinceId === $scope.formData.city) {
+                    $scope.districts.push($scope.list_districts[districtId]);
                 }
             }
         }
     }
     $scope.listWards = function () {
         if ($scope.formData.district != '') {
-            for (i in $scope.districts) {
-                if ($scope.formData.district == $scope.districts[i].Name) {
-                    $scope.wards = $scope.districts[i].Wards;
-                    break;
+            $scope.wards = [];
+            for (var wardId in $scope.list_wards) {
+                if ($scope.list_wards[wardId].districtId === $scope.formData.district) {
+                    $scope.wards.push($scope.list_wards[wardId]);
                 }
             }
+            console.log($scope.wards);
         }
     }
     $scope.week = '';
     $scope.day = '';
     $scope.month = '';
-    $scope.updateWeek = function() {
+    $scope.updateWeek = function () {
         var selectedWeek = [];
         for (var i = 1; i <= 7; i++) {
             if ($scope.formData['week_day_' + i]) {
@@ -1928,17 +2436,17 @@ app.controller('addPlayschedule', function ($scope, $state, $http, $window, $dia
     $scope.updateDay = function () {
         var selectedDay = [];
         for (var i = 1; i <= 31; i++) {
-          if ($scope.formData['day_' + i]) selectedDay.push(i.toString());
+            if ($scope.formData['day_' + i]) selectedDay.push(i.toString());
         }
         $scope.day = selectedDay.join(',');
-      };
-      $scope.updateMonth = function () {
+    };
+    $scope.updateMonth = function () {
         var selectedMonth = [];
         for (var i = 1; i <= 12; i++) {
-          if ($scope.formData['month_' + i]) selectedMonth.push(i);
+            if ($scope.formData['month_' + i]) selectedMonth.push(i);
         }
         $scope.month = selectedMonth.join(',');
-      };
+    };
     $scope.addPlayschedule = function () {
         $scope.date_from = new Date($scope.formData.date_from).getTime() / 1000;
         $scope.date_to = new Date($scope.formData.date_to).getTime() / 1000;
@@ -2311,6 +2819,96 @@ app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $w
     $scope.formData = {};
     var id = $stateParams.id;
     $.ajax({
+        url: domain_api + 'lookups/model/Provinces',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.cities = response;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    //Districts
+    $.ajax({
+        url: domain_api + 'lookups/model/Districts',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_districts = response;
+                if ($scope.formData.province != '') {
+                    $scope.districts = [];
+                    for (var districtId in $scope.list_districts) {
+                        if ($scope.list_districts[districtId].provinceId === $scope.formData.province) {
+                            $scope.districts.push($scope.list_districts[districtId]);
+                        }
+                    }
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    //Wards
+    $.ajax({
+        url: domain_api + 'lookups/model/Wards',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_wards = response;
+                if ($scope.formData.districId != '') {
+                    $scope.wards = [];
+                    for (var wardId in $scope.list_wards) {
+                        if ($scope.list_wards[wardId].districtId === $scope.formData.districId) {
+                            $scope.wards.push($scope.list_wards[wardId]);
+                        }
+                    }
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    $scope.listDistricts = function () {
+        if ($scope.formData.province != '') {
+            $scope.districts = [];
+            for (var districtId in $scope.list_districts) {
+                if ($scope.list_districts[districtId].provinceId === $scope.formData.province) {
+                    $scope.districts.push($scope.list_districts[districtId]);
+                }
+            }
+        }
+    }
+    $scope.listWards = function () {
+        if ($scope.formData.districId != '') {
+            $scope.wards = [];
+            for (var wardId in $scope.list_wards) {
+                if ($scope.list_wards[wardId].districtId === $scope.formData.districId) {
+                    $scope.wards.push($scope.list_wards[wardId]);
+                }
+            }
+        }
+    }
+
+    $.ajax({
         url: domain_api + 'lookups/model/Radionode',
         type: 'POST',
         data: {
@@ -2321,7 +2919,6 @@ app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $w
         success: function (response) {
             $scope.$apply(function () {
                 $scope.formData = response[id];
-                //console.log($scope.formData);
             });
         },
         error: function (xhr, status, error) {
@@ -2331,10 +2928,9 @@ app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $w
     });
 
     $scope.editRadioApp = function () {
-        
-        const file = document.getElementById("file-name").textContent;
-        $scope.icecast_url = file;
-        console.log($scope.icecast_url);
+        // const file = document.getElementById("file-name").textContent;
+        // $scope.icecast_url = file;
+        // console.log($scope.icecast_url);
         $.ajax({
             url: domain_api + 'update/model/Radionode',
             type: 'POST',
@@ -2352,7 +2948,7 @@ app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $w
                 communeId: $scope.formData.communeId,
                 description: $scope.formData.description,
 
-                icecast_url: $scope.icecast_url
+                // icecast_url: $scope.icecast_url
             },
             success: function (response) {
 
@@ -2371,48 +2967,87 @@ app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $w
 })
 app.controller('addRadioApp', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     $scope.formData = {};
-    $scope.cities = [];
-    $scope.districts = [];
-    $scope.wards = [];
-    $http({
-        method: 'GET',
-        url: host_api + 'admin/data/data.json',
-        headers: {
-            'Authorization': "Bearer " + $window.localStorage.token
+    //Citys
+    $.ajax({
+        url: domain_api + 'lookups/model/Provinces',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.cities = response;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
         }
-    }).then(function (res) {
-        if (res.status != 404 && res.status != 405) {
-            $scope.cities = res.data;
-        } else {
-            $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
+    });
+    //Districts
+    $.ajax({
+        url: domain_api + 'lookups/model/Districts',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_districts = response;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
         }
-    }, function err(e) {
-        $rootScope.checkError(e, $dialogAlert);
-    })
+    });
+    //Wards
+    $.ajax({
+        url: domain_api + 'lookups/model/Wards',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.list_wards = response;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
     $scope.listDistricts = function () {
         if ($scope.formData.province != '') {
-            for (i in $scope.cities) {
-                if ($scope.formData.province == $scope.cities[i].Name) {
-                    $scope.districts = $scope.cities[i].Districts;
-                    break;
+            $scope.districts = [];
+            for (var districtId in $scope.list_districts) {
+                if ($scope.list_districts[districtId].provinceId === $scope.formData.province) {
+                    $scope.districts.push($scope.list_districts[districtId]);
                 }
             }
+            console.log($scope.districts);
+
         }
     }
     $scope.listWards = function () {
         if ($scope.formData.district != '') {
-            for (i in $scope.districts) {
-                if ($scope.formData.district == $scope.districts[i].Name) {
-                    $scope.wards = $scope.districts[i].Wards;
-                    break;
+            $scope.wards = [];
+            for (var wardId in $scope.list_wards) {
+                if ($scope.list_wards[wardId].districtId === $scope.formData.district) {
+                    $scope.wards.push($scope.list_wards[wardId]);
                 }
             }
+            console.log($scope.wards);
         }
     }
+
     $scope.addRadioApp = function () {
-        const file = document.getElementById("upload-file").files[0];
-        $scope.icecast_url = file.name;
-        console.log($scope.icecast_url);
+        // const file = document.getElementById("upload-file").files[0];
+        // $scope.icecast_url = file.name;
         $.ajax({
             url: domain_api + 'create/model/Radionode',
             type: 'POST',
@@ -2429,7 +3064,7 @@ app.controller('addRadioApp', function ($scope, $state, $http, $window, $dialogA
                 communeId: $scope.formData.commune,
                 description: $scope.formData.description,
 
-                icecast_url:$scope.icecast_url
+                icecast_url: $scope.icecast_url
             },
             success: function (response) {
                 if (response.status == 200) {

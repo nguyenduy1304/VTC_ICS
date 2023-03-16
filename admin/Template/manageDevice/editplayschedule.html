@@ -39,14 +39,14 @@
             </div>
             <div class="form-group">
                 <label class="col-xs-2 control-label" for="city">Tỉnh/Tp</label>
-                <div class="col-xs-4">
-                    <select ng-selected="formData.city" class="form-control" ng-model="formData.city"
-                        ng-change="listDistricts()">
-                        <option value="" selected>--Chọn tỉnh thành--</option>
-                        <option ng-repeat="item in cities" value={{item.Name}}>
-                            {{item.Name}}</option>
-                    </select>
-                </div>
+                    <div class="col-xs-4">
+                        <select ng-selected="formData.city" class="form-control" ng-model="formData.city"
+                            ng-change="listDistricts()">
+                            <option value="" selected>--Chọn tỉnh thành--</option>
+                            <option ng-repeat="item in cities" value={{item.name}}_{{item.id}}>
+                                {{item.name}}</option>
+                        </select>
+                    </div>
                 <label for="field" class="col-sm-2 control-label">Lĩnh vực</label>
                 <div class="col-sm-4">
                     <select ng-selected="formData.field" name="field" ng-model="formData.field " class="form-control">
@@ -62,8 +62,8 @@
                     <select ng-selected="formData.district" class="form-control" ng-model="formData.district"
                         ng-change="listWards()">
                         <option value="" selected>--Chọn huyện--</option>
-                        <option ng-repeat="item in districts" value={{item.Name}}>
-                            {{item.Name}}</option>
+                        <option ng-repeat="item in districts" value={{item.nameId}}>
+                            {{item.name}}</option>
                     </select>
                 </div>
                 <label class="col-xs-2 control-label" for="type">Phân loại</label>
@@ -80,7 +80,7 @@
                 <div class="col-xs-4">
                     <select class="form-control" ng-selected="formData.ward" ng-model="formData.ward">
                         <option value="" selected>--Chọn phường xã--</option>
-                        <option ng-repeat="item in wards" value={{item.Name}}>{{item.Name}}</option>
+                        <option ng-repeat="item in wards" value={{item.nameId}}>{{item.name}}</option>
                     </select>
                 </div>
             </div>

@@ -49,6 +49,32 @@
             </div>
         </div>
         <div class="form-group" style="margin:0;margin-bottom:15px">
+            <div class="form-group" style="margin:0;margin-bottom:15px">
+                <label class="col-xs-2 control-label" for="address">Tỉnh/Tp</label>
+                <div class="col-xs-4">
+                    <select ng-selected="dataForm.province" class="form-control"
+                        ng-model="dataForm.provinceID" ng-change="listDistricts()" >
+                        <option value="" selected>--Chọn tỉnh thành--</option>
+                        <option ng-repeat="item in cities" value={{item.name}}_{{item.id}}>
+                            {{item.name}}_{{item.id}}</option>
+                    </select>
+                </div>
+           
+            <label class="col-xs-2 control-label" for="starttime">Bắt đầu</label>
+            <div class="col-xs-4">
+                <input type="datetime-local" id="starttime" ng-model="createDate" name="starttime" class="form-control">
+            </div>
+        </div>
+        <div class="form-group" style="margin:0;margin-bottom:15px">
+            <label class="col-xs-2 control-label" for="districId">Quận/Huyện</label>
+            <div class="col-xs-4">
+                <select ng-selected="dataForm.districId" class="form-control"
+                    ng-model="dataForm.districId" ng-change="listWards()" >
+                    <option value="" selected>--Chọn huyện--</option>
+                    <option ng-repeat="item in districts" value={{item.nameId}}>
+                        {{item.nameId}}</option>
+                </select>
+            </div>
             <label class="col-xs-2 control-label" for="status">Tình trạng</label>
             <div class="col-xs-4">
                 <select ng-selected="dataForm.status" name="status" ng-model="dataForm.status" class="form-control">
@@ -59,37 +85,14 @@
                     <option value="IDLE" selected>Nhàn rỗi</option>
                 </select>
             </div>
-            <label class="col-xs-2 control-label" for="starttime">Bắt đầu</label>
-            <div class="col-xs-4">
-                <input type="datetime-local" id="starttime" ng-model="createDate" name="starttime" class="form-control">
-            </div>
         </div>
         <div class="form-group" style="margin:0;margin-bottom:15px">
-            <label class="col-xs-2 control-label" for="address">Tỉnh/Tp</label>
+            <label class="col-xs-2 control-label" for="wardId">Phường/Xã</label>
             <div class="col-xs-4">
-                <select ng-selected="dataForm.provinceID" class="form-control" ng-model="dataForm.provinceID" ng-change="listDistricts()"
-                    >
-                    <option value="" selected>--Chọn tỉnh thành--</option>
-                    <option ng-repeat="item in cities" value={{item.Name}}>
-                        {{item.Name}}</option>
-                </select>
-            </div>
-            <label class="col-xs-2 control-label" for="address">Quận/Huyện</label>
-            <div class="col-xs-4">
-                <select ng-selected="dataForm.districId" class="form-control" ng-model="dataForm.districId"
-                    ng-change="listWards()" >
-                    <option value={{dataForm.districId}} selected>{{dataForm.districId}}</option>
-                    <option ng-repeat="item in districts" value={{item.Name}}>
-                        {{item.Name}}</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group" style="margin:0;margin-bottom:15px">
-            <label class="col-xs-2 control-label" for="address">Phường/Xã</label>
-            <div class="col-xs-4">
-                <select class="form-control" ng-selected="dataForm.commune" ng-model="dataForm.wardId" >
-                    <option value={{dataForm.wardId}} selected>{{dataForm.wardId}}</option>
-                    <option ng-repeat="item in wards" value={{item.Name}}>{{item.Name}}</option>
+                <select class="form-control" ng-selected="dataForm.wardId"
+                    ng-model="dataForm.wardId" >
+                    <option value="" selected>--Chọn phường xã--</option>
+                    <option ng-repeat="item in wards" value={{item.nameId}}>{{item.nameId}}</option>
                 </select>
             </div>
             <label class="col-xs-2 control-label" for="contenttype">Nội dung phát</label>

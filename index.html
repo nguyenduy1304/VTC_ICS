@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <base href="/admin/">
     <meta charset="utf-8">
@@ -44,7 +45,7 @@
     <script src="https://cdn.ckeditor.com/4.5.3/full/ckeditor.js"></script>
     <script src="./Content/lib/angular.min.js"></script>
     <script src="./Content/lib/select2.min.js"></script>
-    
+
     <script src="./Content/lib/angular-ui-router.js"></script>
     <script src="./Content/lib/angular-cookies.js"></script>
     <script src="./Content/lib/angular-filter.js"></script>
@@ -60,7 +61,7 @@
     <script src="./Content/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <script src="./Content/scripts/klorofil-common.js"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-  
+
     <script src="./Content/js/app.js"></script>
     <script src="./Content/js/account.js"></script>
     <script src="./Content/js/data_json.js"></script>
@@ -121,24 +122,27 @@
             top: calc(30% - 24px);
         }
 
-            .bd-example-modal-lg .modal-dialog .modal-content {
-                background-color: transparent;
-                border: none;
-                -webkit-box-shadow: none !important;
-                box-shadow: none !important;
-            }
+        .bd-example-modal-lg .modal-dialog .modal-content {
+            background-color: transparent;
+            border: none;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+        }
+
         /*.table-bordered, .table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
             border: 1px solid #337ab7;
         }*/
     </style>
 </head>
+
 <body ng-app="ngAdmin">
     <!-- WRAPPER -->
     <div id="wrapper" style="position:relative">
         <!-- NAVBAR -->
         <nav class="navbar navbar-default navbar-fixed-top" ng-show="!login_active">
             <div class="brand" style="padding:16px 39px">
-                <a  ui-sref="seller"><img src="./content/images/logovnpt-blue.png" style="width:180px" alt="VNPT Logo" class="img-responsive logo"></a>
+                <a ui-sref="seller"><img src="./content/images/logovnpt-blue.png" style="width:180px" alt="VNPT Logo"
+                        class="img-responsive logo"></a>
             </div>
             <div class="container-fluid" style="position:relative">
                 <div class="navbar-btn" style="margin-left:46px;">
@@ -146,24 +150,31 @@
                 </div>
                 <div class="bar-title">
                     HỆ THỐNG THÔNG TIN NGUỒN CẤP TỈNH
-                </div>    
+                </div>
                 <div id="navbar-menu">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown mn_help">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>Hỗ trợ</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="lnr lnr-question-circle"></i> <span>Hỗ trợ</span> <i
+                                    class="icon-submenu lnr lnr-chevron-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a href="https://hotrovnpt.vtctelecom.com.vn" target="_blank">Hỗ trợ  24/7</a></li>
+                                <li><a href="https://hotrovnpt.vtctelecom.com.vn" target="_blank">Hỗ trợ 24/7</a></li>
                             </ul>
                         </li>
                         <li class="dropdown mn_manager">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{$user.Fullname}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i><i class="fa fa-user icon_user"></i></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{$user.Fullname}}</span>
+                                <i class="icon-submenu lnr lnr-chevron-down"></i><i
+                                    class="fa fa-user icon_user"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a ng-if="$user.Roles.indexOf('auth_get') != -1" ui-sref="list$account"><i class="lnr lnr-user"></i> <span>Quản lý tài khoản</span></a></li>
-                                <li><a ng-if="$user.Roles.indexOf('auth_reset') != -1" ui-sref="change$password"><i class="lnr lnr-cog"></i> <span>Đổi mật khẩu</span></a></li>
-                                <li><a  href="javascript:void(0)" ng-click="logOut()" class="text-danger"><i class="lnr lnr-exit text-danger"></i> <span>Đăng xuất</span></a></li>
+                                <li><a ng-if="$user.Roles.indexOf('auth_get') != -1" ui-sref="list$account"><i
+                                            class="lnr lnr-user"></i> <span>Quản lý tài khoản</span></a></li>
+                                <li><a ng-if="$user.Roles.indexOf('auth_reset') != -1" ui-sref="change$password"><i
+                                            class="lnr lnr-cog"></i> <span>Đổi mật khẩu</span></a></li>
+                                <li><a href="javascript:void(0)" ng-click="logOut()" class="text-danger"><i
+                                            class="lnr lnr-exit text-danger"></i> <span>Đăng xuất</span></a></li>
                             </ul>
                         </li>
-             
+
                     </ul>
                 </div>
             </div>
@@ -187,51 +198,60 @@
                             </ul>
                         </li>     
                         <li><a ng-class="{active: $state.includes('ponesme')}" ui-sref="ponesme"><i class="lnr lnr-license"></i> <span>Quản lý thiết bị</span></a></li>                      
-                        <li><a href="javascript:void(0)" ng-click="logOut()" ><i class="lnr lnr-exit"></i> <span>Đăng xuất</span></a></li>-->            
+                        <li><a href="javascript:void(0)" ng-click="logOut()" ><i class="lnr lnr-exit"></i> <span>Đăng xuất</span></a></li>-->
                         <li class="active"><a ng-class="{active: $state.includes('selStatistic')}"
-                            ui-sref="selStatistic" href="../index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung"><i
-                                class="lnr lnr-home"></i> <span>Quản lý đài truyền thanh ứng
-                                dụng CNTT-VT</span></a></li>
-                    <li class="treeview active">
-                        <a ui-sref="selStatistic" href="#">
-                            <i class="lnr lnr-construction"></i> <span>Quản lý thiết bị</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="../index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung"><i class="fa fa-circle-o"
-                                style="font-size:11px"></i> Đài truyền thanh
-                            ứng dụng CNTT-VT </a></li>
-                            <li><a href="../index.html#!/quan-ly-thiet-bi/thiet-bi"><i
-                                class="fa fa-circle-o" style="font-size:11px"></i>Quản lý thiệt bị</a></li>
-                            <li><a href="../index.html#!/quan-ly-thiet-bi/bang-tin-cong-cong"><i
-                                class="fa fa-circle-o" style="font-size:11px"></i> Bảng tin điện tử
-                            công cộng</a></li>
-                            <li><a href="../index.html#!/quan-ly-thiet-bi/lich-phat"><i
-                                class="fa fa-circle-o" style="font-size:11px"></i> Lịch phát thanh</a></li>
-                            <li><a href="../index.html#!/thu-vien-nguon"><i
-                                class="fa fa-circle-o" style="font-size:11px"></i> Thư viện nguồn</a></li>
-                        </ul>
-                    </li>             
-                        <li><a href="../#!/bao-cao-thong-ke"><i class="lnr lnr-chart-bars"></i> <span>Báo cáo, thống kê</span></a></li>                        
-                        <li><a href="../#!/kien-nghi-cua-nguoi-dan"><i class="lnr lnr-question-circle"></i> <span>Kiến nghị của người dân</span></a></li>  
+                                ui-sref="selStatistic" href="../index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung"><i
+                                    class="lnr lnr-home"></i> <span>Quản lý đài truyền thanh ứng
+                                    dụng CNTT-VT</span></a></li>
                         <li class="treeview active">
-                            <a  ui-sref="selStatistic">
+                            <a ui-sref="selStatistic" href="#">
+                                <i class="lnr lnr-construction"></i> <span>Quản lý thiết bị</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="../index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung"><i
+                                            class="fa fa-circle-o" style="font-size:11px"></i> Đài truyền thanh
+                                        ứng dụng CNTT-VT </a></li>
+                                <li><a href="../index.html#!/quan-ly-thiet-bi/thiet-bi"><i class="fa fa-circle-o"
+                                            style="font-size:11px"></i>Quản lý thiệt bị</a></li>
+                                <li><a href="../index.html#!/quan-ly-thiet-bi/bang-tin-cong-cong"><i
+                                            class="fa fa-circle-o" style="font-size:11px"></i> Bảng tin điện tử
+                                        công cộng</a></li>
+                                <li><a href="../index.html#!/quan-ly-thiet-bi/lich-phat"><i class="fa fa-circle-o"
+                                            style="font-size:11px"></i> Lịch phát thanh</a></li>
+                                <li><a href="../index.html#!/phat-thanh"><i class="fa fa-circle-o"
+                                            style="font-size:11px"></i> Phát thanh</a></li>
+                                <li><a href="../index.html#!/thu-vien-nguon"><i class="fa fa-circle-o"
+                                            style="font-size:11px"></i> Thư viện nguồn</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="../#!/bao-cao-thong-ke"><i class="lnr lnr-chart-bars"></i> <span>Báo cáo, thống
+                                    kê</span></a></li>
+                        <li><a href="../#!/kien-nghi-cua-nguoi-dan"><i class="lnr lnr-question-circle"></i> <span>Kiến
+                                    nghị của người dân</span></a></li>
+                        <li class="treeview active">
+                            <a ui-sref="selStatistic">
                                 <i class="lnr lnr-users"></i> <span> Quản trị</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="../#!/quan-tri-tai-khoan-nguoi-dung"><i class="fa fa-circle-o" style="font-size:11px"></i> Quản trị tài khoản người dùng</a></li>
-                                <li><a href="../#!/quan-tri-nhom-nguoi-dung"><i class="fa fa-circle-o" style="font-size:11px"></i> Quản trị nhóm người dùng</a></li>
-                                <li><a href="../#!/"><i class="fa fa-circle-o" style="font-size:11px"></i> Phân quyền</a></li>
-                                <li><a href="../#!/nhat-ky-nguoi-su-dung"><i class="fa fa-circle-o" style="font-size:11px"></i> Nhật ký người sử dụng</a></li>
-                                <li><a href="../#!/"><i class="fa fa-circle-o" style="font-size:11px"></i> Quản trị danh mục</a></li>
+                                <li><a href="../#!/quan-tri-tai-khoan-nguoi-dung"><i class="fa fa-circle-o"
+                                            style="font-size:11px"></i> Quản trị tài khoản người dùng</a></li>
+                                <li><a href="../#!/quan-tri-nhom-nguoi-dung"><i class="fa fa-circle-o"
+                                            style="font-size:11px"></i> Quản trị nhóm người dùng</a></li>
+                                <li><a href="../#!/"><i class="fa fa-circle-o" style="font-size:11px"></i> Phân
+                                        quyền</a></li>
+                                <li><a href="../#!/nhat-ky-nguoi-su-dung"><i class="fa fa-circle-o"
+                                            style="font-size:11px"></i> Nhật ký người sử dụng</a></li>
+                                <li><a href="../#!/"><i class="fa fa-circle-o" style="font-size:11px"></i> Quản trị danh
+                                        mục</a></li>
                             </ul>
-                        </li> 
-                    </ul>                                   
+                        </li>
+                    </ul>
                 </nav>
             </div>
         </div>
@@ -239,8 +259,8 @@
         <!-- MAIN -->
         <div ng-class="{ 'main': !login_active}">
             <!-- MAIN CONTENT -->
-            <div  ng-class="{ 'main-content': !login_active}">
-                <div  ng-class="{ 'container-fluid': !login_active}">
+            <div ng-class="{ 'main-content': !login_active}">
+                <div ng-class="{ 'container-fluid': !login_active}">
                     <div ui-view>
                     </div>
                 </div>
@@ -251,9 +271,12 @@
         <div class="clearfix"></div>
         <footer style="position:relative; margin-left:335px; background: #1668af;padding-left:15px;">
             <div class="container-fluid">
-                <a style="float:left;padding-right:15px;    padding-top: 8px;"><img src="./content/images/logovnpt.png" style="width:100px" alt="VNPT Logo" class="img-responsive logo"></a>
+                <a style="float:left;padding-right:15px;    padding-top: 8px;"><img src="./content/images/logovnpt.png"
+                        style="width:100px" alt="VNPT Logo" class="img-responsive logo"></a>
                 <p style="color:#fff;margin-bottom:0">Công ty Cổ phần Công nghệ Công nghiệp Bưu chính Viễn thông.</p>
-                <p style="color:#fff;margin-bottom:0">GCNĐKDN số : 0105140413 do Sở KHĐT Tp.Hà Nội cấp lần đầu ngày 06/01/2011. <a href="#" target="_blank" style="text-align:right;float:right;color:#fff"> Copyright ©2023 VNPT. All rights reserved.</a></p>
+                <p style="color:#fff;margin-bottom:0">GCNĐKDN số : 0105140413 do Sở KHĐT Tp.Hà Nội cấp lần đầu ngày
+                    06/01/2011. <a href="#" target="_blank" style="text-align:right;float:right;color:#fff"> Copyright
+                        ©2023 VNPT. All rights reserved.</a></p>
             </div>
         </footer>
     </div>

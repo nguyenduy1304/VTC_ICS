@@ -62,8 +62,8 @@
                         <select class="form-control" aria-label=".form-select-sm" style="padding: 5px;"
                             ng-selected="formData.province" ng-model="formData.province" ng-change="listDistricts()">
                             <option value="" selected>--Chọn tỉnh thành--</option>
-                            <option ng-repeat="item in cities" value={{item.Name}}>
-                                {{item.Name}}</option>
+                            <option ng-repeat="item in cities" value={{item.name}}_{{item.id}}>
+                                {{item.name}}</option>
                         </select>
                     </div>
 
@@ -71,20 +71,20 @@
                         <select class="form-control" id="district" aria-label=".form-select-sm"
                             ng-selected="formData.district" ng-model="formData.district" ng-change="listWards()">
                             <option value="" selected>--Chọn quân/huyện--</option>
-                            <option ng-repeat="item in districts" value={{item.Name}}>
-                                {{item.Name}}</option>
+                            <option ng-repeat="item in districts" value={{item.nameId}}>
+                                {{item.name}}</option>
                         </select>
                     </div>
                     <div class="col-xs-4">
                         <select class="form-control" id="commune" aria-label=".form-select-sm"
                             ng-selected="formData.commune" ng-model="formData.commune">
                             <option value="" selected>--Chọn phường/xã--</option>
-                            <option ng-repeat="item in wards" value={{item.Name}}>{{item.Name}}</option>
+                            <option ng-repeat="item in wards" value={{item.nameId}}>{{item.nameId}}</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="form-group ">
+                <!-- <div class="form-group ">
                     <label class="col-xs-2 control-label">Liên kết ICECAST</label>
                     <div class="col-xs-10">
                         <label for="upload-file" class="btn btn-primary">Tải file lên</label>
@@ -92,7 +92,7 @@
                             style="display: none;">
                         <span id="file-name"></span>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="form-group">
                     <label for="description" class="col-sm-2 control-label">Mô tả</label>
@@ -110,7 +110,7 @@
         </div>
     </div>
 </div>
-<script>
+<!-- <script>
     const input = document.getElementById("upload-file");
     const fileName = document.getElementById("file-name");
 
@@ -118,4 +118,4 @@
         const file = event.target.files[0];
         fileName.textContent = file.name;
     });
-</script>
+</script> -->
