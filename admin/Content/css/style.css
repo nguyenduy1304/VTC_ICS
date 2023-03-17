@@ -579,4 +579,27 @@ table.table-style-three td {
     border-radius: 50%;
 }
 
+.radiostreaming_rule_ul {
+    position: absolute;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.radiostreaming_rule_li {
+    color: #000;
+    border: 0px;
+    position: relative;
+    display: inline-block;
+    background-color: rgb(204, 208, 211);
+    z-index: 1;
+}
+
+.radiostreaming_rule_li:hover {
+    cursor: pointer;
+    background-color: rgb(188, 201, 211);
+}
+textarea{
+    resize: none;
+}
 

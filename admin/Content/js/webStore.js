@@ -143,7 +143,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             controller: 'selStatistic$Ctrl',
             templateUrl: window.templateUrl + "/seller/revStatistic.html"
         })
-
         .state('add$account', {
             url: '/account/add',
             cache: false,
@@ -211,138 +210,157 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             templateUrl: window.templateUrl + "/user/info.html"
         })
         //thư viện nguồn============
-        .state('17-22-sourcelibrary', {
+        .state('onephone-sourcelibrary', {
             url: '/thu-vien-nguon',
             allowAnonymous: true,
             controller: 'sourcelibraryCtrl',
-            templateUrl: window.templateUrl + "/17-22/index.html"
+            templateUrl: window.templateUrl + "/onephone/index.html"
         })
-        .state('17-22-add_sourcelibrary', {
+        .state('onephone-add_sourcelibrary', {
             url: '/them-thu-vien-nguon',
             allowAnonymous: true,
             controller: 'add_sourcelibraryCtrl',
-            templateUrl: window.templateUrl + "/17-22/addsourcelibrary.html"
+            templateUrl: window.templateUrl + "/onephone/addsourcelibrary.html"
         })
-        .state('17-22-edit_sourcelibrary', {
+        .state('onephone-edit_sourcelibrary', {
             url: '/cap-nhat-thu-vien-nguon/:id',
             allowAnonymous: true,
             controller: 'edit_sourcelibraryCtrl',
-            templateUrl: window.templateUrl + "/17-22/editsourcelibrary.html"
+            templateUrl: window.templateUrl + "/onephone/editsourcelibrary.html"
         })
         //Báo cáo thống kê=================
-        .state('17-22-reportstatistical', {
+        .state('onephone-reportstatistical', {
             url: '/bao-cao-thong-ke',
             allowAnonymous: true,
             controller: 'reportstatisticalCtrl',
-            templateUrl: window.templateUrl + "/17-22/reportstatistical.html"
+            templateUrl: window.templateUrl + "/onephone/reportstatistical.html"
         })
-        .state('17-22-reportnews', {
+        .state('onephone-reportnews', {
             url: '/bao-cao-thong-ke-ban-tin',
             allowAnonymous: true,
             controller: 'reportnewsCtrl',
-            templateUrl: window.templateUrl + "/17-22/reportnews.html"
+            templateUrl: window.templateUrl + "/onephone/reportnews.html"
         })
-        .state('17-22-reportnewsmedia', {
+        .state('onephone-reportnewsmedia', {
             url: '/bao-cao-thong-ke-ban-tin-media',
             allowAnonymous: true,
             controller: 'reportnewsmediaCtrl',
-            templateUrl: window.templateUrl + "/17-22/reportnewsmedia.html"
+            templateUrl: window.templateUrl + "/onephone/reportnewsmedia.html"
         })
         //Kiến nghị người dân ================
-        .state('17-22-recommend', {
+        .state('onephone-recommend', {
             url: '/kien-nghi-cua-nguoi-dan',
             allowAnonymous: true,
             controller: 'recommendCtrl',
-            templateUrl: window.templateUrl + "/17-22/recommend.html"
+            templateUrl: window.templateUrl + "/onephone/recommend.html"
         })
-        .state('17-22-add_recommend', {
+        .state('onephone-add_recommend', {
             url: '/them-kien-nghi-cua-nguoi-dan',
             allowAnonymous: true,
             controller: 'add_recommendCtrl',
-            templateUrl: window.templateUrl + "/17-22/addrecommend.html"
+            templateUrl: window.templateUrl + "/onephone/addrecommend.html"
         })
-        .state('17-22-edit_recommend', {
+        .state('onephone-edit_recommend', {
             url: '/cap-nhat-kien-nghi-cua-nguoi-dan/:id',
             allowAnonymous: true,
             controller: 'edit_recommendCtrl',
-            templateUrl: window.templateUrl + "/17-22/editrecommend.html"
+            templateUrl: window.templateUrl + "/onephone/editrecommend.html"
         })
         //Quản trị tài khoản người dùng ==================
-        .state('17-22-manageruser', {
+        .state('onephone-manageruser', {
             url: '/quan-tri-tai-khoan-nguoi-dung',
             allowAnonymous: true,
             controller: 'manageruserCtrl',
-            templateUrl: window.templateUrl + "/17-22/manageruser.html"
+            templateUrl: window.templateUrl + "/onephone/manageruser.html"
         })
-        .state('17-22-add-manageruser', {
+        .state('onephone-add-manageruser', {
             url: '/quan-tri-tai-khoan-nguoi-dung/them-moi',
             allowAnonymous: true,
             controller: 'addmanageruserCtrl',
-            templateUrl: window.templateUrl + "/17-22/addmanageruser.html"
+            templateUrl: window.templateUrl + "/onephone/addmanageruser.html"
         })
-        .state('17-22-edit-manageruser', {
+        .state('onephone-edit-manageruser', {
             url: '/cap-nhat-tai-khoan-nguoi-dung/:id',
             //allowAnonymous: true,
             cache: false,
             controller: 'editmanageruserCtrl',
-            templateUrl: window.templateUrl + "/17-22/editmanageruser.html"
+            templateUrl: window.templateUrl + "/onephone/editmanageruser.html"
         })
         //Quản trị group người dùng =================
-        .state('17-22-managergroupuser', {
+        .state('onephone-managergroupuser', {
             url: '/quan-tri-nhom-nguoi-dung',
             allowAnonymous: true,
             controller: 'managergroupuserCtrl',
-            templateUrl: window.templateUrl + "/17-22/managergroupuser.html"
+            templateUrl: window.templateUrl + "/onephone/managergroupuser.html"
         })
-        .state('17-22-add-managergroupuser', {
+        .state('onephone-add-managergroupuser', {
             url: '/them-nhom-nguoi-dung',
             allowAnonymous: true,
             controller: 'addmanagergroupuserCtrl',
-            templateUrl: window.templateUrl + "/17-22/addmanagergroupuser.html"
+            templateUrl: window.templateUrl + "/onephone/addmanagergroupuser.html"
         })
-        .state('17-22-edit-managergroupuser', {
+        .state('onephone-edit-managergroupuser', {
             url: '/cap-nhat-nhom-nguoi-dung/:id',
             allowAnonymous: true,
             controller: 'editmanagergroupuserCtrl',
-            templateUrl: window.templateUrl + "/17-22/editmanagergroupuser.html"
+            templateUrl: window.templateUrl + "/onephone/editmanagergroupuser.html"
         })
         //Nhật ký người dùng ========================
-        .state('17-22-userlog', {
+        .state('onephone-userlog', {
             url: '/nhat-ky-nguoi-su-dung',
             allowAnonymous: true,
             controller: 'userlogCtrl',
-            templateUrl: window.templateUrl + "/17-22/userlog.html"
+            templateUrl: window.templateUrl + "/onephone/userlog.html"
         })
-        .state('17-22-add-userlog', {
+        .state('onephone-add-userlog', {
             url: '/nhat-ky-nguoi-su-dung/them-moi',
             allowAnonymous: true,
             controller: 'adduserlogCtrl',
-            templateUrl: window.templateUrl + "/17-22/adduserlog.html"
+            templateUrl: window.templateUrl + "/onephone/adduserlog.html"
         })
-        .state('17-22-edit-userlog', {
+        .state('onephone-edit-userlog', {
             url: '/nhat-ky-nguoi-su-dung/cap-nhat/:id',
             allowAnonymous: true,
             controller: 'edituserlogCtrl',
-            templateUrl: window.templateUrl + "/17-22/edituserlog.html"
+            templateUrl: window.templateUrl + "/onephone/edituserlog.html"
         })
         //Phát thanh ========================
-        .state('17-22-radiostreaming', {
+        .state('onephone-radiostreaming', {
             url: '/phat-thanh',
             allowAnonymous: true,
             controller: 'radiostreamingCtrl',
-            templateUrl: window.templateUrl + "/17-22/radiostreaming.html"
+            templateUrl: window.templateUrl + "/onephone/radiostreaming.html"
         })
-        .state('17-22-add-radiostreaming', {
+        .state('onephone-add-radiostreaming', {
             url: '/phat-thanh/them-moi',
             allowAnonymous: true,
             controller: 'addradiostreamingCtrl',
-            templateUrl: window.templateUrl + "/17-22/addradiostreaming.html"
+            templateUrl: window.templateUrl + "/onephone/addradiostreaming.html"
         })
-        .state('17-22-edit-radiostreaming', {
+        .state('onephone-edit-radiostreaming', {
             url: '/phat-thanh/cap-nhat/:id',
             allowAnonymous: true,
             controller: 'editradiostreamingCtrl',
-            templateUrl: window.templateUrl + "/17-22/editradiostreaming.html"
+            templateUrl: window.templateUrl + "/onephone/editradiostreaming.html"
+        })
+        // //Kho dữ liệu ========================
+        .state('onephone-sourcewharehouse', {
+            url: '/kho-du-lieu',
+            allowAnonymous: true,
+            controller: 'sourcewharehouseCtrl',
+            templateUrl: window.templateUrl + "/onephone/sourcewharehouse.html"
+        })
+        .state('onephone-add-sourcewharehouse', {
+            url: '/kho-du-lieu/them-moi',
+            allowAnonymous: true,
+            controller: 'addsourcewharehouseCtrl',
+            templateUrl: window.templateUrl + "/onephone/addsourcewharehouse.html"
+        })
+        .state('onephone-edit-sourcewharehouse', {
+            url: '/kho-du-lieu/cap-nhat/:id',
+            allowAnonymous: true,
+            controller: 'editsourcewharehouseCtrl',
+            templateUrl: window.templateUrl + "/onephone/editsourcewharehouse.html"
         })
 });
 app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $state, $interval) {
@@ -476,8 +494,6 @@ app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $st
         }
     }
 })
-
-
 app.controller('radiostreamingCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $.ajax({
         url: domain_api + 'lookups/model/Radiostreaming',
@@ -561,80 +577,38 @@ app.controller('radiostreamingCtrl', function ($dialogConfirm, $http, $scope, $s
         })
     }
 });
-app.controller('addradiostreamingCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    //Citys
-    $.ajax({
-        url: domain_api + 'lookups/model/Provinces',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.cities = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
+app.controller('addradiostreamingCtrl', function (addressService, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    //citys
+    addressService.getCities(user, user_Key, domain_api).then(function (cities) {
+        $scope.cities = cities;
+        // console.log($scope.cities);
     });
-    //Districts
-    $.ajax({
-        url: domain_api + 'lookups/model/Districts',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.list_districts = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
+    //districts
+    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+        $scope.list_districts = districts;
     });
-    //Wards
-    $.ajax({
-        url: domain_api + 'lookups/model/Wards',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.list_wards = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
+    //wards
+    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+        $scope.list_wards = wards;
     });
     $scope.listDistricts = function () {
-        if ($scope.dataForm.provinceID != '') {
+        if ($scope.dataForm.city != '') {
             $scope.districts = [];
             for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.provinceID) {
+                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
                     $scope.districts.push($scope.list_districts[districtId]);
                 }
             }
         }
     }
     $scope.listWards = function () {
-        if ($scope.dataForm.districId != '') {
+        if ($scope.dataForm.district != '') {
             $scope.wards = [];
             for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.dataForm.districId) {
+                if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
                     $scope.wards.push($scope.list_wards[wardId]);
                 }
             }
-            console.log($scope.wards);
         }
     }
     $.ajax({
@@ -647,7 +621,7 @@ app.controller('addradiostreamingCtrl', function ($http, $scope, $state, $rootSc
         success: function (response) {
             const arr = Object.values(response);
             $scope.$apply(function () {
-                $scope.playschedule = arr;
+                $scope.playschedules = arr;
             });
         },
         error: function (xhr, status, error) {
@@ -655,18 +629,19 @@ app.controller('addradiostreamingCtrl', function ($http, $scope, $state, $rootSc
             $rootScope.checkError(e, $dialogAlert);
         }
     });
-    $scope.searchText = "";
-    $scope.selectedPlay = "";
+    $scope.dataForm = {};
+    $scope.dataForm.rule = "";
+    $scope.selectedPlayschedule = "";
     $scope.showList = false;
-    
-    $scope.selectPlay = function(play) {
-      $scope.selectedPlay = play;
-      $scope.searchText = play.nameId;
-      $scope.showList = false;
-    };
 
+    $scope.selectPlayschedule = function (playschedule, event) {
+        $scope.selectedPlayschedule = playschedule;
+        $scope.dataForm.rule = playschedule;
+        $scope.showList = false;
+        $scope.nameId = event.target.getAttribute('data-name-id');
+    };
     $scope.addradiostreaming = function () {
-        console.log($scope.searchText);
+        console.log($scope.nameId);
         // $.ajax({
         //     url: domain_api + 'create/model/Radiostreaming',
         //     type: 'POST',
@@ -690,6 +665,124 @@ app.controller('addradiostreamingCtrl', function ($http, $scope, $state, $rootSc
         // });
     };
 });
+// //Kho dữ liệu ========================
+app.controller('sourcewharehouseCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    $.ajax({
+        url: domain_api + 'lookups/model/Sourcewharehouse',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key
+        },
+        success: function (response) {
+            const arr = Object.values(response);
+            $scope.$apply(function () {
+                $scope.items = arr;
+                $scope.currentPage = 1;
+                $scope.itemsPerPage = PerPage;
+                $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
+                $scope.setPage = function (pageNo) {
+                    $scope.currentPage = pageNo;
+                };
+                $scope.prevPage = function () {
+                    if ($scope.currentPage > 1) {
+                        $scope.currentPage--;
+                    }
+                };
+                $scope.nextPage = function () {
+                    if ($scope.currentPage < $scope.numPages) {
+                        $scope.currentPage++;
+                    }
+                };
+                $scope.range = function () {
+                    var rangeSize = $scope.itemsPerPage;
+                    var ret = [];
+                    var start;
+                    start = $scope.currentPage;
+                    if (start > $scope.numPages - rangeSize) {
+                        start = $scope.numPages - rangeSize + 1;
+                    }
+                    var numbers = [];
+                    for (var i = start; i < start + rangeSize; i++) {
+                        numbers.push(i);
+                    }
+                    for (var i = 0; i < numbers.length; i++) {
+                        if (numbers[i] > 0) {
+                            ret.push(numbers[i]);
+                        }
+                    }
+                    return ret;
+                };
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    $scope.deleteSourcewharehouse = function (id, name) {
+        console.log(id);
+        $dialogConfirm("Bạn chắc chắn muốn xóa dữ liệu có tên <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+            if (res) {
+                $.ajax({
+                    url: domain_api + 'delete/model/Sourcewharehouse',
+                    type: 'POST',
+                    data: {
+                        user: user,
+                        userKey: user_Key,
+                        id: id
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        if (response.status == 200) {
+                            $dialogAlert("Đã xóa dữ liệu thành công", "Thông báo!", "success", function (res) {
+                                $window.location.reload();
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                        $rootScope.checkError(e, $dialogAlert);
+                    }
+                });
+            }
+        })
+    }
+});
+app.controller('addsourcewharehouseCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    $scope.addsourcewharehouse = function () {
+        console.log($scope.nameId);
+        $.ajax({
+            url: domain_api + 'create/model/Sourcewharehouse',
+            type: 'POST',
+            data: {
+                user: user,
+                userKey: user_Key,
+
+                name: $scope.dataForm.name,
+                source: $scope.dataForm.source,
+                uri: $scope.dataForm.uri,
+                field: $scope.dataForm.field,
+                type: $scope.dataForm.type,
+                status: $scope.dataForm.status,
+                note: $scope.dataForm.note
+            },
+            success: function (response) {
+                if (response.status == 200) {
+                    $dialogAlert("Thêm mới vào kho dữ liệu thành công", "Thông báo!", "success", function (res) {
+                        $location.path("/kho-du-lieu");
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
+            }
+        });
+    };
+});
+
+
 
 //============================================================================================================
 
@@ -1525,7 +1618,7 @@ app.controller('edit_recommendCtrl', function ($dialogConfirm, $scope, $state, $
 app.controller('reportnewsCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $http({
         method: 'GET',
-        url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/reportnews.json ',
+        url: 'http://127.0.0.1:5500/admin/Template/onephone/data_json/reportnews.json ',
         headers: {
             'Authorization': "Bearer " + $window.localStorage.token
         }
@@ -1540,12 +1633,10 @@ app.controller('reportnewsCtrl', function ($http, $scope, $state, $rootScope, $d
         $rootScope.checkError(e, $dialogAlert);
     })
 });
-
-
 app.controller('reportnewsmediaCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $http({
         method: 'GET',
-        url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/reportnewsmedia.json ',
+        url: 'http://127.0.0.1:5500/admin/Template/onephone/data_json/reportnewsmedia.json ',
         headers: {
             'Authorization': "Bearer " + $window.localStorage.token
         }
@@ -1564,7 +1655,7 @@ app.controller('reportnewsmediaCtrl', function ($http, $scope, $state, $rootScop
 app.controller('reportstatisticalCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $http({
         method: 'GET',
-        url: 'http://127.0.0.1:5500/admin/Template/17-22/data_json/reportstatistical.json ',
+        url: 'http://127.0.0.1:5500/admin/Template/onephone/data_json/reportstatistical.json ',
         headers: {
             'Authorization': "Bearer " + $window.localStorage.token
         }
@@ -6255,7 +6346,6 @@ app.controller("phantichhanhvi$Ctrl", function ($http, $scope, $rootScope, $stat
     })
 
 })
-
 // function quan ly don hang moza
 app.controller('pmoza$Ctrl', function ($http, $scope, $rootScope, $state, $dialogConfirm, $dialogAlert, $stateParams, $uibModal, $window, $timeout) {
     if ($rootScope.$user && $rootScope.$user.Roles.indexOf('info') < 0) {

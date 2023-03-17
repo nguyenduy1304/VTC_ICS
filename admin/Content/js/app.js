@@ -287,4 +287,47 @@ app.filter('day', function () {
         return input2
     }
 });
-
+//=======================================================================
+app.factory('addressService', [function () {
+    var service = {};
+    service.getCities = function (user, user_Key, domain_api) {
+        return $.ajax({
+            url: domain_api + 'lookups/model/Provinces',
+            type: 'POST',
+            data: {
+                user: user,
+                userKey: user_Key,
+            },
+            success: function (response) {
+                return response;
+            },
+        });
+    };
+    service.getDistricts = function (user, user_Key, domain_api) {
+        return $.ajax({
+            url: domain_api + 'lookups/model/Districts',
+            type: 'POST',
+            data: {
+                user: user,
+                userKey: user_Key,
+            },
+            success: function (response) {
+                return response;
+            },
+        });
+    };
+    service.getWards = function (user, user_Key, domain_api) {
+        return $.ajax({
+            url: domain_api + 'lookups/model/Wards',
+            type: 'POST',
+            data: {
+                user: user,
+                userKey: user_Key,
+            },
+            success: function (response) {
+                return response;
+            },
+        });
+    };
+    return service;
+}]);
