@@ -1,7 +1,7 @@
 var host = window.host;
 var host_api = window.host_api;
 var timer = 10000;
-var PerPage = 4;
+var PerPage = 10;
 var user = 'vtc';
 var user_Key = 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM';
 const domain_api = 'http://ttn.onephone.online/index.php/api/';
@@ -494,6 +494,7 @@ app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $st
         }
     }
 })
+
 app.controller('radiostreamingCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $.ajax({
         url: domain_api + 'lookups/model/Radiostreaming',
@@ -504,6 +505,9 @@ app.controller('radiostreamingCtrl', function ($dialogConfirm, $http, $scope, $s
         },
         success: function (response) {
             const arr = Object.values(response);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
             $scope.$apply(function () {
                 $scope.items = arr;
                 $scope.currentPage = 1;
@@ -641,20 +645,197 @@ app.controller('addradiostreamingCtrl', function (addressService, $http, $scope,
         $scope.nameId = event.target.getAttribute('data-name-id');
     };
     $scope.addradiostreaming = function () {
-        console.log($scope.nameId);
+        var approvaldate= new Date($scope.dataForm.c_approvaldate).getTime() / 1000;
+        var starttime= new Date($scope.dataForm.starttime).getTime() / 1000;
+        var endtime= new Date($scope.dataForm.endtime).getTime() / 1000;
+        $.ajax({
+            url: domain_api + 'create/model/Radiostreaming',
+            type: 'POST',
+            data: {
+                user: user,
+                userKey: user_Key,
+                name: $scope.dataForm.name,
+                rule: $scope.nameId,
+                city: $scope.dataForm.city,
+                district: $scope.dataForm.district,
+                ward: $scope.dataForm.ward,
+                ip: $scope.dataForm.ip,
+                // streamfile:  $scope.dataForm.file,
+                c_content: $scope.dataForm.c_content,
+                c_contentsize: $scope.dataForm.c_contentsize,
+                c_allowedit: $scope.dataForm.c_allowedit,
+                c_approval: $scope.dataForm.c_approval,
+                c_approvaldate: approvaldate,
+                c_approvalInfo1: $scope.dataForm.c_approvalInfo1,
+                c_approvalInfo2: $scope.dataForm.c_approvalInfo2,
+                totaltime: $scope.dataForm.totaltime,
+                c_streamerId: $scope.dataForm.c_streamerId,
+                status: $scope.dataForm.status,
+                broadcaster: $scope.dataForm.broadcaster,
+                starttime: starttime,
+                endtime: endtime,
+                description: $scope.dataForm.description,
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status == 200) {
+                    $dialogAlert("Thêm mới phát thanh thành công", "Thông báo!", "success", function (res) {
+                        $location.path("/phat-thanh");
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log('error');
+                $rootScope.checkError(e, $dialogAlert);
+            }
+        });
+    };
+});
+app.controller('editradiostreamingCtrl', function (addressService,$stateParams, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    //citys
+    addressService.getCities(user, user_Key, domain_api).then(function (cities) {
+        $scope.cities = cities;
+    });
+    //districts
+    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+        $scope.list_districts = districts;
+        if ($scope.dataForm.city != '') {
+            $scope.districts = [];
+            for (var districtId in $scope.list_districts) {
+                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
+                    $scope.districts.push($scope.list_districts[districtId]);
+                }
+            }
+        }
+    });
+    //wards
+    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+        $scope.list_wards = wards;
+        if ($scope.dataForm.district != '') {
+            $scope.wards = [];
+            for (var wardId in $scope.list_wards) {
+                if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
+                    $scope.wards.push($scope.list_wards[wardId]);
+                }
+            }
+        }
+    });
+    $scope.listDistricts = function () {
+        if ($scope.dataForm.city != '') {
+            $scope.districts = [];
+            for (var districtId in $scope.list_districts) {
+                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
+                    $scope.districts.push($scope.list_districts[districtId]);
+                }
+            }
+        }
+    }
+    $scope.listWards = function () {
+        if ($scope.dataForm.district != '') {
+            $scope.wards = [];
+            for (var wardId in $scope.list_wards) {
+                if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
+                    $scope.wards.push($scope.list_wards[wardId]);
+                }
+            }
+        }
+    }
+    $.ajax({
+        url: domain_api + 'lookups/model/Playschedule',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key
+        },
+        success: function (response) {
+            const arr = Object.values(response);
+            $scope.$apply(function () {
+                $scope.playschedules = arr;
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+    $scope.dataForm = {};
+    $scope.dataForm.rule = "";
+    $scope.selectedPlayschedule = "";
+    $scope.showList = false;
+
+    $scope.selectPlayschedule = function (playschedule, event) {
+        $scope.selectedPlayschedule = playschedule;
+        $scope.dataForm.rule = playschedule;
+        $scope.showList = false;
+        $scope.nameId = event.target.getAttribute('data-name-id');
+    };
+
+    var id = $stateParams.id;
+    var approvaldate= new Date($scope.dataForm.c_approvaldate).getTime() / 1000;
+    var starttime= new Date($scope.dataForm.starttime).getTime() / 1000;
+    var endtime= new Date($scope.dataForm.endtime).getTime() / 1000;
+    $.ajax({
+        url: domain_api + 'lookups/model/Radiostreaming',
+        type: 'POST',
+        data: {
+            user: user,
+            userKey: user_Key,
+            id: id
+        },
+        success: function (response) {
+            $scope.$apply(function () {
+                $scope.dataForm = response[id];
+                console.log($scope.dataForm);
+                console.log($scope.dataForm.c_approvaldate);
+                $scope.dataForm.c_contentsize = parseInt($scope.dataForm.c_contentsize);
+                $scope.dataForm.totaltime = parseInt($scope.dataForm.totaltime);
+
+                $scope.dataForm.c_approvaldate = new Date($scope.dataForm.c_approvaldate * 1000);
+                $scope.starttime = new Date($scope.dataForm.starttime * 1000);
+                $scope.endtime = new Date($scope.dataForm.endtime * 1000);
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log('error');
+            $rootScope.checkError(e, $dialogAlert);
+        }
+    });
+
+    $scope.editradiostreaming = function () {
         // $.ajax({
-        //     url: domain_api + 'create/model/Radiostreaming',
+        //     url: domain_api + 'update/model/Radiostreaming',
         //     type: 'POST',
         //     data: {
         //         user: user,
         //         userKey: user_Key,
-        //         nodetype: "VTC",
+        //         id: id,
+        //         name: $scope.dataForm.name,
+        //         rule: $scope.nameId,
+        //         city: $scope.dataForm.city,
+        //         district: $scope.dataForm.district,
+        //         ward: $scope.dataForm.ward,
+        //         ip: $scope.dataForm.ip,
+        //         // streamfile:  $scope.dataForm.file,
+        //         c_content: $scope.dataForm.c_content,
+        //         c_contentsize: $scope.dataForm.c_contentsize,
+        //         c_allowedit: $scope.dataForm.c_allowedit,
+        //         c_approval: $scope.dataForm.c_approval,
+        //         c_approvaldate: approvaldate,
+        //         c_approvalInfo1: $scope.dataForm.c_approvalInfo1,
+        //         c_approvalInfo2: $scope.dataForm.c_approvalInfo2,
+        //         totaltime: $scope.dataForm.totaltime,
+        //         c_streamerId: $scope.dataForm.c_streamerId,
+        //         status: $scope.dataForm.status,
+        //         broadcaster: $scope.dataForm.broadcaster,
+        //         starttime: starttime,
+        //         endtime: endtime,
+        //         description: $scope.dataForm.description,
         //     },
         //     dataType: 'json',
         //     success: function (response) {
         //         if (response.status == 200) {
-        //             $dialogAlert("Thêm mới phát thanh thành công", "Thông báo!", "success", function (res) {
-        //                 $state.go("radiostreamingCtrl");
+        //             $dialogAlert("cập nhật thay đổi phát thanh thành công", "Thông báo!", "success", function (res) {
+        //                 $location.path("/phat-thanh");
         //             });
         //         }
         //     },
@@ -665,6 +846,8 @@ app.controller('addradiostreamingCtrl', function (addressService, $http, $scope,
         // });
     };
 });
+
+
 // //Kho dữ liệu ========================
 app.controller('sourcewharehouseCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $.ajax({
@@ -796,6 +979,9 @@ app.controller('sourcelibraryCtrl', function ($dialogConfirm, $http, $scope, $st
         },
         success: function (response) {
             const arr = Object.values(response);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
             $scope.$apply(function () {
                 $scope.items = arr;
                 $scope.currentPage = 1;
@@ -995,7 +1181,6 @@ app.controller('add_sourcelibraryCtrl', function ($http, $scope, $state, $rootSc
         });
     };
 });
-
 app.controller('edit_sourcelibraryCtrl', function ($http, $scope, $state, $stateParams, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     var id = $stateParams.id;
     //Citys
@@ -1146,7 +1331,6 @@ app.controller('edit_sourcelibraryCtrl', function ($http, $scope, $state, $state
         });
     };
 });
-
 app.controller('managergroupuserCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $.ajax({
         url: domain_api + 'lookups/model/Groups',
@@ -1157,6 +1341,9 @@ app.controller('managergroupuserCtrl', function ($dialogConfirm, $http, $scope, 
         },
         success: function (response) {
             const arr = Object.values(response);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
             $scope.$apply(function () {
                 $scope.groups = arr;
                 $scope.currentPage = 1;
@@ -1304,7 +1491,6 @@ app.controller('editmanagergroupuserCtrl', function ($http, $scope, $state, $roo
         })
     };
 });
-
 app.controller('manageruserCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $.ajax({
         url: domain_api + 'listUsers/model/Users',
@@ -1315,6 +1501,9 @@ app.controller('manageruserCtrl', function ($dialogConfirm, $http, $scope, $stat
         },
         success: function (response) {
             const arr = Object.values(response);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
             $scope.$apply(function () {
                 $scope.users = arr;
                 $scope.currentPage = 1;
@@ -1474,6 +1663,9 @@ app.controller('recommendCtrl', function ($dialogConfirm, $scope, $state, $rootS
         },
         success: function (response) {
             const arr = Object.values(response);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
             $scope.$apply(function () {
                 $scope.items = arr;
                 var filteredData = $filter('filter')($scope.items, $scope.searchKeyword);
@@ -1614,7 +1806,6 @@ app.controller('edit_recommendCtrl', function ($dialogConfirm, $scope, $state, $
     };
 });
 
-
 app.controller('reportnewsCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $http({
         method: 'GET',
@@ -1743,6 +1934,9 @@ app.controller('manageDevice', function ($scope, $state, $http, $window, $dialog
         },
         success: function (response) {
             const arr = Object.values(response);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
             $scope.$apply(function () {
                 $scope.data = arr;
                 $scope.currentPage = 1;
@@ -2122,6 +2316,9 @@ app.controller('managePlayschedule', function ($scope, $state, $http, $window, $
         },
         success: function (response) {
             const arr = Object.values(response);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
             $scope.$apply(function () {
                 $scope.data = arr;
                 $scope.currentPage = 1;
@@ -2616,6 +2813,9 @@ app.controller('managePublicNews', function ($scope, $state, $http, $window, $di
         },
         success: function (response) {
             const arr = Object.values(response);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
             $scope.$apply(function () {
                 $scope.data = arr;
                 $scope.currentPage = 1;
@@ -2835,6 +3035,9 @@ app.controller('manageRadioApp', function ($scope, $state, $http, $window, $dial
         },
         success: function (response) {
             const arr = Object.values(response);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
             $scope.$apply(function () {
                 $scope.data = arr;
                 $scope.currentPage = 1;
