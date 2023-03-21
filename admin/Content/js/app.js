@@ -288,45 +288,51 @@ app.filter('day', function () {
     }
 });
 //=======================================================================
-app.factory('addressService', [function () {
+app.factory('addressService', ['$http', function ($http) {
     var service = {};
     service.getCities = function (user, user_Key, domain_api) {
-        return $.ajax({
+        return $http({
+            method: 'POST',
             url: domain_api + 'lookups/model/Provinces',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
-            },
-            success: function (response) {
-                return response;
-            },
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            return response.data;
         });
     };
     service.getDistricts = function (user, user_Key, domain_api) {
-        return $.ajax({
+        return $http({
+            method: 'POST',
             url: domain_api + 'lookups/model/Districts',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
-            },
-            success: function (response) {
-                return response;
-            },
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            return response.data;
         });
     };
     service.getWards = function (user, user_Key, domain_api) {
-        return $.ajax({
+        return $http({
+            method: 'POST',
             url: domain_api + 'lookups/model/Wards',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
-            },
-            success: function (response) {
-                return response;
-            },
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            return response.data;
         });
     };
     return service;

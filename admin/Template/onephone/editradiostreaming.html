@@ -7,7 +7,7 @@
 <div id="input-invalid">
     <div style="min-height:1000px;">
         <div>
-            <form ng-submit="addradiostreaming()" class="form-horizontal">
+            <form ng-submit="editradiostreaming()" class="form-horizontal">
                 <div class="form-group">
                     <label for="name" class="col-sm-2 control-label">Tên phát thanh</label>
                     <div class="col-sm-4">
@@ -17,7 +17,7 @@
                     <label for="playSearch" class="col-sm-2 control-label">Kế hoạch PT</label>
                     <div class="col-sm-4">
                         <input id="playSearch" type="text" ng-model="dataForm.rule" ng-click="showList = true"
-                            class="form-control" autocomplete="off" placeholder="Nhập tìm kế hoạch phát thanh">
+                            class="form-control" autocomplete="off">
                         <ul ng-show="showList" class="radiostreaming_rule_ul">
                             <li ng-repeat="playschedule in playschedules | filter: dataForm.rule"
                                 ng-click="selectPlayschedule(playschedule.name, $event)"
