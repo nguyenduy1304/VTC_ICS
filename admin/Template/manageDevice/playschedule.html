@@ -28,7 +28,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="item in data | filter:searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
+            <tr
+                ng-repeat="item in data | filter:searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
                 <td style="text-align:center">{{$index + 1}}</td>
                 <td>{{item.nameId}}</td>
                 <td>{{item.dthID}}</td>
@@ -42,7 +43,7 @@
                 <td style="text-align:center;">
                     <a class="glyphicon glyphicon-pencil icon"
                         href="/index.html#!/quan-ly-thiet-bi/lich-phat/cap-nhat/{{item.id}}"></a>
-                    <a class="glyphicon glyphicon-remove icon" ng-click="deletePlayschedule(item.id)"></a>
+                    <a class="glyphicon glyphicon-remove icon" ng-click="deletePlayschedule(item.id,item.nameId)"></a>
                 </td>
             </tr>
         </tbody>

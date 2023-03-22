@@ -495,87 +495,85 @@ app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $st
     }
 })
 
+//Phát thanh =======================
 app.controller('radiostreamingCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    $.ajax({
+    $http({
+        method: 'POST',
         url: domain_api + 'lookups/model/Radiostreaming',
-        type: 'POST',
-        data: {
+        data: new URLSearchParams({
             user: user,
             userKey: user_Key
-        },
-        success: function (response) {
-            const arr = Object.values(response);
-            arr.sort(function (a, b) {
-                return b.id - a.id;
-            });
-            $scope.$apply(function () {
-                $scope.items = arr;
-                $scope.currentPage = 1;
-                $scope.itemsPerPage = PerPage;
-                $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
-                $scope.setPage = function (pageNo) {
-                    $scope.currentPage = pageNo;
-                };
-                $scope.prevPage = function () {
-                    if ($scope.currentPage > 1) {
-                        $scope.currentPage--;
-                    }
-                };
-                $scope.nextPage = function () {
-                    if ($scope.currentPage < $scope.numPages) {
-                        $scope.currentPage++;
-                    }
-                };
-                $scope.range = function () {
-                    var rangeSize = $scope.itemsPerPage;
-                    var ret = [];
-                    var start;
-                    start = $scope.currentPage;
-                    if (start > $scope.numPages - rangeSize) {
-                        start = $scope.numPages - rangeSize + 1;
-                    }
-                    var numbers = [];
-                    for (var i = start; i < start + rangeSize; i++) {
-                        numbers.push(i);
-                    }
-                    for (var i = 0; i < numbers.length; i++) {
-                        if (numbers[i] > 0) {
-                            ret.push(numbers[i]);
-                        }
-                    }
-                    return ret;
-                };
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.items = arr;
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = PerPage;
+        $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };
+        $scope.prevPage = function () {
+            if ($scope.currentPage > 1) {
+                $scope.currentPage--;
+            }
+        };
+        $scope.nextPage = function () {
+            if ($scope.currentPage < $scope.numPages) {
+                $scope.currentPage++;
+            }
+        };
+        $scope.range = function () {
+            var rangeSize = $scope.itemsPerPage;
+            var ret = [];
+            var start;
+            start = $scope.currentPage;
+            if (start > $scope.numPages - rangeSize) {
+                start = $scope.numPages - rangeSize + 1;
+            }
+            var numbers = [];
+            for (var i = start; i < start + rangeSize; i++) {
+                numbers.push(i);
+            }
+            for (var i = 0; i < numbers.length; i++) {
+                if (numbers[i] > 0) {
+                    ret.push(numbers[i]);
+                }
+            }
+            return ret;
+        };
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
     });
     $scope.deleteradiostreaming = function (id, name) {
         console.log(id);
-        $dialogConfirm("Bạn chắc chắn muốn xóa phát thanh có tên <span style='color:red;font-weight:bold;'>" + name + "_" + id + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+        $dialogConfirm("Bạn chắc chắn muốn xóa phát thanh có tên <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
-                $.ajax({
+                $http({
+                    method: 'POST',
                     url: domain_api + 'delete/model/Radiostreaming',
-                    type: 'POST',
-                    data: {
+                    data: new URLSearchParams({
                         user: user,
                         userKey: user_Key,
                         id: id
-                    },
-                    success: function (response) {
-                        console.log(response);
-                        if (response.status == 200) {
-                            $dialogAlert("Đã xóa phát thanh thành công", "Thông báo!", "success", function (res) {
-                                $window.location.reload();
-                            });
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(error);
-                        $rootScope.checkError(e, $dialogAlert);
+                    }).toString(),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
+                }).then(function successCallback(response) {
+                    if (response.status == 200) {
+                        $dialogAlert("Đã xóa phát thanh thành công", "Thông báo!", "success", function (res) {
+                            $window.location.reload();
+                        });
+                    }
+                }, function errorCallback(response) {
+                    $rootScope.checkError(response.data.message, $dialogAlert);
                 });
             }
         })
@@ -585,7 +583,6 @@ app.controller('addradiostreamingCtrl', function (addressService, $http, $scope,
     //citys
     addressService.getCities(user, user_Key, domain_api).then(function (cities) {
         $scope.cities = cities;
-        // console.log($scope.cities);
     });
     //districts
     addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
@@ -615,23 +612,24 @@ app.controller('addradiostreamingCtrl', function (addressService, $http, $scope,
             }
         }
     }
-    $.ajax({
+    $http({
+        method: 'POST',
         url: domain_api + 'lookups/model/Playschedule',
-        type: 'POST',
-        data: {
+        data: new URLSearchParams({
             user: user,
             userKey: user_Key
-        },
-        success: function (response) {
-            const arr = Object.values(response);
-            $scope.$apply(function () {
-                $scope.playschedules = arr;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.playschedules = arr;
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
     });
     $scope.dataForm = {};
     $scope.dataForm.rule = "";
@@ -648,10 +646,12 @@ app.controller('addradiostreamingCtrl', function (addressService, $http, $scope,
         const approvaldate = new Date($scope.dataForm.c_approvaldate).getTime() / 1000;
         const starttime = new Date($scope.dataForm.starttime).getTime() / 1000;
         const endtime = new Date($scope.dataForm.endtime).getTime() / 1000;
-        $.ajax({
+        const totaltime = parseInt($scope.dataForm.totaltime);
+        console.log(totaltime);
+        $http({
+            method: 'POST',
             url: domain_api + 'create/model/Radiostreaming',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
                 name: $scope.dataForm.name,
@@ -669,35 +669,95 @@ app.controller('addradiostreamingCtrl', function (addressService, $http, $scope,
                 c_approvaldate: approvaldate,
                 c_approvalInfo1: $scope.dataForm.c_approvalInfo1,
                 c_approvalInfo2: $scope.dataForm.c_approvalInfo2,
-                totaltime: $scope.dataForm.totaltime,
+                totaltime: totaltime,
                 c_streamerId: $scope.dataForm.c_streamerId,
                 status: $scope.dataForm.status,
                 broadcaster: $scope.dataForm.broadcaster,
                 starttime: starttime,
                 endtime: endtime,
-                description: $scope.dataForm.description,
-            },
-            dataType: 'json',
-            success: function (response) {
-                if (response.status == 200) {
-                    $dialogAlert("Thêm mới phát thanh thành công", "Thông báo!", "success", function (res) {
-                        $location.path("/phat-thanh");
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log('error');
-                $rootScope.checkError(e, $dialogAlert);
+                description: $scope.dataForm.description
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
+        }).then(function successCallback(response) {
+            if (response.status != 404) {
+                $dialogAlert("Thêm mới phát thanh thành công", "Thông báo!", "success", function (res) {
+                    $location.path("/phat-thanh");
+                });
+            } else {
+                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+            }
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
         });
     };
 });
 app.controller('editradiostreamingCtrl', function (addressService, $stateParams, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    var id = $stateParams.id;
+    $http({
+        method: 'POST',
+        url: domain_api + 'lookups/model/Radiostreaming',
+        data: new URLSearchParams({
+            user: user,
+            userKey: user_Key,
+            id: id
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    }).then(function successCallback(response) {
+        $scope.dataForm = response.data[id];
+        $scope.dataForm.c_contentsize = parseInt($scope.dataForm.c_contentsize);
+        $scope.dataForm.totaltime = parseInt($scope.dataForm.totaltime);
+        $scope.dataForm.c_approvaldate = new Date($scope.dataForm.c_approvaldate * 1000);
+        $scope.starttime = new Date($scope.dataForm.starttime * 1000);
+        $scope.endtime = new Date($scope.dataForm.endtime * 1000);
+
+        $scope.nameId = $scope.dataForm.rule;
+        var playschedule = $scope.playschedules.find(function (item) {
+            return item.nameId === $scope.nameId;
+        });
+        if (playschedule) {
+            $scope.dataForm.rule = playschedule.name;
+        }
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
+    });
+    $http({
+        method: 'POST',
+        url: domain_api + 'lookups/model/Playschedule',
+        data: new URLSearchParams({
+            user: user,
+            userKey: user_Key
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.playschedules = arr;
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
+    });
+    $scope.dataForm = {};
+    $scope.dataForm.rule = "";
+    $scope.selectedPlayschedule = "";
+    $scope.showList = false;
+
+    $scope.selectPlayschedule = function (playschedule, event) {
+        $scope.selectedPlayschedule = playschedule;
+        $scope.dataForm.rule = playschedule;
+        $scope.showList = false;
+        $scope.nameId = event.target.getAttribute('data-name-id');
+    };
     //citys
     addressService.getCities(user, user_Key, domain_api).then(function (cities) {
         $scope.cities = cities;
     });
-
     //districts
     addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
         $scope.list_districts = districts;
@@ -742,79 +802,15 @@ app.controller('editradiostreamingCtrl', function (addressService, $stateParams,
             }
         }
     }
-    $.ajax({
-        url: domain_api + 'lookups/model/Playschedule',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key
-        },
-        success: function (response) {
-            const arr = Object.values(response);
-            $scope.$apply(function () {
-                $scope.playschedules = arr;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
-    });
-
-    $scope.dataForm = {};
-    $scope.dataForm.rule = "";
-    $scope.selectedPlayschedule = "";
-    $scope.showList = false;
-
-    $scope.selectPlayschedule = function (playschedule, event) {
-        $scope.selectedPlayschedule = playschedule;
-        $scope.dataForm.rule = playschedule;
-        $scope.showList = false;
-        $scope.nameId = event.target.getAttribute('data-name-id');
-    };
-
-    var id = $stateParams.id;
-    $.ajax({
-        url: domain_api + 'lookups/model/Radiostreaming',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-            id: id
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.dataForm = response[id];
-                $scope.dataForm.c_contentsize = parseInt($scope.dataForm.c_contentsize);
-                $scope.dataForm.totaltime = parseInt($scope.dataForm.totaltime);
-                $scope.dataForm.c_approvaldate = new Date($scope.dataForm.c_approvaldate * 1000);
-                $scope.starttime = new Date($scope.dataForm.starttime * 1000);
-                $scope.endtime = new Date($scope.dataForm.endtime * 1000);
-
-                $scope.nameId = $scope.dataForm.rule;
-                var playschedule = $scope.playschedules.find(function (item) {
-                    return item.nameId === $scope.nameId;
-                });
-                if (playschedule) {
-                    $scope.dataForm.rule = playschedule.name;
-                }
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
-    });
-
     $scope.editradiostreaming = function () {
         const approvaldate_edit = new Date($scope.dataForm.c_approvaldate).getTime() / 1000;
         const starttime_edit = new Date($scope.dataForm.starttime).getTime() / 1000;
         const endtime_edit = new Date($scope.dataForm.endtime).getTime() / 1000;
-
-        $.ajax({
+        const totaltime = parseInt($scope.dataForm.totaltime);
+        $http({
+            method: 'POST',
             url: domain_api + 'update/model/Radiostreaming',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
                 id: id,
@@ -832,110 +828,106 @@ app.controller('editradiostreamingCtrl', function (addressService, $stateParams,
                 c_approvaldate: approvaldate_edit,
                 c_approvalInfo1: $scope.dataForm.c_approvalInfo1,
                 c_approvalInfo2: $scope.dataForm.c_approvalInfo2,
-                totaltime: $scope.dataForm.totaltime,
+                totaltime: totaltime,
                 c_streamerId: $scope.dataForm.c_streamerId,
                 status: $scope.dataForm.status,
                 broadcaster: $scope.dataForm.broadcaster,
                 starttime: starttime_edit,
                 endtime: endtime_edit,
-                description: $scope.dataForm.description,
-            },
-            dataType: 'json',
-            success: function (response) {
-                if (response != 0) {
-                    $dialogAlert("cập nhật thay đổi phát thanh thành công", "Thông báo!", "success", function (res) {
-                        $location.path("/phat-thanh");
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log('error');
-                $rootScope.checkError(e, $dialogAlert);
+                description: $scope.dataForm.description
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
+        }).then(function successCallback(response) {
+            if (response.data.id == id) {
+                $dialogAlert("cập nhật thay đổi phát thanh thành công", "Thông báo!", "success", function (res) {
+                    $location.path("/phat-thanh");
+                });
+            }
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
         });
     };
 });
-
-
-// //Kho dữ liệu ========================
+//Kho dữ liệu ========================
 app.controller('sourcewharehouseCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    $.ajax({
+    $http({
+        method: 'POST',
         url: domain_api + 'lookups/model/Sourcewharehouse',
-        type: 'POST',
-        data: {
+        data: new URLSearchParams({
             user: user,
             userKey: user_Key
-        },
-        success: function (response) {
-            const arr = Object.values(response);
-            $scope.$apply(function () {
-                $scope.items = arr;
-                $scope.currentPage = 1;
-                $scope.itemsPerPage = PerPage;
-                $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
-                $scope.setPage = function (pageNo) {
-                    $scope.currentPage = pageNo;
-                };
-                $scope.prevPage = function () {
-                    if ($scope.currentPage > 1) {
-                        $scope.currentPage--;
-                    }
-                };
-                $scope.nextPage = function () {
-                    if ($scope.currentPage < $scope.numPages) {
-                        $scope.currentPage++;
-                    }
-                };
-                $scope.range = function () {
-                    var rangeSize = $scope.itemsPerPage;
-                    var ret = [];
-                    var start;
-                    start = $scope.currentPage;
-                    if (start > $scope.numPages - rangeSize) {
-                        start = $scope.numPages - rangeSize + 1;
-                    }
-                    var numbers = [];
-                    for (var i = start; i < start + rangeSize; i++) {
-                        numbers.push(i);
-                    }
-                    for (var i = 0; i < numbers.length; i++) {
-                        if (numbers[i] > 0) {
-                            ret.push(numbers[i]);
-                        }
-                    }
-                    return ret;
-                };
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.items = arr;
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = PerPage;
+        $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };
+        $scope.prevPage = function () {
+            if ($scope.currentPage > 1) {
+                $scope.currentPage--;
+            }
+        };
+        $scope.nextPage = function () {
+            if ($scope.currentPage < $scope.numPages) {
+                $scope.currentPage++;
+            }
+        };
+        $scope.range = function () {
+            var rangeSize = $scope.itemsPerPage;
+            var ret = [];
+            var start;
+            start = $scope.currentPage;
+            if (start > $scope.numPages - rangeSize) {
+                start = $scope.numPages - rangeSize + 1;
+            }
+            var numbers = [];
+            for (var i = start; i < start + rangeSize; i++) {
+                numbers.push(i);
+            }
+            for (var i = 0; i < numbers.length; i++) {
+                if (numbers[i] > 0) {
+                    ret.push(numbers[i]);
+                }
+            }
+            return ret;
+        };
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
     });
     $scope.deleteSourcewharehouse = function (id, name) {
-        console.log(id);
         $dialogConfirm("Bạn chắc chắn muốn xóa dữ liệu có tên <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
-                $.ajax({
+                $http({
+                    method: 'POST',
                     url: domain_api + 'delete/model/Sourcewharehouse',
-                    type: 'POST',
-                    data: {
+                    data: new URLSearchParams({
                         user: user,
                         userKey: user_Key,
                         id: id
-                    },
-                    success: function (response) {
-                        console.log(response);
-                        if (response.status == 200) {
-                            $dialogAlert("Đã xóa dữ liệu thành công", "Thông báo!", "success", function (res) {
-                                $window.location.reload();
-                            });
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(error);
-                        $rootScope.checkError(e, $dialogAlert);
+                    }).toString(),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
+                }).then(function successCallback(response) {
+                    if (response.status == 200) {
+                        $dialogAlert("Đã xóa dữ liệu thành công", "Thông báo!", "success", function (res) {
+                            $window.location.reload();
+                        });
+                    }
+                }, function errorCallback(response) {
+                    $rootScope.checkError(response.data.message, $dialogAlert);
                 });
             }
         })
@@ -943,14 +935,12 @@ app.controller('sourcewharehouseCtrl', function ($dialogConfirm, $http, $scope, 
 });
 app.controller('addsourcewharehouseCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $scope.addsourcewharehouse = function () {
-        console.log($scope.nameId);
-        $.ajax({
+        $http({
+            method: 'POST',
             url: domain_api + 'create/model/Sourcewharehouse',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
-
                 name: $scope.dataForm.name,
                 source: $scope.dataForm.source,
                 uri: $scope.dataForm.uri,
@@ -958,23 +948,72 @@ app.controller('addsourcewharehouseCtrl', function ($http, $scope, $state, $root
                 type: $scope.dataForm.type,
                 status: $scope.dataForm.status,
                 note: $scope.dataForm.note
-            },
-            success: function (response) {
-                if (response.status == 200) {
-                    $dialogAlert("Thêm mới vào kho dữ liệu thành công", "Thông báo!", "success", function (res) {
-                        $location.path("/kho-du-lieu");
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log('error');
-                $rootScope.checkError(e, $dialogAlert);
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
+        }).then(function successCallback(response) {
+            if (response.status != 404) {
+                $dialogAlert("Thêm mới vào kho dữ liệu thành công", "Thông báo!", "success", function (res) {
+                    $location.path("/kho-du-lieu");
+                });
+            } else {
+                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+            }
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
         });
     };
 });
-//============================================================================================================
-
+app.controller('editsourcewharehouseCtrl', function ($stateParams, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    var id = $stateParams.id;
+    $http({
+        method: 'POST',
+        url: domain_api + 'lookups/model/Sourcewharehouse',
+        data: new URLSearchParams({
+            user: user,
+            userKey: user_Key,
+            id: id
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    }).then(function successCallback(response) {
+        $scope.dataForm = response.data[id];
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
+    });
+    $scope.editsourcewharehouse = function () {
+        $http({
+            method: 'POST',
+            url: domain_api + 'update/model/Sourcewharehouse',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key,
+                id: id,
+                name: $scope.dataForm.name,
+                source: $scope.dataForm.source,
+                uri: $scope.dataForm.uri,
+                field: $scope.dataForm.field,
+                type: $scope.dataForm.type,
+                status: $scope.dataForm.status,
+                note: $scope.dataForm.note
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            if (response.data.id == id) {
+                $dialogAlert("Cập nhật kho dữ liệu thành công", "Thông báo!", "success", function (res) {
+                    $location.path("/kho-du-lieu");
+                });
+            }
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+    };
+});
+//Thư viện nguồn================
 app.controller('sourcelibraryCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $http({
         method: 'POST',
@@ -992,7 +1031,6 @@ app.controller('sourcelibraryCtrl', function ($dialogConfirm, $http, $scope, $st
             return b.id - a.id;
         });
         $scope.items = arr;
-        console.log($scope.items);
         $scope.currentPage = 1;
         $scope.itemsPerPage = PerPage;
         $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
@@ -1146,6 +1184,24 @@ app.controller('add_sourcelibraryCtrl', function ($http, addressService, $scope,
 });
 app.controller('edit_sourcelibraryCtrl', function ($http, addressService, $scope, $state, $stateParams, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     var id = $stateParams.id;
+    $http({
+        method: 'POST',
+        url: domain_api + 'lookups/model/Mediasource',
+        data: new URLSearchParams({
+            user: user,
+            userKey: user_Key,
+            id: id
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    }).then(function successCallback(response) {
+        $scope.dataForm = response.data[id];
+        $scope.createDate = new Date($scope.dataForm.starttime * 1000);
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
+    });
+    //city
     addressService.getCities(user, user_Key, domain_api)
         .then(function (cities) {
             $scope.cities = cities;
@@ -1196,23 +1252,6 @@ app.controller('edit_sourcelibraryCtrl', function ($http, addressService, $scope
             console.log($scope.wards);
         }
     }
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Mediasource',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key,
-            id: id
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        $scope.dataForm = response.data[id];
-        $scope.createDate = new Date($scope.dataForm.starttime * 1000);
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
     $scope.editsourcelibrary = function () {
         $http({
             method: 'POST',
@@ -1222,7 +1261,6 @@ app.controller('edit_sourcelibraryCtrl', function ($http, addressService, $scope
                 userKey: user_Key,
                 id: id,
                 name: $scope.dataForm.name,
-
                 ipaddress: $scope.dataForm.ipaddress,
                 uri: $scope.dataForm.uri,
                 channel: $scope.dataForm.channel,
@@ -1241,7 +1279,7 @@ app.controller('edit_sourcelibraryCtrl', function ($http, addressService, $scope
             }
         }).then(function successCallback(response) {
             if (response.data.id == id) {
-                $dialogAlert("Cập nhật thư viện nguồn thành công thành công", "Thông báo!", "success", function (res) {
+                $dialogAlert("Cập nhật thư viện nguồn thành công", "Thông báo!", "success", function (res) {
                     $location.path("/thu-vien-nguon");
                 });
             }
@@ -1250,62 +1288,61 @@ app.controller('edit_sourcelibraryCtrl', function ($http, addressService, $scope
         });
     };
 });
+//Nhóm người dùng================
 app.controller('managergroupuserCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    $.ajax({
+    $http({
+        method: 'POST',
         url: domain_api + 'lookups/model/Groups',
-        type: 'POST',
-        data: {
+        data: new URLSearchParams({
             user: user,
             userKey: user_Key
-        },
-        success: function (response) {
-            const arr = Object.values(response);
-            arr.sort(function (a, b) {
-                return b.id - a.id;
-            });
-            $scope.$apply(function () {
-                $scope.groups = arr;
-                $scope.currentPage = 1;
-                $scope.itemsPerPage = PerPage;
-                $scope.numPages = Math.ceil($scope.groups.length / $scope.itemsPerPage);
-                $scope.setPage = function (pageNo) {
-                    $scope.currentPage = pageNo;
-                };
-                $scope.prevPage = function () {
-                    if ($scope.currentPage > 1) {
-                        $scope.currentPage--;
-                    }
-                };
-                $scope.nextPage = function () {
-                    if ($scope.currentPage < $scope.numPages) {
-                        $scope.currentPage++;
-                    }
-                };
-                $scope.range = function () {
-                    var rangeSize = $scope.itemsPerPage;
-                    var ret = [];
-                    var start;
-                    start = $scope.currentPage;
-                    if (start > $scope.numPages - rangeSize) {
-                        start = $scope.numPages - rangeSize + 1;
-                    }
-                    var numbers = [];
-                    for (var i = start; i < start + rangeSize; i++) {
-                        numbers.push(i);
-                    }
-                    for (var i = 0; i < numbers.length; i++) {
-                        if (numbers[i] > 0) {
-                            ret.push(numbers[i]);
-                        }
-                    }
-                    return ret;
-                };
-            });
-        },
-        error: function err(e) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.groups = arr;
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = PerPage;
+        $scope.numPages = Math.ceil($scope.groups.length / $scope.itemsPerPage);
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };
+        $scope.prevPage = function () {
+            if ($scope.currentPage > 1) {
+                $scope.currentPage--;
+            }
+        };
+        $scope.nextPage = function () {
+            if ($scope.currentPage < $scope.numPages) {
+                $scope.currentPage++;
+            }
+        };
+        $scope.range = function () {
+            var rangeSize = $scope.itemsPerPage;
+            var ret = [];
+            var start;
+            start = $scope.currentPage;
+            if (start > $scope.numPages - rangeSize) {
+                start = $scope.numPages - rangeSize + 1;
+            }
+            var numbers = [];
+            for (var i = start; i < start + rangeSize; i++) {
+                numbers.push(i);
+            }
+            for (var i = 0; i < numbers.length; i++) {
+                if (numbers[i] > 0) {
+                    ret.push(numbers[i]);
+                }
+            }
+            return ret;
+        };
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
     });
     $scope.deletegroupuser = function (id) {
         $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
@@ -1327,26 +1364,6 @@ app.controller('managergroupuserCtrl', function ($dialogConfirm, $http, $scope, 
                     }
                 })
             }
-        })
-    }
-    $scope.searchFilter = function () {
-        $http({
-            method: 'GET',
-            url: listapi.managergroupuser.getmanagergroupusercopy,
-            data: {
-                filter: $scope.filter
-            },
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            if (res.status != 404 && res.status != 405) {
-                $scope.groups = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
         })
     }
 });
@@ -1410,62 +1427,61 @@ app.controller('editmanagergroupuserCtrl', function ($http, $scope, $state, $roo
         })
     };
 });
+//Người dùng================
 app.controller('manageruserCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    $.ajax({
+    $http({
+        method: 'POST',
         url: domain_api + 'listUsers/model/Users',
-        type: 'POST',
-        data: {
+        data: new URLSearchParams({
             user: user,
             userKey: user_Key
-        },
-        success: function (response) {
-            const arr = Object.values(response);
-            arr.sort(function (a, b) {
-                return b.id - a.id;
-            });
-            $scope.$apply(function () {
-                $scope.users = arr;
-                $scope.currentPage = 1;
-                $scope.itemsPerPage = PerPage;
-                $scope.numPages = Math.ceil($scope.users.length / $scope.itemsPerPage);
-                $scope.setPage = function (pageNo) {
-                    $scope.currentPage = pageNo;
-                };
-                $scope.prevPage = function () {
-                    if ($scope.currentPage > 1) {
-                        $scope.currentPage--;
-                    }
-                };
-                $scope.nextPage = function () {
-                    if ($scope.currentPage < $scope.numPages) {
-                        $scope.currentPage++;
-                    }
-                };
-                $scope.range = function () {
-                    var rangeSize = $scope.itemsPerPage;
-                    var ret = [];
-                    var start;
-                    start = $scope.currentPage;
-                    if (start > $scope.numPages - rangeSize) {
-                        start = $scope.numPages - rangeSize + 1;
-                    }
-                    var numbers = [];
-                    for (var i = start; i < start + rangeSize; i++) {
-                        numbers.push(i);
-                    }
-                    for (var i = 0; i < numbers.length; i++) {
-                        if (numbers[i] > 0) {
-                            ret.push(numbers[i]);
-                        }
-                    }
-                    return ret;
-                };
-            });
-        },
-        error: function err(e) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.users = arr;
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = PerPage;
+        $scope.numPages = Math.ceil($scope.users.length / $scope.itemsPerPage);
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };
+        $scope.prevPage = function () {
+            if ($scope.currentPage > 1) {
+                $scope.currentPage--;
+            }
+        };
+        $scope.nextPage = function () {
+            if ($scope.currentPage < $scope.numPages) {
+                $scope.currentPage++;
+            }
+        };
+        $scope.range = function () {
+            var rangeSize = $scope.itemsPerPage;
+            var ret = [];
+            var start;
+            start = $scope.currentPage;
+            if (start > $scope.numPages - rangeSize) {
+                start = $scope.numPages - rangeSize + 1;
+            }
+            var numbers = [];
+            for (var i = start; i < start + rangeSize; i++) {
+                numbers.push(i);
+            }
+            for (var i = 0; i < numbers.length; i++) {
+                if (numbers[i] > 0) {
+                    ret.push(numbers[i]);
+                }
+            }
+            return ret;
+        };
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
     });
     $scope.deletemanageruser = function (id) {
         $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
@@ -1490,28 +1506,6 @@ app.controller('manageruserCtrl', function ($dialogConfirm, $http, $scope, $stat
 
         })
     }
-    $scope.searchFilter = function () {
-        console.log($scope.filter);
-        $http({
-            method: 'GET',
-            url: listapi.manageruser.getmanagerusercopy,
-            data: {
-                filter: $scope.filter
-            },
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            if (res.status != 404 && res.status != 405) {
-                $scope.users = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
-
 });
 app.controller('addmanageruserCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $http({
@@ -1572,79 +1566,84 @@ app.controller('editmanageruserCtrl', function ($http, $scope, $state, $rootScop
         })
     };
 });
-app.controller('recommendCtrl', function ($dialogConfirm, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    $.ajax({
+//Kiến nghị người dân================
+app.controller('recommendCtrl', function ($http, $dialogConfirm, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    $http({
+        method: 'POST',
         url: domain_api + 'lookups/model/Custfeedback',
-        type: 'POST',
-        data: {
+        data: new URLSearchParams({
             user: user,
             userKey: user_Key
-        },
-        success: function (response) {
-            const arr = Object.values(response);
-            arr.sort(function (a, b) {
-                return b.id - a.id;
-            });
-            $scope.$apply(function () {
-                $scope.items = arr;
-                var filteredData = $filter('filter')($scope.items, $scope.searchKeyword);
-
-                if ($scope.from_date !== null && $scope.to_date !== null) {
-                    filteredData = $filter('filter')($scope.items, function (item) {
-                        return (parseInt(item.createDate) >= $scope.from_date.getTime() / 1000) && (parseInt(item.createDate) <= $scope.to_date.getTime() / 1000);
-                    });
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.items = arr;
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = PerPage;
+        $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };
+        $scope.prevPage = function () {
+            if ($scope.currentPage > 1) {
+                $scope.currentPage--;
+            }
+        };
+        $scope.nextPage = function () {
+            if ($scope.currentPage < $scope.numPages) {
+                $scope.currentPage++;
+            }
+        };
+        $scope.range = function () {
+            var rangeSize = $scope.itemsPerPage;
+            var ret = [];
+            var start;
+            start = $scope.currentPage;
+            if (start > $scope.numPages - rangeSize) {
+                start = $scope.numPages - rangeSize + 1;
+            }
+            var numbers = [];
+            for (var i = start; i < start + rangeSize; i++) {
+                numbers.push(i);
+            }
+            for (var i = 0; i < numbers.length; i++) {
+                if (numbers[i] > 0) {
+                    ret.push(numbers[i]);
                 }
-                $scope.filteredData = filteredData;
-                console.log($scope.filteredData);
-            });
-        },
-        error: function err(e) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
+            }
+            return ret;
+        };
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
     });
-    //=====================================================
-    $scope.searchKeyword = '';
-    $scope.startDate = null;
-    $scope.endDate = null;
-    $scope.filterData = function () {
-        // Sử dụng filter để lọc dữ liệu dựa trên từ khóa tìm kiếm
-        var filteredData = $filter('filter')($scope.items, $scope.searchKeyword);
-
-        // Nếu có tiêu chí lọc theo ngày, thực hiện lọc thêm
-        if ($scope.startDate !== null && $scope.endDate !== null) {
-            filteredData = $filter('filter')(filteredData, function (item) {
-                return (parseInt(item.createDate) >= $scope.startDate.getTime() / 1000) && (parseInt(item.createDate) <= $scope.endDate.getTime() / 1000);
-            });
-        }
-
-        // Lưu kết quả lọc vào biến $scope.filteredData
-        $scope.filteredData = filteredData;
-    };
-
-    $scope.deleterecommend = function (id) {
-        $dialogConfirm("Bạn chắc chắn muốn kiến nghị người dân có mã <span style='color:red;font-weight:bold;'>" + id + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+    $scope.deleterecommend = function (id, name) {
+        $dialogConfirm("Bạn chắc chắn muốn kiến nghị người dân có tên là <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
-                $.ajax({
+                $http({
+                    method: 'POST',
                     url: domain_api + 'delete/model/Custfeedback',
-                    type: 'POST',
-                    data: {
+                    data: new URLSearchParams({
                         user: user,
                         userKey: user_Key,
                         id: id
-                    },
-                    success: function (response) {
-
-                        if (response.status == 200) {
-                            $dialogAlert("Đã xóa kiến nghị của người dân có mã <span style='color:red;font-weight:bold;'>" + id + "</span> thành công", "Thông báo!", "success", function (res) {
-                                $window.location.reload();
-                            });
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log('error');
-                        $rootScope.checkError(e, $dialogAlert);
+                    }).toString(),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
+                }).then(function successCallback(response) {
+                    if (response.status == 200) {
+                        $dialogAlert("Đã xóa kiến nghị của người dân có mã <span style='color:red;font-weight:bold;'>" + name + "</span> thành công", "Thông báo!", "success", function (res) {
+                            $window.location.reload();
+                        });
+                    }
+                }, function errorCallback(response) {
+                    $rootScope.checkError(response.data.message, $dialogAlert);
                 });
             }
         })
@@ -1652,79 +1651,78 @@ app.controller('recommendCtrl', function ($dialogConfirm, $scope, $state, $rootS
 });
 app.controller('add_recommendCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $scope.addrecommend = function () {
-        $.ajax({
+        $http({
+            method: 'POST',
             url: domain_api + 'create/model/Custfeedback',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
                 name: $scope.dataForm.name,
                 description: $scope.dataForm.description,
                 note: $scope.dataForm.note
-            },
-            success: function (response) {
-                if (response.status == 200) {
-                    $dialogAlert("Thêm kiến nghị người dân thành công", "Thông báo!", "success", function (res) {
-                        $location.path("/kien-nghi-cua-nguoi-dan");
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log('error');
-                $rootScope.checkError(e, $dialogAlert);
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
+        }).then(function successCallback(response) {
+            if (response.status != 404) {
+                $dialogAlert("Thêm kiến nghị người dân thành công", "Thông báo!", "success", function (res) {
+                    $location.path("/kien-nghi-cua-nguoi-dan");
+                });
+            } else {
+                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+            }
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
         });
     };
 });
-app.controller('edit_recommendCtrl', function ($dialogConfirm, $scope, $state, $stateParams, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+app.controller('edit_recommendCtrl', function ($http, $dialogConfirm, $scope, $state, $stateParams, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     var id = $stateParams.id;
-    console.log(id);
-    $.ajax({
+    $http({
+        method: 'POST',
         url: domain_api + 'lookups/model/Custfeedback',
-        type: 'POST',
-        data: {
+        data: new URLSearchParams({
             user: user,
             userKey: user_Key,
             id: id
-        },
-        success: function (response) {
-            console.log(response);
-            $scope.$apply(function () {
-                $scope.dataForm = response[id];
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
+    }).then(function successCallback(response) {
+        $scope.dataForm = response.data[id];
+        $scope.createDate = new Date($scope.dataForm.starttime * 1000);
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
     });
     $scope.editrecommend = function () {
-        $.ajax({
+        $http({
+            method: 'POST',
             url: domain_api + 'update/model/Custfeedback',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
                 id: id,
                 name: $scope.dataForm.name,
                 description: $scope.dataForm.description,
                 note: $scope.dataForm.note
-            },
-            success: function (response) {
-                if (response.id == id) {
-                    $dialogAlert("Cập nhật thư viện nguồn thành công thành công", "Thông báo!", "success", function (res) {
-                        $location.path("/kien-nghi-cua-nguoi-dan");
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log('error');
-                $rootScope.checkError(e, $dialogAlert);
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
+        }).then(function successCallback(response) {
+            if (response.data.id == id) {
+                $dialogAlert("Cập nhật kiến nghị của người dân thành công", "Thông báo!", "success", function (res) {
+                    $location.path("/kien-nghi-cua-nguoi-dan");
+                });
+            }
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
         });
     };
 });
-
+//================
 app.controller('reportnewsCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $http({
         method: 'GET',
@@ -1842,162 +1840,134 @@ app.controller('userlogCtrl', function ($dialogConfirm, $http, $scope, $state, $
         })
     }
 });
-//thai
+//Quản lý thiết bị =========================
 app.controller('manageDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $.ajax({
+    $http({
+        method: 'POST',
         url: domain_api + 'lookups/model/Ippbxextenlocation',
-        type: 'POST',
-        data: {
+        data: new URLSearchParams({
             user: user,
             userKey: user_Key
-        },
-        success: function (response) {
-            const arr = Object.values(response);
-            arr.sort(function (a, b) {
-                return b.id - a.id;
-            });
-            $scope.$apply(function () {
-                $scope.data = arr;
-                $scope.currentPage = 1;
-                $scope.itemsPerPage = PerPage;
-                $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
-                $scope.setPage = function (pageNo) {
-                    $scope.currentPage = pageNo;
-                };
-                $scope.prevPage = function () {
-                    if ($scope.currentPage > 1) {
-                        $scope.currentPage--;
-                    }
-                };
-                $scope.nextPage = function () {
-                    if ($scope.currentPage < $scope.numPages) {
-                        $scope.currentPage++;
-                    }
-                };
-                $scope.range = function () {
-                    var rangeSize = $scope.itemsPerPage;
-                    var ret = [];
-                    var start;
-                    start = $scope.currentPage;
-                    if (start > $scope.numPages - rangeSize) {
-                        start = $scope.numPages - rangeSize + 1;
-                    }
-                    var numbers = [];
-                    for (var i = start; i < start + rangeSize; i++) {
-                        numbers.push(i);
-                    }
-                    for (var i = 0; i < numbers.length; i++) {
-                        if (numbers[i] > 0) {
-                            ret.push(numbers[i]);
-                        }
-                    }
-                    return ret;
-                };
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.data = arr;
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = PerPage;
+        $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };
+        $scope.prevPage = function () {
+            if ($scope.currentPage > 1) {
+                $scope.currentPage--;
+            }
+        };
+        $scope.nextPage = function () {
+            if ($scope.currentPage < $scope.numPages) {
+                $scope.currentPage++;
+            }
+        };
+        $scope.range = function () {
+            var rangeSize = $scope.itemsPerPage;
+            var ret = [];
+            var start;
+            start = $scope.currentPage;
+            if (start > $scope.numPages - rangeSize) {
+                start = $scope.numPages - rangeSize + 1;
+            }
+            var numbers = [];
+            for (var i = start; i < start + rangeSize; i++) {
+                numbers.push(i);
+            }
+            for (var i = 0; i < numbers.length; i++) {
+                if (numbers[i] > 0) {
+                    ret.push(numbers[i]);
+                }
+            }
+            return ret;
+        };
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
     });
-    $scope.deleteDevice = function (id) {
-        $dialogConfirm("Bạn chắc chắn muốn xóa thiết bị có mã <span style='color:red;font-weight:bold;'>" + id + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+    $scope.deleteDevice = function (id, name) {
+        $dialogConfirm("Bạn chắc chắn muốn xóa thiết bị có tên <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
-                $.ajax({
+                $http({
+                    method: 'POST',
                     url: domain_api + 'delete/model/Ippbxextenlocation',
-                    type: 'POST',
-                    data: {
+                    data: new URLSearchParams({
                         user: user,
                         userKey: user_Key,
                         id: id
-                    },
-                    success: function (response) {
-                        if (response.status == 200) {
-                            $dialogAlert("Đã xóa thiết bị thành công", "Thông báo!", "success", function (res) {
-                                $window.location.reload();
-                            });
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log('error');
-                        $rootScope.checkError(e, $dialogAlert);
+                    }).toString(),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
+                }).then(function successCallback(response) {
+                    if (response.status == 200) {
+                        $dialogAlert("Đã xóa thiết bị thành công", "Thông báo!", "success", function (res) {
+                            $window.location.reload();
+                        });
+                    }
+                }, function errorCallback(response) {
+                    $rootScope.checkError(response.data.message, $dialogAlert);
                 });
             }
         })
     }
 })
-app.controller('editDevice', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+app.controller('editDevice', function (addressService, $scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     var id = $stateParams.id;
+    $http({
+        method: 'POST',
+        url: domain_api + 'lookups/model/Ippbxextenlocation',
+        data: new URLSearchParams({
+            user: user,
+            userKey: user_Key,
+            id: id
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    }).then(function successCallback(response) {
+        $scope.dataForm = response.data[id];
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
+    });
     //Citys
-    $.ajax({
-        url: domain_api + 'lookups/model/Provinces',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.cities = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+    addressService.getCities(user, user_Key, domain_api)
+        .then(function (cities) {
+            $scope.cities = cities;
+        });
+    //districts
+    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+        $scope.list_districts = districts;
+        if ($scope.dataForm.city != '') {
+            $scope.districts = [];
+            for (var districtId in $scope.list_districts) {
+                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
+                    $scope.districts.push($scope.list_districts[districtId]);
+                }
+            }
         }
     });
-    //Districts
-    $.ajax({
-        url: domain_api + 'lookups/model/Districts',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.list_districts = response;
-                if ($scope.dataForm.city != '') {
-                    $scope.districts = [];
-                    for (var districtId in $scope.list_districts) {
-                        if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
-                            $scope.districts.push($scope.list_districts[districtId]);
-                        }
-                    }
+    //wards
+    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+        $scope.list_wards = wards;
+        if ($scope.dataForm.district != '') {
+            $scope.wards = [];
+            for (var wardId in $scope.list_wards) {
+                if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
+                    $scope.wards.push($scope.list_wards[wardId]);
                 }
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
-    });
-    //Wards
-    $.ajax({
-        url: domain_api + 'lookups/model/Wards',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.list_wards = response;
-                if ($scope.dataForm.district != '') {
-                    console.log($scope.dataForm.district);
-                    $scope.wards = [];
-                    for (var wardId in $scope.list_wards) {
-                        if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
-                            $scope.wards.push($scope.list_wards[wardId]);
-                        }
-                    }
-                }
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+            }
         }
     });
     $scope.listDistricts = function () {
@@ -2020,30 +1990,11 @@ app.controller('editDevice', function ($scope, $state, $stateParams, $http, $win
             }
         }
     }
-    $.ajax({
-        url: domain_api + 'lookups/model/Ippbxextenlocation',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-            id: id
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.dataForm = response[id];
-
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
-    });
     $scope.editDevice = function () {
-        $.ajax({
+        $http({
+            method: 'POST',
             url: domain_api + 'update/model/Ippbxextenlocation',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
                 id: id,
@@ -2069,95 +2020,35 @@ app.controller('editDevice', function ($scope, $state, $stateParams, $http, $win
                 status: $scope.dataForm.status,
                 c_playstatus: $scope.dataForm.c_playstatus,
                 note: $scope.dataForm.note
-            },
-            success: function (response) {
-                if (response.id == id) {
-                    $dialogAlert("Cập nhật thiết bị thành công thành công", "Thông báo!", "success", function (res) {
-                        $state.go("manageDevice");
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log('error');
-                $rootScope.checkError(e, $dialogAlert);
-            }
-        });
-
-        $http({
-            method: 'POST',
-            url: listAPI.device.editDevice,
-            data: $scope.formData,
+            }).toString(),
             headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
-        }).then(function (res) {
-            if (res.result > 0) {
-                $dialogAlert("Cập nhật thông tin thành công", "Thông báo!", "success", function (res) {
+        }).then(function successCallback(response) {
+            if (response.data.id == id) {
+                $dialogAlert("Cập nhật thiết bị thành công thành công", "Thông báo!", "success", function (res) {
                     $state.go("manageDevice");
                 });
-            } else {
-                $dialogAlert("\n" + res.message, "Thông báo!", "warning");
             }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
     };
 })
-app.controller('addDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+app.controller('addDevice', function (addressService, $scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     $scope.formData = {};
     //Citys
-    $.ajax({
-        url: domain_api + 'lookups/model/Provinces',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.cities = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
+    addressService.getCities(user, user_Key, domain_api)
+        .then(function (cities) {
+            $scope.cities = cities;
+        });
+    //districts
+    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+        $scope.list_districts = districts;
     });
-    //Districts
-    $.ajax({
-        url: domain_api + 'lookups/model/Districts',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.list_districts = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
-    });
-    //Wards
-    $.ajax({
-        url: domain_api + 'lookups/model/Wards',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.list_wards = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
+    //wards
+    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+        $scope.list_wards = wards;
     });
     $scope.listDistricts = function () {
         if ($scope.dataForm.city != '') {
@@ -2182,10 +2073,10 @@ app.controller('addDevice', function ($scope, $state, $http, $window, $dialogAle
         }
     }
     $scope.addDevice = function () {
-        $.ajax({
+        $http({
+            method: 'POST',
             url: domain_api + 'create/model/Ippbxextenlocation',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
                 name: $scope.dataForm.name,
@@ -2210,177 +2101,178 @@ app.controller('addDevice', function ($scope, $state, $http, $window, $dialogAle
                 status: $scope.dataForm.status,
                 c_playstatus: $scope.dataForm.c_playstatus,
                 note: $scope.dataForm.note
-            },
-            success: function (response) {
-                if (response.status == 200) {
-                    $dialogAlert("Thêm thông tin thiết bị thành công", "Thông báo!", "success", function (res) {
-                        $state.go("manageDevice");
-                    });
-                }
-            },
-            error: function (response) {
-                $dialogAlert("\n" + response.message, "Thông báo!", "warning");
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
+        }).then(function successCallback(response) {
+            if (response.status != 404) {
+                $dialogAlert("Thêm thông tin thiết bị thành công", "Thông báo!", "success", function (res) {
+                    $state.go("manageDevice");
+                });
+            } else {
+                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+            }
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
         });
     };
 })
+//Lịch phát thanh============
 app.controller('managePlayschedule', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.filter = '';
-    $.ajax({
+    $http({
+        method: 'POST',
         url: domain_api + 'lookups/model/Playschedule',
-        type: 'POST',
-        data: {
+        data: new URLSearchParams({
             user: user,
             userKey: user_Key
-        },
-        success: function (response) {
-            const arr = Object.values(response);
-            arr.sort(function (a, b) {
-                return b.id - a.id;
-            });
-            $scope.$apply(function () {
-                $scope.data = arr;
-                $scope.currentPage = 1;
-                $scope.itemsPerPage = PerPage;
-                $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
-                $scope.setPage = function (pageNo) {
-                    $scope.currentPage = pageNo;
-                };
-                $scope.prevPage = function () {
-                    if ($scope.currentPage > 1) {
-                        $scope.currentPage--;
-                    }
-                };
-                $scope.nextPage = function () {
-                    if ($scope.currentPage < $scope.numPages) {
-                        $scope.currentPage++;
-                    }
-                };
-                $scope.range = function () {
-                    var rangeSize = $scope.itemsPerPage;
-                    var ret = [];
-                    var start;
-                    start = $scope.currentPage;
-                    if (start > $scope.numPages - rangeSize) {
-                        start = $scope.numPages - rangeSize + 1;
-                    }
-                    var numbers = [];
-                    for (var i = start; i < start + rangeSize; i++) {
-                        numbers.push(i);
-                    }
-                    for (var i = 0; i < numbers.length; i++) {
-                        if (numbers[i] > 0) {
-                            ret.push(numbers[i]);
-                        }
-                    }
-                    return ret;
-                };
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.data = arr;
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = PerPage;
+        $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };
+        $scope.prevPage = function () {
+            if ($scope.currentPage > 1) {
+                $scope.currentPage--;
+            }
+        };
+        $scope.nextPage = function () {
+            if ($scope.currentPage < $scope.numPages) {
+                $scope.currentPage++;
+            }
+        };
+        $scope.range = function () {
+            var rangeSize = $scope.itemsPerPage;
+            var ret = [];
+            var start;
+            start = $scope.currentPage;
+            if (start > $scope.numPages - rangeSize) {
+                start = $scope.numPages - rangeSize + 1;
+            }
+            var numbers = [];
+            for (var i = start; i < start + rangeSize; i++) {
+                numbers.push(i);
+            }
+            for (var i = 0; i < numbers.length; i++) {
+                if (numbers[i] > 0) {
+                    ret.push(numbers[i]);
+                }
+            }
+            return ret;
+        };
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
     });
-    $scope.deletePlayschedule = function (id) {
-        $dialogConfirm("Bạn chắc chắn muốn xóa lịch phát thanh có mã <span style='color:red;font-weight:bold;'>" + id + "</span>  khỏi hệ thống?", "Xác nhận", function (res) {
+    $scope.deletePlayschedule = function (id, nameId) {
+        $dialogConfirm("Bạn chắc chắn muốn xóa lịch phát thanh có mã <span style='color:red;font-weight:bold;'>" + nameId + "</span>  khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
-                $.ajax({
+                $http({
+                    method: 'POST',
                     url: domain_api + 'delete/model/Playschedule',
-                    type: 'POST',
-                    data: {
+                    data: new URLSearchParams({
                         user: user,
                         userKey: user_Key,
                         id: id
-                    },
-                    success: function (response) {
-
-                        if (response.status == 200) {
-                            $dialogAlert("Đã xóa lịch phát thanh thành công", "Thông báo!", "success", function (res) {
-                                $window.location.reload();
-                            });
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log('error');
-                        $rootScope.checkError(e, $dialogAlert);
+                    }).toString(),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
+                }).then(function successCallback(response) {
+                    if (response.status == 200) {
+                        $dialogAlert("Đã xóa lịch phát thanh thành công", "Thông báo!", "success", function (res) {
+                            $window.location.reload();
+                        });
+                    }
+                }, function errorCallback(response) {
+                    $rootScope.checkError(response.data.message, $dialogAlert);
                 });
             }
         })
     }
 })
-app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+app.controller('editPlayschedule', function (addressService, $scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     var id = $stateParams.id;
+    $http({
+        method: 'POST',
+        url: domain_api + 'lookups/model/Playschedule',
+        data: new URLSearchParams({
+            user: user,
+            userKey: user_Key,
+            id: id
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    }).then(function successCallback(response) {
+        $scope.formData = response.data[id];
+
+        $scope.formData.date_from = new Date($scope.formData.date_from * 1000);
+        $scope.formData.date_to = new Date($scope.formData.date_to * 1000);
+
+        $scope.formData.hour_from = new Date($scope.formData.hour_from);
+        $scope.formData.hour_to = new Date($scope.formData.hour_to);
+
+        $scope.formData.hour_from1 = new Date($scope.formData.hour_from1);
+        $scope.formData.hour_to1 = new Date($scope.formData.hour_to1);
+
+        $scope.formData.c_hour_from2 = new Date($scope.formData.c_hour_from2);
+        $scope.formData.c_hour_to2 = new Date($scope.formData.c_hour_to2);
+
+        $scope.formData.c_hour_from3 = new Date($scope.formData.c_hour_from3);
+        $scope.formData.c_hour_to3 = new Date($scope.formData.c_hour_to3);
+
+        $scope.formData.c_hour_from4 = new Date($scope.formData.c_hour_from4);
+        $scope.formData.c_hour_to4 = new Date($scope.formData.c_hour_to4);
+
+        $scope.formData.c_hour_from5 = new Date($scope.formData.c_hour_from5);
+        $scope.formData.c_hour_to5 = new Date($scope.formData.c_hour_to5);
+
+        $scope.week = $scope.formData.week_day;
+        $scope.day = $scope.formData.day;
+        $scope.month = $scope.formData.month;
+
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
+    });
     //Citys
-    $.ajax({
-        url: domain_api + 'lookups/model/Provinces',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.cities = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+    addressService.getCities(user, user_Key, domain_api)
+        .then(function (cities) {
+            $scope.cities = cities;
+        });
+    //districts
+    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+        $scope.list_districts = districts;
+        if ($scope.formData.city != '') {
+            $scope.districts = [];
+            for (var districtId in $scope.list_districts) {
+                if ($scope.list_districts[districtId].provinceId === $scope.formData.city) {
+                    $scope.districts.push($scope.list_districts[districtId]);
+                }
+            }
         }
     });
-    //Districts
-    $.ajax({
-        url: domain_api + 'lookups/model/Districts',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.list_districts = response;
-                if ($scope.formData.city != '') {
-                    $scope.districts = [];
-                    for (var districtId in $scope.list_districts) {
-                        if ($scope.list_districts[districtId].provinceId === $scope.formData.city) {
-                            $scope.districts.push($scope.list_districts[districtId]);
-                        }
-                    }
+    //wards
+    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+        $scope.list_wards = wards;
+        if ($scope.formData.district != '') {
+            $scope.wards = [];
+            for (var wardId in $scope.list_wards) {
+                if ($scope.list_wards[wardId].districtId === $scope.formData.district) {
+                    $scope.wards.push($scope.list_wards[wardId]);
                 }
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
-    });
-    //Wards
-    $.ajax({
-        url: domain_api + 'lookups/model/Wards',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.list_wards = response;
-                if ($scope.formData.district != '') {
-                    $scope.wards = [];
-                    for (var wardId in $scope.list_wards) {
-                        if ($scope.list_wards[wardId].districtId === $scope.formData.district) {
-                            $scope.wards.push($scope.list_wards[wardId]);
-                        }
-                    }
-                    console.log($scope.wards);
-                }
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+            }
+            console.log($scope.wards);
         }
     });
     $scope.listDistricts = function () {
@@ -2404,67 +2296,6 @@ app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http
             console.log($scope.wards);
         }
     }
-    $.ajax({
-        url: domain_api + 'lookups/model/Playschedule',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-            id: id
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.formData = response[id];
-
-                $scope.formData.date_from = new Date($scope.formData.date_from * 1000);
-                $scope.formData.date_to = new Date($scope.formData.date_to * 1000);
-
-                $scope.formData.hour_from = new Date($scope.formData.hour_from);
-                $scope.formData.hour_to = new Date($scope.formData.hour_to);
-
-                $scope.formData.hour_from1 = new Date($scope.formData.hour_from1);
-                $scope.formData.hour_to1 = new Date($scope.formData.hour_to1);
-
-                $scope.formData.c_hour_from2 = new Date($scope.formData.c_hour_from2);
-                $scope.formData.c_hour_to2 = new Date($scope.formData.c_hour_to2);
-
-                $scope.formData.c_hour_from3 = new Date($scope.formData.c_hour_from3);
-                $scope.formData.c_hour_to3 = new Date($scope.formData.c_hour_to3);
-
-                $scope.formData.c_hour_from4 = new Date($scope.formData.c_hour_from4);
-                $scope.formData.c_hour_to4 = new Date($scope.formData.c_hour_to4);
-
-                $scope.formData.c_hour_from5 = new Date($scope.formData.c_hour_from5);
-                $scope.formData.c_hour_to5 = new Date($scope.formData.c_hour_to5);
-
-                $scope.week = $scope.formData.week_day;
-                $scope.day = $scope.formData.day;
-                $scope.month = $scope.formData.month;
-
-                if ($scope.formData.city != '') {
-                    for (i in $scope.cities) {
-                        if ($scope.formData.city == $scope.cities[i].Name) {
-                            $scope.districts = $scope.cities[i].Districts;
-                            break;
-                        }
-                    }
-                }
-                if ($scope.formData.district != '') {
-                    for (i in $scope.districts) {
-                        if ($scope.formData.district == $scope.districts[i].Name) {
-                            $scope.wards = $scope.districts[i].Wards;
-                            break;
-                        }
-                    }
-                }
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log(error);
-            $rootScope.checkError(e, $dialogAlert);
-        }
-    });
-
     $scope.updateWeek = function () {
         $scope.week = "";
         for (var i = 0; i < 8; i++) {
@@ -2490,15 +2321,12 @@ app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http
     };
 
     $scope.editPlayschedule = function () {
-        console.log($scope.week);
-        console.log($scope.day);
-        console.log($scope.week);
         $scope.date_from = new Date($scope.formData.date_from).getTime() / 1000;
         $scope.date_to = new Date($scope.formData.date_to).getTime() / 1000;
-        $.ajax({
+        $http({
+            method: 'POST',
             url: domain_api + 'update/model/Playschedule',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
                 id: id,
@@ -2537,75 +2365,33 @@ app.controller('editPlayschedule', function ($scope, $state, $stateParams, $http
                 month: $scope.month,
                 c_active: $scope.formData.c_active,
                 description: $scope.formData.description
-            },
-            success: function (response) {
-                if (response.id == id) {
-                    $dialogAlert("Cập nhật lịch phát thành công", "Thông báo!", "success", function (res) {
-                        $state.go("managePlayschedule");
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log('error');
-                $rootScope.checkError(e, $dialogAlert);
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
+        }).then(function successCallback(response) {
+            if (response.data.id == id) {
+                $dialogAlert("Cập nhật lịch phát thành công", "Thông báo!", "success", function (res) {
+                    $state.go("managePlayschedule");
+                });
+            }
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
         });
     };
 })
-app.controller('addPlayschedule', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    //Citys
-    $.ajax({
-        url: domain_api + 'lookups/model/Provinces',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.cities = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
+app.controller('addPlayschedule', function (addressService, $scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+    //citys
+    addressService.getCities(user, user_Key, domain_api).then(function (cities) {
+        $scope.cities = cities;
     });
-    //Districts
-    $.ajax({
-        url: domain_api + 'lookups/model/Districts',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.list_districts = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
+    //districts
+    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+        $scope.list_districts = districts;
     });
-    //Wards
-    $.ajax({
-        url: domain_api + 'lookups/model/Wards',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.list_wards = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
+    //wards
+    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+        $scope.list_wards = wards;
     });
     $scope.listDistricts = function () {
         if ($scope.formData.city != '') {
@@ -2660,14 +2446,10 @@ app.controller('addPlayschedule', function ($scope, $state, $http, $window, $dia
 
         $scope.hour_from = $scope.formData.hour_from;
         $scope.hour_to = $scope.formData.hour_to;
-        console.log($scope.week);
-        console.log($scope.day);
-        console.log($scope.month);
-
-        $.ajax({
+        $http({
+            method: 'POST',
             url: domain_api + 'create/model/Playschedule',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
                 name: $scope.formData.name,
@@ -2705,148 +2487,101 @@ app.controller('addPlayschedule', function ($scope, $state, $http, $window, $dia
                 month: $scope.month,
                 c_active: $scope.formData.c_active,
                 description: $scope.formData.description
-
-            },
-            success: function (response) {
-                if (response.status == 200) {
-                    $dialogAlert("Thêm thư viện nguồn thành công", "Thông báo!", "success", function (res) {
-                        $state.go("managePlayschedule");
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log('error');
-                $rootScope.checkError(e, $dialogAlert);
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
+        }).then(function successCallback(response) {
+            if (response.status != 404) {
+                $dialogAlert("Thêm thư viện nguồn thành công", "Thông báo!", "success", function (res) {
+                    $state.go("managePlayschedule");
+                });
+            } else {
+                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+            }
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
         });
     };
 })
+//Bảng tin điện tử cộng đồng ==============================
 app.controller('managePublicNews', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.filter = '';
-    $.ajax({
+    $http({
+        method: 'POST',
         url: domain_api + 'lookups/model/Inforboard',
-        type: 'POST',
-        data: {
+        data: new URLSearchParams({
             user: user,
             userKey: user_Key
-        },
-        success: function (response) {
-            const arr = Object.values(response);
-            arr.sort(function (a, b) {
-                return b.id - a.id;
-            });
-            $scope.$apply(function () {
-                $scope.data = arr;
-                $scope.currentPage = 1;
-                $scope.itemsPerPage = PerPage;
-                $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
-                $scope.setPage = function (pageNo) {
-                    $scope.currentPage = pageNo;
-                };
-                $scope.prevPage = function () {
-                    if ($scope.currentPage > 1) {
-                        $scope.currentPage--;
-                    }
-                };
-                $scope.nextPage = function () {
-                    if ($scope.currentPage < $scope.numPages) {
-                        $scope.currentPage++;
-                    }
-                };
-                $scope.range = function () {
-                    var rangeSize = $scope.itemsPerPage;
-                    var ret = [];
-                    var start;
-                    start = $scope.currentPage;
-                    if (start > $scope.numPages - rangeSize) {
-                        start = $scope.numPages - rangeSize + 1;
-                    }
-                    var numbers = [];
-                    for (var i = start; i < start + rangeSize; i++) {
-                        numbers.push(i);
-                    }
-                    for (var i = 0; i < numbers.length; i++) {
-                        if (numbers[i] > 0) {
-                            ret.push(numbers[i]);
-                        }
-                    }
-                    return ret;
-                };
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.data = arr;
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = PerPage;
+        $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };
+        $scope.prevPage = function () {
+            if ($scope.currentPage > 1) {
+                $scope.currentPage--;
+            }
+        };
+        $scope.nextPage = function () {
+            if ($scope.currentPage < $scope.numPages) {
+                $scope.currentPage++;
+            }
+        };
+        $scope.range = function () {
+            var rangeSize = $scope.itemsPerPage;
+            var ret = [];
+            var start;
+            start = $scope.currentPage;
+            if (start > $scope.numPages - rangeSize) {
+                start = $scope.numPages - rangeSize + 1;
+            }
+            var numbers = [];
+            for (var i = start; i < start + rangeSize; i++) {
+                numbers.push(i);
+            }
+            for (var i = 0; i < numbers.length; i++) {
+                if (numbers[i] > 0) {
+                    ret.push(numbers[i]);
+                }
+            }
+            return ret;
+        };
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
     });
-    //pagination
-    $scope.currentPage = 0;
-    $scope.pageSize = 15;
-    $scope.size = 0;
-    $scope.first = function () {
-        $scope.currentPage = 0;
-    }
-    $scope.next = function () {
-        $scope.currentPage += 1;
-    }
-    $scope.previous = function () {
-        $scope.currentPage -= 1;
-    }
-    $scope.last = function (last) {
-        $scope.currentPage = last;
-    }
-    $scope.thisPage = function (i) {
-        $scope.currentPage = i;
-    }
-    $scope.totalPage = function (size, pageSize) {
-        $scope.size = $window.Math.ceil(size / pageSize);
-        return $window.Math.ceil(size / pageSize);
-    }
-    $scope.filterPublicNews = function () {
-        console.log('filter=' + $scope.filter);
-        $http({
-            method: 'GET',
-            url: listAPI.publicNews.getListPublicNews1,
-            data: {
-                filter: $scope.filter
-            },
-            headers: {
-                'Authorization': "Bearer " + $window.localStorage.token
-            }
-        }).then(function (res) {
-            console.log('ddaay la filter' + $scope.filter);
-            if (res.status != 404 && res.status != 405) {
-                $scope.data = res.data;
-            } else {
-                $dialogAlert("\n Không tìm thấy thông tin", "Thông báo!", "warning");
-            }
-        }, function err(e) {
-            $rootScope.checkError(e, $dialogAlert);
-        })
-    }
-    $scope.deletePublicNews = function (id) {
-        $dialogConfirm("Bạn chắc chắn muốn xóa bản tin điện tử <span style='color:red;font-weight:bold;'>" + id + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+    $scope.deletePublicNews = function (id, nameId) {
+        $dialogConfirm("Bạn chắc chắn muốn xóa bản tin điện tử có mã <span style='color:red;font-weight:bold;'>" + nameId + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
-                $.ajax({
+                $http({
+                    method: 'POST',
                     url: domain_api + 'delete/model/Inforboard',
-                    type: 'POST',
-                    data: {
+                    data: new URLSearchParams({
                         user: user,
                         userKey: user_Key,
                         id: id
-                    },
-                    success: function (response) {
-
-                        if (response.status == 200) {
-                            $dialogAlert("Đã Xóa bảng tin điện tử thành công", "Thông báo!", "success", function (res) {
-                                $window.location.reload();
-                            });
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log('error');
-                        $rootScope.checkError(e, $dialogAlert);
+                    }).toString(),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
+                }).then(function successCallback(response) {
+                    if (response.status == 200) {
+                        $dialogAlert("Đã Xóa bảng tin điện tử thành công", "Thông báo!", "success", function (res) {
+                            $window.location.reload();
+                        });
+                    }
+                }, function errorCallback(response) {
+                    $rootScope.checkError(response.data.message, $dialogAlert);
                 });
             }
 
@@ -2856,248 +2591,270 @@ app.controller('managePublicNews', function ($scope, $state, $http, $window, $di
 })
 app.controller('editPublicNews', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     var id = $stateParams.id;
+    $http({
+        method: 'POST',
+        url: domain_api + 'lookups/model/Radionode',
+        data: new URLSearchParams({
+            user: user,
+            userKey: user_Key
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.radionodes = arr;
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
+    });
+    $scope.formData = {};
+    $scope.formData.dthID = "";
+    $scope.selectedRadionode = "";
+    $scope.showList = false;
 
-    $.ajax({
+    $scope.selectRadionode = function (radionode, event) {
+        $scope.selectedRadionode = radionode;
+        $scope.formData.dthID = radionode;
+        $scope.showList = false;
+        $scope.dthID = event.target.getAttribute('data-name-id');
+    };
+    $http({
+        method: 'POST',
         url: domain_api + 'lookups/model/Inforboard',
-        type: 'POST',
-        data: {
+        data: new URLSearchParams({
             user: user,
             userKey: user_Key,
             id: id
-        },
-        success: function (response) {
-            console.log(response);
-            $scope.$apply(function () {
-                $scope.formData = response[id];
-                console.log($scope.formData.createDate);
-                $scope.formData.createDate = new Date($scope.formData.createDate * 1000);
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
+    }).then(function successCallback(response) {
+        $scope.formData = response.data[id];
+
+        $scope.dthID = $scope.formData.dthID;
+        var radionode = $scope.radionodes.find(function (item) {
+                return item.nameId === $scope.dthID;
+        });
+        if (radionode) {
+            $scope.formData.dthID = radionode.name;
+        }
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
     });
     $scope.editPublicNews = function () {
-        $.ajax({
+        $http({
+            method: 'POST',
             url: domain_api + 'update/model/Inforboard',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
                 id: id,
                 name: $scope.formData.name,
-                dthID: $scope.formData.dthID,
+                dthID: $scope.dthID,
                 address: $scope.formData.address,
                 lat: $scope.formData.lat,
                 lng: $scope.formData.lng,
                 status: $scope.formData.status,
                 deviceType: $scope.formData.deviceType,
-                note: $scope.formData.note,
-            },
-            success: function (response) {
-                if (response.id == id) {
-                    $dialogAlert("Cập nhật bảng tin điện tử thành công thành công", "Thông báo!", "success", function (res) {
-                        $state.go("managePublicNews")
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log('error');
-                $rootScope.checkError(e, $dialogAlert);
+                live_url: $scope.formData.live_url,
+                note: $scope.formData.note
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
+        }).then(function successCallback(response) {
+            if (response.data.id == id) {
+                $dialogAlert("Cập nhật bảng tin điện tử thành công thành công", "Thông báo!", "success", function (res) {
+                    $state.go("managePublicNews")
+                });
+            }
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
         });
     };
 })
 app.controller('addPublicNews', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+    $http({
+        method: 'POST',
+        url: domain_api + 'lookups/model/Radionode',
+        data: new URLSearchParams({
+            user: user,
+            userKey: user_Key
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.radionodes = arr;
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
+    });
+    $scope.formData = {};
+    $scope.formData.dthID = "";
+    $scope.selectedRadionode = "";
+    $scope.showList = false;
+
+    $scope.selectRadionode = function (radionode, event) {
+        $scope.selectedRadionode = radionode;
+        $scope.formData.dthID = radionode;
+        $scope.showList = false;
+        $scope.dthID = event.target.getAttribute('data-name-id');
+    };
     $scope.addPublicNews = function () {
-        console.log($scope.formData);
-        console.log($scope.formData.status);
-        $.ajax({
+        $http({
+            method: 'POST',
             url: domain_api + 'create/model/Inforboard',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
                 name: $scope.formData.name,
-                dthID: $scope.formData.dthID,
+                dthID: $scope.dthID,
                 address: $scope.formData.address,
                 lat: $scope.formData.lat,
                 lng: $scope.formData.lng,
                 status: $scope.formData.status,
                 deviceType: $scope.formData.deviceType,
-                note: $scope.formData.note,
-            },
-            dataType: 'json',
-            success: function (response) {
-                if (response.status == 200) {
-                    $dialogAlert("Thêm bảng tin điện tử thành công", "Thông báo!", "success", function (res) {
-                        $state.go("managePublicNews");
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log('error');
-                $rootScope.checkError(e, $dialogAlert);
+                live_url: $scope.formData.live_url,
+                note: $scope.formData.note
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
+        }).then(function successCallback(response) {
+            if (response.status != 404) {
+                $dialogAlert("Thêm bảng tin điện tử thành công", "Thông báo!", "success", function (res) {
+                    $state.go("managePublicNews");
+                });
+            } else {
+                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+            }
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
         });
     };
 })
+// ================
 app.controller('manageRadioApp', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.filter = '';
-    $.ajax({
+    $http({
+        method: 'POST',
         url: domain_api + 'lookups/model/Radionode',
-        type: 'POST',
-        data: {
+        data: new URLSearchParams({
             user: user,
             userKey: user_Key
-        },
-        success: function (response) {
-            const arr = Object.values(response);
-            arr.sort(function (a, b) {
-                return b.id - a.id;
-            });
-            $scope.$apply(function () {
-                $scope.data = arr;
-                $scope.currentPage = 1;
-                $scope.itemsPerPage = PerPage;
-                $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
-                $scope.setPage = function (pageNo) {
-                    $scope.currentPage = pageNo;
-                };
-                $scope.prevPage = function () {
-                    if ($scope.currentPage > 1) {
-                        $scope.currentPage--;
-                    }
-                };
-                $scope.nextPage = function () {
-                    if ($scope.currentPage < $scope.numPages) {
-                        $scope.currentPage++;
-                    }
-                };
-                $scope.range = function () {
-                    var rangeSize = $scope.itemsPerPage;
-                    var ret = [];
-                    var start;
-                    start = $scope.currentPage;
-                    if (start > $scope.numPages - rangeSize) {
-                        start = $scope.numPages - rangeSize + 1;
-                    }
-                    var numbers = [];
-                    for (var i = start; i < start + rangeSize; i++) {
-                        numbers.push(i);
-                    }
-                    for (var i = 0; i < numbers.length; i++) {
-                        if (numbers[i] > 0) {
-                            ret.push(numbers[i]);
-                        }
-                    }
-                    return ret;
-                };
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.data = arr;
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = PerPage;
+        $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };
+        $scope.prevPage = function () {
+            if ($scope.currentPage > 1) {
+                $scope.currentPage--;
+            }
+        };
+        $scope.nextPage = function () {
+            if ($scope.currentPage < $scope.numPages) {
+                $scope.currentPage++;
+            }
+        };
+        $scope.range = function () {
+            var rangeSize = $scope.itemsPerPage;
+            var ret = [];
+            var start;
+            start = $scope.currentPage;
+            if (start > $scope.numPages - rangeSize) {
+                start = $scope.numPages - rangeSize + 1;
+            }
+            var numbers = [];
+            for (var i = start; i < start + rangeSize; i++) {
+                numbers.push(i);
+            }
+            for (var i = 0; i < numbers.length; i++) {
+                if (numbers[i] > 0) {
+                    ret.push(numbers[i]);
+                }
+            }
+            return ret;
+        };
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
     });
-    $scope.deleteRadioApp = function (id) {
-        $dialogConfirm("Bạn chắc chắn muốn xóa đài truyền thanh mã <span style='color:red;font-weight:bold;'>" + id + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+    $scope.deleteRadioApp = function (id, nameId) {
+        $dialogConfirm("Bạn chắc chắn muốn xóa đài truyền thanh mã <span style='color:red;font-weight:bold;'>" + nameId + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
-                $.ajax({
+                $http({
+                    method: 'POST',
                     url: domain_api + 'delete/model/Radionode',
-                    type: 'POST',
-                    data: {
+                    data: new URLSearchParams({
                         user: user,
                         userKey: user_Key,
                         id: id
-                    },
-                    success: function (response) {
-                        if (response.status == 200) {
-                            $dialogAlert("Xóa đài truyền thanh và ứng dụng cntt - vt thành công", "Thông báo!", "success", function (res) {
-                                $window.location.reload();
-                            });
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log('error');
-                        $rootScope.checkError(e, $dialogAlert);
+                    }).toString(),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     }
+                }).then(function successCallback(response) {
+                    if (response.status == 200) {
+                        $dialogAlert("Đã xóa đài truyền thanh và ứng dụng cntt - vt thành công", "Thông báo!", "success", function (res) {
+                            $window.location.reload();
+                        });
+                    }
+                }, function errorCallback(response) {
+                    $rootScope.checkError(response.data.message, $dialogAlert);
                 });
             }
         })
     }
 })
-app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+app.controller('editRadioApp', function (addressService, $scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     $scope.formData = {};
     var id = $stateParams.id;
-    $.ajax({
-        url: domain_api + 'lookups/model/Provinces',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.cities = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+
+    //Citys
+    addressService.getCities(user, user_Key, domain_api)
+        .then(function (cities) {
+            $scope.cities = cities;
+        });
+    //districts
+    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+        $scope.list_districts = districts;
+        if ($scope.formData.province != '') {
+            $scope.districts = [];
+            for (var districtId in $scope.list_districts) {
+                if ($scope.list_districts[districtId].provinceId === $scope.formData.province) {
+                    $scope.districts.push($scope.list_districts[districtId]);
+                }
+            }
         }
     });
-    //Districts
-    $.ajax({
-        url: domain_api + 'lookups/model/Districts',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.list_districts = response;
-                if ($scope.formData.province != '') {
-                    $scope.districts = [];
-                    for (var districtId in $scope.list_districts) {
-                        if ($scope.list_districts[districtId].provinceId === $scope.formData.province) {
-                            $scope.districts.push($scope.list_districts[districtId]);
-                        }
-                    }
+    //wards
+    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+        $scope.list_wards = wards;
+        if ($scope.formData.districId != '') {
+            $scope.wards = [];
+            for (var wardId in $scope.list_wards) {
+                if ($scope.list_wards[wardId].districtId === $scope.formData.districId) {
+                    $scope.wards.push($scope.list_wards[wardId]);
                 }
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
-    });
-    //Wards
-    $.ajax({
-        url: domain_api + 'lookups/model/Wards',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.list_wards = response;
-                if ($scope.formData.districId != '') {
-                    $scope.wards = [];
-                    for (var wardId in $scope.list_wards) {
-                        if ($scope.list_wards[wardId].districtId === $scope.formData.districId) {
-                            $scope.wards.push($scope.list_wards[wardId]);
-                        }
-                    }
-                }
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+            }
         }
     });
     $scope.listDistricts = function () {
@@ -3120,34 +2877,30 @@ app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $w
             }
         }
     }
-
-    $.ajax({
+    $http({
+        method: 'POST',
         url: domain_api + 'lookups/model/Radionode',
-        type: 'POST',
-        data: {
+        data: new URLSearchParams({
             user: user,
             userKey: user_Key,
             id: id
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.formData = response[id];
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
+    }).then(function successCallback(response) {
+        $scope.formData = response.data[id];
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
     });
-
     $scope.editRadioApp = function () {
         // const file = document.getElementById("file-name").textContent;
         // $scope.icecast_url = file;
         // console.log($scope.icecast_url);
-        $.ajax({
+        $http({
+            method: 'POST',
             url: domain_api + 'update/model/Radionode',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
                 id: id,
@@ -3160,79 +2913,36 @@ app.controller('editRadioApp', function ($scope, $state, $stateParams, $http, $w
                 districId: $scope.formData.districId,
                 communeId: $scope.formData.communeId,
                 description: $scope.formData.description,
-
                 // icecast_url: $scope.icecast_url
-            },
-            success: function (response) {
-
-                if (response.id == id) {
-                    $dialogAlert("Cập nhật truyền thanh và ứng dụng cntt - vt thành công", "Thông báo!", "success", function (res) {
-                        $state.go("manageRadioApp");
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log('error');
-                $rootScope.checkError(e, $dialogAlert);
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
+        }).then(function successCallback(response) {
+            if (response.data.id == id) {
+                $dialogAlert("Cập nhật truyền thanh và ứng dụng cntt - vt thành công", "Thông báo!", "success", function (res) {
+                    $state.go("manageRadioApp");
+                });
+            }
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
         });
     };
 })
-app.controller('addRadioApp', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+app.controller('addRadioApp', function (addressService, $scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     $scope.formData = {};
     //Citys
-    $.ajax({
-        url: domain_api + 'lookups/model/Provinces',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.cities = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
+    addressService.getCities(user, user_Key, domain_api)
+        .then(function (cities) {
+            $scope.cities = cities;
+        });
+    //districts
+    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+        $scope.list_districts = districts;
     });
-    //Districts
-    $.ajax({
-        url: domain_api + 'lookups/model/Districts',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.list_districts = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
-    });
-    //Wards
-    $.ajax({
-        url: domain_api + 'lookups/model/Wards',
-        type: 'POST',
-        data: {
-            user: user,
-            userKey: user_Key,
-        },
-        success: function (response) {
-            $scope.$apply(function () {
-                $scope.list_wards = response;
-            });
-        },
-        error: function (xhr, status, error) {
-            console.log('error');
-            $rootScope.checkError(e, $dialogAlert);
-        }
+    //wards
+    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+        $scope.list_wards = wards;
     });
     $scope.listDistricts = function () {
         if ($scope.formData.province != '') {
@@ -3261,10 +2971,10 @@ app.controller('addRadioApp', function ($scope, $state, $http, $window, $dialogA
     $scope.addRadioApp = function () {
         // const file = document.getElementById("upload-file").files[0];
         // $scope.icecast_url = file.name;
-        $.ajax({
+        $http({
+            method: 'POST',
             url: domain_api + 'create/model/Radionode',
-            type: 'POST',
-            data: {
+            data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
                 name: $scope.formData.name,
@@ -3277,21 +2987,21 @@ app.controller('addRadioApp', function ($scope, $state, $http, $window, $dialogA
                 communeId: $scope.formData.commune,
                 description: $scope.formData.description,
 
-                icecast_url: $scope.icecast_url
-            },
-            success: function (response) {
-                if (response.status == 200) {
-                    $dialogAlert("Thêm đài truyền thanh và ứng dụng cntt - vt thành công", "Thông báo!", "success", function (res) {
-                        $state.go("manageRadioApp");
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log("Data:" + data);
-
-                console.log('error');
-                $rootScope.checkError(e, $dialogAlert);
+                //icecast_url: $scope.icecast_url
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
+        }).then(function successCallback(response) {
+            if (response.status != 404) {
+                $dialogAlert("Thêm đài truyền thanh và ứng dụng cntt - vt thành công", "Thông báo!", "success", function (res) {
+                    $state.go("manageRadioApp");
+                });
+            } else {
+                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+            }
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
         });
     };
 })

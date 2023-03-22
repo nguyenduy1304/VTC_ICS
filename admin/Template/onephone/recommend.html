@@ -37,7 +37,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="item in items | filter: searchKeyword">
+      <tr ng-repeat="item in items | filter: searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
         <td style="text-align:center">{{$index+1}}</td>
         <td>{{item.createDate*1000 | date:'dd/MM/yyyy'}}</td>
         <td>{{item.name}}</td                                                                                                           >
@@ -49,9 +49,18 @@
         </td>
         <td style="text-align:center;">
           <a class="glyphicon glyphicon-pencil icon" href="../index.html#!/cap-nhat-kien-nghi-cua-nguoi-dan/{{item.id}}"></a>
-          <a class="glyphicon glyphicon-remove icon" ng-click="deleterecommend(item.id)"></a>
+          <a class="glyphicon glyphicon-remove icon" ng-click="deleterecommend(item.id,item.name)"></a>
         </td>
       </tr>
     </tbody>
   </table>
+</div>
+<div class="pagelist">
+  <div class="pagination-wrapper">
+    <div class="pagination">
+      <a class="prev page-numbers" href="javascript:;" ng-click="prevPage()">Trước</a>
+      <a class="page-numbers" href="javascript:;"ng-repeat="page in range()" ng-class="{active: currentPage == page}" ng-click="setPage(page)">{{ page }}</a>
+      <a class="next page-numbers" href="javascript:;" ng-click="nextPage()">Sau</a>
+    </div>
+  </div>
 </div>

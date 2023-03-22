@@ -192,4 +192,16 @@
         const file = event.target.files[0];
         fileName.textContent = file.name;
     });
+    //======================================================================
+    const inputElement = document.getElementById('playSearch');
+    const ulElement = document.querySelector('.radiostreaming_rule_ul');
+    document.addEventListener('click', (event) => {
+        const isClickInsideInput = inputElement.contains(event.target);
+        if (!isClickInsideInput) {
+            ulElement.style.display = 'none';
+        }
+    });
+    inputElement.addEventListener('click', () => {
+        ulElement.style.display = 'block';
+    });
 </script>

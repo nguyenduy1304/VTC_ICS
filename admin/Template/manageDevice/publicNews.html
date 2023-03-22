@@ -31,7 +31,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="item in data | filter:searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
-                <td style="text-align:center">{{$index+ currentPage*pageSize}}</td>
+                <td style="text-align:center">{{$index+1}}</td>
                 <td>{{item.nameId}}</td>
                 <td>{{item.createDate*1000 | date:'dd/MM/yyyy'}}</td>
                 <td>{{item.name}}</td>
@@ -42,7 +42,7 @@
                 <td style="text-align:center;">
                     <a class="glyphicon glyphicon-pencil icon"
                         href="/index.html#!/quan-ly-thiet-bi/bang-tin-cong-cong/cap-nhat/{{item.id}}"></a>
-                    <a class="glyphicon glyphicon-remove icon" ng-click="deletePublicNews(item.id)"></a>
+                    <a class="glyphicon glyphicon-remove icon" ng-click="deletePublicNews(item.id, item.nameId)"></a>
                 </td>
             </tr>
         </tbody>
