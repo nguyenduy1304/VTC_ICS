@@ -4,24 +4,35 @@
             <div class="left">
                 <div class="content">
                     <div class="header">
-                        <div class="logo text-center"><img src="./content/images/logo-vtc.png" alt="VTC PORTAL" style="width:180px;"></div>
+                        <div class="logo text-center"><img
+                                src="./content/images/logo-vtc.png" alt="VTC
+                                PORTAL" style="width:180px;"></div>
                         <p class="lead">Đăng nhập hệ thống</p>
                     </div>
-                    <form class="form-auth-small" name="signinForm" id="signinForm">
+                    <form class="form-auth-small" name="signinForm"
+                        id="signinForm">
                         <div class="form-group">
-                            <label for="signin-email" class="control-label sr-only">Email</label>
-                            <input class="form-control" type="text" placeholder="Tài khoản" name="username" ng-model="data.username" required>
+                            <label for="signin-email" class="control-label
+                                sr-only">Email</label>
+                            <input class="form-control" type="text"
+                                placeholder="Tài khoản" name="username"
+                                ng-model="data.username" required>
                         </div>
                         <div class="form-group">
-                            <label for="signin-password" class="control-label sr-only">Password</label>
-                            <input type="password" class="form-control" placeholder="Mật khẩu" name="password" ng-model="data.password" required>
+                            <label for="signin-password" class="control-label
+                                sr-only">Password</label>
+                            <input type="password" class="form-control"
+                                placeholder="Mật khẩu" name="password"
+                                ng-model="data.password" required>
                         </div>
                         <div class="form-group clearfix">
-                            <div class="has-error" style="color:red;" ng-if="error">
+                            <div class="has-error" style="color:red;"
+                                ng-if="error">
                                 <p class="has-error" ng-if="error">{{error}}</p>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="loginButton" >Đăng nhập</button>
+                        <button type="submit" class="btn btn-primary btn-lg
+                            btn-block" id="loginButton">Đăng nhập</button>
                     </form>
                 </div>
             </div>
@@ -37,15 +48,15 @@
     </div>
 </div>
 <style>
-    .fixed-footer {
-       position: fixed;
-       bottom: 0;
-       left: 0;
-       right: 0;
-       background-color: #1668af;
-       padding: 15px;
-       color: #fff;
-       margin-left:0; 
-       padding-left:0;
+    footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1668af;
+    color: #fff;
+    padding: 15px;
+    margin-left:0px;
     }
- </style>
+
+</style>

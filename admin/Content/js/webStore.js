@@ -2205,6 +2205,37 @@ app.controller('editPlayschedule', function (addressService, $scope, $state, $st
     var id = $stateParams.id;
     $http({
         method: 'POST',
+        url: domain_api + 'lookups/model/Radionode',
+        data: new URLSearchParams({
+            user: user,
+            userKey: user_Key
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.radionodes = arr;
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
+    });
+    $scope.formData = {};
+    $scope.formData.dthID = "";
+    $scope.selectedRadionode = "";
+    $scope.showList = false;
+
+    $scope.selectRadionode = function (radionode, event) {
+        $scope.selectedRadionode = radionode;
+        $scope.formData.dthID = radionode;
+        $scope.showList = false;
+        $scope.dthID = event.target.getAttribute('data-name-id');
+    };
+
+    $http({
+        method: 'POST',
         url: domain_api + 'lookups/model/Playschedule',
         data: new URLSearchParams({
             user: user,
@@ -2241,6 +2272,14 @@ app.controller('editPlayschedule', function (addressService, $scope, $state, $st
         $scope.week = $scope.formData.week_day;
         $scope.day = $scope.formData.day;
         $scope.month = $scope.formData.month;
+
+        $scope.dthID = $scope.formData.dthID;
+        var radionode = $scope.radionodes.find(function (item) {
+                return item.nameId === $scope.dthID;
+        });
+        if (radionode) {
+            $scope.formData.dthID = radionode.name;
+        }
 
     }, function errorCallback(response) {
         $rootScope.checkError(response.data.message, $dialogAlert);
@@ -2331,7 +2370,7 @@ app.controller('editPlayschedule', function (addressService, $scope, $state, $st
                 userKey: user_Key,
                 id: id,
                 name: $scope.formData.name,
-                dthID: $scope.formData.dthID,
+                dthID: $scope.dthID,
                 c_active: $scope.formData.c_active,
                 c_scheduletype: $scope.formData.c_scheduletype,
                 city: $scope.formData.city,
@@ -2381,6 +2420,36 @@ app.controller('editPlayschedule', function (addressService, $scope, $state, $st
     };
 })
 app.controller('addPlayschedule', function (addressService, $scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
+    $http({
+        method: 'POST',
+        url: domain_api + 'lookups/model/Radionode',
+        data: new URLSearchParams({
+            user: user,
+            userKey: user_Key
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.radionodes = arr;
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
+    });
+    $scope.formData = {};
+    $scope.formData.dthID = "";
+    $scope.selectedRadionode = "";
+    $scope.showList = false;
+
+    $scope.selectRadionode = function (radionode, event) {
+        $scope.selectedRadionode = radionode;
+        $scope.formData.dthID = radionode;
+        $scope.showList = false;
+        $scope.dthID = event.target.getAttribute('data-name-id');
+    };
     //citys
     addressService.getCities(user, user_Key, domain_api).then(function (cities) {
         $scope.cities = cities;
@@ -2453,7 +2522,7 @@ app.controller('addPlayschedule', function (addressService, $scope, $state, $htt
                 user: user,
                 userKey: user_Key,
                 name: $scope.formData.name,
-                dthID: $scope.formData.dthID,
+                dthID: $scope.dthID,
                 c_active: $scope.formData.c_active,
                 c_scheduletype: $scope.formData.c_scheduletype,
                 city: $scope.formData.city,

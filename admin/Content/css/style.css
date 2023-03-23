@@ -602,4 +602,13 @@ table.table-style-three td {
 textarea{
     resize: none;
 }
-
+footer {
+    position: inherit;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1668af;
+    color: #fff;
+    padding: 15px;
+    margin-left:335px;
+    }

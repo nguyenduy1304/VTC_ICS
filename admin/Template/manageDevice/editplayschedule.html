@@ -5,17 +5,22 @@
         <form ng-submit="editPlayschedule()" class="form-horizontal">
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">Tên lịch phát</label>
-                <div class="col-sm-10">
+                <div class="col-sm-4">
                     <input ng-model="formData.name" name="name" type="text" class="form-control" id="name"
                         placeholder="Nhập tên lịch phát thanh" required>
                 </div>
-            </div>
-            <div class="form-group">
                 <label for="dthID" class="col-sm-2 control-label">Trạm phát thanh</label>
-                <div class="col-sm-10">
-                    <input ng-model="formData.dthID" name="dthID" type="text" class="form-control" id="dthID"
-                        placeholder="Nhập trạm phát thanh">
-                </div>
+                    <div class="col-sm-4">
+                        <input id="dthIDSearch" type="text" ng-model="formData.dthID" ng-click="showList = true" 
+                            class="form-control" autocomplete="off" placeholder="Nhập tìm kế hoạch phát thanh" onBlur="hideList()">
+                        <ul ng-show="showList" class="radiostreaming_rule_ul" >
+                            <li ng-repeat="radionode in radionodes | filter: formData.dthID"
+                                ng-click="selectRadionode(radionode.name, $event)"
+                                class="radiostreaming_rule_li form-control" data-name-id="{{radionode.nameId}}">
+                                {{radionode.name}}
+                            </li>
+                        </ul>
+                    </div>
             </div>
             <div class="form-group">
                 <label for="c_active" class="col-sm-2 control-label">Hoạt động</label>
@@ -447,4 +452,16 @@
             inputs[i].checked = false;
         }
     }
+
+    const inputElement = document.getElementById('dthIDSearch');
+    const ulElement = document.querySelector('.radiostreaming_rule_ul');
+    document.addEventListener('click', (event) => {
+        const isClickInsideInput = inputElement.contains(event.target);
+        if (!isClickInsideInput) {
+            ulElement.style.display = 'none';
+        }
+    });
+    inputElement.addEventListener('click', () => {
+        ulElement.style.display = 'block';
+    });
 </script>
