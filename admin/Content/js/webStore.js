@@ -6,8 +6,6 @@ var user = 'vtc';
 var user_Key = 'D3sQlzacZKLQXf221XOHPJ5uwyPfyPBM';
 const domain_api = 'http://ttn.onephone.online/index.php/api/';
 
-//const url_host_api = 'http://127.0.0.1:5500/';
-
 var formatNumbers = function (amount, decimalCount, decimal, thousands) {
     decimalCount = decimalCount || 0;
     decimal = decimal || '.';
@@ -580,6 +578,37 @@ app.controller('radiostreamingCtrl', function ($dialogConfirm, $http, $scope, $s
     }
 });
 app.controller('addradiostreamingCtrl', function (addressService, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    $http({
+        method: 'POST',
+        url: domain_api + 'lookups/model/Radionode',
+        data: new URLSearchParams({
+            user: user,
+            userKey: user_Key
+        }).toString(),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    }).then(function successCallback(response) {
+        const arr = Object.values(response.data);
+        arr.sort(function (a, b) {
+            return b.id - a.id;
+        });
+        $scope.radionodes = arr;
+    }, function errorCallback(response) {
+        $rootScope.checkError(response.data.message, $dialogAlert);
+    });
+    $scope.dataForm = {};
+    $scope.dataForm.dthID = "";
+    $scope.selectedRadionode = "";
+    $scope.showList = false;
+
+    $scope.selectRadionode = function (radionode, event) {
+        $scope.selectedRadionode = radionode;
+        $scope.dataForm.dthID = radionode;
+        $scope.showList = false;
+        $scope.dthID = event.target.getAttribute('data-name-id');
+    };
+    
     //citys
     addressService.getCities(user, user_Key, domain_api).then(function (cities) {
         $scope.cities = cities;
