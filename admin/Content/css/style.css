@@ -579,16 +579,20 @@ table.table-style-three td {
     border-radius: 50%;
 }
 
-.radiostreaming_rule_ul, 
-.radionode_dthID{
+.radiostreaming_rule_ul,
+.radionode_dthID,
+.c_radiolibraryId,
+.c_icecastlibrary {
     position: absolute;
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.radiostreaming_rule_li
-{
+.radiostreaming_rule_li,
+li.radionode_dthID,
+li.c_radiolibraryId,
+li.c_icecastlibrary {
     color: #000;
     border: 0px;
     position: relative;
@@ -596,24 +600,19 @@ table.table-style-three td {
     background-color: rgb(204, 208, 211);
     z-index: 1;
 }
-li.radionode_dthID {
-    color: #000;
-    border: 0px;
-    position: relative;
-    display: inline-block;
-    background-color: rgb(204, 208, 211);
-    z-index: 1;
-  }
-  
-.radiostreaming_rule_li:hover ,
-.radionode_dthID:hover {
+
+.radiostreaming_rule_li:hover,
+.radionode_dthID:hover,
+.c_radiolibraryId:hover,
+.c_icecastlibrary:hover {
     cursor: pointer;
     background-color: rgb(188, 201, 211);
 }
 
-textarea{
+textarea {
     resize: none;
 }
+
 footer {
     position: inherit;
     bottom: 0;
@@ -622,5 +621,5 @@ footer {
     background-color: #1668af;
     color: #fff;
     padding: 15px;
-    margin-left:335px;
-    }
+    margin-left: 335px;
+}
