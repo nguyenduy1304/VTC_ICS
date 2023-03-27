@@ -1,6 +1,6 @@
-[
-    {"id":"1", "username":"admin","password":"123456@"},
-    {"id":"2", "username":"vtctelecom","password":"123456@vtc"},
-    {"id":"3", "username":"tester","password":"123456@tester"},
-    {"id":"4", "username":"user","password":"123456@user"}
-]
+{
+    "id": "1",
+    "username": "admin",
+    "password": "123@",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+}

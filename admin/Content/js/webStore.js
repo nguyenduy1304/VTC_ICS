@@ -49,6 +49,13 @@ var app = angular.module('WebStore', ['ui.router', 'ui.bootstrap', 'angular.filt
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
     $urlRouterProvider.otherwise('/');
     $stateProvider
+        // .state('login', {
+        //     url: '/account/signin',
+        //     cache: false,
+        //     controller: 'loginCtrl',
+        //     templateUrl: window.templateUrl + "/account/signin.html"
+        // })
+
         //thai
         .state('manageRadioApp', {
             url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung',
@@ -492,7 +499,6 @@ app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $st
         }
     }
 })
-
 //Phát thanh =======================
 app.controller('radiostreamingCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     $http({
@@ -2974,86 +2980,91 @@ app.controller('addPublicNews', function ($scope, $state, $http, $window, $dialo
 })
 // ================
 app.controller('manageRadioApp', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Radionode',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.data = arr;
-        $scope.currentPage = 1;
-        $scope.itemsPerPage = PerPage;
-        $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
-        $scope.setPage = function (pageNo) {
-            $scope.currentPage = pageNo;
-        };
-        $scope.prevPage = function () {
-            if ($scope.currentPage > 1) {
-                $scope.currentPage--;
+    if (localStorage.getItem('token')) {
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Radionode',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
-        };
-        $scope.nextPage = function () {
-            if ($scope.currentPage < $scope.numPages) {
-                $scope.currentPage++;
-            }
-        };
-        $scope.range = function () {
-            var rangeSize = $scope.itemsPerPage;
-            var ret = [];
-            var start;
-            start = $scope.currentPage;
-            if (start > $scope.numPages - rangeSize) {
-                start = $scope.numPages - rangeSize + 1;
-            }
-            var numbers = [];
-            for (var i = start; i < start + rangeSize; i++) {
-                numbers.push(i);
-            }
-            for (var i = 0; i < numbers.length; i++) {
-                if (numbers[i] > 0) {
-                    ret.push(numbers[i]);
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.data = arr;
+            $scope.currentPage = 1;
+            $scope.itemsPerPage = PerPage;
+            $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
+            $scope.setPage = function (pageNo) {
+                $scope.currentPage = pageNo;
+            };
+            $scope.prevPage = function () {
+                if ($scope.currentPage > 1) {
+                    $scope.currentPage--;
                 }
-            }
-            return ret;
-        };
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.deleteRadioApp = function (id, nameId) {
-        $dialogConfirm("Bạn chắc chắn muốn xóa đài truyền thanh mã <span style='color:red;font-weight:bold;'>" + nameId + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
-            if (res) {
-                $http({
-                    method: 'POST',
-                    url: domain_api + 'delete/model/Radionode',
-                    data: new URLSearchParams({
-                        user: user,
-                        userKey: user_Key,
-                        id: id
-                    }).toString(),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            };
+            $scope.nextPage = function () {
+                if ($scope.currentPage < $scope.numPages) {
+                    $scope.currentPage++;
+                }
+            };
+            $scope.range = function () {
+                var rangeSize = $scope.itemsPerPage;
+                var ret = [];
+                var start;
+                start = $scope.currentPage;
+                if (start > $scope.numPages - rangeSize) {
+                    start = $scope.numPages - rangeSize + 1;
+                }
+                var numbers = [];
+                for (var i = start; i < start + rangeSize; i++) {
+                    numbers.push(i);
+                }
+                for (var i = 0; i < numbers.length; i++) {
+                    if (numbers[i] > 0) {
+                        ret.push(numbers[i]);
                     }
-                }).then(function successCallback(response) {
-                    if (response.status == 200) {
-                        $dialogAlert("Đã xóa đài truyền thanh và ứng dụng cntt - vt thành công", "Thông báo!", "success", function (res) {
-                            $window.location.reload();
-                        });
-                    }
-                }, function errorCallback(response) {
-                    $rootScope.checkError(response.data.message, $dialogAlert);
-                });
-            }
-        })
+                }
+                return ret;
+            };
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.deleteRadioApp = function (id, nameId) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa đài truyền thanh mã <span style='color:red;font-weight:bold;'>" + nameId + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: domain_api + 'delete/model/Radionode',
+                        data: new URLSearchParams({
+                            user: user,
+                            userKey: user_Key,
+                            id: id
+                        }).toString(),
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        }
+                    }).then(function successCallback(response) {
+                        if (response.status == 200) {
+                            $dialogAlert("Đã xóa đài truyền thanh và ứng dụng cntt - vt thành công", "Thông báo!", "success", function (res) {
+                                $window.location.reload();
+                            });
+                        }
+                    }, function errorCallback(response) {
+                        $rootScope.checkError(response.data.message, $dialogAlert);
+                    });
+                }
+            })
+        }
+    } else {
+        $state.go('account$signin');
     }
+
 })
 app.controller('editRadioApp', function (addressService, $scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     $scope.formData = {};
