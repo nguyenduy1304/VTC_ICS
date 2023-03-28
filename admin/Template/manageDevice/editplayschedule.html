@@ -1,6 +1,13 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item"><a href="/index.html#!/quan-ly-thiet-bi/lich-phat">Lịch phát thanh</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Cập nhật</li>
+    </ol>
+</nav>
 <div style="min-height: 750px;" id="input-invalid">
-    <h1 style="text-align: center;margin-bottom: 40px;color: #0D67B1;">Cập nhật lịch phát
-    </h1>
     <div>
         <form ng-submit="editPlayschedule()" class="form-horizontal">
             <div class="form-group">
@@ -10,17 +17,18 @@
                         placeholder="Nhập tên lịch phát thanh" required>
                 </div>
                 <label for="dthID" class="col-sm-2 control-label">Trạm phát thanh</label>
-                    <div class="col-sm-4">
-                        <input id="dthIDSearch" type="text" ng-model="formData.dthID" ng-click="showList = true" 
-                            class="form-control" autocomplete="off" placeholder="Nhập tìm kế hoạch phát thanh" onBlur="hideList()">
-                        <ul ng-show="showList" class="radiostreaming_rule_ul" >
-                            <li ng-repeat="radionode in radionodes | filter: formData.dthID"
-                                ng-click="selectRadionode(radionode.name, $event)"
-                                class="radiostreaming_rule_li form-control" data-name-id="{{radionode.nameId}}">
-                                {{radionode.name}}
-                            </li>
-                        </ul>
-                    </div>
+                <div class="col-sm-4">
+                    <input id="dthIDSearch" type="text" ng-model="formData.dthID" ng-click="showList = true"
+                        class="form-control" autocomplete="off" placeholder="Nhập tìm kế hoạch phát thanh"
+                        onBlur="hideList()">
+                    <ul ng-show="showList" class="radiostreaming_rule_ul">
+                        <li ng-repeat="radionode in radionodes | filter: formData.dthID"
+                            ng-click="selectRadionode(radionode.name, $event)"
+                            class="radiostreaming_rule_li form-control" data-name-id="{{radionode.nameId}}">
+                            {{radionode.name}}
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="form-group">
                 <label for="c_active" class="col-sm-2 control-label">Hoạt động</label>
@@ -44,14 +52,14 @@
             </div>
             <div class="form-group">
                 <label class="col-xs-2 control-label" for="city">Tỉnh/Tp</label>
-                    <div class="col-xs-4">
-                        <select ng-selected="formData.city" class="form-control" ng-model="formData.city"
-                            ng-change="listDistricts()">
-                            <option value="" selected>--Chọn tỉnh thành--</option>
-                            <option ng-repeat="item in cities" value={{item.name}}_{{item.id}}>
-                                {{item.name}}</option>
-                        </select>
-                    </div>
+                <div class="col-xs-4">
+                    <select ng-selected="formData.city" class="form-control" ng-model="formData.city"
+                        ng-change="listDistricts()">
+                        <option value="" selected>--Chọn tỉnh thành--</option>
+                        <option ng-repeat="item in cities" value={{item.name}}_{{item.id}}>
+                            {{item.name}}</option>
+                    </select>
+                </div>
                 <label for="field" class="col-sm-2 control-label">Lĩnh vực</label>
                 <div class="col-sm-4">
                     <select ng-selected="formData.field" name="field" ng-model="formData.field " class="form-control">
@@ -349,7 +357,7 @@
                     <label>
                         <div class="btn btn-primary" onclick="edit_day()">
                             chỉnh sửa </div>
-                       
+
                     </label>
                 </div>
             </div>
@@ -396,21 +404,21 @@
                             value="9" ng-change="updateMonth()" disabled>
                         Tháng 9 &emsp;
                     </label> <label>
-                        <input ng-checked="formData.month.indexOf(10) !== -1" type="checkbox" ng-model="formData.month_10"
-                            value="10" ng-change="updateMonth()" disabled>
+                        <input ng-checked="formData.month.indexOf(10) !== -1" type="checkbox"
+                            ng-model="formData.month_10" value="10" ng-change="updateMonth()" disabled>
                         Tháng 10 &emsp;
                     </label> <label>
-                        <input ng-checked="formData.month.indexOf(11) !== -1" type="checkbox" ng-model="formData.month_11"
-                            value="11" ng-change="updateMonth()" disabled>
+                        <input ng-checked="formData.month.indexOf(11) !== -1" type="checkbox"
+                            ng-model="formData.month_11" value="11" ng-change="updateMonth()" disabled>
                         Tháng 11 &emsp;
                     </label> <label>
-                        <input ng-checked="formData.month.indexOf(12) !== -1" type="checkbox" ng-model="formData.month_12"
-                            value="12" ng-change="updateMonth()" disabled>
+                        <input ng-checked="formData.month.indexOf(12) !== -1" type="checkbox"
+                            ng-model="formData.month_12" value="12" ng-change="updateMonth()" disabled>
                         Tháng 12 &emsp;
                     </label>
                     <label>
                         <div class="btn btn-primary" onclick="edit_month()">
-                        chỉnh sửa </div>
+                            chỉnh sửa </div>
                     </label>
                 </div>
             </div>

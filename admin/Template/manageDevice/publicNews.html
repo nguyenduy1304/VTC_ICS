@@ -1,8 +1,13 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Bản tin điện tử cộng đồng</li>
+    </ol>
+</nav>
 <div>
-    <div class="title">
-        <h3>Bảng tin điện tử công cộng</h3>
-    </div>
-    <div class="input-group" style="width: 40%; float: left; margin-bottom: 10px;">
+
+    <div class="input-group" style="width: 40%; float: left">
         <input class="form-control" type="text" ng-model="searchKeyword" placeholder="Nhập từ khóa tìm kiếm">
         <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
     </div>
@@ -30,7 +35,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="item in data | filter:searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
+            <tr
+                ng-repeat="item in data | filter:searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
                 <td style="text-align:center">{{$index+1}}</td>
                 <td>{{item.nameId}}</td>
                 <td>{{item.createDate*1000 | date:'dd/MM/yyyy'}}</td>

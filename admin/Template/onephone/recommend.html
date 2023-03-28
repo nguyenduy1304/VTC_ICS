@@ -1,26 +1,29 @@
-<div class="title">
-  <h3>Kiến nghị của người dân</h3>
-</div>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung">Trang chủ</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Kiến nghị của người dân</li>
+  </ol>
+</nav>
 
 <div class=" row" style="margin:0">
   <div class="has-search search-date">
-    <div class="input-group" style="width: 30%; float: left; margin-bottom: 5px;">
+    <div class="input-group" style="width: 30%; float: left">
       <input class="form-control" type="text" ng-model="searchKeyword" placeholder="Nhập từ khóa tìm kiếm">
       <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
     </div>
-    <form class="navbar-form navbar-left" style="padding:0;padding-left: 15px;">
-      <div class="form-group">
+    <form class="navbar-form " style="padding:0;padding-left:15px">
+      <div class="form-group" style="padding-left:55px">
         <label>Từ ngày </label>
         <input type="date" class="form-control dateTimePicker" ng-model="from_date">
         <label> đến </label>
-        <input type="date" class="form-control dateTimePicker" ng-model="to_date" >
+        <input type="date" class="form-control dateTimePicker" ng-model="to_date">
       </div>
-    </form>
-    <div class=" row" style="margin:0">
-      <div class="function">
+      <div class="function" style="margin-top:0px;">
         <a class="glyphicon glyphicon-plus icon" href="../index.html#!/them-kien-nghi-cua-nguoi-dan"></a>
       </div>
-    </div>
+    </form>
+
   </div>
 </div>
 <div>
@@ -40,7 +43,7 @@
       <tr ng-repeat="item in items | filter: searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
         <td style="text-align:center">{{$index+1}}</td>
         <td>{{item.createDate*1000 | date:'dd/MM/yyyy'}}</td>
-        <td>{{item.name}}</td                                                                                                           >
+        <td>{{item.name}}</td>
         <td>{{item.description}}</td>
         <td>
           <span ng-if="item.note == 1">Chưa xử lý</span>
@@ -48,7 +51,8 @@
           <span ng-if="item.note == 3">Đã xử lý</span>
         </td>
         <td style="text-align:center;">
-          <a class="glyphicon glyphicon-pencil icon" href="../index.html#!/cap-nhat-kien-nghi-cua-nguoi-dan/{{item.id}}"></a>
+          <a class="glyphicon glyphicon-pencil icon"
+            href="../index.html#!/cap-nhat-kien-nghi-cua-nguoi-dan/{{item.id}}"></a>
           <a class="glyphicon glyphicon-remove icon" ng-click="deleterecommend(item.id,item.name)"></a>
         </td>
       </tr>
@@ -59,7 +63,8 @@
   <div class="pagination-wrapper">
     <div class="pagination">
       <a class="prev page-numbers" href="javascript:;" ng-click="prevPage()">Trước</a>
-      <a class="page-numbers" href="javascript:;"ng-repeat="page in range()" ng-class="{active: currentPage == page}" ng-click="setPage(page)">{{ page }}</a>
+      <a class="page-numbers" href="javascript:;" ng-repeat="page in range()" ng-class="{active: currentPage == page}"
+        ng-click="setPage(page)">{{ page }}</a>
       <a class="next page-numbers" href="javascript:;" ng-click="nextPage()">Sau</a>
     </div>
   </div>

@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 
-<head> 
+<head>
     <base href="/admin/">
     <meta charset="utf-8">
     <meta http-equiv="Access-Control-Allow-Origin" content="*" />
@@ -85,6 +85,7 @@
         #footer {
             min-height: 50px;
         }
+
         body {
             display: flex;
             flex-direction: column;
@@ -186,27 +187,10 @@
             <div class="sidebar-scroll">
                 <nav>
                     <ul class="nav sidebar-menu" ng-if="$user.Roles.indexOf('seller') != -1" data-widget="tree">
-                        <!--<li><a ng-class="{active: $state.includes('seller')}"  ui-sref="seller"><i class="lnr lnr-home"></i> <span>Tổng quan</span></a></li>
-                        <li><a ng-class="{active: $state.includes('selList')}"  ui-sref="selList"><i class="lnr lnr-file-empty"></i> <span>Quản lý kế hoạch phát thanh</span></a></li>
-                        <li class="active treeview"> <a ng-class="{active: $state.includes('selStatistic')}" ui-sref="selStatistic"><i class="lnr lnr-store"></i> <span>Quản lý âm thanh</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa fa-laptop"></i> Local</a></li>                               
-                                <li><a href="#"><i class="fa fa-circle-o text-green"></i> LiveStream</a></li>
-                            </ul>
-                        </li>     
-                        <li><a ng-class="{active: $state.includes('ponesme')}" ui-sref="ponesme"><i class="lnr lnr-license"></i> <span>Quản lý thiết bị</span></a></li>                      
-                        <li><a href="javascript:void(0)" ng-click="logOut()" ><i class="lnr lnr-exit"></i> <span>Đăng xuất</span></a></li>-->
-                        <li class="active"><a ng-class="{active: $state.includes('selStatistic')}"
-                                ui-sref="selStatistic" href="../index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung"><i
-                                    class="lnr lnr-home"></i> <span>Quản lý đài truyền thanh ứng
-                                    dụng CNTT-VT</span></a></li>
                         <li class="treeview active">
-                            <a ui-sref="selStatistic" href="#">
-                                <i class="lnr lnr-construction"></i> <span>Quản lý thiết bị</span>
+                            <a>
+                                <i class="lnr lnr-construction"></i> <span>Đài truyền thanh ứng dụng
+                                    CNTT-VT</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
@@ -215,8 +199,8 @@
                                 <li><a href="../index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung"><i
                                             class="fa fa-circle-o" style="font-size:11px"></i> Đài truyền thanh
                                         ứng dụng CNTT-VT </a></li>
-                                        <li><a href="../index.html#!/kho-du-lieu"><i
-                                            class="fa fa-circle-o" style="font-size:11px"></i> Kho dữ liệu </a></li>
+                                <li><a href="../index.html#!/kho-du-lieu"><i class="fa fa-circle-o"
+                                            style="font-size:11px"></i> Kho dữ liệu </a></li>
                                 <li><a href="../index.html#!/quan-ly-thiet-bi/thiet-bi"><i class="fa fa-circle-o"
                                             style="font-size:11px"></i>Quản lý thiệt bị</a></li>
                                 <li><a href="../index.html#!/quan-ly-thiet-bi/bang-tin-cong-cong"><i
@@ -235,7 +219,7 @@
                         <li><a href="../#!/kien-nghi-cua-nguoi-dan"><i class="lnr lnr-question-circle"></i> <span>Kiến
                                     nghị của người dân</span></a></li>
                         <li class="treeview active">
-                            <a ui-sref="selStatistic">
+                            <a>
                                 <i class="lnr lnr-users"></i> <span> Quản trị</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>

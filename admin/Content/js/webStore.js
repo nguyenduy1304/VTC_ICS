@@ -49,13 +49,6 @@ var app = angular.module('WebStore', ['ui.router', 'ui.bootstrap', 'angular.filt
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
     $urlRouterProvider.otherwise('/');
     $stateProvider
-        // .state('login', {
-        //     url: '/account/signin',
-        //     cache: false,
-        //     controller: 'loginCtrl',
-        //     templateUrl: window.templateUrl + "/account/signin.html"
-        // })
-
         //thai
         .state('manageRadioApp', {
             url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung',
@@ -501,1038 +494,1081 @@ app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $st
 })
 //Phát thanh =======================
 app.controller('radiostreamingCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Radiostreaming',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.items = arr;
-        $scope.currentPage = 1;
-        $scope.itemsPerPage = PerPage;
-        $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
-        $scope.setPage = function (pageNo) {
-            $scope.currentPage = pageNo;
-        };
-        $scope.prevPage = function () {
-            if ($scope.currentPage > 1) {
-                $scope.currentPage--;
+    if (localStorage.getItem('token')) {
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Radiostreaming',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
-        };
-        $scope.nextPage = function () {
-            if ($scope.currentPage < $scope.numPages) {
-                $scope.currentPage++;
-            }
-        };
-        $scope.range = function () {
-            var rangeSize = $scope.itemsPerPage;
-            var ret = [];
-            var start;
-            start = $scope.currentPage;
-            if (start > $scope.numPages - rangeSize) {
-                start = $scope.numPages - rangeSize + 1;
-            }
-            var numbers = [];
-            for (var i = start; i < start + rangeSize; i++) {
-                numbers.push(i);
-            }
-            for (var i = 0; i < numbers.length; i++) {
-                if (numbers[i] > 0) {
-                    ret.push(numbers[i]);
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.items = arr;
+            $scope.currentPage = 1;
+            $scope.itemsPerPage = PerPage;
+            $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
+            $scope.setPage = function (pageNo) {
+                $scope.currentPage = pageNo;
+            };
+            $scope.prevPage = function () {
+                if ($scope.currentPage > 1) {
+                    $scope.currentPage--;
                 }
-            }
-            return ret;
-        };
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.deleteradiostreaming = function (id, name) {
-        console.log(id);
-        $dialogConfirm("Bạn chắc chắn muốn xóa phát thanh có tên <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
-            if (res) {
-                $http({
-                    method: 'POST',
-                    url: domain_api + 'delete/model/Radiostreaming',
-                    data: new URLSearchParams({
-                        user: user,
-                        userKey: user_Key,
-                        id: id
-                    }).toString(),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            };
+            $scope.nextPage = function () {
+                if ($scope.currentPage < $scope.numPages) {
+                    $scope.currentPage++;
+                }
+            };
+            $scope.range = function () {
+                var rangeSize = $scope.itemsPerPage;
+                var ret = [];
+                var start;
+                start = $scope.currentPage;
+                if (start > $scope.numPages - rangeSize) {
+                    start = $scope.numPages - rangeSize + 1;
+                }
+                var numbers = [];
+                for (var i = start; i < start + rangeSize; i++) {
+                    numbers.push(i);
+                }
+                for (var i = 0; i < numbers.length; i++) {
+                    if (numbers[i] > 0) {
+                        ret.push(numbers[i]);
                     }
-                }).then(function successCallback(response) {
-                    if (response.status == 200) {
-                        $dialogAlert("Đã xóa phát thanh thành công", "Thông báo!", "success", function (res) {
-                            $window.location.reload();
-                        });
-                    }
-                }, function errorCallback(response) {
-                    $rootScope.checkError(response.data.message, $dialogAlert);
-                });
-            }
-        })
+                }
+                return ret;
+            };
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.deleteradiostreaming = function (id, name) {
+            console.log(id);
+            $dialogConfirm("Bạn chắc chắn muốn xóa phát thanh có tên <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: domain_api + 'delete/model/Radiostreaming',
+                        data: new URLSearchParams({
+                            user: user,
+                            userKey: user_Key,
+                            id: id
+                        }).toString(),
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        }
+                    }).then(function successCallback(response) {
+                        if (response.status == 200) {
+                            $dialogAlert("Đã xóa phát thanh thành công", "Thông báo!", "success", function (res) {
+                                $window.location.reload();
+                            });
+                        }
+                    }, function errorCallback(response) {
+                        $rootScope.checkError(response.data.message, $dialogAlert);
+                    });
+                }
+            })
+        }
+    } else {
+        $state.go('account$signin');
     }
+
+
+
 });
 app.controller('addradiostreamingCtrl', function (addressService, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    //citys
-    addressService.getCities(user, user_Key, domain_api).then(function (cities) {
-        $scope.cities = cities;
-    });
-    //districts
-    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
-        $scope.list_districts = districts;
-    });
-    //wards
-    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
-        $scope.list_wards = wards;
-    });
-    $scope.listDistricts = function () {
-        if ($scope.dataForm.city != '') {
-            $scope.districts = [];
-            for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
-                    $scope.districts.push($scope.list_districts[districtId]);
-                }
-            }
-        }
-    }
-    $scope.listWards = function () {
-        if ($scope.dataForm.district != '') {
-            $scope.wards = [];
-            for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
-                    $scope.wards.push($scope.list_wards[wardId]);
-                }
-            }
-        }
-    }
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Playschedule',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
+    if (localStorage.getItem('token')) {
+        //citys
+        addressService.getCities(user, user_Key, domain_api).then(function (cities) {
+            $scope.cities = cities;
         });
-        $scope.playschedules = arr;
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.dataForm = {};
-    $scope.dataForm.rule = "";
-    $scope.selectedPlayschedule = "";
-    $scope.showList = false;
-
-    $scope.selectPlayschedule = function (playschedule, event) {
-        $scope.selectedPlayschedule = playschedule;
-        $scope.dataForm.rule = playschedule;
-        $scope.showList = false;
-        $scope.nameId = event.target.getAttribute('data-name-id');
-    };
-    $scope.addradiostreaming = function () {
-        const approvaldate = new Date($scope.dataForm.c_approvaldate).getTime() / 1000;
-        const starttime = new Date($scope.dataForm.starttime).getTime() / 1000;
-        const endtime = new Date($scope.dataForm.endtime).getTime() / 1000;
-        const totaltime = parseInt($scope.dataForm.totaltime);
-        console.log(totaltime);
+        //districts
+        addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+            $scope.list_districts = districts;
+        });
+        //wards
+        addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+            $scope.list_wards = wards;
+        });
+        $scope.listDistricts = function () {
+            if ($scope.dataForm.city != '') {
+                $scope.districts = [];
+                for (var districtId in $scope.list_districts) {
+                    if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
+                        $scope.districts.push($scope.list_districts[districtId]);
+                    }
+                }
+            }
+        }
+        $scope.listWards = function () {
+            if ($scope.dataForm.district != '') {
+                $scope.wards = [];
+                for (var wardId in $scope.list_wards) {
+                    if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
+                        $scope.wards.push($scope.list_wards[wardId]);
+                    }
+                }
+            }
+        }
         $http({
             method: 'POST',
-            url: domain_api + 'create/model/Radiostreaming',
+            url: domain_api + 'lookups/model/Playschedule',
             data: new URLSearchParams({
                 user: user,
-                userKey: user_Key,
-                name: $scope.dataForm.name,
-                rule: $scope.nameId,
-                city: $scope.dataForm.city,
-                district: $scope.dataForm.district,
-                ward: $scope.dataForm.ward,
-                ip: $scope.dataForm.ip,
-                // streamfile:  $scope.dataForm.file,
-                c_content: $scope.dataForm.c_content,
-                c_contentsize: $scope.dataForm.c_contentsize,
-                c_allowedit: $scope.dataForm.c_allowedit,
-                c_approval: $scope.dataForm.c_approval,
-
-                c_approvaldate: approvaldate,
-                c_approvalInfo1: $scope.dataForm.c_approvalInfo1,
-                c_approvalInfo2: $scope.dataForm.c_approvalInfo2,
-                totaltime: totaltime,
-                c_streamerId: $scope.dataForm.c_streamerId,
-                status: $scope.dataForm.status,
-                broadcaster: $scope.dataForm.broadcaster,
-                starttime: starttime,
-                endtime: endtime,
-                description: $scope.dataForm.description
+                userKey: user_Key
             }).toString(),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }).then(function successCallback(response) {
-            if (response.status != 404) {
-                $dialogAlert("Thêm mới phát thanh thành công", "Thông báo!", "success", function (res) {
-                    $location.path("/phat-thanh");
-                });
-            } else {
-                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
-            }
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.playschedules = arr;
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
-    };
+        $scope.dataForm = {};
+        $scope.dataForm.rule = "";
+        $scope.selectedPlayschedule = "";
+        $scope.showList = false;
+
+        $scope.selectPlayschedule = function (playschedule, event) {
+            $scope.selectedPlayschedule = playschedule;
+            $scope.dataForm.rule = playschedule;
+            $scope.showList = false;
+            $scope.nameId = event.target.getAttribute('data-name-id');
+        };
+        $scope.addradiostreaming = function () {
+            const approvaldate = new Date($scope.dataForm.c_approvaldate).getTime() / 1000;
+            const starttime = new Date($scope.dataForm.starttime).getTime() / 1000;
+            const endtime = new Date($scope.dataForm.endtime).getTime() / 1000;
+            const totaltime = parseInt($scope.dataForm.totaltime);
+            console.log(totaltime);
+            $http({
+                method: 'POST',
+                url: domain_api + 'create/model/Radiostreaming',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    name: $scope.dataForm.name,
+                    rule: $scope.nameId,
+                    city: $scope.dataForm.city,
+                    district: $scope.dataForm.district,
+                    ward: $scope.dataForm.ward,
+                    ip: $scope.dataForm.ip,
+                    // streamfile:  $scope.dataForm.file,
+                    c_content: $scope.dataForm.c_content,
+                    c_contentsize: $scope.dataForm.c_contentsize,
+                    c_allowedit: $scope.dataForm.c_allowedit,
+                    c_approval: $scope.dataForm.c_approval,
+
+                    c_approvaldate: approvaldate,
+                    c_approvalInfo1: $scope.dataForm.c_approvalInfo1,
+                    c_approvalInfo2: $scope.dataForm.c_approvalInfo2,
+                    totaltime: totaltime,
+                    c_streamerId: $scope.dataForm.c_streamerId,
+                    status: $scope.dataForm.status,
+                    broadcaster: $scope.dataForm.broadcaster,
+                    starttime: starttime,
+                    endtime: endtime,
+                    description: $scope.dataForm.description
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.status != 404) {
+                    $dialogAlert("Thêm mới phát thanh thành công", "Thông báo!", "success", function (res) {
+                        $location.path("/phat-thanh");
+                    });
+                } else {
+                    $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
+    }
 });
 app.controller('editradiostreamingCtrl', function (addressService, $stateParams, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    var id = $stateParams.id;
-    $scope.dataForm = {};
-    //======
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Radionode',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.radionodes = arr;
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.dataForm.dthID = "";
-    $scope.selectedRadionode = "";
-    $scope.showList = false;
-    $scope.selectRadionode = function (radionode, event) {
-        $scope.selectedRadionode = radionode;
-        $scope.dataForm.dthID = radionode;
-        $scope.showList = false;
-        $scope.dthID = event.target.getAttribute('data-name-id');
-    };
-    //========
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Radiolibrary',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.radiolibrarys = arr;
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.dataForm.c_radiolibraryId = "";
-    $scope.selectedRadiolibrary = "";
-    $scope.showList = false;
-
-    $scope.selectRadiolibrary = function (radiolibrary, event) {
-        $scope.selectedRadiolibrary = radiolibrary;
-        $scope.dataForm.c_radiolibraryId = radiolibrary;
-        $scope.showList = false;
-        $scope.c_radiolibraryId = event.target.getAttribute('data-name-id');
-    };
-    //========
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Icecaststore',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.icecaststores = arr;
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.dataForm.c_icecastlibrary = "";
-    $scope.selectIcecaststore = "";
-    $scope.showList = false;
-
-    $scope.selectIcecaststore = function (icecaststore, event) {
-        $scope.selectIcecaststore = icecaststore;
-        $scope.dataForm.c_icecastlibrary = icecaststore;
-        $scope.showList = false;
-        $scope.c_icecastlibrary = event.target.getAttribute('data-name-id');
-    };
-
-    //========
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Radiostreaming',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key,
-            id: id
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        $scope.dataForm = response.data[id];
-        //========Lấy danh sach nội dung phát thanh==================
+    if (localStorage.getItem('token')) {
+        var id = $stateParams.id;
+        $scope.dataForm = {};
+        //======
         $http({
             method: 'POST',
-            url: domain_api + 'lookups/model/Playstreams',
+            url: domain_api + 'lookups/model/Radionode',
             data: new URLSearchParams({
                 user: user,
-                userKey: user_Key,
-                c_playId: $scope.dataForm.nameId
-            }).toString(),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            }
-        }).then(function successCallback(res) {
-            if (response.status != 404) {
-                $scope.dataplaystreamss = res.data;
-            }
-        }, function errorCallback(response) {
-            $rootScope.checkError(response.data.message, $dialogAlert);
-        });
-        $scope.radiostreamingId = $scope.dataForm.nameId;
-        $scope.dataForm.c_contentsize = parseInt($scope.dataForm.c_contentsize);
-        $scope.dataForm.totaltime = parseInt($scope.dataForm.totaltime);
-        $scope.dataForm.c_approvaldate = new Date($scope.dataForm.c_approvaldate * 1000);
-        $scope.starttime = new Date($scope.dataForm.starttime * 1000);
-        $scope.endtime = new Date($scope.dataForm.endtime * 1000);
-
-        $scope.nameId = $scope.dataForm.rule;
-        var playschedule = $scope.playschedules.find(function (item) {
-            return item.nameId === $scope.nameId;
-        });
-        if (playschedule) {
-            $scope.dataForm.rule = playschedule.name;
-        }
-
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-
-    //========
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Playschedule',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.playschedules = arr;
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.dataForm = {};
-    $scope.dataForm.rule = "";
-    $scope.selectedPlayschedule = "";
-    $scope.showList = false;
-
-    $scope.selectPlayschedule = function (playschedule, event) {
-        $scope.selectedPlayschedule = playschedule;
-        $scope.dataForm.rule = playschedule;
-        $scope.showList = false;
-        $scope.nameId = event.target.getAttribute('data-name-id');
-    };
-    //citys
-    addressService.getCities(user, user_Key, domain_api).then(function (cities) {
-        $scope.cities = cities;
-    });
-    //districts
-    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
-        $scope.list_districts = districts;
-        if ($scope.dataForm.city != '') {
-            $scope.districts = [];
-            for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
-                    $scope.districts.push($scope.list_districts[districtId]);
-                }
-            }
-        }
-    });
-    //wards
-    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
-        $scope.list_wards = wards;
-        if ($scope.dataForm.district != '') {
-            $scope.wards = [];
-            for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
-                    $scope.wards.push($scope.list_wards[wardId]);
-                }
-            }
-        }
-    });
-    $scope.listDistricts = function () {
-        if ($scope.dataForm.city != '') {
-            $scope.districts = [];
-            for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
-                    $scope.districts.push($scope.list_districts[districtId]);
-                }
-            }
-        }
-    }
-    $scope.listWards = function () {
-        if ($scope.dataForm.district != '') {
-            $scope.wards = [];
-            for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
-                    $scope.wards.push($scope.list_wards[wardId]);
-                }
-            }
-        }
-    }
-
-    $scope.addplaystreams = function () {
-        // console.log("Thư viện âm thanh:" + $scope.c_radiolibraryId);
-        // console.log("Trạm phát thah:" + $scope.dthID);
-        // console.log("Liên kết ICECAST:" + $scope.c_icecastlibrary);
-        // console.log("c_playId:" + $scope.dataForm.nameId);
-        const c_datefrom = new Date($scope.dataForm.c_datefrom).getTime() / 1000;
-        const c_dateto = new Date($scope.dataForm.c_dateto).getTime() / 1000;
-        $http({
-            method: 'POST',
-            url: domain_api + 'create/model/Playstreams',
-            data: new URLSearchParams({
-                user: user,
-                userKey: user_Key,
-                name: $scope.dataForm.namecontent,
-                c_playId: $scope.dataForm.nameId,
-                contentfield: $scope.dataForm.contentfield,
-                c_playStyle: $scope.dataForm.c_playStyle,
-                c_contenttype: $scope.dataForm.c_contenttype,
-
-                c_radiolibraryId: $scope.c_radiolibraryId,
-                dthID: $scope.dthID,
-
-                c_hour_from: $scope.dataForm.c_hour_from,
-                c_hour_to: $scope.dataForm.c_hour_to,
-
-                c_datefrom: c_datefrom,
-                c_dateto: c_dateto,
-
-                c_icecastlibrary: $scope.c_icecastlibrary,
-                c_playOrder: $scope.dataForm.c_playOrder,
-                c_durationtimeout: $scope.dataForm.c_durationtimeout
-
+                userKey: user_Key
             }).toString(),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }).then(function successCallback(response) {
-            if (response.status != 404) {
-                $dialogAlert("Thêm mới vào kho dữ liệu thành công", "Thông báo!", "success", function (res) {
-                    $location.path("/kho-du-lieu");
-                });
-            } else {
-                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
-            }
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.radionodes = arr;
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
-    };
-    $scope.editradiostreaming = function () {
-        const approvaldate_edit = new Date($scope.dataForm.c_approvaldate).getTime() / 1000;
-        const starttime_edit = new Date($scope.dataForm.starttime).getTime() / 1000;
-        const endtime_edit = new Date($scope.dataForm.endtime).getTime() / 1000;
-        const totaltime = parseInt($scope.dataForm.totaltime);
+        $scope.dataForm.dthID = "";
+        $scope.selectedRadionode = "";
+        $scope.showList = false;
+        $scope.selectRadionode = function (radionode, event) {
+            $scope.selectedRadionode = radionode;
+            $scope.dataForm.dthID = radionode;
+            $scope.showList = false;
+            $scope.dthID = event.target.getAttribute('data-name-id');
+        };
+        //========
         $http({
             method: 'POST',
-            url: domain_api + 'update/model/Radiostreaming',
+            url: domain_api + 'lookups/model/Radiolibrary',
             data: new URLSearchParams({
                 user: user,
-                userKey: user_Key,
-                id: id,
-                name: $scope.dataForm.name,
-                rule: $scope.nameId,
-                city: $scope.dataForm.city,
-                district: $scope.dataForm.district,
-                ward: $scope.dataForm.ward,
-                ip: $scope.dataForm.ip,
-                // streamfile:  $scope.dataForm.file,
-                c_content: $scope.dataForm.c_content,
-                c_contentsize: $scope.dataForm.c_contentsize,
-                c_allowedit: $scope.dataForm.c_allowedit,
-                c_approval: $scope.dataForm.c_approval,
-                c_approvaldate: approvaldate_edit,
-                c_approvalInfo1: $scope.dataForm.c_approvalInfo1,
-                c_approvalInfo2: $scope.dataForm.c_approvalInfo2,
-                totaltime: totaltime,
-                c_streamerId: $scope.dataForm.c_streamerId,
-                status: $scope.dataForm.status,
-                broadcaster: $scope.dataForm.broadcaster,
-                starttime: starttime_edit,
-                endtime: endtime_edit,
-                description: $scope.dataForm.description
+                userKey: user_Key
             }).toString(),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }).then(function successCallback(response) {
-            if (response.data.id == id) {
-                $dialogAlert("cập nhật thay đổi phát thanh thành công", "Thông báo!", "success", function (res) {
-                    $location.path("/phat-thanh");
-                });
-            }
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.radiolibrarys = arr;
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
-    };
+        $scope.dataForm.c_radiolibraryId = "";
+        $scope.selectedRadiolibrary = "";
+        $scope.showList = false;
+
+        $scope.selectRadiolibrary = function (radiolibrary, event) {
+            $scope.selectedRadiolibrary = radiolibrary;
+            $scope.dataForm.c_radiolibraryId = radiolibrary;
+            $scope.showList = false;
+            $scope.c_radiolibraryId = event.target.getAttribute('data-name-id');
+        };
+        //========
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Icecaststore',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.icecaststores = arr;
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.dataForm.c_icecastlibrary = "";
+        $scope.selectIcecaststore = "";
+        $scope.showList = false;
+
+        $scope.selectIcecaststore = function (icecaststore, event) {
+            $scope.selectIcecaststore = icecaststore;
+            $scope.dataForm.c_icecastlibrary = icecaststore;
+            $scope.showList = false;
+            $scope.c_icecastlibrary = event.target.getAttribute('data-name-id');
+        };
+
+        //========
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Radiostreaming',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key,
+                id: id
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            $scope.dataForm = response.data[id];
+            //========Lấy danh sach nội dung phát thanh==================
+            $http({
+                method: 'POST',
+                url: domain_api + 'lookups/model/Playstreams',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    c_playId: $scope.dataForm.nameId
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(res) {
+                if (response.status != 404) {
+                    $scope.dataplaystreamss = res.data;
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+            $scope.radiostreamingId = $scope.dataForm.nameId;
+            $scope.dataForm.c_contentsize = parseInt($scope.dataForm.c_contentsize);
+            $scope.dataForm.totaltime = parseInt($scope.dataForm.totaltime);
+            $scope.dataForm.c_approvaldate = new Date($scope.dataForm.c_approvaldate * 1000);
+            $scope.starttime = new Date($scope.dataForm.starttime * 1000);
+            $scope.endtime = new Date($scope.dataForm.endtime * 1000);
+
+            $scope.nameId = $scope.dataForm.rule;
+            var playschedule = $scope.playschedules.find(function (item) {
+                return item.nameId === $scope.nameId;
+            });
+            if (playschedule) {
+                $scope.dataForm.rule = playschedule.name;
+            }
+
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+
+        //========
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Playschedule',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.playschedules = arr;
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.dataForm = {};
+        $scope.dataForm.rule = "";
+        $scope.selectedPlayschedule = "";
+        $scope.showList = false;
+
+        $scope.selectPlayschedule = function (playschedule, event) {
+            $scope.selectedPlayschedule = playschedule;
+            $scope.dataForm.rule = playschedule;
+            $scope.showList = false;
+            $scope.nameId = event.target.getAttribute('data-name-id');
+        };
+        //citys
+        addressService.getCities(user, user_Key, domain_api).then(function (cities) {
+            $scope.cities = cities;
+        });
+        //districts
+        addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+            $scope.list_districts = districts;
+            if ($scope.dataForm.city != '') {
+                $scope.districts = [];
+                for (var districtId in $scope.list_districts) {
+                    if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
+                        $scope.districts.push($scope.list_districts[districtId]);
+                    }
+                }
+            }
+        });
+        //wards
+        addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+            $scope.list_wards = wards;
+            if ($scope.dataForm.district != '') {
+                $scope.wards = [];
+                for (var wardId in $scope.list_wards) {
+                    if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
+                        $scope.wards.push($scope.list_wards[wardId]);
+                    }
+                }
+            }
+        });
+        $scope.listDistricts = function () {
+            if ($scope.dataForm.city != '') {
+                $scope.districts = [];
+                for (var districtId in $scope.list_districts) {
+                    if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
+                        $scope.districts.push($scope.list_districts[districtId]);
+                    }
+                }
+            }
+        }
+        $scope.listWards = function () {
+            if ($scope.dataForm.district != '') {
+                $scope.wards = [];
+                for (var wardId in $scope.list_wards) {
+                    if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
+                        $scope.wards.push($scope.list_wards[wardId]);
+                    }
+                }
+            }
+        }
+
+        $scope.addplaystreams = function () {
+            // console.log("Thư viện âm thanh:" + $scope.c_radiolibraryId);
+            // console.log("Trạm phát thah:" + $scope.dthID);
+            // console.log("Liên kết ICECAST:" + $scope.c_icecastlibrary);
+            // console.log("c_playId:" + $scope.dataForm.nameId);
+            const c_datefrom = new Date($scope.dataForm.c_datefrom).getTime() / 1000;
+            const c_dateto = new Date($scope.dataForm.c_dateto).getTime() / 1000;
+            $http({
+                method: 'POST',
+                url: domain_api + 'create/model/Playstreams',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    name: $scope.dataForm.namecontent,
+                    c_playId: $scope.dataForm.nameId,
+                    contentfield: $scope.dataForm.contentfield,
+                    c_playStyle: $scope.dataForm.c_playStyle,
+                    c_contenttype: $scope.dataForm.c_contenttype,
+
+                    c_radiolibraryId: $scope.c_radiolibraryId,
+                    dthID: $scope.dthID,
+
+                    c_hour_from: $scope.dataForm.c_hour_from,
+                    c_hour_to: $scope.dataForm.c_hour_to,
+
+                    c_datefrom: c_datefrom,
+                    c_dateto: c_dateto,
+
+                    c_icecastlibrary: $scope.c_icecastlibrary,
+                    c_playOrder: $scope.dataForm.c_playOrder,
+                    c_durationtimeout: $scope.dataForm.c_durationtimeout
+
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.status != 404) {
+                    $dialogAlert("Thêm mới vào kho dữ liệu thành công", "Thông báo!", "success", function (res) {
+                        $location.path("/kho-du-lieu");
+                    });
+                } else {
+                    $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+        $scope.editradiostreaming = function () {
+            const approvaldate_edit = new Date($scope.dataForm.c_approvaldate).getTime() / 1000;
+            const starttime_edit = new Date($scope.dataForm.starttime).getTime() / 1000;
+            const endtime_edit = new Date($scope.dataForm.endtime).getTime() / 1000;
+            const totaltime = parseInt($scope.dataForm.totaltime);
+            $http({
+                method: 'POST',
+                url: domain_api + 'update/model/Radiostreaming',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    id: id,
+                    name: $scope.dataForm.name,
+                    rule: $scope.nameId,
+                    city: $scope.dataForm.city,
+                    district: $scope.dataForm.district,
+                    ward: $scope.dataForm.ward,
+                    ip: $scope.dataForm.ip,
+                    // streamfile:  $scope.dataForm.file,
+                    c_content: $scope.dataForm.c_content,
+                    c_contentsize: $scope.dataForm.c_contentsize,
+                    c_allowedit: $scope.dataForm.c_allowedit,
+                    c_approval: $scope.dataForm.c_approval,
+                    c_approvaldate: approvaldate_edit,
+                    c_approvalInfo1: $scope.dataForm.c_approvalInfo1,
+                    c_approvalInfo2: $scope.dataForm.c_approvalInfo2,
+                    totaltime: totaltime,
+                    c_streamerId: $scope.dataForm.c_streamerId,
+                    status: $scope.dataForm.status,
+                    broadcaster: $scope.dataForm.broadcaster,
+                    starttime: starttime_edit,
+                    endtime: endtime_edit,
+                    description: $scope.dataForm.description
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.data.id == id) {
+                    $dialogAlert("cập nhật thay đổi phát thanh thành công", "Thông báo!", "success", function (res) {
+                        $location.path("/phat-thanh");
+                    });
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
+    }
 });
 //Kho dữ liệu ========================
 app.controller('sourcewharehouseCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Sourcewharehouse',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.items = arr;
-        $scope.currentPage = 1;
-        $scope.itemsPerPage = PerPage;
-        $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
-        $scope.setPage = function (pageNo) {
-            $scope.currentPage = pageNo;
-        };
-        $scope.prevPage = function () {
-            if ($scope.currentPage > 1) {
-                $scope.currentPage--;
+    if (localStorage.getItem('token')) {
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Sourcewharehouse',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
-        };
-        $scope.nextPage = function () {
-            if ($scope.currentPage < $scope.numPages) {
-                $scope.currentPage++;
-            }
-        };
-        $scope.range = function () {
-            var rangeSize = $scope.itemsPerPage;
-            var ret = [];
-            var start;
-            start = $scope.currentPage;
-            if (start > $scope.numPages - rangeSize) {
-                start = $scope.numPages - rangeSize + 1;
-            }
-            var numbers = [];
-            for (var i = start; i < start + rangeSize; i++) {
-                numbers.push(i);
-            }
-            for (var i = 0; i < numbers.length; i++) {
-                if (numbers[i] > 0) {
-                    ret.push(numbers[i]);
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.items = arr;
+            $scope.currentPage = 1;
+            $scope.itemsPerPage = PerPage;
+            $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
+            $scope.setPage = function (pageNo) {
+                $scope.currentPage = pageNo;
+            };
+            $scope.prevPage = function () {
+                if ($scope.currentPage > 1) {
+                    $scope.currentPage--;
                 }
-            }
-            return ret;
-        };
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.deleteSourcewharehouse = function (id, name) {
-        $dialogConfirm("Bạn chắc chắn muốn xóa dữ liệu có tên <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
-            if (res) {
-                $http({
-                    method: 'POST',
-                    url: domain_api + 'delete/model/Sourcewharehouse',
-                    data: new URLSearchParams({
-                        user: user,
-                        userKey: user_Key,
-                        id: id
-                    }).toString(),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            };
+            $scope.nextPage = function () {
+                if ($scope.currentPage < $scope.numPages) {
+                    $scope.currentPage++;
+                }
+            };
+            $scope.range = function () {
+                var rangeSize = $scope.itemsPerPage;
+                var ret = [];
+                var start;
+                start = $scope.currentPage;
+                if (start > $scope.numPages - rangeSize) {
+                    start = $scope.numPages - rangeSize + 1;
+                }
+                var numbers = [];
+                for (var i = start; i < start + rangeSize; i++) {
+                    numbers.push(i);
+                }
+                for (var i = 0; i < numbers.length; i++) {
+                    if (numbers[i] > 0) {
+                        ret.push(numbers[i]);
                     }
-                }).then(function successCallback(response) {
-                    if (response.status == 200) {
-                        $dialogAlert("Đã xóa dữ liệu thành công", "Thông báo!", "success", function (res) {
-                            $window.location.reload();
-                        });
-                    }
-                }, function errorCallback(response) {
-                    $rootScope.checkError(response.data.message, $dialogAlert);
-                });
-            }
-        })
+                }
+                return ret;
+            };
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.deleteSourcewharehouse = function (id, name) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa dữ liệu có tên <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: domain_api + 'delete/model/Sourcewharehouse',
+                        data: new URLSearchParams({
+                            user: user,
+                            userKey: user_Key,
+                            id: id
+                        }).toString(),
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        }
+                    }).then(function successCallback(response) {
+                        if (response.status == 200) {
+                            $dialogAlert("Đã xóa dữ liệu thành công", "Thông báo!", "success", function (res) {
+                                $window.location.reload();
+                            });
+                        }
+                    }, function errorCallback(response) {
+                        $rootScope.checkError(response.data.message, $dialogAlert);
+                    });
+                }
+            })
+        }
+    } else {
+        $state.go('account$signin');
     }
 });
 app.controller('addsourcewharehouseCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    $scope.addsourcewharehouse = function () {
-        $http({
-            method: 'POST',
-            url: domain_api + 'create/model/Sourcewharehouse',
-            data: new URLSearchParams({
-                user: user,
-                userKey: user_Key,
-                name: $scope.dataForm.name,
-                source: $scope.dataForm.source,
-                uri: $scope.dataForm.uri,
-                field: $scope.dataForm.field,
-                type: $scope.dataForm.type,
-                status: $scope.dataForm.status,
-                note: $scope.dataForm.note
-            }).toString(),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            }
-        }).then(function successCallback(response) {
-            if (response.status != 404) {
-                $dialogAlert("Thêm mới vào kho dữ liệu thành công", "Thông báo!", "success", function (res) {
-                    $location.path("/kho-du-lieu");
-                });
-            } else {
-                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
-            }
-        }, function errorCallback(response) {
-            $rootScope.checkError(response.data.message, $dialogAlert);
-        });
-    };
+    if (localStorage.getItem('token')) {
+        $scope.addsourcewharehouse = function () {
+            $http({
+                method: 'POST',
+                url: domain_api + 'create/model/Sourcewharehouse',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    name: $scope.dataForm.name,
+                    source: $scope.dataForm.source,
+                    uri: $scope.dataForm.uri,
+                    field: $scope.dataForm.field,
+                    type: $scope.dataForm.type,
+                    status: $scope.dataForm.status,
+                    note: $scope.dataForm.note
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.status != 404) {
+                    $dialogAlert("Thêm mới vào kho dữ liệu thành công", "Thông báo!", "success", function (res) {
+                        $location.path("/kho-du-lieu");
+                    });
+                } else {
+                    $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
+    }
 });
 app.controller('editsourcewharehouseCtrl', function ($stateParams, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    var id = $stateParams.id;
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Sourcewharehouse',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key,
-            id: id
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        $scope.dataForm = response.data[id];
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.editsourcewharehouse = function () {
+    if (localStorage.getItem('token')) {
+        var id = $stateParams.id;
         $http({
             method: 'POST',
-            url: domain_api + 'update/model/Sourcewharehouse',
+            url: domain_api + 'lookups/model/Sourcewharehouse',
             data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
-                id: id,
-                name: $scope.dataForm.name,
-                source: $scope.dataForm.source,
-                uri: $scope.dataForm.uri,
-                field: $scope.dataForm.field,
-                type: $scope.dataForm.type,
-                status: $scope.dataForm.status,
-                note: $scope.dataForm.note
+                id: id
             }).toString(),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }).then(function successCallback(response) {
-            if (response.data.id == id) {
-                $dialogAlert("Cập nhật kho dữ liệu thành công", "Thông báo!", "success", function (res) {
-                    $location.path("/kho-du-lieu");
-                });
-            }
+            $scope.dataForm = response.data[id];
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
-    };
+        $scope.editsourcewharehouse = function () {
+            $http({
+                method: 'POST',
+                url: domain_api + 'update/model/Sourcewharehouse',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    id: id,
+                    name: $scope.dataForm.name,
+                    source: $scope.dataForm.source,
+                    uri: $scope.dataForm.uri,
+                    field: $scope.dataForm.field,
+                    type: $scope.dataForm.type,
+                    status: $scope.dataForm.status,
+                    note: $scope.dataForm.note
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.data.id == id) {
+                    $dialogAlert("Cập nhật kho dữ liệu thành công", "Thông báo!", "success", function (res) {
+                        $location.path("/kho-du-lieu");
+                    });
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
+    }
 });
 //Thư viện nguồn================
 app.controller('sourcelibraryCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Mediasource',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.items = arr;
-        $scope.currentPage = 1;
-        $scope.itemsPerPage = PerPage;
-        $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
-        $scope.setPage = function (pageNo) {
-            $scope.currentPage = pageNo;
-        };
-        $scope.prevPage = function () {
-            if ($scope.currentPage > 1) {
-                $scope.currentPage--;
+    if (localStorage.getItem('token')) {
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Mediasource',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
-        };
-        $scope.nextPage = function () {
-            if ($scope.currentPage < $scope.numPages) {
-                $scope.currentPage++;
-            }
-        };
-        $scope.range = function () {
-            var rangeSize = $scope.itemsPerPage;
-            var ret = [];
-            var start;
-            start = $scope.currentPage;
-            if (start > $scope.numPages - rangeSize) {
-                start = $scope.numPages - rangeSize + 1;
-            }
-            var numbers = [];
-            for (var i = start; i < start + rangeSize; i++) {
-                numbers.push(i);
-            }
-            for (var i = 0; i < numbers.length; i++) {
-                if (numbers[i] > 0) {
-                    ret.push(numbers[i]);
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.items = arr;
+            $scope.currentPage = 1;
+            $scope.itemsPerPage = PerPage;
+            $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
+            $scope.setPage = function (pageNo) {
+                $scope.currentPage = pageNo;
+            };
+            $scope.prevPage = function () {
+                if ($scope.currentPage > 1) {
+                    $scope.currentPage--;
                 }
-            }
-            return ret;
-        };
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.deletesourcelibrary = function (id) {
-        $dialogConfirm("Bạn chắc chắn muốn xóa thư viện nguồn có mã <span style='color:red;font-weight:bold;'>" + id + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
-            if (res) {
-                $http({
-                    method: 'POST',
-                    url: domain_api + 'delete/model/Mediasource',
-                    data: new URLSearchParams({
-                        user: user,
-                        userKey: user_Key,
-                        id: id
-                    }).toString(),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            };
+            $scope.nextPage = function () {
+                if ($scope.currentPage < $scope.numPages) {
+                    $scope.currentPage++;
+                }
+            };
+            $scope.range = function () {
+                var rangeSize = $scope.itemsPerPage;
+                var ret = [];
+                var start;
+                start = $scope.currentPage;
+                if (start > $scope.numPages - rangeSize) {
+                    start = $scope.numPages - rangeSize + 1;
+                }
+                var numbers = [];
+                for (var i = start; i < start + rangeSize; i++) {
+                    numbers.push(i);
+                }
+                for (var i = 0; i < numbers.length; i++) {
+                    if (numbers[i] > 0) {
+                        ret.push(numbers[i]);
                     }
-                }).then(function successCallback(response) {
-                    if (response.status == 200) {
-                        $dialogAlert("Đã Xóa thư viện nguồn thành công", "Thông báo!", "success", function (res) {
-                            $window.location.reload();
-                        });
-                    }
-                }, function errorCallback(response) {
-                    $rootScope.checkError(response.data.message, $dialogAlert);
-                });
-            }
-        })
+                }
+                return ret;
+            };
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.deletesourcelibrary = function (id) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa thư viện nguồn có mã <span style='color:red;font-weight:bold;'>" + id + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: domain_api + 'delete/model/Mediasource',
+                        data: new URLSearchParams({
+                            user: user,
+                            userKey: user_Key,
+                            id: id
+                        }).toString(),
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        }
+                    }).then(function successCallback(response) {
+                        if (response.status == 200) {
+                            $dialogAlert("Đã Xóa thư viện nguồn thành công", "Thông báo!", "success", function (res) {
+                                $window.location.reload();
+                            });
+                        }
+                    }, function errorCallback(response) {
+                        $rootScope.checkError(response.data.message, $dialogAlert);
+                    });
+                }
+            })
+        }
+    } else {
+        $state.go('account$signin');
     }
 });
 app.controller('add_sourcelibraryCtrl', function ($http, addressService, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    //Citys
-    addressService.getCities(user, user_Key, domain_api)
-        .then(function (cities) {
-            $scope.cities = cities;
+    if (localStorage.getItem('token')) {
+        //Citys
+        addressService.getCities(user, user_Key, domain_api)
+            .then(function (cities) {
+                $scope.cities = cities;
+            });
+        //districts
+        addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+            $scope.list_districts = districts;
         });
-    //districts
-    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
-        $scope.list_districts = districts;
-    });
-    //wards
-    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
-        $scope.list_wards = wards;
-    });
-    $scope.listDistricts = function () {
-        if ($scope.dataForm.provinceID != '') {
-            $scope.districts = [];
-            for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.provinceID) {
-                    $scope.districts.push($scope.list_districts[districtId]);
+        //wards
+        addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+            $scope.list_wards = wards;
+        });
+        $scope.listDistricts = function () {
+            if ($scope.dataForm.provinceID != '') {
+                $scope.districts = [];
+                for (var districtId in $scope.list_districts) {
+                    if ($scope.list_districts[districtId].provinceId === $scope.dataForm.provinceID) {
+                        $scope.districts.push($scope.list_districts[districtId]);
+                    }
                 }
             }
         }
-    }
-    $scope.listWards = function () {
-        if ($scope.dataForm.districId != '') {
-            $scope.wards = [];
-            for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.dataForm.districId) {
-                    $scope.wards.push($scope.list_wards[wardId]);
+        $scope.listWards = function () {
+            if ($scope.dataForm.districId != '') {
+                $scope.wards = [];
+                for (var wardId in $scope.list_wards) {
+                    if ($scope.list_wards[wardId].districtId === $scope.dataForm.districId) {
+                        $scope.wards.push($scope.list_wards[wardId]);
+                    }
                 }
             }
         }
+        $scope.addlibrary = function () {
+            $scope.name = $scope.dataForm.name;
+            $scope.ipaddress = $scope.dataForm.ipaddress;
+            $scope.uri = $scope.dataForm.uri;
+            $scope.channel = $scope.dataForm.channel;
+            $scope.devicetype = $scope.dataForm.devicetype;
+            $scope.miclevel = $scope.dataForm.miclevel;
+            $scope.status = $scope.dataForm.status;
+            $scope.starttime = $scope.dataForm.starttime;
+            $scope.starttime = new Date($scope.dataForm.starttime).getTime() / 1000;
+            $scope.provinceID = $scope.dataForm.provinceID;
+            $scope.districId = $scope.dataForm.districId;
+            $scope.wardId = $scope.dataForm.wardId;
+            $scope.contenttype = $scope.dataForm.contenttype;
+            $scope.description = $scope.dataForm.description || ""
+            $http({
+                method: 'POST',
+                url: domain_api + 'create/model/Mediasource',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    nodetype: "VTC",
+                    name: $scope.name,
+                    ipaddress: $scope.ipaddress,
+                    uri: $scope.uri,
+                    channel: $scope.channel,
+                    devicetype: $scope.devicetype,
+                    miclevel: $scope.miclevel,
+                    status: $scope.status,
+                    starttime: $scope.starttime,
+                    provinceID: $scope.provinceID,
+                    districId: $scope.districId,
+                    wardId: $scope.wardId,
+                    contenttype: $scope.contenttype,
+                    description: $scope.description
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.status != 404) {
+                    $dialogAlert("Thêm thư viện nguồn thành công", "Thông báo!", "success", function (res) {
+                        $location.path("/thu-vien-nguon");
+                    });
+                } else {
+                    $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
     }
-    $scope.addlibrary = function () {
-        $scope.name = $scope.dataForm.name;
-        $scope.ipaddress = $scope.dataForm.ipaddress;
-        $scope.uri = $scope.dataForm.uri;
-        $scope.channel = $scope.dataForm.channel;
-        $scope.devicetype = $scope.dataForm.devicetype;
-        $scope.miclevel = $scope.dataForm.miclevel;
-        $scope.status = $scope.dataForm.status;
-        $scope.starttime = $scope.dataForm.starttime;
-        $scope.starttime = new Date($scope.dataForm.starttime).getTime() / 1000;
-        $scope.provinceID = $scope.dataForm.provinceID;
-        $scope.districId = $scope.dataForm.districId;
-        $scope.wardId = $scope.dataForm.wardId;
-        $scope.contenttype = $scope.dataForm.contenttype;
-        $scope.description = $scope.dataForm.description;
-        $http({
-            method: 'POST',
-            url: domain_api + 'create/model/Mediasource',
-            data: new URLSearchParams({
-                user: user,
-                userKey: user_Key,
-                nodetype: "VTC",
-                name: $scope.name,
-                ipaddress: $scope.ipaddress,
-                uri: $scope.uri,
-                channel: $scope.channel,
-                devicetype: $scope.devicetype,
-                miclevel: $scope.miclevel,
-                status: $scope.status,
-                starttime: $scope.starttime,
-                provinceID: $scope.provinceID,
-                districId: $scope.districId,
-                wardId: $scope.wardId,
-                contenttype: $scope.contenttype,
-                description: $scope.description
-            }).toString(),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            }
-        }).then(function successCallback(response) {
-            if (response.status != 404) {
-                $dialogAlert("Thêm thư viện nguồn thành công", "Thông báo!", "success", function (res) {
-                    $location.path("/thu-vien-nguon");
-                });
-            } else {
-                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
-            }
-        }, function errorCallback(response) {
-            $rootScope.checkError(response.data.message, $dialogAlert);
-        });
-    };
 });
 app.controller('edit_sourcelibraryCtrl', function ($http, addressService, $scope, $state, $stateParams, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    var id = $stateParams.id;
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Mediasource',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key,
-            id: id
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        $scope.dataForm = response.data[id];
-        $scope.createDate = new Date($scope.dataForm.starttime * 1000);
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    //city
-    addressService.getCities(user, user_Key, domain_api)
-        .then(function (cities) {
-            $scope.cities = cities;
-        });
-    //districts
-    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
-        $scope.list_districts = districts;
-        if ($scope.dataForm.provinceID != '') {
-            $scope.districts = [];
-            for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.provinceID) {
-                    $scope.districts.push($scope.list_districts[districtId]);
-                }
-            }
-        }
-    });
-    //wards
-    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
-        $scope.list_wards = wards;
-        if ($scope.dataForm.districId != '') {
-            $scope.wards = [];
-            for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.dataForm.districId) {
-                    $scope.wards.push($scope.list_wards[wardId]);
-                }
-            }
-            console.log($scope.wards);
-        }
-    });
-    $scope.listDistricts = function () {
-        if ($scope.dataForm.provinceID != '') {
-            $scope.districts = [];
-            for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.provinceID) {
-                    $scope.districts.push($scope.list_districts[districtId]);
-                }
-            }
-        }
-    }
-    $scope.listWards = function () {
-        if ($scope.dataForm.districId != '') {
-            $scope.wards = [];
-            for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.dataForm.districId) {
-                    $scope.wards.push($scope.list_wards[wardId]);
-                }
-            }
-            console.log($scope.wards);
-        }
-    }
-    $scope.editsourcelibrary = function () {
+    if (localStorage.getItem('token')) {
+        var id = $stateParams.id;
         $http({
             method: 'POST',
-            url: domain_api + 'update/model/Mediasource',
+            url: domain_api + 'lookups/model/Mediasource',
             data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
-                id: id,
-                name: $scope.dataForm.name,
-                ipaddress: $scope.dataForm.ipaddress,
-                uri: $scope.dataForm.uri,
-                channel: $scope.dataForm.channel,
-                devicetype: $scope.dataForm.devicetype,
-                miclevel: $scope.dataForm.miclevel,
-                status: $scope.dataForm.status,
-                starttime: new Date($scope.createDate).getTime() / 1000,
-                provinceID: $scope.dataForm.provinceID,
-                districId: $scope.dataForm.districId,
-                wardId: $scope.dataForm.wardId,
-                contenttype: $scope.dataForm.contenttype,
-                description: $scope.dataForm.description
+                id: id
             }).toString(),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }).then(function successCallback(response) {
-            if (response.data.id == id) {
-                $dialogAlert("Cập nhật thư viện nguồn thành công", "Thông báo!", "success", function (res) {
-                    $location.path("/thu-vien-nguon");
-                });
-            }
+            $scope.dataForm = response.data[id];
+            $scope.createDate = new Date($scope.dataForm.starttime * 1000);
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
-    };
+        //city
+        addressService.getCities(user, user_Key, domain_api)
+            .then(function (cities) {
+                $scope.cities = cities;
+            });
+        //districts
+        addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+            $scope.list_districts = districts;
+            if ($scope.dataForm.provinceID != '') {
+                $scope.districts = [];
+                for (var districtId in $scope.list_districts) {
+                    if ($scope.list_districts[districtId].provinceId === $scope.dataForm.provinceID) {
+                        $scope.districts.push($scope.list_districts[districtId]);
+                    }
+                }
+            }
+        });
+        //wards
+        addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+            $scope.list_wards = wards;
+            if ($scope.dataForm.districId != '') {
+                $scope.wards = [];
+                for (var wardId in $scope.list_wards) {
+                    if ($scope.list_wards[wardId].districtId === $scope.dataForm.districId) {
+                        $scope.wards.push($scope.list_wards[wardId]);
+                    }
+                }
+                console.log($scope.wards);
+            }
+        });
+        $scope.listDistricts = function () {
+            if ($scope.dataForm.provinceID != '') {
+                $scope.districts = [];
+                for (var districtId in $scope.list_districts) {
+                    if ($scope.list_districts[districtId].provinceId === $scope.dataForm.provinceID) {
+                        $scope.districts.push($scope.list_districts[districtId]);
+                    }
+                }
+            }
+        }
+        $scope.listWards = function () {
+            if ($scope.dataForm.districId != '') {
+                $scope.wards = [];
+                for (var wardId in $scope.list_wards) {
+                    if ($scope.list_wards[wardId].districtId === $scope.dataForm.districId) {
+                        $scope.wards.push($scope.list_wards[wardId]);
+                    }
+                }
+                console.log($scope.wards);
+            }
+        }
+        $scope.editsourcelibrary = function () {
+            $http({
+                method: 'POST',
+                url: domain_api + 'update/model/Mediasource',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    id: id,
+                    name: $scope.dataForm.name,
+                    ipaddress: $scope.dataForm.ipaddress,
+                    uri: $scope.dataForm.uri,
+                    channel: $scope.dataForm.channel,
+                    devicetype: $scope.dataForm.devicetype,
+                    miclevel: $scope.dataForm.miclevel,
+                    status: $scope.dataForm.status,
+                    starttime: new Date($scope.createDate).getTime() / 1000,
+                    provinceID: $scope.dataForm.provinceID,
+                    districId: $scope.dataForm.districId,
+                    wardId: $scope.dataForm.wardId,
+                    contenttype: $scope.dataForm.contenttype,
+                    description: $scope.dataForm.description
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.data.id == id) {
+                    $dialogAlert("Cập nhật thư viện nguồn thành công", "Thông báo!", "success", function (res) {
+                        $location.path("/thu-vien-nguon");
+                    });
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
+    }
 });
 //Nhóm người dùng================
 app.controller('managergroupuserCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Groups',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.groups = arr;
-        $scope.currentPage = 1;
-        $scope.itemsPerPage = PerPage;
-        $scope.numPages = Math.ceil($scope.groups.length / $scope.itemsPerPage);
-        $scope.setPage = function (pageNo) {
-            $scope.currentPage = pageNo;
-        };
-        $scope.prevPage = function () {
-            if ($scope.currentPage > 1) {
-                $scope.currentPage--;
+    if (localStorage.getItem('token')) {
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Groups',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
-        };
-        $scope.nextPage = function () {
-            if ($scope.currentPage < $scope.numPages) {
-                $scope.currentPage++;
-            }
-        };
-        $scope.range = function () {
-            var rangeSize = $scope.itemsPerPage;
-            var ret = [];
-            var start;
-            start = $scope.currentPage;
-            if (start > $scope.numPages - rangeSize) {
-                start = $scope.numPages - rangeSize + 1;
-            }
-            var numbers = [];
-            for (var i = start; i < start + rangeSize; i++) {
-                numbers.push(i);
-            }
-            for (var i = 0; i < numbers.length; i++) {
-                if (numbers[i] > 0) {
-                    ret.push(numbers[i]);
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.groups = arr;
+            $scope.currentPage = 1;
+            $scope.itemsPerPage = PerPage;
+            $scope.numPages = Math.ceil($scope.groups.length / $scope.itemsPerPage);
+            $scope.setPage = function (pageNo) {
+                $scope.currentPage = pageNo;
+            };
+            $scope.prevPage = function () {
+                if ($scope.currentPage > 1) {
+                    $scope.currentPage--;
                 }
-            }
-            return ret;
-        };
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.deletegroupuser = function (id) {
-        $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
-            if (res) {
-                $http({
-                    method: 'POST',
-                    url: host_api + 'api/auth/delete',
-                    data: {
-                        groupid: id,
-                    },
-                    headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token
+            };
+            $scope.nextPage = function () {
+                if ($scope.currentPage < $scope.numPages) {
+                    $scope.currentPage++;
+                }
+            };
+            $scope.range = function () {
+                var rangeSize = $scope.itemsPerPage;
+                var ret = [];
+                var start;
+                start = $scope.currentPage;
+                if (start > $scope.numPages - rangeSize) {
+                    start = $scope.numPages - rangeSize + 1;
+                }
+                var numbers = [];
+                for (var i = start; i < start + rangeSize; i++) {
+                    numbers.push(i);
+                }
+                for (var i = 0; i < numbers.length; i++) {
+                    if (numbers[i] > 0) {
+                        ret.push(numbers[i]);
                     }
-                }).then(function (res) {
-                    if (res.data.result > 0) {
-                        $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
-                    } else {
-                        $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
-                    }
-                })
-            }
-        })
+                }
+                return ret;
+            };
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.deletegroupuser = function (id) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: host_api + 'api/auth/delete',
+                        data: {
+                            groupid: id,
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    })
+                }
+            })
+        }
+    } else {
+        $state.go('account$signin');
     }
 });
 app.controller('addmanagergroupuserCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
@@ -1597,82 +1633,86 @@ app.controller('editmanagergroupuserCtrl', function ($http, $scope, $state, $roo
 });
 //Người dùng================
 app.controller('manageruserCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    $http({
-        method: 'POST',
-        url: domain_api + 'listUsers/model/Users',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.users = arr;
-        $scope.currentPage = 1;
-        $scope.itemsPerPage = PerPage;
-        $scope.numPages = Math.ceil($scope.users.length / $scope.itemsPerPage);
-        $scope.setPage = function (pageNo) {
-            $scope.currentPage = pageNo;
-        };
-        $scope.prevPage = function () {
-            if ($scope.currentPage > 1) {
-                $scope.currentPage--;
+    if (localStorage.getItem('token')) {
+        $http({
+            method: 'POST',
+            url: domain_api + 'listUsers/model/Users',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
-        };
-        $scope.nextPage = function () {
-            if ($scope.currentPage < $scope.numPages) {
-                $scope.currentPage++;
-            }
-        };
-        $scope.range = function () {
-            var rangeSize = $scope.itemsPerPage;
-            var ret = [];
-            var start;
-            start = $scope.currentPage;
-            if (start > $scope.numPages - rangeSize) {
-                start = $scope.numPages - rangeSize + 1;
-            }
-            var numbers = [];
-            for (var i = start; i < start + rangeSize; i++) {
-                numbers.push(i);
-            }
-            for (var i = 0; i < numbers.length; i++) {
-                if (numbers[i] > 0) {
-                    ret.push(numbers[i]);
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.users = arr;
+            $scope.currentPage = 1;
+            $scope.itemsPerPage = PerPage;
+            $scope.numPages = Math.ceil($scope.users.length / $scope.itemsPerPage);
+            $scope.setPage = function (pageNo) {
+                $scope.currentPage = pageNo;
+            };
+            $scope.prevPage = function () {
+                if ($scope.currentPage > 1) {
+                    $scope.currentPage--;
                 }
-            }
-            return ret;
-        };
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.deletemanageruser = function (id) {
-        $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
-            if (res) {
-                $http({
-                    method: 'POST',
-                    url: host_api + 'api/auth/delete',
-                    data: {
-                        groupid: id,
-                    },
-                    headers: {
-                        'Authorization': "Bearer " + $window.localStorage.token
+            };
+            $scope.nextPage = function () {
+                if ($scope.currentPage < $scope.numPages) {
+                    $scope.currentPage++;
+                }
+            };
+            $scope.range = function () {
+                var rangeSize = $scope.itemsPerPage;
+                var ret = [];
+                var start;
+                start = $scope.currentPage;
+                if (start > $scope.numPages - rangeSize) {
+                    start = $scope.numPages - rangeSize + 1;
+                }
+                var numbers = [];
+                for (var i = start; i < start + rangeSize; i++) {
+                    numbers.push(i);
+                }
+                for (var i = 0; i < numbers.length; i++) {
+                    if (numbers[i] > 0) {
+                        ret.push(numbers[i]);
                     }
-                }).then(function (res) {
-                    if (res.data.result > 0) {
-                        $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
-                    } else {
-                        $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
-                    }
-                })
-            }
+                }
+                return ret;
+            };
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.deletemanageruser = function (id) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa tài khoản này khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: host_api + 'api/auth/delete',
+                        data: {
+                            groupid: id,
+                        },
+                        headers: {
+                            'Authorization': "Bearer " + $window.localStorage.token
+                        }
+                    }).then(function (res) {
+                        if (res.data.result > 0) {
+                            $dialogAlert("\n" + res.data.message, "Thông báo!", "success");
+                        } else {
+                            $dialogAlert("\n" + e.data.message, "Thông báo!", "warning");
+                        }
+                    })
+                }
 
-        })
+            })
+        }
+    } else {
+        $state.go('account$signin');
     }
 });
 app.controller('addmanageruserCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
@@ -1736,159 +1776,171 @@ app.controller('editmanageruserCtrl', function ($http, $scope, $state, $rootScop
 });
 //Kiến nghị người dân================
 app.controller('recommendCtrl', function ($http, $dialogConfirm, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Custfeedback',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.items = arr;
-        $scope.currentPage = 1;
-        $scope.itemsPerPage = PerPage;
-        $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
-        $scope.setPage = function (pageNo) {
-            $scope.currentPage = pageNo;
-        };
-        $scope.prevPage = function () {
-            if ($scope.currentPage > 1) {
-                $scope.currentPage--;
+    if (localStorage.getItem('token')) {
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Custfeedback',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
-        };
-        $scope.nextPage = function () {
-            if ($scope.currentPage < $scope.numPages) {
-                $scope.currentPage++;
-            }
-        };
-        $scope.range = function () {
-            var rangeSize = $scope.itemsPerPage;
-            var ret = [];
-            var start;
-            start = $scope.currentPage;
-            if (start > $scope.numPages - rangeSize) {
-                start = $scope.numPages - rangeSize + 1;
-            }
-            var numbers = [];
-            for (var i = start; i < start + rangeSize; i++) {
-                numbers.push(i);
-            }
-            for (var i = 0; i < numbers.length; i++) {
-                if (numbers[i] > 0) {
-                    ret.push(numbers[i]);
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.items = arr;
+            $scope.currentPage = 1;
+            $scope.itemsPerPage = PerPage;
+            $scope.numPages = Math.ceil($scope.items.length / $scope.itemsPerPage);
+            $scope.setPage = function (pageNo) {
+                $scope.currentPage = pageNo;
+            };
+            $scope.prevPage = function () {
+                if ($scope.currentPage > 1) {
+                    $scope.currentPage--;
                 }
-            }
-            return ret;
-        };
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.deleterecommend = function (id, name) {
-        $dialogConfirm("Bạn chắc chắn muốn kiến nghị người dân có tên là <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
-            if (res) {
-                $http({
-                    method: 'POST',
-                    url: domain_api + 'delete/model/Custfeedback',
-                    data: new URLSearchParams({
-                        user: user,
-                        userKey: user_Key,
-                        id: id
-                    }).toString(),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            };
+            $scope.nextPage = function () {
+                if ($scope.currentPage < $scope.numPages) {
+                    $scope.currentPage++;
+                }
+            };
+            $scope.range = function () {
+                var rangeSize = $scope.itemsPerPage;
+                var ret = [];
+                var start;
+                start = $scope.currentPage;
+                if (start > $scope.numPages - rangeSize) {
+                    start = $scope.numPages - rangeSize + 1;
+                }
+                var numbers = [];
+                for (var i = start; i < start + rangeSize; i++) {
+                    numbers.push(i);
+                }
+                for (var i = 0; i < numbers.length; i++) {
+                    if (numbers[i] > 0) {
+                        ret.push(numbers[i]);
                     }
-                }).then(function successCallback(response) {
-                    if (response.status == 200) {
-                        $dialogAlert("Đã xóa kiến nghị của người dân có mã <span style='color:red;font-weight:bold;'>" + name + "</span> thành công", "Thông báo!", "success", function (res) {
-                            $window.location.reload();
-                        });
-                    }
-                }, function errorCallback(response) {
-                    $rootScope.checkError(response.data.message, $dialogAlert);
-                });
-            }
-        })
+                }
+                return ret;
+            };
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.deleterecommend = function (id, name) {
+            $dialogConfirm("Bạn chắc chắn muốn kiến nghị người dân có tên là <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: domain_api + 'delete/model/Custfeedback',
+                        data: new URLSearchParams({
+                            user: user,
+                            userKey: user_Key,
+                            id: id
+                        }).toString(),
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        }
+                    }).then(function successCallback(response) {
+                        if (response.status == 200) {
+                            $dialogAlert("Đã xóa kiến nghị của người dân có mã <span style='color:red;font-weight:bold;'>" + name + "</span> thành công", "Thông báo!", "success", function (res) {
+                                $window.location.reload();
+                            });
+                        }
+                    }, function errorCallback(response) {
+                        $rootScope.checkError(response.data.message, $dialogAlert);
+                    });
+                }
+            })
+        }
+    } else {
+        $state.go('account$signin');
     }
 });
 app.controller('add_recommendCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    $scope.addrecommend = function () {
-        $http({
-            method: 'POST',
-            url: domain_api + 'create/model/Custfeedback',
-            data: new URLSearchParams({
-                user: user,
-                userKey: user_Key,
-                name: $scope.dataForm.name,
-                description: $scope.dataForm.description,
-                note: $scope.dataForm.note
-            }).toString(),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            }
-        }).then(function successCallback(response) {
-            if (response.status != 404) {
-                $dialogAlert("Thêm kiến nghị người dân thành công", "Thông báo!", "success", function (res) {
-                    $location.path("/kien-nghi-cua-nguoi-dan");
-                });
-            } else {
-                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
-            }
-        }, function errorCallback(response) {
-            $rootScope.checkError(response.data.message, $dialogAlert);
-        });
-    };
+    if (localStorage.getItem('token')) {
+        $scope.addrecommend = function () {
+            $http({
+                method: 'POST',
+                url: domain_api + 'create/model/Custfeedback',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    name: $scope.dataForm.name,
+                    description: $scope.dataForm.description,
+                    note: $scope.dataForm.note
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.status != 404) {
+                    $dialogAlert("Thêm kiến nghị người dân thành công", "Thông báo!", "success", function (res) {
+                        $location.path("/kien-nghi-cua-nguoi-dan");
+                    });
+                } else {
+                    $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
+    }
 });
 app.controller('edit_recommendCtrl', function ($http, $dialogConfirm, $scope, $state, $stateParams, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
-    var id = $stateParams.id;
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Custfeedback',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key,
-            id: id
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        $scope.dataForm = response.data[id];
-        $scope.createDate = new Date($scope.dataForm.starttime * 1000);
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.editrecommend = function () {
+    if (localStorage.getItem('token')) {
+        var id = $stateParams.id;
         $http({
             method: 'POST',
-            url: domain_api + 'update/model/Custfeedback',
+            url: domain_api + 'lookups/model/Custfeedback',
             data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
-                id: id,
-                name: $scope.dataForm.name,
-                description: $scope.dataForm.description,
-                note: $scope.dataForm.note
+                id: id
             }).toString(),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }).then(function successCallback(response) {
-            if (response.data.id == id) {
-                $dialogAlert("Cập nhật kiến nghị của người dân thành công", "Thông báo!", "success", function (res) {
-                    $location.path("/kien-nghi-cua-nguoi-dan");
-                });
-            }
+            $scope.dataForm = response.data[id];
+            $scope.createDate = new Date($scope.dataForm.starttime * 1000);
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
-    };
+        $scope.editrecommend = function () {
+            $http({
+                method: 'POST',
+                url: domain_api + 'update/model/Custfeedback',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    id: id,
+                    name: $scope.dataForm.name,
+                    description: $scope.dataForm.description,
+                    note: $scope.dataForm.note
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.data.id == id) {
+                    $dialogAlert("Cập nhật kiến nghị của người dân thành công", "Thông báo!", "success", function (res) {
+                        $location.path("/kien-nghi-cua-nguoi-dan");
+                    });
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
+    }
 });
 //================
 app.controller('reportnewsCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
@@ -2010,973 +2062,1010 @@ app.controller('userlogCtrl', function ($dialogConfirm, $http, $scope, $state, $
 });
 //Quản lý thiết bị =========================
 app.controller('manageDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Ippbxextenlocation',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.data = arr;
-        $scope.currentPage = 1;
-        $scope.itemsPerPage = PerPage;
-        $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
-        $scope.setPage = function (pageNo) {
-            $scope.currentPage = pageNo;
-        };
-        $scope.prevPage = function () {
-            if ($scope.currentPage > 1) {
-                $scope.currentPage--;
+    if (localStorage.getItem('token')) {
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Ippbxextenlocation',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
-        };
-        $scope.nextPage = function () {
-            if ($scope.currentPage < $scope.numPages) {
-                $scope.currentPage++;
-            }
-        };
-        $scope.range = function () {
-            var rangeSize = $scope.itemsPerPage;
-            var ret = [];
-            var start;
-            start = $scope.currentPage;
-            if (start > $scope.numPages - rangeSize) {
-                start = $scope.numPages - rangeSize + 1;
-            }
-            var numbers = [];
-            for (var i = start; i < start + rangeSize; i++) {
-                numbers.push(i);
-            }
-            for (var i = 0; i < numbers.length; i++) {
-                if (numbers[i] > 0) {
-                    ret.push(numbers[i]);
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.data = arr;
+            $scope.currentPage = 1;
+            $scope.itemsPerPage = PerPage;
+            $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
+            $scope.setPage = function (pageNo) {
+                $scope.currentPage = pageNo;
+            };
+            $scope.prevPage = function () {
+                if ($scope.currentPage > 1) {
+                    $scope.currentPage--;
                 }
-            }
-            return ret;
-        };
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.deleteDevice = function (id, name) {
-        $dialogConfirm("Bạn chắc chắn muốn xóa thiết bị có tên <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
-            if (res) {
-                $http({
-                    method: 'POST',
-                    url: domain_api + 'delete/model/Ippbxextenlocation',
-                    data: new URLSearchParams({
-                        user: user,
-                        userKey: user_Key,
-                        id: id
-                    }).toString(),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            };
+            $scope.nextPage = function () {
+                if ($scope.currentPage < $scope.numPages) {
+                    $scope.currentPage++;
+                }
+            };
+            $scope.range = function () {
+                var rangeSize = $scope.itemsPerPage;
+                var ret = [];
+                var start;
+                start = $scope.currentPage;
+                if (start > $scope.numPages - rangeSize) {
+                    start = $scope.numPages - rangeSize + 1;
+                }
+                var numbers = [];
+                for (var i = start; i < start + rangeSize; i++) {
+                    numbers.push(i);
+                }
+                for (var i = 0; i < numbers.length; i++) {
+                    if (numbers[i] > 0) {
+                        ret.push(numbers[i]);
                     }
-                }).then(function successCallback(response) {
-                    if (response.status == 200) {
-                        $dialogAlert("Đã xóa thiết bị thành công", "Thông báo!", "success", function (res) {
-                            $window.location.reload();
-                        });
-                    }
-                }, function errorCallback(response) {
-                    $rootScope.checkError(response.data.message, $dialogAlert);
-                });
-            }
-        })
+                }
+                return ret;
+            };
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.deleteDevice = function (id, name) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa thiết bị có tên <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: domain_api + 'delete/model/Ippbxextenlocation',
+                        data: new URLSearchParams({
+                            user: user,
+                            userKey: user_Key,
+                            id: id
+                        }).toString(),
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        }
+                    }).then(function successCallback(response) {
+                        if (response.status == 200) {
+                            $dialogAlert("Đã xóa thiết bị thành công", "Thông báo!", "success", function (res) {
+                                $window.location.reload();
+                            });
+                        }
+                    }, function errorCallback(response) {
+                        $rootScope.checkError(response.data.message, $dialogAlert);
+                    });
+                }
+            })
+        }
+    } else {
+        $state.go('account$signin');
     }
 })
 app.controller('editDevice', function (addressService, $scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    var id = $stateParams.id;
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Ippbxextenlocation',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key,
-            id: id
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        $scope.dataForm = response.data[id];
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    //Citys
-    addressService.getCities(user, user_Key, domain_api)
-        .then(function (cities) {
-            $scope.cities = cities;
-        });
-    //districts
-    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
-        $scope.list_districts = districts;
-        if ($scope.dataForm.city != '') {
-            $scope.districts = [];
-            for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
-                    $scope.districts.push($scope.list_districts[districtId]);
-                }
-            }
-        }
-    });
-    //wards
-    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
-        $scope.list_wards = wards;
-        if ($scope.dataForm.district != '') {
-            $scope.wards = [];
-            for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
-                    $scope.wards.push($scope.list_wards[wardId]);
-                }
-            }
-        }
-    });
-    $scope.listDistricts = function () {
-        if ($scope.dataForm.city != '') {
-            $scope.districts = [];
-            for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
-                    $scope.districts.push($scope.list_districts[districtId]);
-                }
-            }
-        }
-    }
-    $scope.listWards = function () {
-        if ($scope.dataForm.district != '') {
-            $scope.wards = [];
-            for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
-                    $scope.wards.push($scope.list_wards[wardId]);
-                }
-            }
-        }
-    }
-    $scope.editDevice = function () {
+    if (localStorage.getItem('token')) {
+        var id = $stateParams.id;
         $http({
             method: 'POST',
-            url: domain_api + 'update/model/Ippbxextenlocation',
+            url: domain_api + 'lookups/model/Ippbxextenlocation',
             data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
-                id: id,
-                name: $scope.dataForm.name,
-                latitude: $scope.dataForm.latitude,
-                longitude: $scope.dataForm.longitude,
-                deviceId: $scope.dataForm.deviceId,
-                c_simphonenumber: $scope.dataForm.c_simphonenumber,
-                c_ssid: $scope.dataForm.c_ssid,
-                c_ssid_pwd: $scope.dataForm.c_ssid_pwd,
-                c_pausestatus: $scope.dataForm.c_pausestatus,
-                c_techinterface: $scope.dataForm.c_techinterface,
-                miclevel: $scope.dataForm.miclevel,
-                spklevel: $scope.dataForm.spklevel,
-                broadcaster: $scope.dataForm.broadcaster,
-                c_micstatus: $scope.dataForm.c_micstatus,
-                city: $scope.dataForm.city,
-                district: $scope.dataForm.district,
-                ward: $scope.dataForm.ward,
-                c_endpointtype: $scope.dataForm.c_endpointtype,
-                c_channelId: $scope.dataForm.c_channelId,
-                issetting: $scope.dataForm.issetting,
-                status: $scope.dataForm.status,
-                c_playstatus: $scope.dataForm.c_playstatus,
-                note: $scope.dataForm.note
+                id: id
             }).toString(),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }).then(function successCallback(response) {
-            if (response.data.id == id) {
-                $dialogAlert("Cập nhật thiết bị thành công thành công", "Thông báo!", "success", function (res) {
-                    $state.go("manageDevice");
-                });
-            }
+            $scope.dataForm = response.data[id];
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
-    };
+        //Citys
+        addressService.getCities(user, user_Key, domain_api)
+            .then(function (cities) {
+                $scope.cities = cities;
+            });
+        //districts
+        addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+            $scope.list_districts = districts;
+            if ($scope.dataForm.city != '') {
+                $scope.districts = [];
+                for (var districtId in $scope.list_districts) {
+                    if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
+                        $scope.districts.push($scope.list_districts[districtId]);
+                    }
+                }
+            }
+        });
+        //wards
+        addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+            $scope.list_wards = wards;
+            if ($scope.dataForm.district != '') {
+                $scope.wards = [];
+                for (var wardId in $scope.list_wards) {
+                    if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
+                        $scope.wards.push($scope.list_wards[wardId]);
+                    }
+                }
+            }
+        });
+        $scope.listDistricts = function () {
+            if ($scope.dataForm.city != '') {
+                $scope.districts = [];
+                for (var districtId in $scope.list_districts) {
+                    if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
+                        $scope.districts.push($scope.list_districts[districtId]);
+                    }
+                }
+            }
+        }
+        $scope.listWards = function () {
+            if ($scope.dataForm.district != '') {
+                $scope.wards = [];
+                for (var wardId in $scope.list_wards) {
+                    if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
+                        $scope.wards.push($scope.list_wards[wardId]);
+                    }
+                }
+            }
+        }
+        $scope.editDevice = function () {
+            $http({
+                method: 'POST',
+                url: domain_api + 'update/model/Ippbxextenlocation',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    id: id,
+                    name: $scope.dataForm.name,
+                    latitude: $scope.dataForm.latitude,
+                    longitude: $scope.dataForm.longitude,
+                    deviceId: $scope.dataForm.deviceId,
+                    c_simphonenumber: $scope.dataForm.c_simphonenumber,
+                    c_ssid: $scope.dataForm.c_ssid,
+                    c_ssid_pwd: $scope.dataForm.c_ssid_pwd,
+                    c_pausestatus: $scope.dataForm.c_pausestatus,
+                    c_techinterface: $scope.dataForm.c_techinterface,
+                    miclevel: $scope.dataForm.miclevel,
+                    spklevel: $scope.dataForm.spklevel,
+                    broadcaster: $scope.dataForm.broadcaster,
+                    c_micstatus: $scope.dataForm.c_micstatus,
+                    city: $scope.dataForm.city,
+                    district: $scope.dataForm.district,
+                    ward: $scope.dataForm.ward,
+                    c_endpointtype: $scope.dataForm.c_endpointtype,
+                    c_channelId: $scope.dataForm.c_channelId,
+                    issetting: $scope.dataForm.issetting,
+                    status: $scope.dataForm.status,
+                    c_playstatus: $scope.dataForm.c_playstatus,
+                    note: $scope.dataForm.note
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.data.id == id) {
+                    $dialogAlert("Cập nhật thiết bị thành công thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageDevice");
+                    });
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
+    }
 })
 app.controller('addDevice', function (addressService, $scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.formData = {};
-    //Citys
-    addressService.getCities(user, user_Key, domain_api)
-        .then(function (cities) {
-            $scope.cities = cities;
+    if (localStorage.getItem('token')) {
+        $scope.formData = {};
+        //Citys
+        addressService.getCities(user, user_Key, domain_api)
+            .then(function (cities) {
+                $scope.cities = cities;
+            });
+        //districts
+        addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+            $scope.list_districts = districts;
         });
-    //districts
-    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
-        $scope.list_districts = districts;
-    });
-    //wards
-    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
-        $scope.list_wards = wards;
-    });
-    $scope.listDistricts = function () {
-        if ($scope.dataForm.city != '') {
-            $scope.districts = [];
-            for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
-                    $scope.districts.push($scope.list_districts[districtId]);
+        //wards
+        addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+            $scope.list_wards = wards;
+        });
+        $scope.listDistricts = function () {
+            if ($scope.dataForm.city != '') {
+                $scope.districts = [];
+                for (var districtId in $scope.list_districts) {
+                    if ($scope.list_districts[districtId].provinceId === $scope.dataForm.city) {
+                        $scope.districts.push($scope.list_districts[districtId]);
+                    }
                 }
             }
         }
-    }
-    $scope.listWards = function () {
-        if ($scope.dataForm.district != '') {
-            console.log($scope.dataForm.district);
-            $scope.wards = [];
-            for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
-                    $scope.wards.push($scope.list_wards[wardId]);
+        $scope.listWards = function () {
+            if ($scope.dataForm.district != '') {
+                console.log($scope.dataForm.district);
+                $scope.wards = [];
+                for (var wardId in $scope.list_wards) {
+                    if ($scope.list_wards[wardId].districtId === $scope.dataForm.district) {
+                        $scope.wards.push($scope.list_wards[wardId]);
+                    }
                 }
+                console.log($scope.wards);
             }
-            console.log($scope.wards);
         }
+        $scope.addDevice = function () {
+            $http({
+                method: 'POST',
+                url: domain_api + 'create/model/Ippbxextenlocation',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    name: $scope.dataForm.name,
+                    latitude: $scope.dataForm.latitude,
+                    longitude: $scope.dataForm.longitude,
+                    deviceId: $scope.dataForm.deviceId,
+                    c_simphonenumber: $scope.dataForm.c_simphonenumber,
+                    c_ssid: $scope.dataForm.c_ssid,
+                    c_ssid_pwd: $scope.dataForm.c_ssid_pwd,
+                    c_pausestatus: $scope.dataForm.c_pausestatus,
+                    c_techinterface: $scope.dataForm.c_techinterface,
+                    miclevel: $scope.dataForm.miclevel,
+                    spklevel: $scope.dataForm.spklevel,
+                    broadcaster: $scope.dataForm.broadcaster,
+                    c_micstatus: $scope.dataForm.c_micstatus,
+                    city: $scope.dataForm.city,
+                    district: $scope.dataForm.district,
+                    ward: $scope.dataForm.ward,
+                    c_endpointtype: $scope.dataForm.c_endpointtype,
+                    c_channelId: $scope.dataForm.c_channelId,
+                    issetting: $scope.dataForm.issetting,
+                    status: $scope.dataForm.status,
+                    c_playstatus: $scope.dataForm.c_playstatus,
+                    note: $scope.dataForm.note
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.status != 404) {
+                    $dialogAlert("Thêm thông tin thiết bị thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageDevice");
+                    });
+                } else {
+                    $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
     }
-    $scope.addDevice = function () {
-        $http({
-            method: 'POST',
-            url: domain_api + 'create/model/Ippbxextenlocation',
-            data: new URLSearchParams({
-                user: user,
-                userKey: user_Key,
-                name: $scope.dataForm.name,
-                latitude: $scope.dataForm.latitude,
-                longitude: $scope.dataForm.longitude,
-                deviceId: $scope.dataForm.deviceId,
-                c_simphonenumber: $scope.dataForm.c_simphonenumber,
-                c_ssid: $scope.dataForm.c_ssid,
-                c_ssid_pwd: $scope.dataForm.c_ssid_pwd,
-                c_pausestatus: $scope.dataForm.c_pausestatus,
-                c_techinterface: $scope.dataForm.c_techinterface,
-                miclevel: $scope.dataForm.miclevel,
-                spklevel: $scope.dataForm.spklevel,
-                broadcaster: $scope.dataForm.broadcaster,
-                c_micstatus: $scope.dataForm.c_micstatus,
-                city: $scope.dataForm.city,
-                district: $scope.dataForm.district,
-                ward: $scope.dataForm.ward,
-                c_endpointtype: $scope.dataForm.c_endpointtype,
-                c_channelId: $scope.dataForm.c_channelId,
-                issetting: $scope.dataForm.issetting,
-                status: $scope.dataForm.status,
-                c_playstatus: $scope.dataForm.c_playstatus,
-                note: $scope.dataForm.note
-            }).toString(),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            }
-        }).then(function successCallback(response) {
-            if (response.status != 404) {
-                $dialogAlert("Thêm thông tin thiết bị thành công", "Thông báo!", "success", function (res) {
-                    $state.go("manageDevice");
-                });
-            } else {
-                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
-            }
-        }, function errorCallback(response) {
-            $rootScope.checkError(response.data.message, $dialogAlert);
-        });
-    };
 })
 //Lịch phát thanh============
 app.controller('managePlayschedule', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Playschedule',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.data = arr;
-        $scope.currentPage = 1;
-        $scope.itemsPerPage = PerPage;
-        $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
-        $scope.setPage = function (pageNo) {
-            $scope.currentPage = pageNo;
-        };
-        $scope.prevPage = function () {
-            if ($scope.currentPage > 1) {
-                $scope.currentPage--;
+    if (localStorage.getItem('token')) {
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Playschedule',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
-        };
-        $scope.nextPage = function () {
-            if ($scope.currentPage < $scope.numPages) {
-                $scope.currentPage++;
-            }
-        };
-        $scope.range = function () {
-            var rangeSize = $scope.itemsPerPage;
-            var ret = [];
-            var start;
-            start = $scope.currentPage;
-            if (start > $scope.numPages - rangeSize) {
-                start = $scope.numPages - rangeSize + 1;
-            }
-            var numbers = [];
-            for (var i = start; i < start + rangeSize; i++) {
-                numbers.push(i);
-            }
-            for (var i = 0; i < numbers.length; i++) {
-                if (numbers[i] > 0) {
-                    ret.push(numbers[i]);
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.data = arr;
+            $scope.currentPage = 1;
+            $scope.itemsPerPage = PerPage;
+            $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
+            $scope.setPage = function (pageNo) {
+                $scope.currentPage = pageNo;
+            };
+            $scope.prevPage = function () {
+                if ($scope.currentPage > 1) {
+                    $scope.currentPage--;
                 }
-            }
-            return ret;
-        };
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.deletePlayschedule = function (id, nameId) {
-        $dialogConfirm("Bạn chắc chắn muốn xóa lịch phát thanh có mã <span style='color:red;font-weight:bold;'>" + nameId + "</span>  khỏi hệ thống?", "Xác nhận", function (res) {
-            if (res) {
-                $http({
-                    method: 'POST',
-                    url: domain_api + 'delete/model/Playschedule',
-                    data: new URLSearchParams({
-                        user: user,
-                        userKey: user_Key,
-                        id: id
-                    }).toString(),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            };
+            $scope.nextPage = function () {
+                if ($scope.currentPage < $scope.numPages) {
+                    $scope.currentPage++;
+                }
+            };
+            $scope.range = function () {
+                var rangeSize = $scope.itemsPerPage;
+                var ret = [];
+                var start;
+                start = $scope.currentPage;
+                if (start > $scope.numPages - rangeSize) {
+                    start = $scope.numPages - rangeSize + 1;
+                }
+                var numbers = [];
+                for (var i = start; i < start + rangeSize; i++) {
+                    numbers.push(i);
+                }
+                for (var i = 0; i < numbers.length; i++) {
+                    if (numbers[i] > 0) {
+                        ret.push(numbers[i]);
                     }
-                }).then(function successCallback(response) {
-                    if (response.status == 200) {
-                        $dialogAlert("Đã xóa lịch phát thanh thành công", "Thông báo!", "success", function (res) {
-                            $window.location.reload();
-                        });
-                    }
-                }, function errorCallback(response) {
-                    $rootScope.checkError(response.data.message, $dialogAlert);
-                });
-            }
-        })
+                }
+                return ret;
+            };
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.deletePlayschedule = function (id, nameId) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa lịch phát thanh có mã <span style='color:red;font-weight:bold;'>" + nameId + "</span>  khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: domain_api + 'delete/model/Playschedule',
+                        data: new URLSearchParams({
+                            user: user,
+                            userKey: user_Key,
+                            id: id
+                        }).toString(),
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        }
+                    }).then(function successCallback(response) {
+                        if (response.status == 200) {
+                            $dialogAlert("Đã xóa lịch phát thanh thành công", "Thông báo!", "success", function (res) {
+                                $window.location.reload();
+                            });
+                        }
+                    }, function errorCallback(response) {
+                        $rootScope.checkError(response.data.message, $dialogAlert);
+                    });
+                }
+            })
+        }
+    } else {
+        $state.go('account$signin');
     }
 })
 app.controller('editPlayschedule', function (addressService, $scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    var id = $stateParams.id;
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Radionode',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.radionodes = arr;
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.formData = {};
-    $scope.formData.dthID = "";
-    $scope.selectedRadionode = "";
-    $scope.showList = false;
+    if (localStorage.getItem('token')) {
 
-    $scope.selectRadionode = function (radionode, event) {
-        $scope.selectedRadionode = radionode;
-        $scope.formData.dthID = radionode;
-        $scope.showList = false;
-        $scope.dthID = event.target.getAttribute('data-name-id');
-    };
-
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Playschedule',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key,
-            id: id
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        $scope.formData = response.data[id];
-
-        $scope.formData.date_from = new Date($scope.formData.date_from * 1000);
-        $scope.formData.date_to = new Date($scope.formData.date_to * 1000);
-
-        $scope.formData.hour_from = new Date($scope.formData.hour_from);
-        $scope.formData.hour_to = new Date($scope.formData.hour_to);
-
-        $scope.formData.hour_from1 = new Date($scope.formData.hour_from1);
-        $scope.formData.hour_to1 = new Date($scope.formData.hour_to1);
-
-        $scope.formData.c_hour_from2 = new Date($scope.formData.c_hour_from2);
-        $scope.formData.c_hour_to2 = new Date($scope.formData.c_hour_to2);
-
-        $scope.formData.c_hour_from3 = new Date($scope.formData.c_hour_from3);
-        $scope.formData.c_hour_to3 = new Date($scope.formData.c_hour_to3);
-
-        $scope.formData.c_hour_from4 = new Date($scope.formData.c_hour_from4);
-        $scope.formData.c_hour_to4 = new Date($scope.formData.c_hour_to4);
-
-        $scope.formData.c_hour_from5 = new Date($scope.formData.c_hour_from5);
-        $scope.formData.c_hour_to5 = new Date($scope.formData.c_hour_to5);
-
-        $scope.week = $scope.formData.week_day;
-        $scope.day = $scope.formData.day;
-        $scope.month = $scope.formData.month;
-
-        $scope.dthID = $scope.formData.dthID;
-        var radionode = $scope.radionodes.find(function (item) {
-            return item.nameId === $scope.dthID;
-        });
-        if (radionode) {
-            $scope.formData.dthID = radionode.name;
-        }
-
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    //Citys
-    addressService.getCities(user, user_Key, domain_api)
-        .then(function (cities) {
-            $scope.cities = cities;
-        });
-    //districts
-    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
-        $scope.list_districts = districts;
-        if ($scope.formData.city != '') {
-            $scope.districts = [];
-            for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.formData.city) {
-                    $scope.districts.push($scope.list_districts[districtId]);
-                }
-            }
-        }
-    });
-    //wards
-    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
-        $scope.list_wards = wards;
-        if ($scope.formData.district != '') {
-            $scope.wards = [];
-            for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.formData.district) {
-                    $scope.wards.push($scope.list_wards[wardId]);
-                }
-            }
-            console.log($scope.wards);
-        }
-    });
-    $scope.listDistricts = function () {
-        if ($scope.formData.city != '') {
-            $scope.districts = [];
-            for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.formData.city) {
-                    $scope.districts.push($scope.list_districts[districtId]);
-                }
-            }
-        }
-    }
-    $scope.listWards = function () {
-        if ($scope.formData.district != '') {
-            $scope.wards = [];
-            for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.formData.district) {
-                    $scope.wards.push($scope.list_wards[wardId]);
-                }
-            }
-            console.log($scope.wards);
-        }
-    }
-    $scope.updateWeek = function () {
-        $scope.week = "";
-        for (var i = 0; i < 8; i++) {
-            if ($scope.formData['week_day_' + i]) {
-                $scope.week += i.toString() + ",";
-            }
-        }
-        $scope.week = $scope.week.slice(0, -1); // Xóa dấu ',' ở cuối chuỗi
-    };
-    $scope.updateDay = function () {
-        var selectedDay = [];
-        for (var i = 1; i <= 31; i++) {
-            if ($scope.formData['day_' + i]) selectedDay.push(i.toString());
-        }
-        $scope.day = selectedDay.join(',');
-    };
-    $scope.updateMonth = function () {
-        var selectedMonth = [];
-        for (var i = 1; i <= 12; i++) {
-            if ($scope.formData['month_' + i]) selectedMonth.push(i);
-        }
-        $scope.month = selectedMonth.join(',');
-    };
-
-    $scope.editPlayschedule = function () {
-        $scope.date_from = new Date($scope.formData.date_from).getTime() / 1000;
-        $scope.date_to = new Date($scope.formData.date_to).getTime() / 1000;
+        var id = $stateParams.id;
         $http({
             method: 'POST',
-            url: domain_api + 'update/model/Playschedule',
+            url: domain_api + 'lookups/model/Radionode',
             data: new URLSearchParams({
                 user: user,
-                userKey: user_Key,
-                id: id,
-                name: $scope.formData.name,
-                dthID: $scope.dthID,
-                c_active: $scope.formData.c_active,
-                c_scheduletype: $scope.formData.c_scheduletype,
-                city: $scope.formData.city,
-                district: $scope.formData.district,
-                ward: $scope.formData.ward,
-                field: $scope.formData.field,
-                type: $scope.formData.type,
-
-                date_from: $scope.date_from,
-                date_to: $scope.date_to,
-                hour_from: $scope.formData.hour_from,
-                hour_to: $scope.formData.hour_to,
-
-                hour_from1: $scope.formData.hour_from1,
-                hour_to1: $scope.formData.hour_to1,
-
-                c_hour_from2: $scope.formData.c_hour_from2,
-                c_hour_to2: $scope.formData.c_hour_to2,
-
-                c_hour_from3: $scope.formData.c_hour_from3,
-                c_hour_to3: $scope.formData.c_hour_to3,
-
-                c_hour_from4: $scope.formData.c_hour_from4,
-                c_hour_to4: $scope.formData.c_hour_to4,
-
-                c_hour_from5: $scope.formData.c_hour_from5,
-                c_hour_to5: $scope.formData.c_hour_to5,
-
-                week_day: $scope.week,
-                day: $scope.day,
-                month: $scope.month,
-                c_active: $scope.formData.c_active,
-                description: $scope.formData.description
+                userKey: user_Key
             }).toString(),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }).then(function successCallback(response) {
-            if (response.data.id == id) {
-                $dialogAlert("Cập nhật lịch phát thành công", "Thông báo!", "success", function (res) {
-                    $state.go("managePlayschedule");
-                });
-            }
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.radionodes = arr;
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
-    };
+        $scope.formData = {};
+        $scope.formData.dthID = "";
+        $scope.selectedRadionode = "";
+        $scope.showList = false;
+
+        $scope.selectRadionode = function (radionode, event) {
+            $scope.selectedRadionode = radionode;
+            $scope.formData.dthID = radionode;
+            $scope.showList = false;
+            $scope.dthID = event.target.getAttribute('data-name-id');
+        };
+
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Playschedule',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key,
+                id: id
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            $scope.formData = response.data[id];
+
+            $scope.formData.date_from = new Date($scope.formData.date_from * 1000);
+            $scope.formData.date_to = new Date($scope.formData.date_to * 1000);
+
+            $scope.formData.hour_from = new Date($scope.formData.hour_from);
+            $scope.formData.hour_to = new Date($scope.formData.hour_to);
+
+            $scope.formData.hour_from1 = new Date($scope.formData.hour_from1);
+            $scope.formData.hour_to1 = new Date($scope.formData.hour_to1);
+
+            $scope.formData.c_hour_from2 = new Date($scope.formData.c_hour_from2);
+            $scope.formData.c_hour_to2 = new Date($scope.formData.c_hour_to2);
+
+            $scope.formData.c_hour_from3 = new Date($scope.formData.c_hour_from3);
+            $scope.formData.c_hour_to3 = new Date($scope.formData.c_hour_to3);
+
+            $scope.formData.c_hour_from4 = new Date($scope.formData.c_hour_from4);
+            $scope.formData.c_hour_to4 = new Date($scope.formData.c_hour_to4);
+
+            $scope.formData.c_hour_from5 = new Date($scope.formData.c_hour_from5);
+            $scope.formData.c_hour_to5 = new Date($scope.formData.c_hour_to5);
+
+            $scope.week = $scope.formData.week_day;
+            $scope.day = $scope.formData.day;
+            $scope.month = $scope.formData.month;
+
+            $scope.dthID = $scope.formData.dthID;
+            var radionode = $scope.radionodes.find(function (item) {
+                return item.nameId === $scope.dthID;
+            });
+            if (radionode) {
+                $scope.formData.dthID = radionode.name;
+            }
+
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        //Citys
+        addressService.getCities(user, user_Key, domain_api)
+            .then(function (cities) {
+                $scope.cities = cities;
+            });
+        //districts
+        addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+            $scope.list_districts = districts;
+            if ($scope.formData.city != '') {
+                $scope.districts = [];
+                for (var districtId in $scope.list_districts) {
+                    if ($scope.list_districts[districtId].provinceId === $scope.formData.city) {
+                        $scope.districts.push($scope.list_districts[districtId]);
+                    }
+                }
+            }
+        });
+        //wards
+        addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+            $scope.list_wards = wards;
+            if ($scope.formData.district != '') {
+                $scope.wards = [];
+                for (var wardId in $scope.list_wards) {
+                    if ($scope.list_wards[wardId].districtId === $scope.formData.district) {
+                        $scope.wards.push($scope.list_wards[wardId]);
+                    }
+                }
+                console.log($scope.wards);
+            }
+        });
+        $scope.listDistricts = function () {
+            if ($scope.formData.city != '') {
+                $scope.districts = [];
+                for (var districtId in $scope.list_districts) {
+                    if ($scope.list_districts[districtId].provinceId === $scope.formData.city) {
+                        $scope.districts.push($scope.list_districts[districtId]);
+                    }
+                }
+            }
+        }
+        $scope.listWards = function () {
+            if ($scope.formData.district != '') {
+                $scope.wards = [];
+                for (var wardId in $scope.list_wards) {
+                    if ($scope.list_wards[wardId].districtId === $scope.formData.district) {
+                        $scope.wards.push($scope.list_wards[wardId]);
+                    }
+                }
+                console.log($scope.wards);
+            }
+        }
+        $scope.updateWeek = function () {
+            $scope.week = "";
+            for (var i = 0; i < 8; i++) {
+                if ($scope.formData['week_day_' + i]) {
+                    $scope.week += i.toString() + ",";
+                }
+            }
+            $scope.week = $scope.week.slice(0, -1); // Xóa dấu ',' ở cuối chuỗi
+        };
+        $scope.updateDay = function () {
+            var selectedDay = [];
+            for (var i = 1; i <= 31; i++) {
+                if ($scope.formData['day_' + i]) selectedDay.push(i.toString());
+            }
+            $scope.day = selectedDay.join(',');
+        };
+        $scope.updateMonth = function () {
+            var selectedMonth = [];
+            for (var i = 1; i <= 12; i++) {
+                if ($scope.formData['month_' + i]) selectedMonth.push(i);
+            }
+            $scope.month = selectedMonth.join(',');
+        };
+
+        $scope.editPlayschedule = function () {
+            $scope.date_from = new Date($scope.formData.date_from).getTime() / 1000;
+            $scope.date_to = new Date($scope.formData.date_to).getTime() / 1000;
+            $http({
+                method: 'POST',
+                url: domain_api + 'update/model/Playschedule',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    id: id,
+                    name: $scope.formData.name,
+                    dthID: $scope.dthID,
+                    c_active: $scope.formData.c_active,
+                    c_scheduletype: $scope.formData.c_scheduletype,
+                    city: $scope.formData.city,
+                    district: $scope.formData.district,
+                    ward: $scope.formData.ward,
+                    field: $scope.formData.field,
+                    type: $scope.formData.type,
+
+                    date_from: $scope.date_from,
+                    date_to: $scope.date_to,
+                    hour_from: $scope.formData.hour_from,
+                    hour_to: $scope.formData.hour_to,
+
+                    hour_from1: $scope.formData.hour_from1,
+                    hour_to1: $scope.formData.hour_to1,
+
+                    c_hour_from2: $scope.formData.c_hour_from2,
+                    c_hour_to2: $scope.formData.c_hour_to2,
+
+                    c_hour_from3: $scope.formData.c_hour_from3,
+                    c_hour_to3: $scope.formData.c_hour_to3,
+
+                    c_hour_from4: $scope.formData.c_hour_from4,
+                    c_hour_to4: $scope.formData.c_hour_to4,
+
+                    c_hour_from5: $scope.formData.c_hour_from5,
+                    c_hour_to5: $scope.formData.c_hour_to5,
+
+                    week_day: $scope.week,
+                    day: $scope.day,
+                    month: $scope.month,
+                    c_active: $scope.formData.c_active,
+                    description: $scope.formData.description
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.data.id == id) {
+                    $dialogAlert("Cập nhật lịch phát thành công", "Thông báo!", "success", function (res) {
+                        $state.go("managePlayschedule");
+                    });
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
+    }
 })
 app.controller('addPlayschedule', function (addressService, $scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Radionode',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.radionodes = arr;
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.formData = {};
-    $scope.formData.dthID = "";
-    $scope.selectedRadionode = "";
-    $scope.showList = false;
-
-    $scope.selectRadionode = function (radionode, event) {
-        $scope.selectedRadionode = radionode;
-        $scope.formData.dthID = radionode;
-        $scope.showList = false;
-        $scope.dthID = event.target.getAttribute('data-name-id');
-    };
-    //citys
-    addressService.getCities(user, user_Key, domain_api).then(function (cities) {
-        $scope.cities = cities;
-    });
-    //districts
-    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
-        $scope.list_districts = districts;
-    });
-    //wards
-    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
-        $scope.list_wards = wards;
-    });
-    $scope.listDistricts = function () {
-        if ($scope.formData.city != '') {
-            $scope.districts = [];
-            for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.formData.city) {
-                    $scope.districts.push($scope.list_districts[districtId]);
-                }
-            }
-        }
-    }
-    $scope.listWards = function () {
-        if ($scope.formData.district != '') {
-            $scope.wards = [];
-            for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.formData.district) {
-                    $scope.wards.push($scope.list_wards[wardId]);
-                }
-            }
-            console.log($scope.wards);
-        }
-    }
-    $scope.week = '';
-    $scope.day = '';
-    $scope.month = '';
-    $scope.updateWeek = function () {
-        var selectedWeek = [];
-        for (var i = 1; i <= 7; i++) {
-            if ($scope.formData['week_day_' + i]) {
-                selectedWeek.push(i.toString());
-            }
-        }
-        $scope.week = selectedWeek.join(',');
-    };
-    $scope.updateDay = function () {
-        var selectedDay = [];
-        for (var i = 1; i <= 31; i++) {
-            if ($scope.formData['day_' + i]) selectedDay.push(i.toString());
-        }
-        $scope.day = selectedDay.join(',');
-    };
-    $scope.updateMonth = function () {
-        var selectedMonth = [];
-        for (var i = 1; i <= 12; i++) {
-            if ($scope.formData['month_' + i]) selectedMonth.push(i);
-        }
-        $scope.month = selectedMonth.join(',');
-    };
-    $scope.addPlayschedule = function () {
-        $scope.date_from = new Date($scope.formData.date_from).getTime() / 1000;
-        $scope.date_to = new Date($scope.formData.date_to).getTime() / 1000;
-
-        $scope.hour_from = $scope.formData.hour_from;
-        $scope.hour_to = $scope.formData.hour_to;
+    if (localStorage.getItem('token')) {
         $http({
             method: 'POST',
-            url: domain_api + 'create/model/Playschedule',
+            url: domain_api + 'lookups/model/Radionode',
             data: new URLSearchParams({
                 user: user,
-                userKey: user_Key,
-                name: $scope.formData.name,
-                dthID: $scope.dthID,
-                c_active: $scope.formData.c_active,
-                c_scheduletype: $scope.formData.c_scheduletype,
-                city: $scope.formData.city,
-                district: $scope.formData.district,
-                ward: $scope.formData.ward,
-                field: $scope.formData.field,
-                type: $scope.formData.type,
-
-                date_from: $scope.date_from,
-                date_to: $scope.date_to,
-                hour_from: $scope.formData.hour_from,
-                hour_to: $scope.formData.hour_to,
-
-                hour_from1: $scope.formData.hour_from1,
-                hour_to1: $scope.formData.hour_to1,
-
-                c_hour_from2: $scope.formData.c_hour_from2,
-                c_hour_to2: $scope.formData.c_hour_to2,
-
-                c_hour_from3: $scope.formData.c_hour_from3,
-                c_hour_to3: $scope.formData.c_hour_to3,
-
-                c_hour_from4: $scope.formData.c_hour_from4,
-                c_hour_to4: $scope.formData.c_hour_to4,
-
-                c_hour_from5: $scope.formData.c_hour_from5,
-                c_hour_to5: $scope.formData.c_hour_to5,
-
-                week_day: $scope.week,
-                day: $scope.day,
-                month: $scope.month,
-                c_active: $scope.formData.c_active,
-                description: $scope.formData.description
+                userKey: user_Key
             }).toString(),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }).then(function successCallback(response) {
-            if (response.status != 404) {
-                $dialogAlert("Thêm thư viện nguồn thành công", "Thông báo!", "success", function (res) {
-                    $state.go("managePlayschedule");
-                });
-            } else {
-                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
-            }
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.radionodes = arr;
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
-    };
+        $scope.formData = {};
+        $scope.formData.dthID = "";
+        $scope.selectedRadionode = "";
+        $scope.showList = false;
+
+        $scope.selectRadionode = function (radionode, event) {
+            $scope.selectedRadionode = radionode;
+            $scope.formData.dthID = radionode;
+            $scope.showList = false;
+            $scope.dthID = event.target.getAttribute('data-name-id');
+        };
+        //citys
+        addressService.getCities(user, user_Key, domain_api).then(function (cities) {
+            $scope.cities = cities;
+        });
+        //districts
+        addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+            $scope.list_districts = districts;
+        });
+        //wards
+        addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+            $scope.list_wards = wards;
+        });
+        $scope.listDistricts = function () {
+            if ($scope.formData.city != '') {
+                $scope.districts = [];
+                for (var districtId in $scope.list_districts) {
+                    if ($scope.list_districts[districtId].provinceId === $scope.formData.city) {
+                        $scope.districts.push($scope.list_districts[districtId]);
+                    }
+                }
+            }
+        }
+        $scope.listWards = function () {
+            if ($scope.formData.district != '') {
+                $scope.wards = [];
+                for (var wardId in $scope.list_wards) {
+                    if ($scope.list_wards[wardId].districtId === $scope.formData.district) {
+                        $scope.wards.push($scope.list_wards[wardId]);
+                    }
+                }
+                console.log($scope.wards);
+            }
+        }
+        $scope.week = '';
+        $scope.day = '';
+        $scope.month = '';
+        $scope.updateWeek = function () {
+            var selectedWeek = [];
+            for (var i = 1; i <= 7; i++) {
+                if ($scope.formData['week_day_' + i]) {
+                    selectedWeek.push(i.toString());
+                }
+            }
+            $scope.week = selectedWeek.join(',');
+        };
+        $scope.updateDay = function () {
+            var selectedDay = [];
+            for (var i = 1; i <= 31; i++) {
+                if ($scope.formData['day_' + i]) selectedDay.push(i.toString());
+            }
+            $scope.day = selectedDay.join(',');
+        };
+        $scope.updateMonth = function () {
+            var selectedMonth = [];
+            for (var i = 1; i <= 12; i++) {
+                if ($scope.formData['month_' + i]) selectedMonth.push(i);
+            }
+            $scope.month = selectedMonth.join(',');
+        };
+        $scope.addPlayschedule = function () {
+            $scope.date_from = new Date($scope.formData.date_from).getTime() / 1000;
+            $scope.date_to = new Date($scope.formData.date_to).getTime() / 1000;
+
+            $scope.hour_from = $scope.formData.hour_from;
+            $scope.hour_to = $scope.formData.hour_to;
+            $http({
+                method: 'POST',
+                url: domain_api + 'create/model/Playschedule',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    name: $scope.formData.name,
+                    dthID: $scope.dthID,
+                    c_active: $scope.formData.c_active,
+                    c_scheduletype: $scope.formData.c_scheduletype,
+                    city: $scope.formData.city,
+                    district: $scope.formData.district,
+                    ward: $scope.formData.ward,
+                    field: $scope.formData.field,
+                    type: $scope.formData.type,
+
+                    date_from: $scope.date_from,
+                    date_to: $scope.date_to,
+                    hour_from: $scope.formData.hour_from,
+                    hour_to: $scope.formData.hour_to,
+
+                    hour_from1: $scope.formData.hour_from1,
+                    hour_to1: $scope.formData.hour_to1,
+
+                    c_hour_from2: $scope.formData.c_hour_from2,
+                    c_hour_to2: $scope.formData.c_hour_to2,
+
+                    c_hour_from3: $scope.formData.c_hour_from3,
+                    c_hour_to3: $scope.formData.c_hour_to3,
+
+                    c_hour_from4: $scope.formData.c_hour_from4,
+                    c_hour_to4: $scope.formData.c_hour_to4,
+
+                    c_hour_from5: $scope.formData.c_hour_from5,
+                    c_hour_to5: $scope.formData.c_hour_to5,
+
+                    week_day: $scope.week,
+                    day: $scope.day,
+                    month: $scope.month,
+                    c_active: $scope.formData.c_active,
+                    description: $scope.formData.description
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.status != 404) {
+                    $dialogAlert("Thêm thư viện nguồn thành công", "Thông báo!", "success", function (res) {
+                        $state.go("managePlayschedule");
+                    });
+                } else {
+                    $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
+    }
 })
 //Bảng tin điện tử cộng đồng ==============================
 app.controller('managePublicNews', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Inforboard',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.data = arr;
-        $scope.currentPage = 1;
-        $scope.itemsPerPage = PerPage;
-        $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
-        $scope.setPage = function (pageNo) {
-            $scope.currentPage = pageNo;
-        };
-        $scope.prevPage = function () {
-            if ($scope.currentPage > 1) {
-                $scope.currentPage--;
+    if (localStorage.getItem('token')) {
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Inforboard',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
-        };
-        $scope.nextPage = function () {
-            if ($scope.currentPage < $scope.numPages) {
-                $scope.currentPage++;
-            }
-        };
-        $scope.range = function () {
-            var rangeSize = $scope.itemsPerPage;
-            var ret = [];
-            var start;
-            start = $scope.currentPage;
-            if (start > $scope.numPages - rangeSize) {
-                start = $scope.numPages - rangeSize + 1;
-            }
-            var numbers = [];
-            for (var i = start; i < start + rangeSize; i++) {
-                numbers.push(i);
-            }
-            for (var i = 0; i < numbers.length; i++) {
-                if (numbers[i] > 0) {
-                    ret.push(numbers[i]);
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.data = arr;
+            $scope.currentPage = 1;
+            $scope.itemsPerPage = PerPage;
+            $scope.numPages = Math.ceil($scope.data.length / $scope.itemsPerPage);
+            $scope.setPage = function (pageNo) {
+                $scope.currentPage = pageNo;
+            };
+            $scope.prevPage = function () {
+                if ($scope.currentPage > 1) {
+                    $scope.currentPage--;
                 }
-            }
-            return ret;
-        };
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.deletePublicNews = function (id, nameId) {
-        $dialogConfirm("Bạn chắc chắn muốn xóa bản tin điện tử có mã <span style='color:red;font-weight:bold;'>" + nameId + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
-            if (res) {
-                $http({
-                    method: 'POST',
-                    url: domain_api + 'delete/model/Inforboard',
-                    data: new URLSearchParams({
-                        user: user,
-                        userKey: user_Key,
-                        id: id
-                    }).toString(),
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            };
+            $scope.nextPage = function () {
+                if ($scope.currentPage < $scope.numPages) {
+                    $scope.currentPage++;
+                }
+            };
+            $scope.range = function () {
+                var rangeSize = $scope.itemsPerPage;
+                var ret = [];
+                var start;
+                start = $scope.currentPage;
+                if (start > $scope.numPages - rangeSize) {
+                    start = $scope.numPages - rangeSize + 1;
+                }
+                var numbers = [];
+                for (var i = start; i < start + rangeSize; i++) {
+                    numbers.push(i);
+                }
+                for (var i = 0; i < numbers.length; i++) {
+                    if (numbers[i] > 0) {
+                        ret.push(numbers[i]);
                     }
-                }).then(function successCallback(response) {
-                    if (response.status == 200) {
-                        $dialogAlert("Đã Xóa bảng tin điện tử thành công", "Thông báo!", "success", function (res) {
-                            $window.location.reload();
-                        });
-                    }
-                }, function errorCallback(response) {
-                    $rootScope.checkError(response.data.message, $dialogAlert);
-                });
-            }
+                }
+                return ret;
+            };
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.deletePublicNews = function (id, nameId) {
+            $dialogConfirm("Bạn chắc chắn muốn xóa bản tin điện tử có mã <span style='color:red;font-weight:bold;'>" + nameId + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+                if (res) {
+                    $http({
+                        method: 'POST',
+                        url: domain_api + 'delete/model/Inforboard',
+                        data: new URLSearchParams({
+                            user: user,
+                            userKey: user_Key,
+                            id: id
+                        }).toString(),
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        }
+                    }).then(function successCallback(response) {
+                        if (response.status == 200) {
+                            $dialogAlert("Đã Xóa bảng tin điện tử thành công", "Thông báo!", "success", function (res) {
+                                $window.location.reload();
+                            });
+                        }
+                    }, function errorCallback(response) {
+                        $rootScope.checkError(response.data.message, $dialogAlert);
+                    });
+                }
 
-        })
+            })
 
+        }
+    } else {
+        $state.go('account$signin');
     }
 })
 app.controller('editPublicNews', function ($scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    var id = $stateParams.id;
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Radionode',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.radionodes = arr;
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.formData = {};
-    $scope.formData.dthID = "";
-    $scope.selectedRadionode = "";
-    $scope.showList = false;
-
-    $scope.selectRadionode = function (radionode, event) {
-        $scope.selectedRadionode = radionode;
-        $scope.formData.dthID = radionode;
-        $scope.showList = false;
-        $scope.dthID = event.target.getAttribute('data-name-id');
-    };
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Inforboard',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key,
-            id: id
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        $scope.formData = response.data[id];
-
-        $scope.dthID = $scope.formData.dthID;
-        var radionode = $scope.radionodes.find(function (item) {
-            return item.nameId === $scope.dthID;
-        });
-        if (radionode) {
-            $scope.formData.dthID = radionode.name;
-        }
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.editPublicNews = function () {
+    if (localStorage.getItem('token')) {
+        var id = $stateParams.id;
         $http({
             method: 'POST',
-            url: domain_api + 'update/model/Inforboard',
+            url: domain_api + 'lookups/model/Radionode',
             data: new URLSearchParams({
                 user: user,
-                userKey: user_Key,
-                id: id,
-                name: $scope.formData.name,
-                dthID: $scope.dthID,
-                address: $scope.formData.address,
-                lat: $scope.formData.lat,
-                lng: $scope.formData.lng,
-                status: $scope.formData.status,
-                deviceType: $scope.formData.deviceType,
-                live_url: $scope.formData.live_url,
-                note: $scope.formData.note
+                userKey: user_Key
             }).toString(),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }).then(function successCallback(response) {
-            if (response.data.id == id) {
-                $dialogAlert("Cập nhật bảng tin điện tử thành công thành công", "Thông báo!", "success", function (res) {
-                    $state.go("managePublicNews")
-                });
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.radionodes = arr;
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.formData = {};
+        $scope.formData.dthID = "";
+        $scope.selectedRadionode = "";
+        $scope.showList = false;
+
+        $scope.selectRadionode = function (radionode, event) {
+            $scope.selectedRadionode = radionode;
+            $scope.formData.dthID = radionode;
+            $scope.showList = false;
+            $scope.dthID = event.target.getAttribute('data-name-id');
+        };
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Inforboard',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key,
+                id: id
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            $scope.formData = response.data[id];
+
+            $scope.dthID = $scope.formData.dthID;
+            var radionode = $scope.radionodes.find(function (item) {
+                return item.nameId === $scope.dthID;
+            });
+            if (radionode) {
+                $scope.formData.dthID = radionode.name;
             }
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
-    };
+        $scope.editPublicNews = function () {
+            $http({
+                method: 'POST',
+                url: domain_api + 'update/model/Inforboard',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    id: id,
+                    name: $scope.formData.name,
+                    dthID: $scope.dthID,
+                    address: $scope.formData.address,
+                    lat: $scope.formData.lat,
+                    lng: $scope.formData.lng,
+                    status: $scope.formData.status,
+                    deviceType: $scope.formData.deviceType,
+                    live_url: $scope.formData.live_url,
+                    note: $scope.formData.note
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.data.id == id) {
+                    $dialogAlert("Cập nhật bảng tin điện tử thành công thành công", "Thông báo!", "success", function (res) {
+                        $state.go("managePublicNews")
+                    });
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
+    }
 })
 app.controller('addPublicNews', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Radionode',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        const arr = Object.values(response.data);
-        arr.sort(function (a, b) {
-            return b.id - a.id;
-        });
-        $scope.radionodes = arr;
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.formData = {};
-    $scope.formData.dthID = "";
-    $scope.selectedRadionode = "";
-    $scope.showList = false;
-
-    $scope.selectRadionode = function (radionode, event) {
-        $scope.selectedRadionode = radionode;
-        $scope.formData.dthID = radionode;
-        $scope.showList = false;
-        $scope.dthID = event.target.getAttribute('data-name-id');
-    };
-    $scope.addPublicNews = function () {
+    if (localStorage.getItem('token')) {
         $http({
             method: 'POST',
-            url: domain_api + 'create/model/Inforboard',
+            url: domain_api + 'lookups/model/Radionode',
             data: new URLSearchParams({
                 user: user,
-                userKey: user_Key,
-                name: $scope.formData.name,
-                dthID: $scope.dthID,
-                address: $scope.formData.address,
-                lat: $scope.formData.lat,
-                lng: $scope.formData.lng,
-                status: $scope.formData.status,
-                deviceType: $scope.formData.deviceType,
-                live_url: $scope.formData.live_url,
-                note: $scope.formData.note
+                userKey: user_Key
             }).toString(),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }).then(function successCallback(response) {
-            if (response.status != 404) {
-                $dialogAlert("Thêm bảng tin điện tử thành công", "Thông báo!", "success", function (res) {
-                    $state.go("managePublicNews");
-                });
-            } else {
-                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
-            }
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.radionodes = arr;
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
-    };
+        $scope.formData = {};
+        $scope.formData.dthID = "";
+        $scope.selectedRadionode = "";
+        $scope.showList = false;
+
+        $scope.selectRadionode = function (radionode, event) {
+            $scope.selectedRadionode = radionode;
+            $scope.formData.dthID = radionode;
+            $scope.showList = false;
+            $scope.dthID = event.target.getAttribute('data-name-id');
+        };
+        $scope.addPublicNews = function () {
+            $http({
+                method: 'POST',
+                url: domain_api + 'create/model/Inforboard',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    name: $scope.formData.name,
+                    dthID: $scope.dthID,
+                    address: $scope.formData.address,
+                    lat: $scope.formData.lat,
+                    lng: $scope.formData.lng,
+                    status: $scope.formData.status,
+                    deviceType: $scope.formData.deviceType,
+                    live_url: $scope.formData.live_url,
+                    note: $scope.formData.note
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.status != 404) {
+                    $dialogAlert("Thêm bảng tin điện tử thành công", "Thông báo!", "success", function (res) {
+                        $state.go("managePublicNews");
+                    });
+                } else {
+                    $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
+    }
 })
 // ================
 app.controller('manageRadioApp', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
@@ -3067,188 +3156,200 @@ app.controller('manageRadioApp', function ($scope, $state, $http, $window, $dial
 
 })
 app.controller('editRadioApp', function (addressService, $scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.formData = {};
-    var id = $stateParams.id;
+    if (localStorage.getItem('token')) {
+        $scope.formData = {};
+        var id = $stateParams.id;
 
-    //Citys
-    addressService.getCities(user, user_Key, domain_api)
-        .then(function (cities) {
-            $scope.cities = cities;
+        //Citys
+        addressService.getCities(user, user_Key, domain_api)
+            .then(function (cities) {
+                $scope.cities = cities;
+            });
+        //districts
+        addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+            $scope.list_districts = districts;
+            if ($scope.formData.province != '') {
+                $scope.districts = [];
+                for (var districtId in $scope.list_districts) {
+                    if ($scope.list_districts[districtId].provinceId === $scope.formData.province) {
+                        $scope.districts.push($scope.list_districts[districtId]);
+                    }
+                }
+            }
         });
-    //districts
-    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
-        $scope.list_districts = districts;
-        if ($scope.formData.province != '') {
-            $scope.districts = [];
-            for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.formData.province) {
-                    $scope.districts.push($scope.list_districts[districtId]);
+        //wards
+        addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+            $scope.list_wards = wards;
+            if ($scope.formData.districId != '') {
+                $scope.wards = [];
+                for (var wardId in $scope.list_wards) {
+                    if ($scope.list_wards[wardId].districtId === $scope.formData.districId) {
+                        $scope.wards.push($scope.list_wards[wardId]);
+                    }
+                }
+            }
+        });
+        $scope.listDistricts = function () {
+            if ($scope.formData.province != '') {
+                $scope.districts = [];
+                for (var districtId in $scope.list_districts) {
+                    if ($scope.list_districts[districtId].provinceId === $scope.formData.province) {
+                        $scope.districts.push($scope.list_districts[districtId]);
+                    }
                 }
             }
         }
-    });
-    //wards
-    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
-        $scope.list_wards = wards;
-        if ($scope.formData.districId != '') {
-            $scope.wards = [];
-            for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.formData.districId) {
-                    $scope.wards.push($scope.list_wards[wardId]);
+        $scope.listWards = function () {
+            if ($scope.formData.districId != '') {
+                $scope.wards = [];
+                for (var wardId in $scope.list_wards) {
+                    if ($scope.list_wards[wardId].districtId === $scope.formData.districId) {
+                        $scope.wards.push($scope.list_wards[wardId]);
+                    }
                 }
             }
         }
-    });
-    $scope.listDistricts = function () {
-        if ($scope.formData.province != '') {
-            $scope.districts = [];
-            for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.formData.province) {
-                    $scope.districts.push($scope.list_districts[districtId]);
-                }
-            }
-        }
-    }
-    $scope.listWards = function () {
-        if ($scope.formData.districId != '') {
-            $scope.wards = [];
-            for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.formData.districId) {
-                    $scope.wards.push($scope.list_wards[wardId]);
-                }
-            }
-        }
-    }
-    $http({
-        method: 'POST',
-        url: domain_api + 'lookups/model/Radionode',
-        data: new URLSearchParams({
-            user: user,
-            userKey: user_Key,
-            id: id
-        }).toString(),
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-    }).then(function successCallback(response) {
-        $scope.formData = response.data[id];
-    }, function errorCallback(response) {
-        $rootScope.checkError(response.data.message, $dialogAlert);
-    });
-    $scope.editRadioApp = function () {
-        // const file = document.getElementById("file-name").textContent;
-        // $scope.icecast_url = file;
-        // console.log($scope.icecast_url);
         $http({
             method: 'POST',
-            url: domain_api + 'update/model/Radionode',
+            url: domain_api + 'lookups/model/Radionode',
             data: new URLSearchParams({
                 user: user,
                 userKey: user_Key,
-                id: id,
-                name: $scope.formData.name,
-                status: $scope.formData.status,
-                channel: $scope.formData.channel,
-                nodetype: $scope.formData.nodetype,
-                confId: $scope.formData.confId,
-                province: $scope.formData.province,
-                districId: $scope.formData.districId,
-                communeId: $scope.formData.communeId,
-                description: $scope.formData.description,
-                // icecast_url: $scope.icecast_url
+                id: id
             }).toString(),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             }
         }).then(function successCallback(response) {
-            if (response.data.id == id) {
-                $dialogAlert("Cập nhật truyền thanh và ứng dụng cntt - vt thành công", "Thông báo!", "success", function (res) {
-                    $state.go("manageRadioApp");
-                });
-            }
+            $scope.formData = response.data[id];
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
-    };
+        $scope.editRadioApp = function () {
+            // const file = document.getElementById("file-name").textContent;
+            // $scope.icecast_url = file;
+            // console.log($scope.icecast_url);
+            $http({
+                method: 'POST',
+                url: domain_api + 'update/model/Radionode',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    id: id,
+                    name: $scope.formData.name,
+                    status: $scope.formData.status,
+                    channel: $scope.formData.channel,
+                    nodetype: $scope.formData.nodetype,
+                    confId: $scope.formData.confId,
+                    province: $scope.formData.province,
+                    districId: $scope.formData.districId,
+                    communeId: $scope.formData.communeId,
+                    description: $scope.formData.description,
+                    // icecast_url: $scope.icecast_url
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.data.id == id) {
+                    $dialogAlert("Cập nhật truyền thanh và ứng dụng cntt - vt thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageRadioApp");
+                    });
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
+    }
 })
 app.controller('addRadioApp', function (addressService, $scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
-    $scope.formData = {};
-    //Citys
-    addressService.getCities(user, user_Key, domain_api)
-        .then(function (cities) {
-            $scope.cities = cities;
+    if (localStorage.getItem('token')) {
+        $scope.formData = {};
+        //Citys
+        addressService.getCities(user, user_Key, domain_api)
+            .then(function (cities) {
+                $scope.cities = cities;
+            });
+        //districts
+        addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
+            $scope.list_districts = districts;
         });
-    //districts
-    addressService.getDistricts(user, user_Key, domain_api).then(function (districts) {
-        $scope.list_districts = districts;
-    });
-    //wards
-    addressService.getWards(user, user_Key, domain_api).then(function (wards) {
-        $scope.list_wards = wards;
-    });
-    $scope.listDistricts = function () {
-        if ($scope.formData.province != '') {
-            $scope.districts = [];
-            for (var districtId in $scope.list_districts) {
-                if ($scope.list_districts[districtId].provinceId === $scope.formData.province) {
-                    $scope.districts.push($scope.list_districts[districtId]);
-                }
-            }
-            console.log($scope.districts);
-
-        }
-    }
-    $scope.listWards = function () {
-        if ($scope.formData.district != '') {
-            $scope.wards = [];
-            for (var wardId in $scope.list_wards) {
-                if ($scope.list_wards[wardId].districtId === $scope.formData.district) {
-                    $scope.wards.push($scope.list_wards[wardId]);
-                }
-            }
-            console.log($scope.wards);
-        }
-    }
-
-    $scope.addRadioApp = function () {
-        // const file = document.getElementById("upload-file").files[0];
-        // $scope.icecast_url = file.name;
-        $http({
-            method: 'POST',
-            url: domain_api + 'create/model/Radionode',
-            data: new URLSearchParams({
-                user: user,
-                userKey: user_Key,
-                name: $scope.formData.name,
-                status: $scope.formData.status,
-                channel: $scope.formData.channel,
-                nodetype: $scope.formData.nodetype,
-                confId: $scope.formData.confId,
-                province: $scope.formData.province,
-                districId: $scope.formData.district,
-                communeId: $scope.formData.commune,
-                description: $scope.formData.description,
-
-                //icecast_url: $scope.icecast_url
-            }).toString(),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            }
-        }).then(function successCallback(response) {
-            if (response.status != 404) {
-                $dialogAlert("Thêm đài truyền thanh và ứng dụng cntt - vt thành công", "Thông báo!", "success", function (res) {
-                    $state.go("manageRadioApp");
-                });
-            } else {
-                $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
-            }
-        }, function errorCallback(response) {
-            $rootScope.checkError(response.data.message, $dialogAlert);
+        //wards
+        addressService.getWards(user, user_Key, domain_api).then(function (wards) {
+            $scope.list_wards = wards;
         });
-    };
+        $scope.listDistricts = function () {
+            if ($scope.formData.province != '') {
+                $scope.districts = [];
+                for (var districtId in $scope.list_districts) {
+                    if ($scope.list_districts[districtId].provinceId === $scope.formData.province) {
+                        $scope.districts.push($scope.list_districts[districtId]);
+                    }
+                }
+                console.log($scope.districts);
+
+            }
+        }
+        $scope.listWards = function () {
+            if ($scope.formData.district != '') {
+                $scope.wards = [];
+                for (var wardId in $scope.list_wards) {
+                    if ($scope.list_wards[wardId].districtId === $scope.formData.district) {
+                        $scope.wards.push($scope.list_wards[wardId]);
+                    }
+                }
+                console.log($scope.wards);
+            }
+        }
+
+        $scope.addRadioApp = function () {
+            // const file = document.getElementById("upload-file").files[0];
+            // $scope.icecast_url = file.name;
+            $http({
+                method: 'POST',
+                url: domain_api + 'create/model/Radionode',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    name: $scope.formData.name,
+                    status: $scope.formData.status,
+                    channel: $scope.formData.channel,
+                    nodetype: $scope.formData.nodetype,
+                    confId: $scope.formData.confId,
+                    province: $scope.formData.province,
+                    districId: $scope.formData.district,
+                    communeId: $scope.formData.commune,
+                    description: $scope.formData.description,
+
+                    //icecast_url: $scope.icecast_url
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.status != 404) {
+                    $dialogAlert("Thêm đài truyền thanh và ứng dụng cntt - vt thành công", "Thông báo!", "success", function (res) {
+                        $state.go("manageRadioApp");
+                    });
+                } else {
+                    $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
+    }
+
+
+
 })
 //thai
 app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+
     $http({
         method: 'GET',
         url: listapi.userlog.getedit,
