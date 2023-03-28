@@ -24,7 +24,8 @@
             </div>
             <label class="col-xs-2 control-label" for="source">Source</label>
             <div class="col-xs-4">
-                <select ng-selected="dataForm.source" name="source" ng-model="dataForm.source" class="form-control">
+                <select ng-selected="dataForm.source" name="source" ng-model="dataForm.source" class="form-control"
+                    required>
                     <option value="" selected>--Chọn một tùy chọn--</option>
                     <option value="VOV" selected>VOV</option>
                     <option value="FM huyện" selected>FM huyện</option>
@@ -36,11 +37,12 @@
             <label class="col-xs-2 control-label" for="uri">URI</label>
             <div class="col-xs-4">
                 <input type="text" data-bv-message="Vui lòng nhập URI" ng-model="dataForm.uri" id="uri" name="uri"
-                    class="form-control" placeholder="Nhập URI">
+                    class="form-control" placeholder="Nhập URI" required>
             </div>
             <label class="col-xs-2 control-label" for="field">Lĩnh vực</label>
             <div class="col-xs-4">
-                <select ng-selected="dataForm.field" name="field" ng-model="dataForm.field" class="form-control">
+                <select ng-selected="dataForm.field" name="field" ng-model="dataForm.field" class="form-control"
+                    required>
                     <option value="" selected>--Chọn một tùy chọn--</option>
                     <option value="NEWS" selected>Tin tức</option>
                     <option value="ECON" selected>Kinh tế</option>
@@ -50,8 +52,7 @@
         <div class="form-group">
             <label class="col-xs-2 control-label" for="type">Phân loại</label>
             <div class="col-xs-4">
-                <select ng-selected="dataForm.type" name="type" ng-model="dataForm.type"
-                    class="form-control">
+                <select ng-selected="dataForm.type" name="type" ng-model="dataForm.type" class="form-control" required>
                     <option value="" selected>--Chọn một tùy chọn--</option>
                     <option value="TYPE1" selected>Loại 1</option>
                     <option value="TYPE2" selected>Loại 2</option>

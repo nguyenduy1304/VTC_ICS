@@ -341,6 +341,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             controller: 'editradiostreamingCtrl',
             templateUrl: window.templateUrl + "/onephone/editradiostreaming.html"
         })
+        .state('onephone-edit-playstream', {
+            url: '/phat-thanh/cap-nhat/noi-dung/:id',
+            allowAnonymous: true,
+            controller: 'editplaystreamCtrl',
+            templateUrl: window.templateUrl + "/onephone/editplaystream.html"
+        })
         // //Kho dữ liệu ========================
         .state('onephone-sourcewharehouse', {
             url: '/kho-du-lieu',
@@ -701,11 +707,11 @@ app.controller('addradiostreamingCtrl', function (addressService, $http, $scope,
         $state.go('account$signin');
     }
 });
-app.controller('editradiostreamingCtrl', function (addressService, $stateParams, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+app.controller('editradiostreamingCtrl', function (addressService, $dialogConfirm, $stateParams, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     if (localStorage.getItem('token')) {
         var id = $stateParams.id;
         $scope.dataForm = {};
-        //======
+        //=========== Lấy danh sách Radionode ==========
         $http({
             method: 'POST',
             url: domain_api + 'lookups/model/Radionode',
@@ -734,7 +740,7 @@ app.controller('editradiostreamingCtrl', function (addressService, $stateParams,
             $scope.showList = false;
             $scope.dthID = event.target.getAttribute('data-name-id');
         };
-        //========
+        //========Lấy danh sách Radiolibrary ======================
         $http({
             method: 'POST',
             url: domain_api + 'lookups/model/Radiolibrary',
@@ -764,7 +770,7 @@ app.controller('editradiostreamingCtrl', function (addressService, $stateParams,
             $scope.showList = false;
             $scope.c_radiolibraryId = event.target.getAttribute('data-name-id');
         };
-        //========
+        //========Lấy danh sách Icecast ================
         $http({
             method: 'POST',
             url: domain_api + 'lookups/model/Icecaststore',
@@ -847,7 +853,7 @@ app.controller('editradiostreamingCtrl', function (addressService, $stateParams,
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
 
-        //========
+        //========Lấy danh sách Playschedule ===================
         $http({
             method: 'POST',
             url: domain_api + 'lookups/model/Playschedule',
@@ -867,6 +873,7 @@ app.controller('editradiostreamingCtrl', function (addressService, $stateParams,
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
+
         $scope.dataForm = {};
         $scope.dataForm.rule = "";
         $scope.selectedPlayschedule = "";
@@ -928,12 +935,10 @@ app.controller('editradiostreamingCtrl', function (addressService, $stateParams,
         }
 
         $scope.addplaystreams = function () {
-            // console.log("Thư viện âm thanh:" + $scope.c_radiolibraryId);
-            // console.log("Trạm phát thah:" + $scope.dthID);
-            // console.log("Liên kết ICECAST:" + $scope.c_icecastlibrary);
-            // console.log("c_playId:" + $scope.dataForm.nameId);
             const c_datefrom = new Date($scope.dataForm.c_datefrom).getTime() / 1000;
             const c_dateto = new Date($scope.dataForm.c_dateto).getTime() / 1000;
+            const c_playOrder = parseInt($scope.dataForm.c_playOrder);
+            const c_durationtimeout = parseInt($scope.dataForm.c_durationtimeout);
             $http({
                 method: 'POST',
                 url: domain_api + 'create/model/Playstreams',
@@ -956,8 +961,8 @@ app.controller('editradiostreamingCtrl', function (addressService, $stateParams,
                     c_dateto: c_dateto,
 
                     c_icecastlibrary: $scope.c_icecastlibrary,
-                    c_playOrder: $scope.dataForm.c_playOrder,
-                    c_durationtimeout: $scope.dataForm.c_durationtimeout
+                    c_playOrder: c_playOrder,
+                    c_durationtimeout: c_durationtimeout
 
                 }).toString(),
                 headers: {
@@ -966,7 +971,7 @@ app.controller('editradiostreamingCtrl', function (addressService, $stateParams,
             }).then(function successCallback(response) {
                 if (response.status != 404) {
                     $dialogAlert("Thêm mới vào kho dữ liệu thành công", "Thông báo!", "success", function (res) {
-                        $location.path("/kho-du-lieu");
+                        $location.path("/phat-thanh/cap-nhat/" + id);
                     });
                 } else {
                     $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
@@ -1017,6 +1022,203 @@ app.controller('editradiostreamingCtrl', function (addressService, $stateParams,
                     $dialogAlert("cập nhật thay đổi phát thanh thành công", "Thông báo!", "success", function (res) {
                         $location.path("/phat-thanh");
                     });
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+    } else {
+        $state.go('account$signin');
+    }
+    $scope.deleteplaystreams= function (id, name) {
+        console.log(id);
+        $dialogConfirm("Bạn chắc chắn muốn xóa nội dung phát thanh có tên <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
+            if (res) {
+                $http({
+                    method: 'POST',
+                    url: domain_api + 'delete/model/Playstreams',
+                    data: new URLSearchParams({
+                        user: user,
+                        userKey: user_Key,
+                        id: id
+                    }).toString(),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    }
+                }).then(function successCallback(response) {
+                    if (response.status == 200) {
+                        $dialogAlert("Đã xóa phát thanh thành công", "Thông báo!", "success", function (res) {
+                            $window.location.reload();
+                        });
+                    }
+                }, function errorCallback(response) {
+                    $rootScope.checkError(response.data.message, $dialogAlert);
+                });
+            }
+        })
+    }
+});
+app.controller('editplaystreamCtrl', function (addressService, $stateParams, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+    if (localStorage.getItem('token')) {
+        var id = $stateParams.id;
+        //=========== Lấy danh sách Radionode ==========
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Radionode',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.radionodes = arr;
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.selectedRadionode = "";
+        $scope.showList = false;
+        $scope.selectRadionode = function (radionode, event) {
+            $scope.selectedRadionode = radionode;
+            $scope.dataForm.dthID = radionode;
+            $scope.showList = false;
+            $scope.dthID = event.target.getAttribute('data-name-id');
+        };
+        //========Lấy danh sách Radiolibrary ======================
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Radiolibrary',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.radiolibrarys = arr;
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.selectedRadiolibrary = "";
+        $scope.showList = false;
+
+        $scope.selectRadiolibrary = function (radiolibrary, event) {
+            $scope.selectedRadiolibrary = radiolibrary;
+            $scope.dataForm.c_radiolibraryId = radiolibrary;
+            $scope.showList = false;
+            $scope.c_radiolibraryId = event.target.getAttribute('data-name-id');
+        };
+        //========Lấy danh sách Icecast ================
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Icecaststore',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.icecaststores = arr;
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.selectIcecaststore = "";
+        $scope.showList = false;
+
+        $scope.selectIcecaststore = function (icecaststore, event) {
+            $scope.selectIcecaststore = icecaststore;
+            $scope.dataForm.c_icecastlibrary = icecaststore;
+            $scope.showList = false;
+            $scope.c_icecastlibrary = event.target.getAttribute('data-name-id');
+        };
+        //===============
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Playstreams',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key,
+                id: id
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            $scope.dataForm = response.data[id];
+
+            $scope.dataForm.c_hour_from = new Date($scope.dataForm.c_hour_from);
+            $scope.dataForm.c_hour_to = new Date($scope.dataForm.c_hour_to);
+
+            $scope.dataForm.c_datefrom = new Date($scope.dataForm.c_datefrom * 1000);
+            $scope.dataForm.c_dateto = new Date($scope.dataForm.c_dateto * 1000);
+
+            $scope.dataForm.c_playOrder = parseInt($scope.dataForm.c_playOrder);
+            $scope.dataForm.c_durationtimeout = parseInt($scope.dataForm.c_durationtimeout);
+
+            $scope.c_radiolibraryId = $scope.dataForm.c_radiolibraryId;
+            $scope.dthID = $scope.dataForm.dthID;
+            $scope.c_icecastlibrary = $scope.dataForm.c_icecastlibrary;
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+
+        $scope.editplaystreams = function () {
+            const c_datefrom = new Date($scope.dataForm.c_datefrom).getTime() / 1000;
+            const c_dateto = new Date($scope.dataForm.c_dateto).getTime() / 1000;
+            const c_playOrder = parseInt($scope.dataForm.c_playOrder);
+            const c_durationtimeout = parseInt($scope.dataForm.c_durationtimeout);
+            $http({
+                method: 'POST',
+                url: domain_api + 'update/model/Playstreams',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    id: id,
+                    name: $scope.dataForm.name,
+                    c_playId: $scope.dataForm.c_playId,
+                    contentfield: $scope.dataForm.contentfield,
+                    c_playStyle: $scope.dataForm.c_playStyle,
+                    c_contenttype: $scope.dataForm.c_contenttype,
+
+                    c_radiolibraryId: $scope.c_radiolibraryId,
+                    dthID: $scope.dthID,
+
+                    c_hour_from: $scope.dataForm.c_hour_from,
+                    c_hour_to: $scope.dataForm.c_hour_to,
+
+                    c_datefrom: c_datefrom,
+                    c_dateto: c_dateto,
+
+                    c_icecastlibrary: $scope.c_icecastlibrary,
+                    c_playOrder: c_playOrder,
+                    c_durationtimeout: c_durationtimeout
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.status != 404) {
+                    $dialogAlert("Cập nhật nội dung thành công", "Thông báo!", "success", function (res) {
+                        $location.path("/phat-thanh/cap-nhat/" + id);
+                    });
+                } else {
+                    $dialogAlert("\n Cập nhật thất bại kiểm tra lại ", "Thông báo!", "warning");
                 }
             }, function errorCallback(response) {
                 $rootScope.checkError(response.data.message, $dialogAlert);

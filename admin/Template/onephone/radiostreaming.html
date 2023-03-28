@@ -41,7 +41,14 @@
         <td>{{item.city}}</td>
         <td>{{item.district}}</td>
         <td>{{item.ward}}</td>
-        <td>{{item.status}}</td>
+        <td>
+          <span ng-if="item.status == 'RS01'">Chờ phát thanh</span>
+          <span ng-if="item.status == 'RS02'">Bắt đầu phát thanh</span>
+          <span ng-if="item.status == 'RS03'">Đang phát</span>
+          <span ng-if="item.status == 'RS04'">Tạm dừng</span>
+          <span ng-if="item.status == 'RS05'">Kết thúc</span>
+
+        </td>
         <td style="text-align:center;">
           <a class="glyphicon glyphicon-pencil icon" href="../index.html#!/phat-thanh/cap-nhat/{{item.id}}"></a>
           <a class="glyphicon glyphicon-remove icon" ng-click="deleteradiostreaming(item.id,item.name)"></a>

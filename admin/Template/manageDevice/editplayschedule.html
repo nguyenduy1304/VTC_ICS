@@ -20,7 +20,7 @@
                 <div class="col-sm-4">
                     <input id="dthIDSearch" type="text" ng-model="formData.dthID" ng-click="showList = true"
                         class="form-control" autocomplete="off" placeholder="Nhập tìm kế hoạch phát thanh"
-                        onBlur="hideList()">
+                        onBlur="hideList()" required>
                     <ul ng-show="showList" class="radiostreaming_rule_ul">
                         <li ng-repeat="radionode in radionodes | filter: formData.dthID"
                             ng-click="selectRadionode(radionode.name, $event)"
@@ -34,7 +34,7 @@
                 <label for="c_active" class="col-sm-2 control-label">Hoạt động</label>
                 <div class="col-sm-4">
                     <select ng-selected="formData.c_active" name="c_active" ng-model="formData.c_active"
-                        class="form-control">
+                        class="form-control" required>
                         <option value="" selected>--Chọn--</option>
                         <option value="1" selected>Có</option>
                         <option value="0" selected>Không</option>
@@ -43,7 +43,7 @@
                 <label for="c_scheduletype" class="col-sm-2 control-label">Loại kết hoạch</label>
                 <div class="col-sm-4">
                     <select ng-selected="formData.c_scheduletype" name="c_scheduletype"
-                        ng-model="formData.c_scheduletype" class="form-control">
+                        ng-model="formData.c_scheduletype" class="form-control" required>
                         <option value="" selected>--Chọn một tùy chọn--</option>
                         <option value="SP01" selected>Hằng ngày</option>
                         <option value="SP02" selected>Đột xuất</option>
@@ -54,7 +54,7 @@
                 <label class="col-xs-2 control-label" for="city">Tỉnh/Tp</label>
                 <div class="col-xs-4">
                     <select ng-selected="formData.city" class="form-control" ng-model="formData.city"
-                        ng-change="listDistricts()">
+                        ng-change="listDistricts()" required>
                         <option value="" selected>--Chọn tỉnh thành--</option>
                         <option ng-repeat="item in cities" value={{item.name}}_{{item.id}}>
                             {{item.name}}</option>
@@ -62,7 +62,8 @@
                 </div>
                 <label for="field" class="col-sm-2 control-label">Lĩnh vực</label>
                 <div class="col-sm-4">
-                    <select ng-selected="formData.field" name="field" ng-model="formData.field " class="form-control">
+                    <select ng-selected="formData.field" name="field" ng-model="formData.field " class="form-control"
+                        required>
                         <option value="" selected>--Chọn một tùy chọn--</option>
                         <option value="NEWS" selected>Tin tức</option>
                         <option value="ECON" selected>Kinh tế</option>
@@ -73,7 +74,7 @@
                 <label class="col-xs-2 control-label" for="district">Quận/Huyện</label>
                 <div class="col-xs-4">
                     <select ng-selected="formData.district" class="form-control" ng-model="formData.district"
-                        ng-change="listWards()">
+                        ng-change="listWards()" required>
                         <option value="" selected>--Chọn huyện--</option>
                         <option ng-repeat="item in districts" value={{item.nameId}}>
                             {{item.name}}</option>
@@ -81,7 +82,8 @@
                 </div>
                 <label class="col-xs-2 control-label" for="type">Phân loại</label>
                 <div class="col-xs-4">
-                    <select ng-selected="formData.type" name="type" ng-model="formData.type " class="form-control">
+                    <select ng-selected="formData.type" name="type" ng-model="formData.type " class="form-control"
+                        required>
                         <option value="" selected>--Chọn một tùy chọn--</option>
                         <option value="TYPE1" selected>Loại 1</option>
                         <option value="TYPE2" selected>Loại 2</option>
@@ -91,7 +93,7 @@
             <div class="form-group">
                 <label class="col-xs-2 control-label" for="ward">Phường/Xã</label>
                 <div class="col-xs-4">
-                    <select class="form-control" ng-selected="formData.ward" ng-model="formData.ward">
+                    <select class="form-control" ng-selected="formData.ward" ng-model="formData.ward" required>
                         <option value="" selected>--Chọn phường xã--</option>
                         <option ng-repeat="item in wards" value={{item.nameId}}>{{item.name}}</option>
                     </select>
@@ -101,11 +103,12 @@
                 <label for="date_from" class="col-sm-2 control-label">Từ ngày</label>
                 <div class="col-sm-4">
                     <input ng-model="formData.date_from" name="date_from" type="date" class="form-control"
-                        id="date_from">
+                        id="date_from" required>
                 </div>
                 <label for="date_to" class="col-sm-2 control-label">Đến ngày</label>
                 <div class="col-sm-4">
-                    <input ng-model="formData.date_to" name="date_to" type="date" class="form-control" id="date_to">
+                    <input ng-model="formData.date_to" name="date_to" type="date" class="form-control" id="date_to"
+                        required>
                 </div>
             </div>
 
@@ -113,11 +116,12 @@
                 <label for="hour_from" class="col-sm-2 control-label">Giờ từ</label>
                 <div class="col-sm-4">
                     <input ng-model="formData.hour_from" name="hour_from" type="time" class="form-control"
-                        id="hour_from">
+                        id="hour_from" required>
                 </div>
                 <label for="hour_to" class="col-sm-2 control-label">đến</label>
                 <div class="col-sm-4">
-                    <input ng-model="formData.hour_to" name="hour_to" type="time" class="form-control" id="hour_to">
+                    <input ng-model="formData.hour_to" name="hour_to" type="time" class="form-control" id="hour_to"
+                        required>
                 </div>
             </div>
             <div class="form-group">

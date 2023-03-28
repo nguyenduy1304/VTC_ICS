@@ -1,0 +1,180 @@
+<div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung">Trang chủ</a>
+            </li>
+            <li class="breadcrumb-item"><a href="/index.html#!/phat-thanh">Phát thanh</a>
+            </li>
+            <li class="breadcrumb-item"><a href="/index.html#!/phat-thanh/cap-nhat/{{dataForm.id}}">Cập nhật</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Cập nhật nội dung</li>
+        </ol>
+    </nav>
+    <form ng-submit="editplaystreams()" class="form-horizontal" style="padding-right: 10px;">
+        <div class="form-group" style="padding-top: 10px;">
+            <label for="name" class="col-sm-2 control-label">Tên nội dung</label>
+            <div class="col-sm-4">
+                <input ng-model="dataForm.name" name="name" type="text"
+                    class="form-control" id="name" placeholder="Nhập tên phát thanh" required>
+            </div>
+            <label class="col-xs-2 control-label" for="contentfield">Lĩnh vực</label>
+            <div class="col-xs-4">
+                <select ng-selected="dataForm.contentfield" name="contentfield"
+                    ng-model="dataForm.contentfield" class="form-control"required>
+                    <option value="" selected>--Chọn một tùy chọn--</option>
+                    <option value="ECO" selected>Kinh tế</option>
+                    <option value="POLI" selected>Chính trị</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="c_playStyle" class="col-sm-2 control-label">Loại hình phát thanh</label>
+            <div class="col-xs-4">
+                <select ng-selected="dataForm.c_playStyle" name="c_playStyle"
+                    ng-model="dataForm.c_playStyle" class="form-control"required>
+                    <option value="" selected>--Chọn một tùy chọn--</option>
+                    <option value="S001" selected>Phát file theo mốc
+                        thời gian</option>
+                    <option value="S002" selected>Phát file mặc định</option>
+                </select>
+            </div>
+            <label class="col-xs-2 control-label" for="c_contenttype">Nội dung phát thanh</label>
+            <div class="col-xs-4">
+                <select ng-selected="dataForm.c_contenttype" name="c_contenttype"
+                    ng-model="dataForm.c_contenttype" class="form-control"required>
+                    <option value="" selected>--Chọn một tùy chọn--</option>
+                    <option value="TRANS" selected>Tiếp âm từ thiết bị transmitter</option>
+                    <option value="VOV" selected>Tiếp âm VOV</option>
+                    <option value="RAW" selected>File mp3</option>
+                    <option value="VIDEO" selected>Video</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="c_radiolibraryId" class="col-sm-2 control-label">Thư viện âm thanh</label>
+            <div class="col-sm-4">
+                <input id="c_radiolibraryId" type="text" ng-model="dataForm.c_radiolibraryId"
+                    ng-click="showList = true" class="form-control" autocomplete="off"
+                    placeholder="Nhập tìm kế hoạch phát thanh"required>
+                <ul ng-show="showList" class="c_radiolibraryId">
+                    <li ng-repeat="radiolibrary in radiolibrarys | filter: dataForm.c_radiolibraryId | limitTo:5"
+                        ng-click="selectRadiolibrary(radiolibrary.name, $event)"
+                        class="c_radiolibraryId form-control" data-name-id="{{radiolibrary.nameId}}">
+                        {{radiolibrary.name}}
+                    </li>
+                </ul>
+            </div>
+            <label for="dthID" class="col-sm-2 control-label">Trạm phát thanh</label>
+            <div class="col-sm-4">
+                <input id="dthIDSearch" type="text" ng-model="dataForm.dthID" ng-click="showList= true"
+                    class="form-control" autocomplete="off" placeholder="Nhập tìm trạm phát thanh"required>
+                <ul ng-show="showList" class="radionode_dthID">
+                    <li ng-repeat="radionode in radionodes | filter:dataForm.dthID | limitTo:5"
+                        ng-click="selectRadionode(radionode.name,$event)"
+                        class="radionode_dthID form-control" data-name-id="{{radionode.nameId}}">
+                        {{radionode.name}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="c_hour_from" class="col-sm-2 control-label">Giờ từ</label>
+            <div class="col-sm-4">
+                <input ng-model="dataForm.c_hour_from" name="c_hour_from" type="time"
+                    class="form-control" id="c_hour_from"required>
+            </div>
+            <label for="c_hour_to" class="col-sm-2 control-label">đến</label>
+            <div class="col-sm-4">
+                <input ng-model="dataForm.c_hour_to" name="c_hour_to" type="time" class="form-control"
+                    id="c_hour_to"required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="c_datefrom" class="col-sm-2 control-label">Từ
+                ngày</label>
+            <div class="col-sm-4">
+                <input ng-model="dataForm.c_datefrom" name="c_datefrom" type="date" class="form-control"
+                    id="c_datefrom"required>
+            </div>
+            <label for="c_dateto" class="col-sm-2 control-label">Đến ngày</label>
+            <div class="col-sm-4">
+                <input ng-model="dataForm.c_dateto" name="c_dateto" type="date" class="form-control"
+                    id="c_dateto"required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="c_icecastlibrary" class="col-sm-2 control-label">Liên kết ICECAST</label>
+            <div class="col-sm-4">
+                <input id="c_icecastlibrary" type="text" ng-model="dataForm.c_icecastlibrary"
+                    ng-click="showList = true" class="form-control" autocomplete="off"
+                    placeholder="Nhập tìm ICECAST"required>
+                <ul ng-show="showList" class="c_icecastlibrary">
+                    <li ng-repeat="icecaststore in icecaststores | filter: dataForm.c_icecastlibrary | limitTo:5"
+                        ng-click="selectIcecaststore(icecaststore.name, $event)"
+                        class="c_icecastlibrary form-control" data-name-id="{{icecaststore.nameId}}">
+                        {{icecaststore.name}}
+                    </li>
+                </ul>
+            </div>
+            <label for="c_playOrder" class="col-sm-1 control-label">Thứ tự
+                phát</label>
+            <div class="col-sm-2">
+                <input ng-model="dataForm.c_playOrder" name="c_playOrder" type="number"
+                    class="form-control" id="c_playOrder"required>
+            </div>
+            <label for="c_durationtimeout" class="col-sm-1 control-label">Thời lượng
+                phát</label>
+            <div class="col-sm-2">
+                <input ng-model="dataForm.c_durationtimeout" name="c_durationtimeout" type="number"
+                    class="form-control" id="c_durationtimeout"required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-8">
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            </div>
+        </div>
+    </form>
+  
+
+</div>
+<script>
+    //======================================================================
+    const inputElementc_radiolibraryId = document.getElementById('c_radiolibraryId');
+    const ulElementc_radiolibraryId = document.querySelector('.c_radiolibraryId');
+    document.addEventListener('click', (event) => {
+        const isClickInsideInput = inputElementc_radiolibraryId.contains(event.target);
+        if (!isClickInsideInput) {
+            ulElementc_radiolibraryId.style.display = 'none';
+        }
+    });
+    inputElementc_radiolibraryId.addEventListener('click', () => {
+        ulElementc_radiolibraryId.style.display = 'block';
+    });
+    //========
+    const inputElementdth = document.getElementById('dthIDSearch');
+    const ulElementdth = document.querySelector('.radionode_dthID');
+    document.addEventListener('click', (event) => {
+        const isClickInsideInput = inputElementdth.contains(event.target);
+        if (!isClickInsideInput) {
+            ulElementdth.style.display = 'none';
+        }
+    });
+    inputElementdth.addEventListener('click', () => {
+        ulElementdth.style.display = 'block';
+    });
+    //========
+    const inputElementc_icecastlibrary = document.getElementById('c_icecastlibrary');
+    const ulElementc_icecastlibrary = document.querySelector('.c_icecastlibrary');
+    document.addEventListener('click', (event) => {
+        const isClickInsideInput = inputElementc_icecastlibrary.contains(event.target);
+        if (!isClickInsideInput) {
+            ulElementc_icecastlibrary.style.display = 'none';
+        }
+    });
+    inputElementc_icecastlibrary.addEventListener('click', () => {
+        ulElementc_icecastlibrary.style.display = 'block';
+    });
+   
+</script>

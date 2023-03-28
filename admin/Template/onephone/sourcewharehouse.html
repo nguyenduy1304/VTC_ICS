@@ -37,8 +37,14 @@
                 <td>{{item.name}}</td>
                 <td>{{item.source}}</td>
                 <td>{{item.uri}}</td>
-                <td>{{item.field}}</td>
-                <td>{{item.status}}</td>
+                <td>
+                    <span ng-if="item.field == 'NEWS'">Tin tức</span>
+                    <span ng-if="item.field == 'ECON'">Kinh tế</span>
+                </td>
+                <td>
+                    <span ng-if="item.status == 1">Bình thường</span>
+                    <span ng-if="item.status == 0">Không bình thường</span>
+                </td>
                 <td>{{item.note}}</td>
                 <td style="text-align:center;">
                     <a class="glyphicon glyphicon-pencil icon"
