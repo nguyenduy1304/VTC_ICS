@@ -42,7 +42,14 @@
                 <td>{{item.createDate*1000 | date:'dd/MM/yyyy'}}</td>
                 <td>{{item.name}}</td>
                 <td>{{item.lat}} - {{item.lng}} </td>
-                <td>{{item.status}}</td>
+                <td>
+                    <span ng-if="item.status == 'IDLE'">Đang hoạt động</span>
+                    <span ng-if="item.status == 'REVERT'">Dự kiến</span>
+                    <span ng-if="item.status == 'PAUSE'">Sửa chữa</span>
+                    <span ng-if="item.status == 'REVOKE'">Di dời</span>
+                </td>
+
+
                 <td>{{item.deviceType}}</td>
                 <td>{{item.note}}</td>
                 <td style="text-align:center;">

@@ -211,6 +211,21 @@
 </div>
 
 <script>
+    document.getElementById("starttime").addEventListener("change", checkBothDatesFilled);
+    document.getElementById("endtime").addEventListener("change", checkBothDatesFilled);
+
+    function checkBothDatesFilled() {
+        var startDate = document.getElementById("starttime").value;
+        var endDate = document.getElementById("endtime").value;
+
+        // Nếu cả hai ô đã được điền đầy đủ, thực hiện kiểm tra ngày bắt đầu và kết thúc
+        if (startDate !== "" && endDate !== "") {
+            if (startDate >= endDate) {
+                alert("Lưu ý ngày bắt đầu phải trước ngày kết thúc.");
+            }
+        }
+    }
+    // ==========================================================
     const input = document.getElementById("upload-file");
     const fileName = document.getElementById("file-name");
     input.addEventListener("change", function (event) {

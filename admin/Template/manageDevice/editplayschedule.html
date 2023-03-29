@@ -151,7 +151,7 @@
                 <label for="c_hour_from3" class="col-sm-2 control-label">[Giờ từ-3]</label>
                 <div class="col-sm-4">
                     <input ng-model="formData.c_hour_from3" name="c_hour_from3" type="time" class="form-control"
-                        id="c_our_from3">
+                        id="c_hour_from3">
                 </div>
                 <label for="c_hour_to3" class="col-sm-2 control-label">[đến-3]</label>
                 <div class="col-sm-4">
@@ -443,6 +443,8 @@
 </div>
 
 <script>
+    
+    //===============================================================================
     function edit_week_day() {
         var inputs = document.querySelectorAll("#week_day input[type='checkbox']");
         for (var i = 0; i < inputs.length; i++) {
@@ -476,4 +478,85 @@
     inputElement.addEventListener('click', () => {
         ulElement.style.display = 'block';
     });
+
+    //Check ngày   
+    document.getElementById("date_from").addEventListener("change", checkday);
+    document.getElementById("date_to").addEventListener("change", checkday);
+    function checkday() {
+        var startDate = document.getElementById("date_from").value;
+        var endDate = document.getElementById("date_to").value;
+        if (startDate !== "" && endDate !== "") {
+            if (startDate >= endDate) {
+                alert("Lưu ý ngày bắt đầu phải trước ngày kết thúc.");
+            }
+        }
+    }
+    //check giờ 
+    document.getElementById("hour_from").addEventListener("change", checkBothDatesFilled);
+    document.getElementById("hour_to").addEventListener("change", checkBothDatesFilled);
+
+    document.getElementById("hour_from1").addEventListener("change", checkBothDatesFilled);
+    document.getElementById("hour_to1").addEventListener("change", checkBothDatesFilled);
+
+    document.getElementById("c_hour_from2").addEventListener("change", checkBothDatesFilled);
+    document.getElementById("c_hour_to2").addEventListener("change", checkBothDatesFilled);
+
+    document.getElementById("c_hour_from3").addEventListener("change", checkBothDatesFilled);
+    document.getElementById("c_hour_to3").addEventListener("change", checkBothDatesFilled);
+
+    document.getElementById("c_hour_from4").addEventListener("change", checkBothDatesFilled);
+    document.getElementById("c_hour_to4").addEventListener("change", checkBothDatesFilled);
+
+    document.getElementById("c_hour_from5").addEventListener("change", checkBothDatesFilled);
+    document.getElementById("c_hour_to5").addEventListener("change", checkBothDatesFilled);
+
+    function checkBothDatesFilled() {
+        var hour_from = document.getElementById("hour_from").value;
+        var hour_to = document.getElementById("hour_to").value;
+        if (hour_from !== "" && hour_to !== "") {
+            if (hour_from >= hour_to) {
+                alert("Lưu ý giờ từ phải trước giờ giờ đến.");
+            }
+        }
+
+        var hour_from1 = document.getElementById("hour_from1").value;
+        var hour_to1 = document.getElementById("hour_to1").value;
+        if (hour_from1 !== "" && hour_to1 !== "") {
+            if (hour_from1 >= hour_to1) {
+                alert("Lưu ý [giờ từ] phải trước [đến].");
+            }
+        }
+
+        var hour_from2 = document.getElementById("c_hour_from2").value;
+        var hour_to2 = document.getElementById("c_hour_to2").value;
+        if (hour_from2 !== "" && hour_to2 !== "") {
+            if (hour_from2 >= hour_to2) {
+                alert("Lưu ý [giờ từ 2] phải trước [đến 2].");
+            }
+        }
+
+        var hour_from3 = document.getElementById("c_hour_from3").value;
+        var hour_to3 = document.getElementById("c_hour_to3").value;
+        if (hour_from3 !== "" && hour_to3 !== "") {
+            if (hour_from3 >= hour_to3) {
+                alert("Lưu ý [giờ từ 3] phải trước [đến 3].");
+            }
+        }
+
+        var hour_from4 = document.getElementById("c_hour_from4").value;
+        var hour_to4 = document.getElementById("c_hour_to4").value;
+        if (hour_from4 !== "" && hour_to4 !== "") {
+            if (hour_from4 >= hour_to4) {
+                alert("Lưu ý [giờ từ 4] phải trước [đến 4].");
+            }
+        }
+
+        var hour_from5 = document.getElementById("c_hour_from5").value;
+        var hour_to5 = document.getElementById("c_hour_to5").value;
+        if (hour_from5 !== "" && hour_to5 !== "") {
+            if (hour_from5 >= hour_to5) {
+                alert("Lưu ý [giờ từ 5] phải trước [đến 5].");
+            }
+        }
+    }
 </script>

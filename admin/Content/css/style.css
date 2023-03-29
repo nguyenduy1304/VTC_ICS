@@ -624,6 +624,7 @@ textarea {
 }
 
 #add {
+    margin-top: 75px;
     width: 92.5%;
     border: 1px solid #cbcbcb;
     position: absolute;
@@ -684,17 +685,17 @@ textarea {
 .active {
     border-bottom-color: #007bff;
 }
+.active-menu {
+    font-weight: bold;
+}
 
 .tabcontent {
-    display: none;
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
 }
 
-.tabcontent.show {
-    display: block;
-}
+
 
 .fas {
     font-size: 20pt;

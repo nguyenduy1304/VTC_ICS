@@ -711,6 +711,34 @@ app.controller('editradiostreamingCtrl', function (addressService, $dialogConfir
     if (localStorage.getItem('token')) {
         var id = $stateParams.id;
         $scope.dataForm = {};
+
+        $scope.currentTab = 'Tab1';
+        $scope.openTab = function (tab) {
+            angular.element(document.querySelectorAll('.tab')).removeClass('active');
+            angular.element(document.querySelector('#' + tab)).addClass('active');
+            $scope.currentTab = tab;
+        };
+
+        $scope.toggleAdd = function() {
+            var add = document.getElementById("add");
+            var btnThem = document.getElementById("btnThem");
+            
+            if (add.style.display === "none") {
+              add.style.display = "block";
+            } else {
+              add.style.display = "none";
+            }
+          }
+          $scope.toggleClose = function() {
+            var add = document.getElementById("add");
+            var close = document.getElementById("close");
+            
+            if (add.style.display === "block") {
+              add.style.display = "none";
+            } else {
+              add.style.display = "block";
+            }
+          }
         //=========== Lấy danh sách Radionode ==========
         $http({
             method: 'POST',
@@ -1030,7 +1058,7 @@ app.controller('editradiostreamingCtrl', function (addressService, $dialogConfir
     } else {
         $state.go('account$signin');
     }
-    $scope.deleteplaystreams= function (id, name) {
+    $scope.deleteplaystreams = function (id, name) {
         console.log(id);
         $dialogConfirm("Bạn chắc chắn muốn xóa nội dung phát thanh có tên <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
