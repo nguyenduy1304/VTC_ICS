@@ -363,6 +363,10 @@ div.upload input[type="file"] {
     display: none;
     list-style: none !important;
 }
+.treeview-menu li:hover{
+   font-weight: bold;
+}
+
 
 .sidebar-menu>li {
     position: relative;
@@ -381,7 +385,7 @@ div.upload input[type="file"] {
 .treeview-menu>li>a {
     padding: 5px 5px 5px 5px;
     display: block;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .sidebar-menu>li>a {
@@ -685,7 +689,7 @@ textarea {
 .active {
     border-bottom-color: #007bff;
 }
-.active-menu {
+.active-menu a {
     font-weight: bold;
 }
 
