@@ -707,39 +707,71 @@ app.controller('addradiostreamingCtrl', function (addressService, $http, $scope,
         $state.go('account$signin');
     }
 });
-app.controller('editradiostreamingCtrl', function (addressService, $dialogConfirm, $stateParams, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+app.controller('editradiostreamingCtrl', function ($filter, addressService, $dialogConfirm, $stateParams, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     if (localStorage.getItem('token')) {
         var id = $stateParams.id;
         $scope.dataForm = {};
-
+        // #region Tab, btn add, close
         $scope.currentTab = 'Tab1';
         $scope.openTab = function (tab) {
             angular.element(document.querySelectorAll('.tab')).removeClass('active');
             angular.element(document.querySelector('#' + tab)).addClass('active');
             $scope.currentTab = tab;
         };
-
-        $scope.toggleAdd = function() {
+        //btn thêm, đóng ===================
+        $scope.toggleAdd = function () {
             var add = document.getElementById("add");
-            var btnThem = document.getElementById("btnThem");
-            
             if (add.style.display === "none") {
-              add.style.display = "block";
+                add.style.display = "block";
             } else {
-              add.style.display = "none";
+                add.style.display = "none";
             }
-          }
-          $scope.toggleClose = function() {
+        }
+        $scope.toggleClose = function () {
             var add = document.getElementById("add");
-            var close = document.getElementById("close");
-            
             if (add.style.display === "block") {
-              add.style.display = "none";
+                add.style.display = "none";
             } else {
-              add.style.display = "block";
+                add.style.display = "block";
             }
-          }
-        //=========== Lấy danh sách Radionode ==========
+        }
+        // #endregion
+
+        //#region Ngày, tuần, tháng
+        $scope.updateWeek = function () {
+            $scope.week = "";
+            for (var i = 0; i < 8; i++) {
+                if ($scope.dataplayschedules['week_day_' + i]) {
+                    $scope.week += i.toString() + ",";
+                }
+            }
+            $scope.week = $scope.week.slice(0, -1); // Xóa dấu ',' ở cuối chuỗi
+        };
+        $scope.updateDay = function () {
+            $scope.day = "";
+            for (var i = 0; i < 32; i++) {
+                if ($scope.dataplayschedules['day_' + i]) {
+                    $scope.day += i.toString() + ",";
+                }
+            }
+            $scope.day = $scope.day.slice(0, -1); // Xóa dấu ',' ở cuối chuỗi
+
+            // var selectedDay = [];
+            // for (var i = 1; i <= 31; i++) {
+            //     if ($scope.dataplayschedules['day_' + i]) selectedDay.push(i.toString());
+            // }
+            // $scope.day = selectedDay.join(',');
+        };
+        $scope.updateMonth = function () {
+            var selectedMonth = [];
+            for (var i = 1; i <= 12; i++) {
+                if ($scope.dataplayschedules['month_' + i]) selectedMonth.push(i);
+            }
+            $scope.month = selectedMonth.join(',');
+        };
+        //#endregion
+
+        // #region Lấy danh sách Radionode
         $http({
             method: 'POST',
             url: domain_api + 'lookups/model/Radionode',
@@ -768,7 +800,9 @@ app.controller('editradiostreamingCtrl', function (addressService, $dialogConfir
             $scope.showList = false;
             $scope.dthID = event.target.getAttribute('data-name-id');
         };
-        //========Lấy danh sách Radiolibrary ======================
+        // #endregion
+
+        // #region Lấy danh sách Radiolibrary
         $http({
             method: 'POST',
             url: domain_api + 'lookups/model/Radiolibrary',
@@ -798,7 +832,9 @@ app.controller('editradiostreamingCtrl', function (addressService, $dialogConfir
             $scope.showList = false;
             $scope.c_radiolibraryId = event.target.getAttribute('data-name-id');
         };
-        //========Lấy danh sách Icecast ================
+        // #endregion
+
+        // #region Lấy danh sách Icecast
         $http({
             method: 'POST',
             url: domain_api + 'lookups/model/Icecaststore',
@@ -828,8 +864,9 @@ app.controller('editradiostreamingCtrl', function (addressService, $dialogConfir
             $scope.showList = false;
             $scope.c_icecastlibrary = event.target.getAttribute('data-name-id');
         };
+        // #endregion
 
-        //========
+        // #region Phát thanh
         $http({
             method: 'POST',
             url: domain_api + 'lookups/model/Radiostreaming',
@@ -843,7 +880,7 @@ app.controller('editradiostreamingCtrl', function (addressService, $dialogConfir
             }
         }).then(function successCallback(response) {
             $scope.dataForm = response.data[id];
-            //========Lấy danh sach nội dung phát thanh==================
+            // #region List content phát thanh
             $http({
                 method: 'POST',
                 url: domain_api + 'lookups/model/Playstreams',
@@ -862,6 +899,63 @@ app.controller('editradiostreamingCtrl', function (addressService, $dialogConfir
             }, function errorCallback(response) {
                 $rootScope.checkError(response.data.message, $dialogAlert);
             });
+            // #endregion
+
+            // #region Lịch phát thanh
+            $http({
+                method: 'POST',
+                url: domain_api + 'lookups/model/Playschedule',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    nameId: $scope.dataForm.rule
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(res) {
+                const arr = Object.values(res.data);
+                $scope.dataplayschedules = arr[0];
+
+                $scope.dataForm.dthID = $scope.dataplayschedules.dthID;
+
+                $scope.dataplayschedules.date_from = new Date($scope.dataplayschedules.date_from * 1000);
+                $scope.dataplayschedules.date_to = new Date($scope.dataplayschedules.date_to * 1000);
+
+                $scope.dataplayschedules.hour_from = new Date('1970-01-01T' + $scope.dataplayschedules.hour_from);
+                $scope.dataplayschedules.hour_to = new Date('1970-01-01T' + $scope.dataplayschedules.hour_to);
+
+                $scope.dataplayschedules.hour_from1 = new Date('1970-01-01T' + $scope.dataplayschedules.hour_from1);
+                $scope.dataplayschedules.hour_to1 = new Date('1970-01-01T' + $scope.dataplayschedules.hour_to1);
+
+                $scope.dataplayschedules.c_hour_from2 = new Date('1970-01-01T' + $scope.dataplayschedules.c_hour_from2);
+                $scope.dataplayschedules.c_hour_to2 = new Date('1970-01-01T' + $scope.dataplayschedules.c_hour_to2);
+
+                $scope.dataplayschedules.c_hour_from3 = new Date('1970-01-01T' + $scope.dataplayschedules.c_hour_from3);
+                $scope.dataplayschedules.c_hour_to3 = new Date('1970-01-01T' + $scope.dataplayschedules.c_hour_to3);
+
+                $scope.dataplayschedules.c_hour_from4 = new Date('1970-01-01T' + $scope.dataplayschedules.c_hour_from4);
+                $scope.dataplayschedules.c_hour_to4 = new Date('1970-01-01T' + $scope.dataplayschedules.c_hour_to4);
+
+                $scope.dataplayschedules.c_hour_from5 = new Date('1970-01-01T' + $scope.dataplayschedules.c_hour_from5);
+                $scope.dataplayschedules.c_hour_to5 = new Date('1970-01-01T' + $scope.dataplayschedules.c_hour_to5);
+
+                $scope.week = $scope.dataplayschedules.week_day;
+                $scope.day = $scope.dataplayschedules.day;
+                $scope.month = $scope.dataplayschedules.month;
+
+                $scope.dthID = $scope.dataplayschedules.dthID;
+                var radionode = $scope.radionodes.find(function (item) {
+                    return item.nameId === $scope.dthID;
+                });
+                if (radionode) {
+                    $scope.dataplayschedules.dthID = radionode.name;
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+            // #endregion
+
             $scope.radiostreamingId = $scope.dataForm.nameId;
             $scope.dataForm.c_contentsize = parseInt($scope.dataForm.c_contentsize);
             $scope.dataForm.totaltime = parseInt($scope.dataForm.totaltime);
@@ -880,8 +974,9 @@ app.controller('editradiostreamingCtrl', function (addressService, $dialogConfir
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
+        // #endregion
 
-        //========Lấy danh sách Playschedule ===================
+        // #region List lịch phát thanh (dùng để chọn input)
         $http({
             method: 'POST',
             url: domain_api + 'lookups/model/Playschedule',
@@ -913,6 +1008,9 @@ app.controller('editradiostreamingCtrl', function (addressService, $dialogConfir
             $scope.showList = false;
             $scope.nameId = event.target.getAttribute('data-name-id');
         };
+        // #endregion
+
+        // #region Tỉnh/Tp - Quận/huyện - Phường/xã
         //citys
         addressService.getCities(user, user_Key, domain_api).then(function (cities) {
             $scope.cities = cities;
@@ -961,12 +1059,17 @@ app.controller('editradiostreamingCtrl', function (addressService, $dialogConfir
                 }
             }
         }
+        // #endregion
 
+        //#region Thêm nội dung phát thanh
         $scope.addplaystreams = function () {
             const c_datefrom = new Date($scope.dataForm.c_datefrom).getTime() / 1000;
             const c_dateto = new Date($scope.dataForm.c_dateto).getTime() / 1000;
             const c_playOrder = parseInt($scope.dataForm.c_playOrder);
             const c_durationtimeout = parseInt($scope.dataForm.c_durationtimeout);
+            const c_hour_from = $filter('date')($scope.dataForm.c_hour_from, 'HH:mm');
+            const c_hour_to = $filter('date')($scope.dataForm.c_hour_to, 'HH:mm');
+
             $http({
                 method: 'POST',
                 url: domain_api + 'create/model/Playstreams',
@@ -982,8 +1085,8 @@ app.controller('editradiostreamingCtrl', function (addressService, $dialogConfir
                     c_radiolibraryId: $scope.c_radiolibraryId,
                     dthID: $scope.dthID,
 
-                    c_hour_from: $scope.dataForm.c_hour_from,
-                    c_hour_to: $scope.dataForm.c_hour_to,
+                    c_hour_from: c_hour_from,
+                    c_hour_to: c_hour_to,
 
                     c_datefrom: c_datefrom,
                     c_dateto: c_dateto,
@@ -1008,11 +1111,141 @@ app.controller('editradiostreamingCtrl', function (addressService, $dialogConfir
                 $rootScope.checkError(response.data.message, $dialogAlert);
             });
         };
+        // #endregion
+
+        //#region Cập nhật lịch phát thanh
+        $scope.editPlayschedule = function () {
+            $scope.date_from = new Date($scope.dataplayschedules.date_from).getTime() / 1000;
+            $scope.date_to = new Date($scope.dataplayschedules.date_to).getTime() / 1000;
+
+            const hour_from = $filter('date')($scope.dataplayschedules.hour_from, 'HH:mm');
+            const hour_to = $filter('date')($scope.dataplayschedules.hour_to, 'HH:mm');
+
+            const hour_from1 = $filter('date')($scope.dataplayschedules.hour_from1, 'HH:mm');
+            const hour_to1 = $filter('date')($scope.dataplayschedules.hour_to1, 'HH:mm');
+
+            const c_hour_from2 = $filter('date')($scope.dataplayschedules.c_hour_from2, 'HH:mm');
+            const c_hour_to2 = $filter('date')($scope.dataplayschedules.c_hour_to2, 'HH:mm');
+
+            const c_hour_from3 = $filter('date')($scope.dataplayschedules.c_hour_from3, 'HH:mm');
+            const c_hour_to3 = $filter('date')($scope.dataplayschedules.c_hour_to3, 'HH:mm');
+
+            const c_hour_from4 = $filter('date')($scope.dataplayschedules.c_hour_from4, 'HH:mm');
+            const c_hour_to4 = $filter('date')($scope.dataplayschedules.c_hour_to4, 'HH:mm');
+
+            const c_hour_from5 = $filter('date')($scope.dataplayschedules.c_hour_from5, 'HH:mm');
+            const c_hour_to5 = $filter('date')($scope.dataplayschedules.c_hour_to5, 'HH:mm');
+            $http({
+                method: 'POST',
+                url: domain_api + 'update/model/Radiostreaming',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    id: id,
+                    city: $scope.dataForm.city,
+                    district: $scope.dataForm.district,
+                    ward: $scope.dataForm.ward
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.status == 200) {
+                    console.log(response.status);
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+            $http({
+                method: 'POST',
+                url: domain_api + 'update/model/Playschedule',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    id: $scope.dataplayschedules.id,
+                    name: $scope.dataplayschedules.name,
+                    dthID: $scope.dthID,
+                    c_active: $scope.dataplayschedules.c_active,
+                    c_scheduletype: $scope.dataplayschedules.c_scheduletype,
+
+                    city: $scope.dataForm.city,
+                    district: $scope.dataForm.district,
+                    ward: $scope.dataForm.ward,
+
+                    field: $scope.dataplayschedules.field,
+                    type: $scope.dataplayschedules.type,
+
+                    date_from: $scope.date_from,
+                    date_to: $scope.date_to,
+
+                    hour_from: hour_from,
+                    hour_to: hour_to,
+
+                    hour_from1: hour_from1,
+                    hour_to1: hour_to1,
+
+                    c_hour_from2: c_hour_from2,
+                    c_hour_to2: c_hour_to2,
+
+                    c_hour_from3: c_hour_from3,
+                    c_hour_to3: c_hour_to3,
+
+                    c_hour_from4: c_hour_from4,
+                    c_hour_to4: c_hour_to4,
+
+                    c_hour_from5: c_hour_from5,
+                    c_hour_to5: c_hour_to5,
+
+                    week_day: $scope.week,
+                    day: $scope.day,
+                    month: $scope.month,
+
+                    c_active: $scope.dataplayschedules.c_active,
+                    description: $scope.dataplayschedules.description
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.status == 200) {
+                    $dialogAlert("Cập nhật lịch phát thành công", "Thông báo!", "success", function (res) {
+                        $window.location.reload();
+                    });
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+        };
+        //#endregion
+
+        // #region Cập nhật phát thanh
         $scope.editradiostreaming = function () {
             const approvaldate_edit = new Date($scope.dataForm.c_approvaldate).getTime() / 1000;
-            const starttime_edit = new Date($scope.dataForm.starttime).getTime() / 1000;
-            const endtime_edit = new Date($scope.dataForm.endtime).getTime() / 1000;
+            const starttime_edit = new Date($scope.starttime).getTime() / 1000;
+            const endtime_edit = new Date($scope.endtime).getTime() / 1000;
             const totaltime = parseInt($scope.dataForm.totaltime);
+            $http({
+                method: 'POST',
+                url: domain_api + 'update/model/Playschedule',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    id: $scope.dataplayschedules.id,
+
+                    city: $scope.dataForm.city,
+                    district: $scope.dataForm.district,
+                    ward: $scope.dataForm.ward
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                if (response.data.id == id) {
+                    console.log("successfull");
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
             $http({
                 method: 'POST',
                 url: domain_api + 'update/model/Radiostreaming',
@@ -1054,12 +1287,16 @@ app.controller('editradiostreamingCtrl', function (addressService, $dialogConfir
             }, function errorCallback(response) {
                 $rootScope.checkError(response.data.message, $dialogAlert);
             });
+
+
         };
+        // #endregion
+
     } else {
         $state.go('account$signin');
     }
+    //#region Xóa nội dung phát thanh
     $scope.deleteplaystreams = function (id, name) {
-        console.log(id);
         $dialogConfirm("Bạn chắc chắn muốn xóa nội dung phát thanh có tên <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
             if (res) {
                 $http({
@@ -1085,8 +1322,10 @@ app.controller('editradiostreamingCtrl', function (addressService, $dialogConfir
             }
         })
     }
+    //#endregion
 });
-app.controller('editplaystreamCtrl', function (addressService, $stateParams, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+
+app.controller('editplaystreamCtrl', function ($filter, $stateParams, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     if (localStorage.getItem('token')) {
         var id = $stateParams.id;
         //=========== Lấy danh sách Radionode ==========
@@ -1190,8 +1429,8 @@ app.controller('editplaystreamCtrl', function (addressService, $stateParams, $ht
         }).then(function successCallback(response) {
             $scope.dataForm = response.data[id];
 
-            $scope.dataForm.c_hour_from = new Date($scope.dataForm.c_hour_from);
-            $scope.dataForm.c_hour_to = new Date($scope.dataForm.c_hour_to);
+            $scope.dataForm.c_hour_from = new Date('1970-01-01T' + $scope.dataForm.c_hour_from);
+            $scope.dataForm.c_hour_to = new Date('1970-01-01T' + $scope.dataForm.c_hour_to);
 
             $scope.dataForm.c_datefrom = new Date($scope.dataForm.c_datefrom * 1000);
             $scope.dataForm.c_dateto = new Date($scope.dataForm.c_dateto * 1000);
@@ -1209,6 +1448,10 @@ app.controller('editplaystreamCtrl', function (addressService, $stateParams, $ht
         $scope.editplaystreams = function () {
             const c_datefrom = new Date($scope.dataForm.c_datefrom).getTime() / 1000;
             const c_dateto = new Date($scope.dataForm.c_dateto).getTime() / 1000;
+
+            const c_hour_from = $filter('date')($scope.dataForm.c_hour_from, 'HH:mm');
+            const c_hour_to = $filter('date')($scope.dataForm.c_hour_to, 'HH:mm');
+
             const c_playOrder = parseInt($scope.dataForm.c_playOrder);
             const c_durationtimeout = parseInt($scope.dataForm.c_durationtimeout);
             $http({
@@ -1227,8 +1470,8 @@ app.controller('editplaystreamCtrl', function (addressService, $stateParams, $ht
                     c_radiolibraryId: $scope.c_radiolibraryId,
                     dthID: $scope.dthID,
 
-                    c_hour_from: $scope.dataForm.c_hour_from,
-                    c_hour_to: $scope.dataForm.c_hour_to,
+                    c_hour_from: c_hour_from,
+                    c_hour_to: c_hour_to,
 
                     c_datefrom: c_datefrom,
                     c_dateto: c_dateto,
@@ -2580,7 +2823,7 @@ app.controller('addDevice', function (addressService, $scope, $state, $http, $wi
         $state.go('account$signin');
     }
 })
-//Lịch phát thanh============
+//Lịch phát thanh ============
 app.controller('managePlayschedule', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     if (localStorage.getItem('token')) {
         $http({
@@ -2669,7 +2912,6 @@ app.controller('managePlayschedule', function ($scope, $state, $http, $window, $
 })
 app.controller('editPlayschedule', function (addressService, $scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     if (localStorage.getItem('token')) {
-
         var id = $stateParams.id;
         $http({
             method: 'POST',
