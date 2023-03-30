@@ -738,36 +738,40 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
         // #endregion
 
         //#region Ngày, tuần, tháng
-        $scope.updateWeek = function () {
-            $scope.week = "";
-            for (var i = 0; i < 8; i++) {
-                if ($scope.dataplayschedules['week_day_' + i]) {
-                    $scope.week += i.toString() + ",";
-                }
+        $scope.toggleWeekDay = function (day) {
+            var index = $scope.week.split(",").indexOf(day.toString());
+            if (index === -1) {
+                $scope.week += day.toString() + ",";
+            } else {
+                var weekArray = $scope.week.split(",");
+                weekArray.splice(index, 1);
+                $scope.week = weekArray.join(",");
             }
-            $scope.week = $scope.week.slice(0, -1); // Xóa dấu ',' ở cuối chuỗi
+            console.log($scope.week);
         };
-        $scope.updateDay = function () {
-            $scope.day = "";
-            for (var i = 0; i < 32; i++) {
-                if ($scope.dataplayschedules['day_' + i]) {
-                    $scope.day += i.toString() + ",";
-                }
-            }
-            $scope.day = $scope.day.slice(0, -1); // Xóa dấu ',' ở cuối chuỗi
 
-            // var selectedDay = [];
-            // for (var i = 1; i <= 31; i++) {
-            //     if ($scope.dataplayschedules['day_' + i]) selectedDay.push(i.toString());
-            // }
-            // $scope.day = selectedDay.join(',');
-        };
-        $scope.updateMonth = function () {
-            var selectedMonth = [];
-            for (var i = 1; i <= 12; i++) {
-                if ($scope.dataplayschedules['month_' + i]) selectedMonth.push(i);
+        $scope.toggleDay = function (day) {
+            var index = $scope.day.split(",").indexOf(day.toString());
+            if (index === -1) {
+                $scope.day += day.toString() + ",";
+            } else {
+                var dayArray = $scope.day.split(",");
+                dayArray.splice(index, 1);
+                $scope.day = dayArray.join(",");
             }
-            $scope.month = selectedMonth.join(',');
+            console.log($scope.day);
+        };
+
+        $scope.toggleMonth = function (day) {
+            var index = $scope.month.split(",").indexOf(day.toString());
+            if (index === -1) {
+                $scope.month += day.toString() + ",";
+            } else {
+                var monthArray = $scope.month.split(",");
+                monthArray.splice(index, 1);
+                $scope.month = monthArray.join(",");
+            }
+            console.log($scope.month);
         };
         //#endregion
 

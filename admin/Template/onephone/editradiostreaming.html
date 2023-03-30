@@ -541,14 +541,8 @@
                     <label
                         ng-repeat="(index, day) in ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7']">
                         <input type="checkbox" ng-model="dataplayschedules['week_day_' + (index + 1)]"
-                            value="{{ index + 1 }}" ng-checked="dataplayschedules.week_day.indexOf(index + 1) !== -1"
-                            ng-change="updateWeek()" disabled>
+                            value="{{ index + 1 }}" ng-checked="dataplayschedules.week_day.indexOf(index + 1) !== -1"  ng-click="toggleWeekDay(index + 1)">
                         {{ day }} &emsp;
-                    </label>
-                    <label>
-                        <div class="btn btn-primary" onclick="edit_week_day()">
-                            chỉnh sửa
-                        </div>
                     </label>
                 </div>
             </div>
@@ -561,232 +555,27 @@
                         <input type="checkbox" ng-model="dataplayschedules['day_' + (index + 1)]"
                             value="{{ index + 1 }}"
                             ng-checked="dataplayschedules.day.split(',').indexOf('{{index + 1}}') !== -1"
-                            ng-change="updateDay()" disabled>
+                            ng-click="toggleDay(index + 1)">
                         {{ day }} &emsp;
-                    </label>
-                    <label>
-                        <div class="btn btn-primary" onclick="edit_day()">
-                            chỉnh sửa </div>
                     </label>
                 </div>
             </div>
-            <!-- <div class="form-group">
-                <label for="type" class="col-sm-2 control-label">Ngày</label>
-                <div class="col-sm-8" id="day">
-                    <label>
-                        <input type="checkbox" ng-model="dataplayschedules.day_1" value="1" ng-change="updateDay()"
-                            ng-checked="dataplayschedules.day.split(',').indexOf('1') !== -1" disabled>
-                        1 &emsp;
-                    </label>
-                    <label>
-                        <input ng-checked="dataplayschedules.day.split(',').indexOf('2') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_2" value="2" ng-change="updateDay()" disabled>
-                        2 &emsp;
-                    </label>
-                    <label>
-                        <input ng-checked="dataplayschedules.day.split(',').indexOf('3') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_3" value="3" ng-change="updateDay()" disabled>
-                        3 &emsp;
-                    </label>
-                    <label>
-                        <input ng-checked="dataplayschedules.day.split(',').indexOf('4') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_4" value="4" ng-change="updateDay()" disabled>
-                        4 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.split(',').indexOf('5') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_5" value="5" ng-change="updateDay()" disabled>
-                        5 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.split(',').indexOf('6') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_6" value="6" ng-change="updateDay()" disabled>
-                        6 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.split(',').indexOf('7') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_7" value="7" ng-change="updateDay()" disabled>
-                        7 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.split(',').indexOf('8') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_8" value="8" ng-change="updateDay()" disabled>
-                        8 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.split(',').indexOf('9') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_9" value="9" ng-change="updateDay()" disabled>
-                        9 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.split(',').indexOf('10') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_10" value="10" ng-change="updateDay()" disabled>
-                        10 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(11) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_11" value="11" ng-change="updateDay()" disabled>
-                        11 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(12) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_12" value="12" ng-change="updateDay()" disabled>
-                        12 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(13) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_13" value="13" ng-change="updateDay()" disabled>
-                        13 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(14) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_14" value="14" ng-change="updateDay()" disabled>
-                        14 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(15) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_15" value="15" ng-change="updateDay()" disabled>
-                        15 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(16) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_16" value="16" ng-change="updateDay()" disabled>
-                        16 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(17) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_17" value="17" ng-change="updateDay()" disabled>
-                        17 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(18) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_18" value="18" ng-change="updateDay()" disabled>
-                        18 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(19) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_19" value="19" ng-change="updateDay()" disabled>
-                        19 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(20) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_20" value="20" ng-change="updateDay()" disabled>
-                        20 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(21) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_21" value="21" ng-change="updateDay()" disabled>
-                        21 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(22) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_22 " value="22" ng-change="updateDay()" disabled>
-                        22 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(23) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_23" value="23" ng-change="updateDay()" disabled>
-                        23 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(24) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_24" value="24" ng-change="updateDay()" disabled>
-                        24 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(25) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_25" value="25" ng-change="updateDay()" disabled>
-                        25 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(26) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_26" value="26" ng-change="updateDay()" disabled>
-                        26 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(27) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_27" value="27" ng-change="updateDay()" disabled>
-                        27 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(28) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_28" value="28" ng-change="updateDay()" disabled>
-                        28 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(29) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_29" value="29" ng-change="updateDay()" disabled>
-                        29 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(30) !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_30" value="30" ng-change="updateDay()" disabled>
-                        30 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.day.indexOf(31) !== -1"
-                            ng-checked="dataplayschedules.day.indexOf() !== -1" type="checkbox"
-                            ng-model="dataplayschedules.day_31" value="31" ng-change="updateDay()" disabled>
-                        31 &emsp;
-                    </label>
-                    <label>
-                        <div class="btn btn-primary" onclick="edit_day()">
-                            chỉnh sửa </div>
-
-                    </label>
-                </div>
-            </div> -->
+         
             <div class="form-group">
-                <label for="type" class="col-sm-2 control-label">Ngày</label>
+                <label for="type" class="col-sm-2 control-label">Tháng</label>
                 <div class="col-sm-10" id="week_day">
                     <label
                         ng-repeat="(index, month) in ['Tháng giêng', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12']">
                         <input type="checkbox" ng-model="dataplayschedules['month_' + (index + 1)]"
                             value="{{ index + 1 }}"
                             ng-checked="dataplayschedules.month.split(',').indexOf('{{index + 1}}') !== -1"
-                            ng-change="updateMonth()" disabled>
+                            ng-click="toggleMonth(index + 1)">
                         {{ month }} &emsp;
                     </label>
-                    <label>
-                        <div class="btn btn-primary" onclick="edit_month()">
-                            chỉnh sửa </div>
-                    </label>
+                 
                 </div>
             </div>
-            <!-- <div class="form-group">
-                <label for="type" class="col-sm-2 control-label">Tháng</label>
-                <div class="col-sm-8" id="month">
-                    <label>
-                        <input ng-checked="dataplayschedules.month.split(',').indexOf('1') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.month_1" value="1" ng-change="updateMonth()" disabled>
-                        Tháng giêng &emsp;
-                    </label>
-                    <label>
-                        <input ng-checked="dataplayschedules.month.split(',').indexOf('2') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.month_2" value="2" ng-change="updateMonth()" disabled>
-                        Tháng 2 &emsp;
-                    </label>
-                    <label>
-                        <input ng-checked="dataplayschedules.month.split(',').indexOf('3') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.month_3" value="3" ng-change="updateMonth()" disabled>
-                        Tháng 3 &emsp;
-                    </label>
-                    <label>
-                        <input ng-checked="dataplayschedules.month.split(',').indexOf('4') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.month_4" value="4" ng-change="updateMonth()" disabled>
-                        Tháng 4 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.month.split(',').indexOf('5') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.month_5" value="5" ng-change="updateMonth()" disabled>
-                        Tháng 5 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.month.split(',').indexOf('6') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.month_6" value="6" ng-change="updateMonth()" disabled>
-                        Tháng 6 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.month.split(',').indexOf('7') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.month_7" value="7" ng-change="updateMonth()" disabled>
-                        Tháng 7 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.month.split(',').indexOf('8') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.month_8" value="8" ng-change="updateMonth()" disabled>
-                        Tháng 8 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.month.split(',').indexOf('9') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.month_9" value="9" ng-change="updateMonth()" disabled>
-                        Tháng 9 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.month.split(',').indexOf('10') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.month_10" value="10" ng-change="updateMonth()" disabled>
-                        Tháng 10 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.month.split(',').indexOf('11') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.month_11" value="11" ng-change="updateMonth()" disabled>
-                        Tháng 11 &emsp;
-                    </label> <label>
-                        <input ng-checked="dataplayschedules.month.split(',').indexOf('12') !== -1" type="checkbox"
-                            ng-model="dataplayschedules.month_12" value="12" ng-change="updateMonth()" disabled>
-                        Tháng 12 &emsp;
-                    </label>
-                    <label>
-                        <div class="btn btn-primary" onclick="edit_month()">
-                            chỉnh sửa </div>
-                    </label>
-                </div>
-            </div> -->
+           
             <div class="form-group">
                 <label for="description" class="col-sm-2 control-label">Mô tả</label>
                 <div class="col-sm-8">
