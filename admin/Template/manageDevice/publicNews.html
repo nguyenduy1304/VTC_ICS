@@ -23,11 +23,10 @@
     <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
         <thead>
             <tr class="panel-info list-group-item-info">
-                <th style="text-align:center;width:10px;">STT</th>
                 <th style="width:16%;">MÃ_ĐTH CNTT - VT</th>
-                <th style="width:13%;">NGÀY LẮP</th>
+                <th style="width:10%;">NGÀY LẮP</th>
                 <th style="width:16%;">TÊN</th>
-                <th style="width:16%;">VỊ TRÍ</th>
+                <th style="width:12%;">VỊ TRÍ</th>
                 <th>TRẠNG THÁI</th>
                 <th>LOẠI THIẾT BỊ</th>
                 <th>GHI CHÚ</th>
@@ -37,7 +36,6 @@
         <tbody>
             <tr
                 ng-repeat="item in data | filter:searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
-                <td style="text-align:center">{{$index+1}}</td>
                 <td>{{item.nameId}}</td>
                 <td>{{item.createDate*1000 | date:'dd/MM/yyyy'}}</td>
                 <td>{{item.name}}</td>
@@ -51,7 +49,7 @@
 
 
                 <td>{{item.deviceType}}</td>
-                <td>{{item.note}}</td>
+                <td class="truncate">{{item.note}}</td>
                 <td style="text-align:center;">
                     <a class="glyphicon glyphicon-pencil icon"
                         href="/index.html#!/quan-ly-thiet-bi/bang-tin-cong-cong/cap-nhat/{{item.id}}"></a>

@@ -24,14 +24,14 @@
                     <input ng-model="dataForm.name" name="name" type="text" class="form-control" id="name"
                         placeholder="Nhập tên phát thanh" required>
                 </div>
-                <label for="playSearch" class="col-sm-2 control-label">Kế hoạch PT</label>
+                <label for="rule" class="col-sm-2 control-label">Kế hoạch PT</label>
                 <div class="col-sm-4">
-                    <input id="playSearch" type="text" ng-model="dataForm.rule" ng-click="showList = true"
+                    <input id="rule" type="text" ng-model="dataForm.rule" ng-click="showList = true"
                         class="form-control" autocomplete="off" required>
-                    <ul ng-show="showList" class="radiostreaming_rule_ul">
+                    <ul ng-show="showList" class="radiostreaming_rule">
                         <li ng-repeat="playschedule in playschedules | filter: dataForm.rule"
                             ng-click="selectPlayschedule(playschedule.name, $event)"
-                            class="radiostreaming_rule_li form-control" data-name-id="{{playschedule.nameId}}">
+                            class="radiostreaming_rule form-control" data-name-id="{{playschedule.nameId}}">
                             {{playschedule.name}}
                         </li>
                     </ul>
@@ -86,10 +86,17 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="c_contentsize" class="col-sm-2 control-label">Số từ</label>
-                <div class="col-sm-4">
-                    <input ng-model="dataForm.c_contentsize" name="c_contentsize" type="number" class="form-control"
-                        id="c_contentsize" required>
+                <label class="col-xs-2 control-label" for="c_approval">Tình trạng duyệt</label>
+                <div class="col-xs-4">
+                    <select ng-selected="dataForm.c_approval" name="c_approval" ng-model="dataForm.c_approval"
+                        class="form-control" required>
+                        <option value="" selected>--Chọn một tùy chọn--</option>
+                        <option value="A01" selected>Mới tạo</option>
+                        <option value="A02" selected>Chờ duyệt 1</option>
+                        <option value="A03" selected>Chờ duyệt 2</option>
+                        <option value="A04" selected>Đã duyệt</option>
+                        <option value="A05" selected>Từ chối</option>
+                    </select>
                 </div>
                 <label class="col-xs-2 control-label" for="c_allowedit">Đã khóa</label>
                 <div class="col-xs-4">
@@ -103,50 +110,6 @@
                     </label>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-xs-2 control-label" for="c_approval">Tình trạng duyệt</label>
-                <div class="col-xs-4">
-                    <select ng-selected="dataForm.c_approval" name="c_approval" ng-model="dataForm.c_approval"
-                        class="form-control" required>
-                        <option value="" selected>--Chọn một tùy chọn--</option>
-                        <option value="A01" selected>Mới tạo</option>
-                        <option value="A02" selected>Chờ duyệt 1</option>
-                        <option value="A03" selected>Chờ duyệt 2</option>
-                        <option value="A04" selected>Đã duyệt</option>
-                        <option value="A05" selected>Từ chối</option>
-                    </select>
-                </div>
-                <label class="col-xs-2 control-label" for="c_approvaldate">Thời điểm duyệt</label>
-                <div class="col-xs-4">
-                    <input ng-model="dataForm.c_approvaldate" name="c_approvaldate" type="date" class="form-control"
-                        id="c_approvaldate" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-2 control-label" for="c_approvalInfo1">Thông tin duyệt 1</label>
-                <div class="col-xs-4">
-                    <input ng-model="dataForm.c_approvalInfo1" name="c_approvalInfo1" type="text" class="form-control"
-                        id="c_approvalInfo1" placeholder="Nhập thông tin duyệt 1" required>
-                </div>
-                <label class="col-xs-2 control-label" for="c_approvalInfo2">Thông tin duyệt 2</label>
-                <div class="col-xs-4">
-                    <input ng-model="dataForm.c_approvalInfo2" name="c_approvalInfo2" type="text" class="form-control"
-                        id="c_approvalInfo2" placeholder="Nhập thông tin duyệt 2" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-2 control-label" for="totaltime">Tổng thời gian</label>
-                <div class="col-xs-4">
-                    <input ng-model="dataForm.totaltime" name="totaltime" type="number" class="form-control"
-                        id="totaltime" placeholder="Nhập tổng thời gian (phút)" required>
-                </div>
-                <label for="c_streamerId" class="col-sm-2 control-label">Tiến trình</label>
-                <div class="col-sm-4">
-                    <input ng-model="dataForm.c_streamerId" name="c_streamerId" type="text" class="form-control"
-                        id="c_streamerId" placeholder="Nhập tiến trình" required>
-                </div>
-            </div>
-
             <div class="form-group">
                 <label class="col-xs-2 control-label" for="status">Tình trạng</label>
                 <div class="col-xs-4">
@@ -370,11 +333,11 @@
                 </div>
                 <label for="dthID" class="col-sm-2 control-label">Trạm phát thanh</label>
                 <div class="col-sm-4">
-                    <input id="dthIDSearch" type="text" ng-model="dataForm.dthID" ng-click="showList= true"
+                    <input id="dthID" type="text" ng-model="dataForm.dthID" ng-click="showList= true"
                         class="form-control" autocomplete="off" placeholder="Nhập tìm trạm phát thanh">
-                    <ul ng-show="showList" class="radionode_dthID">
+                    <ul ng-show="showList" class="radionode_dthID_tab3">
                         <li ng-repeat="radionode in radionodes | filter:dataForm.dthID | limitTo:5"
-                            ng-click="selectRadionode(radionode.name,$event)" class="radionode_dthID form-control"
+                            ng-click="selectRadionode(radionode.name,$event)" class="radionode_dthID_tab3 form-control"
                             data-name-id="{{radionode.nameId}}">
                             {{radionode.name}}
                         </li>
@@ -541,7 +504,8 @@
                     <label
                         ng-repeat="(index, day) in ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7']">
                         <input type="checkbox" ng-model="dataplayschedules['week_day_' + (index + 1)]"
-                            value="{{ index + 1 }}" ng-checked="dataplayschedules.week_day.indexOf(index + 1) !== -1"  ng-click="toggleWeekDay(index + 1)">
+                            value="{{ index + 1 }}" ng-checked="dataplayschedules.week_day.indexOf(index + 1) !== -1"
+                            ng-click="toggleWeekDay(index + 1)">
                         {{ day }} &emsp;
                     </label>
                 </div>
@@ -560,7 +524,7 @@
                     </label>
                 </div>
             </div>
-         
+
             <div class="form-group">
                 <label for="type" class="col-sm-2 control-label">Tháng</label>
                 <div class="col-sm-10" id="week_day">
@@ -572,10 +536,10 @@
                             ng-click="toggleMonth(index + 1)">
                         {{ month }} &emsp;
                     </label>
-                 
+
                 </div>
             </div>
-           
+
             <div class="form-group">
                 <label for="description" class="col-sm-2 control-label">Mô tả</label>
                 <div class="col-sm-8">
@@ -613,7 +577,7 @@
         const file = event.target.files[0];
         fileName.textContent = file.name;
     });
-    //======================================================================
+    //===============================================================================
     const inputElementc_radiolibraryId = document.getElementById('c_radiolibraryId');
     const ulElementc_radiolibraryId = document.querySelector('.c_radiolibraryId');
     document.addEventListener('click', (event) => {
@@ -638,6 +602,18 @@
         ulElementdth.style.display = 'block';
     });
     //========
+    const inputElementdthtab3 = document.getElementById('dthID');
+    const ulElementdthtab3 = document.querySelector('.radionode_dthID_tab3');
+    document.addEventListener('click', (event) => {
+        const isClickInsideInput = inputElementdthtab3.contains(event.target);
+        if (!isClickInsideInput) {
+            ulElementdthtab3.style.display = 'none';
+        }
+    });
+    inputElementdthtab3.addEventListener('click', () => {
+        ulElementdthtab3.style.display = 'block';
+    });
+    //========
     const inputElementc_icecastlibrary = document.getElementById('c_icecastlibrary');
     const ulElementc_icecastlibrary = document.querySelector('.c_icecastlibrary');
     document.addEventListener('click', (event) => {
@@ -650,8 +626,8 @@
         ulElementc_icecastlibrary.style.display = 'block';
     });
     //========
-    const inputElement = document.getElementById('playSearch');
-    const ulElement = document.querySelector('.radiostreaming_rule_ul');
+    const inputElement = document.getElementById('rule');
+    const ulElement = document.querySelector('.radiostreaming_rule');
     document.addEventListener('click', (event) => {
         const isClickInsideInput = inputElement.contains(event.target);
         if (!isClickInsideInput) {
@@ -661,28 +637,6 @@
     inputElement.addEventListener('click', () => {
         ulElement.style.display = 'block';
     });
-    //===============================================================================
-    function edit_week_day() {
-        var inputs = document.querySelectorAll("#week_day input[type='checkbox']");
-        for (var i = 0; i < inputs.length; i++) {
-            inputs[i].removeAttribute("disabled");
-            inputs[i].checked = false;
-        }
-    }
-    function edit_day() {
-        var inputs = document.querySelectorAll("#day input[type='checkbox']");
-        for (var i = 0; i < inputs.length; i++) {
-            inputs[i].removeAttribute("disabled");
-            inputs[i].checked = false;
-        }
-    }
-    function edit_month() {
-        var inputs = document.querySelectorAll("#month input[type='checkbox']");
-        for (var i = 0; i < inputs.length; i++) {
-            inputs[i].removeAttribute("disabled");
-            inputs[i].checked = false;
-        }
-    }
     //Check ngày   
     document.getElementById("date_from").addEventListener("change", checkday);
     document.getElementById("date_to").addEventListener("change", checkday);

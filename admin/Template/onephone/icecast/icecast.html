@@ -1,0 +1,135 @@
+<div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung">Trang chủ</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">ICECAST URL</li>
+        </ol>
+    </nav>
+
+    <div class="input-group" style="width: 40%; float: left">
+        <input class="form-control" type="text" ng-model="searchKeyword" placeholder="Nhập từ khóa tìm kiếm">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+    </div>
+
+    <div class=" row" style="margin:0">
+        <div class="function">
+            <a class="glyphicon glyphicon-plus icon" id="btnThem" ng-click="toggleAdd()"></a>
+        </div>
+    </div>
+</div>
+
+<div>
+    <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
+        <thead>
+            <tr class="panel-info list-group-item-info" style="text-transform: uppercase;font-weight: bold; text-align: center;">
+                <th style="width:40px">STT</th>
+                <th style="width:200px">Tên Icecast</th>
+                <th>URL</th>
+                <th>Ngày tạo</th>
+                <th>Mô tả</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr
+                ng-repeat="item in items | filter: searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
+                <td style="text-align:center;">{{$index+1}}</td>
+                <td>{{item.name}}</td>
+                <td class="truncate">{{item.c_urlstream}}</td>
+                <td>{{item.createDate*1000 | date:'dd/MM/yyyy'}}</td>
+                <td class="truncate">{{item.description}}</td>
+                <td style="text-align:center;">
+                    <a class="glyphicon glyphicon-pencil icon" ng-click="icecastbyId(item.id)"></a>
+                    <a class="glyphicon glyphicon-remove icon" ng-click="deleteicecast(item.id, item.name)"></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div id="add" style="display: none; width: 95%;">
+        <span ng-click="toggleClose()" class="close-btn btn btn-primary glyphicon glyphicon-remove" id="close">
+        </span>
+        <div class="clearfix"></div>
+        <form ng-submit="addicecast()" class="form-horizontal">
+            <div class="form-group" style="padding-top: 10px;">
+                <label for="name" class="col-sm-2 control-label">Tên Icecast</label>
+                <div class="col-sm-4">
+                    <input ng-model="dataForm.name" name="name" type="text" class="form-control" id="name"
+                        placeholder="Nhập tên icecast-url" required>
+                </div>
+                <label class="col-xs-1 control-label" for="c_urlstream">Link</label>
+                <div class="col-xs-4">
+                    <input ng-model="dataForm.c_urlstream" name="c_urlstream" type="text" class="form-control"
+                        id="c_urlstream" placeholder="Nhập đường dẫn icecast" required>
+                </div>
+            </div>
+            <div class="form-group" style="padding-top: 10px;">
+                <label for="description" class="col-sm-2 control-label">Mô tả</label>
+                <div class="col-xs-9">
+                    <input ng-model="dataForm.description" name="description" type="text" class="form-control"
+                        id="description" placeholder="Nhập mô tả" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-8">
+                    <button type="submit" class="btn btn-primary">Thêm mới Icecast</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="edit" style="display: none; width: 71.5%; position:fixed">
+        <span ng-click="toggleClose()" class="close-btn btn btn-primary glyphicon glyphicon-remove" id="close">
+        </span>
+        <div class="clearfix"></div>
+        <form ng-submit="editicecast()" class="form-horizontal">
+            <div class="form-group" style="padding-top: 10px;">
+                <label for="name" class="col-sm-2 control-label">Tên Icecast</label>
+                <div class="col-sm-4">
+                    <input ng-model="dataForm.name" name="name" type="text" class="form-control" id="name"
+                        placeholder="Nhập tên icecast-url" required>
+                </div>
+                <label class="col-xs-1 control-label" for="c_urlstream">Link</label>
+                <div class="col-xs-4">
+                    <input ng-model="dataForm.c_urlstream" name="c_urlstream" type="text" class="form-control"
+                        id="c_urlstream" placeholder="Nhập đường dẫn icecast" required>
+                </div>
+            </div>
+            <div class="form-group" style="padding-top: 10px;">
+                <label for="description" class="col-sm-2 control-label">Mô tả</label>
+                <div class="col-xs-9">
+                    <input ng-model="dataForm.description" name="description" type="text" class="form-control"
+                        id="description" placeholder="Nhập mô tả" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-8">
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+<div class="pagelist">
+    <div class="pagination-wrapper">
+        <div class="pagination">
+            <a class="prev page-numbers" href="javascript:;" ng-click="prevPage()">Trước</a>
+            <a class="page-numbers" href="javascript:;" ng-repeat="page in range()"
+                ng-class="{active: currentPage == page}" ng-click="setPage(page)">{{ page }}</a>
+            <a class="next page-numbers" href="javascript:;" ng-click="nextPage()">Sau</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100px;
+    }
+</style>

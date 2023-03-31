@@ -589,7 +589,9 @@ table.table-style-three td {
 }
 
 .radiostreaming_rule_ul,
+.radiostreaming_rule,
 .radionode_dthID,
+.radionode_dthID_tab3,
 .c_radiolibraryId,
 .c_icecastlibrary {
     position: absolute;
@@ -600,6 +602,8 @@ table.table-style-three td {
 
 .radiostreaming_rule_li,
 li.radionode_dthID,
+li.radiostreaming_rule,
+li.radionode_dthID_tab3,
 li.c_radiolibraryId,
 li.c_icecastlibrary {
     color: #000;
@@ -611,7 +615,9 @@ li.c_icecastlibrary {
 }
 
 .radiostreaming_rule_li:hover,
+.radiostreaming_rule:hover,
 .radionode_dthID:hover,
+.radionode_dthID_tab3:hover,
 .c_radiolibraryId:hover,
 .c_icecastlibrary:hover {
     cursor: pointer;
@@ -628,6 +634,15 @@ textarea {
 }
 
 #add {
+    margin-top: 75px;
+    width: 92.5%;
+    border: 1px solid #cbcbcb;
+    position: absolute;
+    top: 12%;
+    background-color: #efefef;
+    z-index: 999;
+}
+#edit {
     margin-top: 75px;
     width: 92.5%;
     border: 1px solid #cbcbcb;
@@ -706,7 +721,12 @@ textarea {
     color: #00AAFF;
     float: right;
 }
-
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
+}
 footer {
     position: inherit;
     bottom: 0;

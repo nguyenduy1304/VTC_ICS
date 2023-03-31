@@ -46,7 +46,7 @@
           <span ng-if="item.status == 'DISCONNECT'">Mất kết nối</span>
           <span ng-if="item.status == 'IDLE'">Nhàn rỗi </span>
         </td>
-        <td>{{item.description}}</td>
+        <td class="truncate">{{item.description}}</td>
         <td style="text-align:center;">
           <a class="glyphicon glyphicon-pencil icon" href="../index.html#!/cap-nhat-thu-vien-nguon/{{item.id}}"></a>
           <a class="glyphicon glyphicon-remove icon" ng-click="deletesourcelibrary(item.id)"></a>

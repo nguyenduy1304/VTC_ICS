@@ -77,32 +77,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-2 control-label" for="c_content">Nội
-                        dung PT</label>
+                    <label class="col-xs-2 control-label" for="c_content">Nội dung PT</label>
                     <div class="col-xs-10">
                         <textarea name="c_content" id="c_content" rows="4" ng-model="dataForm.c_content" type="text"
-                            class="form-control" placeholder="Nhập nội dung phát
-                            thanh"></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="c_contentsize" class="col-sm-2 control-label">Số
-                        từ</label>
-                    <div class="col-sm-4">
-                        <input ng-model="dataForm.c_contentsize" name="c_contentsize" type="number" class="form-control"
-                            id="c_contentsize" placeholder="nhập số từ">
-                    </div>
-                    <label class="col-xs-2 control-label" for="c_allowedit">Đã
-                        khóa</label>
-                    <div class="col-xs-4">
-                        <label>
-                            <input type="radio" name="c_allowedit" ng-model="dataForm.c_allowedit" value="1">
-                            Có &emsp;
-                        </label>
-                        <label>
-                            <input type="radio" name="c_allowedit" ng-model="dataForm.c_allowedit" value="0">
-                            Không &emsp;
-                        </label>
+                            class="form-control" placeholder="Nhập nội dung phát thanh"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -119,43 +97,19 @@
                             <option value="A05" selected>Từ chối</option>
                         </select>
                     </div>
-                    <label class="col-xs-2 control-label" for="c_approvaldate">Thời
-                        điểm duyệt</label>
+                    <label class="col-xs-2 control-label" for="c_allowedit">Đã
+                        khóa</label>
                     <div class="col-xs-4">
-                        <input ng-model="dataForm.c_approvaldate" name="c_approvaldate" type="date" class="form-control"
-                            id="c_approvaldate">
+                        <label>
+                            <input type="radio" name="c_allowedit" ng-model="dataForm.c_allowedit" value="1">
+                            Có &emsp;
+                        </label>
+                        <label>
+                            <input type="radio" name="c_allowedit" ng-model="dataForm.c_allowedit" value="0">
+                            Không &emsp;
+                        </label>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-xs-2 control-label" for="c_approvalInfo1">Thông
-                        tin duyệt 1</label>
-                    <div class="col-xs-4">
-                        <input ng-model="dataForm.c_approvalInfo1" name="c_approvalInfo1" type="text"
-                            class="form-control" id="c_approvalInfo1" placeholder="Nhập thông tin duyệt 1">
-                    </div>
-                    <label class="col-xs-2 control-label" for="c_approvalInfo2">Thông
-                        tin duyệt 2</label>
-                    <div class="col-xs-4">
-                        <input ng-model="dataForm.c_approvalInfo2" name="c_approvalInfo2" type="text"
-                            class="form-control" id="c_approvalInfo2" placeholder="Nhập thông tin duyệt 2">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-xs-2 control-label" for="totaltime">Tổng
-                        thời gian</label>
-                    <div class="col-xs-4">
-                        <input ng-model="dataForm.totaltime" name="totaltime" type="number" class="form-control"
-                            id="totaltime" placeholder="Nhập tổng thời gian
-                            (phút)" required>
-                    </div>
-                    <label for="c_streamerId" class="col-sm-2 control-label">Tiến
-                        trình</label>
-                    <div class="col-sm-4">
-                        <input ng-model="dataForm.c_streamerId" name="c_streamerId" type="text" class="form-control"
-                            id="c_streamerId" placeholder="Nhập tiến trình" required>
-                    </div>
-                </div>
-
                 <div class="form-group">
                     <label class="col-xs-2 control-label" for="status">Tình
                         trạng</label>
