@@ -508,6 +508,10 @@
                             ng-click="toggleWeekDay(index + 1)">
                         {{ day }} &emsp;
                     </label>
+                    <label>
+                        <button type="button" class="btn_all" ng-click="select_all_WeekDay()" id="choose">Chọn tất
+                            cả</button>
+                     </label>
                 </div>
             </div>
 
@@ -522,6 +526,7 @@
                             ng-click="toggleDay(index + 1)">
                         {{ day }} &emsp;
                     </label>
+                    <button type="button" class="btn_all" ng-click="select_all_Day()">Chọn tất cả</button>
                 </div>
             </div>
 
@@ -536,7 +541,7 @@
                             ng-click="toggleMonth(index + 1)">
                         {{ month }} &emsp;
                     </label>
-
+                    <button type="button" class="btn_all" ng-click="select_all_Month()">Chọn tất cả</button>
                 </div>
             </div>
 
@@ -717,4 +722,5 @@
             }
         }
     }
+
 </script>

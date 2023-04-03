@@ -879,7 +879,8 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
         }
         // #endregion
 
-        //#region Ngày, tuần, tháng
+        //#region NGÀY - TUẦN - THÁNG
+            //#region  Tuần
         $scope.toggleWeekDay = function (day) {
             var index = $scope.week.split(",").indexOf(day.toString());
             if (index === -1) {
@@ -889,32 +890,117 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                 weekArray.splice(index, 1);
                 $scope.week = weekArray.join(",");
             }
+            //console.log($scope.week);
+        };
+        $scope.select_all_WeekDay = function() {
+            var allSelected = true;
+            for (var i = 1; i <= 7; i++) {
+                if (!$scope.dataplayschedules['week_day_' + i]) {
+                    allSelected = false;
+                }
+            }
+            for (var i = 1; i <= 7; i++) {
+                if (!allSelected && !$scope.dataplayschedules['week_day_' + i]) {
+                    $scope.toggleWeekDay(i);
+                }
+                $scope.dataplayschedules['week_day_' + i] = !allSelected;
+            }
+            if (allSelected) {
+                $scope.week = '';
+            } else {
+                var daysToAdd = '';
+                for (var i = 1; i <= 7; i++) {
+                    if ($scope.dataplayschedules['week_day_' + i] && $scope.week.indexOf(i.toString()) === -1) {
+                        daysToAdd += i.toString() + ',';
+                    }
+                }
+                $scope.week += daysToAdd;
+            }
             console.log($scope.week);
         };
-
+        //#endregion
+           
+        //#region Ngày
         $scope.toggleDay = function (day) {
             var index = $scope.day.split(",").indexOf(day.toString());
             if (index === -1) {
                 $scope.day += day.toString() + ",";
             } else {
-                var dayArray = $scope.day.split(",");
-                dayArray.splice(index, 1);
-                $scope.day = dayArray.join(",");
+                var weekArray = $scope.day.split(",");
+                weekArray.splice(index, 1);
+                $scope.day = weekArray.join(",");
             }
             console.log($scope.day);
         };
+        
+        $scope.select_all_Day = function() {
+            var allSelected = true;
+            for (var i = 1; i <= 31; i++) {
+                if (!$scope.dataplayschedules['day_' + i]) {
+                    allSelected = false;
+                }
+            }
+            for (var i = 1; i <= 31; i++) {
+                if (!allSelected && !$scope.dataplayschedules['day_' + i]) {
+                    $scope.toggleWeekDay(i);
+                }
+                $scope.dataplayschedules['day_' + i] = !allSelected;
+            }
+            if (allSelected) {
+                $scope.day = '';
+            } else {
+                var daysToAdd = '';
+                for (var i = 1; i <= 31; i++) {
+                    if ($scope.dataplayschedules['day_' + i] && $scope.day.indexOf(i.toString()) === -1) {
+                        daysToAdd += i.toString() + ',';
+                    }
+                }
+                $scope.day += daysToAdd;
+            }
+            console.log($scope.day);
+        };
+        //#endregion
 
+        //#region Tháng
         $scope.toggleMonth = function (day) {
             var index = $scope.month.split(",").indexOf(day.toString());
             if (index === -1) {
                 $scope.month += day.toString() + ",";
             } else {
-                var monthArray = $scope.month.split(",");
-                monthArray.splice(index, 1);
-                $scope.month = monthArray.join(",");
+                var weekArray = $scope.month.split(",");
+                weekArray.splice(index, 1);
+                $scope.month = weekArray.join(",");
             }
             console.log($scope.month);
         };
+        $scope.select_all_Month = function() {
+            var allSelected = true;
+            for (var i = 1; i <= 12; i++) {
+                if (!$scope.dataplayschedules['month_' + i]) {
+                    allSelected = false;
+                    //break; 
+                }
+            }
+            for (var i = 1; i <= 12; i++) {
+                if (!allSelected && !$scope.dataplayschedules['month_' + i]) {
+                    $scope.toggleMonth(i);
+                }
+                $scope.dataplayschedules['month_' + i] = !allSelected;
+            }
+            if (allSelected) {
+                $scope.month = '';
+            } else {
+                var daysToAdd = '';
+                for (var i = 1; i <= 12; i++) {
+                    if ($scope.dataplayschedules['month_' + i]) {
+                        daysToAdd += i.toString() + ',';
+                    }
+                }
+            }
+            console.log($scope.month);
+        };
+        //#endregion
+        
         //#endregion
 
         // #region Lấy danh sách Radionode
@@ -1087,6 +1173,7 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                 $scope.dataplayschedules.c_hour_to5 = new Date('1970-01-01T' + $scope.dataplayschedules.c_hour_to5);
 
                 $scope.week = $scope.dataplayschedules.week_day;
+                console.log( $scope.week);
                 $scope.day = $scope.dataplayschedules.day;
                 $scope.month = $scope.dataplayschedules.month;
 
@@ -2568,8 +2655,6 @@ app.controller('edit_recommendCtrl', function ($http, $dialogConfirm, $scope, $s
 });
 //#endregion
 
-
-
 //#region QUẢN LÝ THIẾT BỊ
 app.controller('manageDevice', function ($scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     if (localStorage.getItem('token')) {
@@ -2738,8 +2823,6 @@ app.controller('editDevice', function (addressService, $scope, $state, $statePar
                     longitude: $scope.dataForm.longitude,
                     deviceId: $scope.dataForm.deviceId,
                     c_simphonenumber: $scope.dataForm.c_simphonenumber,
-                    c_ssid: $scope.dataForm.c_ssid,
-                    c_ssid_pwd: $scope.dataForm.c_ssid_pwd,
                     c_pausestatus: $scope.dataForm.c_pausestatus,
                     c_techinterface: $scope.dataForm.c_techinterface,
                     miclevel: $scope.dataForm.miclevel,
@@ -2823,8 +2906,6 @@ app.controller('addDevice', function (addressService, $scope, $state, $http, $wi
                     longitude: $scope.dataForm.longitude,
                     deviceId: $scope.dataForm.deviceId,
                     c_simphonenumber: $scope.dataForm.c_simphonenumber,
-                    c_ssid: $scope.dataForm.c_ssid,
-                    c_ssid_pwd: $scope.dataForm.c_ssid_pwd,
                     c_pausestatus: $scope.dataForm.c_pausestatus,
                     c_techinterface: $scope.dataForm.c_techinterface,
                     miclevel: $scope.dataForm.miclevel,
@@ -3236,32 +3317,96 @@ app.controller('addPlayschedule', function (addressService, $scope, $state, $htt
                 console.log($scope.wards);
             }
         }
+        
+        //#region Ngày, tuần, tháng
         $scope.week = '';
         $scope.day = '';
         $scope.month = '';
-        $scope.updateWeek = function () {
-            var selectedWeek = [];
+
+        $scope.toggleWeekDay = function (day) {
+            var index = $scope.week.split(",").indexOf(day.toString());
+            if (index === -1) {
+                $scope.week += day.toString() + ",";
+            } else {
+                var weekArray = $scope.week.split(",");
+                weekArray.splice(index, 1);
+                $scope.week = weekArray.join(",");
+            }
+        };
+        $scope.select_all_WeekDay = function() {
+            var allSelected = true;
             for (var i = 1; i <= 7; i++) {
-                if ($scope.formData['week_day_' + i]) {
-                    selectedWeek.push(i.toString());
-                }
+              if (!$scope.formData['week_day_' + i]) {
+                allSelected = false;
+              }
             }
-            $scope.week = selectedWeek.join(',');
+            for (var i = 1; i <= 7; i++) {
+              if (!allSelected && !$scope.formData['week_day_' + i]) {
+                $scope.toggleWeekDay(i);
+              }
+              $scope.formData['week_day_' + i] = !allSelected;
+            }
+            if (allSelected) {
+                $scope.week = '';
+            }
         };
-        $scope.updateDay = function () {
-            var selectedDay = [];
+
+        $scope.toggleDay = function (day) {
+            var index = $scope.day.split(",").indexOf(day.toString());
+            if (index === -1) {
+                $scope.day += day.toString() + ",";
+            } else {
+                var dayArray = $scope.day.split(",");
+                dayArray.splice(index, 1);
+                $scope.day = dayArray.join(",");
+            }
+        };
+        $scope.select_all_Day = function() {
+            var allSelected = true;
             for (var i = 1; i <= 31; i++) {
-                if ($scope.formData['day_' + i]) selectedDay.push(i.toString());
+              if (!$scope.formData['day_' + i]) {
+                allSelected = false;
+              }
             }
-            $scope.day = selectedDay.join(',');
+            for (var i = 1; i <= 31; i++) {
+              if (!allSelected && !$scope.formData['day_' + i]) {
+                $scope.toggleDay(i);
+              }
+              $scope.formData['day_' + i] = !allSelected;
+            }
+            if (allSelected) {
+                $scope.day = '';
+            }
+          };
+
+        $scope.toggleMonth = function (day) {
+            var index = $scope.month.split(",").indexOf(day.toString());
+            if (index === -1) {
+                $scope.month += day.toString() + ",";
+            } else {
+                var monthArray = $scope.month.split(",");
+                monthArray.splice(index, 1);
+                $scope.month = monthArray.join(",");
+            }
         };
-        $scope.updateMonth = function () {
-            var selectedMonth = [];
+        $scope.select_all_Month = function() {
+            var allSelected = true;
             for (var i = 1; i <= 12; i++) {
-                if ($scope.formData['month_' + i]) selectedMonth.push(i);
+              if (!$scope.formData['month_' + i]) {
+                allSelected = false;
+              }
             }
-            $scope.month = selectedMonth.join(',');
-        };
+            for (var i = 1; i <= 12; i++) {
+              if (!allSelected && !$scope.formData['month_' + i]) {
+                $scope.toggleMonth(i);
+              }
+              $scope.formData['month_' + i] = !allSelected;
+            }
+            if (allSelected) {
+                $scope.month = '';
+            }
+          };
+        //#endregion
         $scope.addPlayschedule = function () {
             $scope.date_from = new Date($scope.formData.date_from).getTime() / 1000;
             $scope.date_to = new Date($scope.formData.date_to).getTime() / 1000;
@@ -3315,8 +3460,8 @@ app.controller('addPlayschedule', function (addressService, $scope, $state, $htt
                 }
             }).then(function successCallback(response) {
                 if (response.status != 404) {
-                    $dialogAlert("Thêm thư viện nguồn thành công", "Thông báo!", "success", function (res) {
-                        $state.go("managePlayschedule");
+                    $dialogAlert("Thêm lịch phát thành công", "Thông báo!", "success", function (res) {
+                        $state.go("radiostreamingCtrl");
                     });
                 } else {
                     $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");

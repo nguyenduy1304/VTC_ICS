@@ -53,11 +53,9 @@
             }).on('core.form.bv', function () {
                 loginButton.innerHTML = 'Validating ...';
             }).on('success.form.bv', function (e) {
-                // Prevent form submission
                 e.preventDefault();
                 $scope.signin();
             });
-
         })
         $http({
             method: 'GET',
@@ -82,7 +80,6 @@
 
         };
     });
-
     app.controller('signoutCtrl', function ($state, $rootScope, $window) {
         $rootScope.$user = null;
         $rootScope.login_active = true;

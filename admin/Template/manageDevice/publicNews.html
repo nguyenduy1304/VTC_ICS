@@ -23,6 +23,7 @@
     <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
         <thead>
             <tr class="panel-info list-group-item-info">
+                <th style="text-align:center;width:10px;">STT</th>
                 <th style="width:16%;">MÃ_ĐTH CNTT - VT</th>
                 <th style="width:10%;">NGÀY LẮP</th>
                 <th style="width:16%;">TÊN</th>
@@ -36,6 +37,7 @@
         <tbody>
             <tr
                 ng-repeat="item in data | filter:searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
+                <td style="text-align:center">{{$index +1}}</td>
                 <td>{{item.nameId}}</td>
                 <td>{{item.createDate*1000 | date:'dd/MM/yyyy'}}</td>
                 <td>{{item.name}}</td>

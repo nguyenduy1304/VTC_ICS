@@ -186,7 +186,7 @@
             <div class="sidebar-scroll">
                 <nav>
                     <ul class="nav sidebar-menu" ng-if="$user.Roles.indexOf('seller') != -1" data-widget="tree">
-                        <li class="treeview ">
+                        <li class="treeview">
                             <a>
                                 <i class="lnr lnr-construction"></i> <span>Đài
                                     truyền thanh ứng dụng
@@ -296,8 +296,8 @@
     <script>
         $(document).ready(function () {
             $(".treeview-menu li").click(function () {
-                $(".treeview-menu li").removeClass("active-menu"); // loại bỏ class active khỏi tất cả các li
-                $(this).addClass("active-menu"); // thêm class active vào li được click
+                $(".treeview-menu li").removeClass("active-menu");
+                $(this).addClass("active-menu"); 
             });
         });
     </script>

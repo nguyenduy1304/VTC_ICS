@@ -20,9 +20,12 @@
                     </div>
                     <label for="playSearch" class="col-sm-2 control-label">Kế
                         hoạch PT</label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4" style="display: inline-block;">
+                        <a class="glyphicon glyphicon-plus icon" href="../index.html#!/quan-ly-thiet-bi/lich-phat/them"
+                            style="float:right; padding: 5px; font-size: 21px; color: #3fc241;"></a>
                         <input id="playSearch" type="text" ng-model="dataForm.rule" ng-click="showList= true"
-                            class="form-control" autocomplete="off" placeholder="Nhập tìm kế hoạch phát thanh" required>
+                            style="width: 88%;" class="form-control" autocomplete="off"
+                            placeholder="Nhập tìm kế hoạch phát thanh" required>
                         <ul ng-show="showList" class="radiostreaming_rule_ul">
                             <li ng-repeat="playschedule in playschedules |
                                 filter: dataForm.rule" ng-click="selectPlayschedule(playschedule.name,
