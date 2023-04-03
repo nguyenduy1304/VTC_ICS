@@ -67,7 +67,7 @@
                 <div class="form-group ">
                     <label for="province" class="col-xs-2 control-label">Địa chỉ</label>
                     <div class="col-xs-3">
-                        <select class="form-control" aria-label=".form-select-sm" style="padding: 5px;"
+                        <select class="form-control province" aria-label=".form-select-sm" style="padding: 5px;"
                             ng-selected="formData.province" ng-model="formData.province" ng-change="listDistricts()"
                             required>
                             <option value="" selected>--Chọn tỉnh thành--</option>
@@ -76,7 +76,7 @@
                         </select>
                     </div>
                     <div class="col-xs-3">
-                        <select class="form-control" id="districId" aria-label=".form-select-sm"
+                        <select class="form-control districId" id="districId" aria-label=".form-select-sm"
                             ng-selected="formData.districId" ng-model="formData.districId" ng-change="listWards()"
                             required>
                             <option value="" selected>--Chọn quân/huyện--</option>
@@ -85,7 +85,7 @@
                         </select>
                     </div>
                     <div class="col-xs-4">
-                        <select class="form-control" id="communeId" aria-label=".form-select-sm"
+                        <select class="form-control communeId" id="communeId" aria-label=".form-select-sm"
                             ng-selected="formData.communeId" ng-model="formData.communeId" required>
                             <option value="" selected>--Chọn phường/xã--</option>
                             <option ng-repeat="item in wards" value={{item.nameId}}>{{item.nameId}}</option>
@@ -126,3 +126,10 @@
         fileName.textContent = file.name;
     });
 </script> -->
+<script>
+    $(document).ready(function() {
+    $('.province').select2();
+    $('.districId').select2();
+    $('.communeId').select2();
+});
+</script>

@@ -1,9 +1,13 @@
 <div>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung">Trang chủ</a>
+            <li class="breadcrumb-item"><a
+                    href="/index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung">Trang
+                    chủ</a>
             </li>
-            <li class="breadcrumb-item"><a href="/index.html#!/quan-ly-thiet-bi/lich-phat">Lịch phát thanh</a>
+            <li class="breadcrumb-item"><a
+                    href="/index.html#!/quan-ly-thiet-bi/lich-phat">Lịch phát
+                    thanh</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">Thêm mới</li>
         </ol>
@@ -12,38 +16,51 @@
         <div>
             <form ng-submit="addPlayschedule()" class="form-horizontal">
                 <div class="form-group">
-                    <label for="name" class="col-sm-2 control-label">Tên lịch phát</label>
+                    <label for="name" class="col-sm-2 control-label">Tên lịch
+                        phát</label>
                     <div class="col-sm-4">
-                        <input ng-model="formData.name" name="name" type="text" class="form-control" id="name"
+                        <input ng-model="formData.name" name="name" type="text"
+                            class="form-control" id="name"
                             placeholder="Nhập tên lịch phát thanh" required>
                     </div>
-                    <label for="dthID" class="col-sm-2 control-label">Trạm phát thanh</label>
+                    <label for="dthID" class="col-sm-2 control-label">Trạm phát
+                        thanh</label>
                     <div class="col-sm-4">
-                        <input id="dthIDSearch" type="text" ng-model="formData.dthID" ng-click="showList = true"
-                            class="form-control" autocomplete="off" placeholder="Nhập tìm kế hoạch phát thanh" required>
+                        <input id="dthIDSearch" type="text"
+                            ng-model="formData.dthID" ng-click="showList= true"
+                            class="form-control" autocomplete="off"
+                            placeholder="Nhập tìm kế hoạch phát thanh" required>
                         <ul ng-show="showList" class="radiostreaming_rule_ul">
-                            <li ng-repeat="radionode in radionodes | filter: formData.dthID"
-                                ng-click="selectRadionode(radionode.name, $event)"
-                                class="radiostreaming_rule_li form-control" data-name-id="{{radionode.nameId}}">
+                            <li ng-repeat="radionode in radionodes | filter:
+                                formData.dthID"
+                                ng-click="selectRadionode(radionode.name,
+                                $event)"
+                                class="radiostreaming_rule_li form-control"
+                                data-name-id="{{radionode.nameId}}">
                                 {{radionode.name}}
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="c_active" class="col-sm-2 control-label">Hoạt động</label>
+                    <label for="c_active" class="col-sm-2 control-label">Hoạt
+                        động</label>
                     <div class="col-sm-4">
-                        <select ng-selected="formData.c_active" name="c_active" ng-model="formData.c_active"
+                        <select ng-selected="formData.c_active" name="c_active"
+                            ng-model="formData.c_active"
                             class="form-control" required>
                             <option value="" selected>--Chọn--</option>
                             <option value="1" selected>Có</option>
                             <option value="0" selected>Không</option>
                         </select>
                     </div>
-                    <label for="c_scheduletype" class="col-sm-2 control-label">Loại kết hoạch</label>
+                    <label for="c_scheduletype" class="col-sm-2 control-label">Loại
+                        kết hoạch</label>
                     <div class="col-sm-4">
-                        <select ng-selected="formData.c_scheduletype" name="c_scheduletype"
-                            ng-model="formData.c_scheduletype" class="form-control" required>
+                        <select ng-selected="formData.c_scheduletype"
+                            name="c_scheduletype"
+                            ng-model="formData.c_scheduletype"
+                            class="form-control" required>
                             <option value="" selected>--Chọn một tùy chọn--</option>
                             <option value="SP01" selected>Hằng ngày</option>
                             <option value="SP02" selected>Đột xuất</option>
@@ -53,16 +70,20 @@
                 <div class="form-group">
                     <label class="col-xs-2 control-label" for="city">Tỉnh/Tp</label>
                     <div class="col-xs-4">
-                        <select ng-selected="formData.city" class="form-control" ng-model="formData.city"
+                        <select ng-selected="formData.city" class="form-control
+                            city"
+                            ng-model="formData.city"
                             ng-change="listDistricts()" required>
                             <option value="" selected>--Chọn tỉnh thành--</option>
-                            <option ng-repeat="item in cities" value={{item.name}}_{{item.id}}>
+                            <option ng-repeat="item in cities"
+                                value={{item.name}}_{{item.id}}>
                                 {{item.name}}</option>
                         </select>
                     </div>
                     <label for="field" class="col-sm-2 control-label">Lĩnh vực</label>
                     <div class="col-sm-4">
-                        <select ng-selected="formData.field" name="field" ng-model="formData.field "
+                        <select ng-selected="formData.field" name="field"
+                            ng-model="formData.field "
                             class="form-control" required>
                             <option value="" selected>--Chọn một tùy chọn--</option>
                             <option value="NEWS" selected>Tin tức</option>
@@ -73,16 +94,20 @@
                 <div class="form-group">
                     <label class="col-xs-2 control-label" for="district">Quận/Huyện</label>
                     <div class="col-xs-4">
-                        <select ng-selected="formData.district" class="form-control" ng-model="formData.district"
+                        <select ng-selected="formData.district"
+                            class="form-control district"
+                            ng-model="formData.district"
                             ng-change="listWards()" required>
                             <option value="" selected>--Chọn huyện--</option>
-                            <option ng-repeat="item in districts" value={{item.nameId}}>
+                            <option ng-repeat="item in districts"
+                                value={{item.nameId}}>
                                 {{item.name}}</option>
                         </select>
                     </div>
                     <label class="col-xs-2 control-label" for="type">Phân loại</label>
                     <div class="col-xs-4">
-                        <select ng-selected="formData.type" name="type" ng-model="formData.type " class="form-control"
+                        <select ng-selected="formData.type" name="type"
+                            ng-model="formData.type " class="form-control"
                             required>
                             <option value="" selected>--Chọn một tùy chọn--</option>
                             <option value="TYPE1" selected>Loại 1</option>
@@ -93,21 +118,27 @@
                 <div class="form-group">
                     <label class="col-xs-2 control-label" for="ward">Phường/Xã</label>
                     <div class="col-xs-4">
-                        <select class="form-control" ng-selected="formData.ward" ng-model="formData.ward" required>
+                        <select class="form-control ward"
+                            ng-selected="formData.ward"
+                            ng-model="formData.ward" required>
                             <option value="" selected>--Chọn phường xã--</option>
-                            <option ng-repeat="item in wards" value={{item.nameId}}>{{item.name}}</option>
+                            <option ng-repeat="item in wards"
+                                value={{item.nameId}}>{{item.name}}</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="date_from" class="col-sm-2 control-label">Từ ngày</label>
+                    <label for="date_from" class="col-sm-2 control-label">Từ
+                        ngày</label>
                     <div class="col-sm-4">
-                        <input ng-model="formData.date_from" name="date_from" type="date" class="form-control"
+                        <input ng-model="formData.date_from" name="date_from"
+                            type="date" class="form-control"
                             id="date_from" required>
                     </div>
                     <label for="date_to" class="col-sm-2 control-label">Đến ngày</label>
                     <div class="col-sm-4">
-                        <input ng-model="formData.date_to" name="date_to" type="date" class="form-control" id="date_to"
+                        <input ng-model="formData.date_to" name="date_to"
+                            type="date" class="form-control" id="date_to"
                             required>
                     </div>
                 </div>
@@ -115,84 +146,106 @@
                 <div class="form-group">
                     <label for="hour_from" class="col-sm-2 control-label">Giờ từ</label>
                     <div class="col-sm-4">
-                        <input ng-model="formData.hour_from" name="hour_from" type="time" class="form-control"
+                        <input ng-model="formData.hour_from" name="hour_from"
+                            type="time" class="form-control"
                             id="hour_from">
                     </div>
                     <label for="hour_to" class="col-sm-2 control-label">đến</label>
                     <div class="col-sm-4">
-                        <input ng-model="formData.hour_to" name="hour_to" type="time" class="form-control" id="hour_to">
+                        <input ng-model="formData.hour_to" name="hour_to"
+                            type="time" class="form-control" id="hour_to">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="hour_from1" class="col-sm-2 control-label">[Giờ từ]</label>
+                    <label for="hour_from1" class="col-sm-2 control-label">[Giờ
+                        từ]</label>
                     <div class="col-sm-4">
-                        <input ng-model="formData.hour_from1" name="hour_from1" type="time" class="form-control"
+                        <input ng-model="formData.hour_from1" name="hour_from1"
+                            type="time" class="form-control"
                             id="hour_from1">
                     </div>
                     <label for="hour_to1" class="col-sm-2 control-label">[đến]</label>
                     <div class="col-sm-4">
-                        <input ng-model="formData.hour_to1" name="hour_to1" type="time" class="form-control"
+                        <input ng-model="formData.hour_to1" name="hour_to1"
+                            type="time" class="form-control"
                             id="hour_to1">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="c_c_hour_from2" class="col-sm-2 control-label">[Giờ từ-2]</label>
+                    <label for="c_c_hour_from2" class="col-sm-2 control-label">[Giờ
+                        từ-2]</label>
                     <div class="col-sm-4">
-                        <input ng-model="formData.c_hour_from2" name="c_hour_from2" type="time" class="form-control"
+                        <input ng-model="formData.c_hour_from2"
+                            name="c_hour_from2" type="time" class="form-control"
                             id="c_hour_from2">
                     </div>
                     <label for="c_hour_to2" class="col-sm-2 control-label">[đến-2]</label>
                     <div class="col-sm-4">
-                        <input ng-model="formData.c_hour_to2" name="c_hour_to2" type="time" class="form-control"
+                        <input ng-model="formData.c_hour_to2" name="c_hour_to2"
+                            type="time" class="form-control"
                             id="c_hour_to2">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="c_hour_from3" class="col-sm-2 control-label">[Giờ từ-3]</label>
+                    <label for="c_hour_from3" class="col-sm-2 control-label">[Giờ
+                        từ-3]</label>
                     <div class="col-sm-4">
-                        <input ng-model="formData.c_hour_from3" name="c_hour_from3" type="time" class="form-control"
+                        <input ng-model="formData.c_hour_from3"
+                            name="c_hour_from3" type="time" class="form-control"
                             id="c_hour_from3">
                     </div>
                     <label for="c_hour_to3" class="col-sm-2 control-label">[đến-3]</label>
                     <div class="col-sm-4">
-                        <input ng-model="formData.c_hour_to3" name="c_hour_to3" type="time" class="form-control"
+                        <input ng-model="formData.c_hour_to3" name="c_hour_to3"
+                            type="time" class="form-control"
                             id="c_hour_to3">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="c_hour_from4" class="col-sm-2 control-label">[Giờ từ-4]</label>
+                    <label for="c_hour_from4" class="col-sm-2 control-label">[Giờ
+                        từ-4]</label>
                     <div class="col-sm-4">
-                        <input ng-model="formData.c_hour_from4" name="c_hour_from4" type="time" class="form-control"
+                        <input ng-model="formData.c_hour_from4"
+                            name="c_hour_from4" type="time" class="form-control"
                             id="c_hour_from4">
                     </div>
                     <label for="hour_to4" class="col-sm-2 control-label">[đến-4]</label>
                     <div class="col-sm-4">
-                        <input ng-model="formData.c_hour_to4" name="c_hour_to4" type="time" class="form-control"
+                        <input ng-model="formData.c_hour_to4" name="c_hour_to4"
+                            type="time" class="form-control"
                             id="c_hour_to4">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="c_hour_from5" class="col-sm-2 control-label">[Giờ từ-5]</label>
+                    <label for="c_hour_from5" class="col-sm-2 control-label">[Giờ
+                        từ-5]</label>
                     <div class="col-sm-4">
-                        <input ng-model="formData.c_hour_from5" name="c_hour_from5" type="time" class="form-control"
+                        <input ng-model="formData.c_hour_from5"
+                            name="c_hour_from5" type="time" class="form-control"
                             id="c_hour_from5">
                     </div>
                     <label for="c_hour_to5" class="col-sm-2 control-label">[đến-5]</label>
                     <div class="col-sm-4">
-                        <input ng-model="formData.c_hour_to5" name="c_hour_to5" type="time" class="form-control"
+                        <input ng-model="formData.c_hour_to5" name="c_hour_to5"
+                            type="time" class="form-control"
                             id="c_hour_to5">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="type" class="col-sm-2 control-label">Ngày trong tuần</label>
+                    <label for="type" class="col-sm-2 control-label">Ngày trong
+                        tuần</label>
                     <div class="col-sm-10" id="week_day">
                         <label
-                            ng-repeat="(index, day) in ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7']">
-                            <input type="checkbox" ng-model="formData['week_day_' + (index + 1)]"
-                                value="{{ index + 1 }}" ng-click="toggleWeekDay(index + 1)">
+                            ng-repeat="(index, day) in ['Chủ nhật', 'Thứ 2',
+                            'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7']">
+                            <input type="checkbox"
+                                ng-model="formData['week_day_' + (index + 1)]"
+                                value="{{ index + 1 }}"
+                                ng-click="toggleWeekDay(index + 1)">
                             {{ day }} &emsp;
                         </label>
-                        <button type="button" class="btn_all" ng-click="select_all_WeekDay()">Chọn tất cả</button>
+                        <button type="button" class="btn_all"
+                            ng-click="select_all_WeekDay()">Chọn tất cả</button>
                     </div>
                 </div>
 
@@ -200,12 +253,18 @@
                     <label for="type" class="col-sm-2 control-label">Ngày</label>
                     <div class="col-sm-10" id="day">
                         <label
-                            ng-repeat="(index, day) in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31']">
-                            <input type="checkbox" ng-model="formData['day_' + (index + 1)]" value="{{ index + 1 }}"
+                            ng-repeat="(index, day) in ['1', '2', '3', '4', '5',
+                            '6', '7', '8', '9', '10', '11', '12', '13', '14',
+                            '15', '16', '17', '18', '19', '20', '21', '22',
+                            '23', '24', '25', '26', '27', '28', '29', '30',
+                            '31']">
+                            <input type="checkbox" ng-model="formData['day_' +
+                                (index + 1)]" value="{{ index + 1 }}"
                                 ng-click="toggleDay(index + 1)">
                             {{ day }} &emsp;
                         </label>
-                        <button type="button" class="btn_all" ng-click="select_all_Day()">Chọn tất cả</button>
+                        <button type="button" class="btn_all"
+                            ng-click="select_all_Day()">Chọn tất cả</button>
                     </div>
                 </div>
 
@@ -213,19 +272,26 @@
                     <label for="type" class="col-sm-2 control-label">Tháng</label>
                     <div class="col-sm-10" id="month">
                         <label
-                            ng-repeat="(index, month) in ['Tháng giêng', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12']">
-                            <input type="checkbox" ng-model="formData['month_' + (index + 1)]" value="{{ index + 1 }}"
+                            ng-repeat="(index, month) in ['Tháng giêng', 'Tháng
+                            2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+                            'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng
+                            11', 'Tháng 12']">
+                            <input type="checkbox" ng-model="formData['month_' +
+                                (index + 1)]" value="{{ index + 1 }}"
                                 ng-click="toggleMonth(index + 1)">
                             {{ month }} &emsp;
                         </label>
-                        <button type="button" class="btn_all" ng-click="select_all_Month()">Chọn tất cả</button>
+                        <button type="button" class="btn_all"
+                            ng-click="select_all_Month()">Chọn tất cả</button>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="description" class="col-sm-2 control-label">Mô tả</label>
+                    <label for="description" class="col-sm-2 control-label">Mô
+                        tả</label>
                     <div class="col-sm-8">
-                        <input ng-model="formData.description" name="description" type="text" class="form-control"
+                        <input ng-model="formData.description"
+                            name="description" type="text" class="form-control"
                             id="description" placeholder="">
                     </div>
                 </div>
@@ -240,6 +306,12 @@
 </div>
 
 <script>
+ $(document).ready(function() {
+    $('.city').select2();
+    $('.district').select2();
+    $('.ward').select2();
+});
+
     //Check ngày   
     document.getElementById("date_from").addEventListener("change", checkday);
     document.getElementById("date_to").addEventListener("change", checkday);
@@ -321,15 +393,19 @@
         }
     }
     //=========================================================
-    const inputElement = document.getElementById('dthIDSearch');
-    const ulElement = document.querySelector('.radiostreaming_rule_ul');
-    document.addEventListener('click', (event) => {
-        const isClickInsideInput = inputElement.contains(event.target);
-        if (!isClickInsideInput) {
-            ulElement.style.display = 'none';
-        }
-    });
-    inputElement.addEventListener('click', () => {
-        ulElement.style.display = 'block';
-    });
+    (function() {
+  const inputElementplaychedule = document.getElementById('dthIDSearch');
+  const ulElementplaychedule = document.querySelector('.radiostreaming_rule_ul');
+  
+  document.addEventListener('click', function(event) {
+    const isClickInsideInput = inputElementplaychedule.contains(event.target);
+    if (!isClickInsideInput) {
+      ulElementplaychedule.style.display = 'none';
+    }
+  });
+  
+  inputElementplaychedule.addEventListener('click', function() {
+    ulElementplaychedule.style.display = 'block';
+  });
+})();
 </script>

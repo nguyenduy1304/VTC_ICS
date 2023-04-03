@@ -24,6 +24,7 @@ var formatNumbers = function (amount, decimalCount, decimal, thousands) {
         console.log(e)
     }
 };
+
 function roundNumber(num, scale) {
     if (!("" + num).includes("e")) {
         return +(Math.round(num + "e+" + scale) + "e-" + scale);
@@ -36,6 +37,7 @@ function roundNumber(num, scale) {
         return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + scale)) + "e-" + scale);
     }
 }
+
 function disableAtrr(self) {
     if ($(self).is(':checked')) {
         $(self).prop('checked', false);
@@ -123,7 +125,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             templateUrl: window.templateUrl + "/manageDevice/addPublicNews.html"
         })
         //#endregion
-       
+
         //thư viện nguồn============
         .state('onephone-sourcelibrary', {
             url: '/thu-vien-nguon',
@@ -374,7 +376,7 @@ app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $st
                 Highcharts.setOptions({
                     colors: options.colors
                 });
-                Highcharts.chart(idName, {//'lineChart'
+                Highcharts.chart(idName, { //'lineChart'
                     chart: {
                         type: 'spline',
                         scrollablePlotArea: {
@@ -383,7 +385,7 @@ app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $st
                         }
                     },
                     title: {
-                        text: title///'Thống kê tăng trưởng doanh thu (VNĐ)'
+                        text: title ///'Thống kê tăng trưởng doanh thu (VNĐ)'
                     },
                     subtitle: {
                         text: ''
@@ -864,7 +866,7 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
             var add = document.getElementById("add");
             if (add.style.display === "none") {
                 add.style.display = "block";
-                $scope.dataForm.dthID="";
+                $scope.dataForm.dthID = "";
             } else {
                 add.style.display = "none";
             }
@@ -880,7 +882,7 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
         // #endregion
 
         //#region NGÀY - TUẦN - THÁNG
-            //#region  Tuần
+        //#region  Tuần
         $scope.toggleWeekDay = function (day) {
             var index = $scope.week.split(",").indexOf(day.toString());
             if (index === -1) {
@@ -892,7 +894,7 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
             }
             //console.log($scope.week);
         };
-        $scope.select_all_WeekDay = function() {
+        $scope.select_all_WeekDay = function () {
             var allSelected = true;
             for (var i = 1; i <= 7; i++) {
                 if (!$scope.dataplayschedules['week_day_' + i]) {
@@ -919,7 +921,7 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
             console.log($scope.week);
         };
         //#endregion
-           
+
         //#region Ngày
         $scope.toggleDay = function (day) {
             var index = $scope.day.split(",").indexOf(day.toString());
@@ -932,8 +934,8 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
             }
             console.log($scope.day);
         };
-        
-        $scope.select_all_Day = function() {
+
+        $scope.select_all_Day = function () {
             var allSelected = true;
             for (var i = 1; i <= 31; i++) {
                 if (!$scope.dataplayschedules['day_' + i]) {
@@ -973,7 +975,7 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
             }
             console.log($scope.month);
         };
-        $scope.select_all_Month = function() {
+        $scope.select_all_Month = function () {
             var allSelected = true;
             for (var i = 1; i <= 12; i++) {
                 if (!$scope.dataplayschedules['month_' + i]) {
@@ -1000,7 +1002,7 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
             console.log($scope.month);
         };
         //#endregion
-        
+
         //#endregion
 
         // #region Lấy danh sách Radionode
@@ -1173,7 +1175,7 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                 $scope.dataplayschedules.c_hour_to5 = new Date('1970-01-01T' + $scope.dataplayschedules.c_hour_to5);
 
                 $scope.week = $scope.dataplayschedules.week_day;
-                console.log( $scope.week);
+                console.log($scope.week);
                 $scope.day = $scope.dataplayschedules.day;
                 $scope.month = $scope.dataplayschedules.month;
 
@@ -2835,9 +2837,9 @@ app.controller('editDevice', function (addressService, $scope, $state, $statePar
                     c_endpointtype: $scope.dataForm.c_endpointtype,
                     c_channelId: $scope.dataForm.c_channelId,
                     issetting: $scope.dataForm.issetting,
-                    status: $scope.dataForm.status,
-                    c_playstatus: $scope.dataForm.c_playstatus,
-                    note: $scope.dataForm.note
+                    status: $scope.dataForm.status || "",
+                    c_playstatus: $scope.dataForm.c_playstatus || "",
+                    note: $scope.dataForm.note || ""
                 }).toString(),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -2918,9 +2920,9 @@ app.controller('addDevice', function (addressService, $scope, $state, $http, $wi
                     c_endpointtype: $scope.dataForm.c_endpointtype,
                     c_channelId: $scope.dataForm.c_channelId,
                     issetting: $scope.dataForm.issetting,
-                    status: $scope.dataForm.status,
-                    c_playstatus: $scope.dataForm.c_playstatus,
-                    note: $scope.dataForm.note
+                    status: $scope.dataForm.status || "",
+                    c_playstatus: $scope.dataForm.c_playstatus || "",
+                    note: $scope.dataForm.note || ""
                 }).toString(),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -3317,7 +3319,7 @@ app.controller('addPlayschedule', function (addressService, $scope, $state, $htt
                 console.log($scope.wards);
             }
         }
-        
+
         //#region Ngày, tuần, tháng
         $scope.week = '';
         $scope.day = '';
@@ -3333,18 +3335,18 @@ app.controller('addPlayschedule', function (addressService, $scope, $state, $htt
                 $scope.week = weekArray.join(",");
             }
         };
-        $scope.select_all_WeekDay = function() {
+        $scope.select_all_WeekDay = function () {
             var allSelected = true;
             for (var i = 1; i <= 7; i++) {
-              if (!$scope.formData['week_day_' + i]) {
-                allSelected = false;
-              }
+                if (!$scope.formData['week_day_' + i]) {
+                    allSelected = false;
+                }
             }
             for (var i = 1; i <= 7; i++) {
-              if (!allSelected && !$scope.formData['week_day_' + i]) {
-                $scope.toggleWeekDay(i);
-              }
-              $scope.formData['week_day_' + i] = !allSelected;
+                if (!allSelected && !$scope.formData['week_day_' + i]) {
+                    $scope.toggleWeekDay(i);
+                }
+                $scope.formData['week_day_' + i] = !allSelected;
             }
             if (allSelected) {
                 $scope.week = '';
@@ -3361,23 +3363,23 @@ app.controller('addPlayschedule', function (addressService, $scope, $state, $htt
                 $scope.day = dayArray.join(",");
             }
         };
-        $scope.select_all_Day = function() {
+        $scope.select_all_Day = function () {
             var allSelected = true;
             for (var i = 1; i <= 31; i++) {
-              if (!$scope.formData['day_' + i]) {
-                allSelected = false;
-              }
+                if (!$scope.formData['day_' + i]) {
+                    allSelected = false;
+                }
             }
             for (var i = 1; i <= 31; i++) {
-              if (!allSelected && !$scope.formData['day_' + i]) {
-                $scope.toggleDay(i);
-              }
-              $scope.formData['day_' + i] = !allSelected;
+                if (!allSelected && !$scope.formData['day_' + i]) {
+                    $scope.toggleDay(i);
+                }
+                $scope.formData['day_' + i] = !allSelected;
             }
             if (allSelected) {
                 $scope.day = '';
             }
-          };
+        };
 
         $scope.toggleMonth = function (day) {
             var index = $scope.month.split(",").indexOf(day.toString());
@@ -3389,23 +3391,23 @@ app.controller('addPlayschedule', function (addressService, $scope, $state, $htt
                 $scope.month = monthArray.join(",");
             }
         };
-        $scope.select_all_Month = function() {
+        $scope.select_all_Month = function () {
             var allSelected = true;
             for (var i = 1; i <= 12; i++) {
-              if (!$scope.formData['month_' + i]) {
-                allSelected = false;
-              }
+                if (!$scope.formData['month_' + i]) {
+                    allSelected = false;
+                }
             }
             for (var i = 1; i <= 12; i++) {
-              if (!allSelected && !$scope.formData['month_' + i]) {
-                $scope.toggleMonth(i);
-              }
-              $scope.formData['month_' + i] = !allSelected;
+                if (!allSelected && !$scope.formData['month_' + i]) {
+                    $scope.toggleMonth(i);
+                }
+                $scope.formData['month_' + i] = !allSelected;
             }
             if (allSelected) {
                 $scope.month = '';
             }
-          };
+        };
         //#endregion
         $scope.addPlayschedule = function () {
             $scope.date_from = new Date($scope.formData.date_from).getTime() / 1000;
@@ -3453,7 +3455,7 @@ app.controller('addPlayschedule', function (addressService, $scope, $state, $htt
                     day: $scope.day,
                     month: $scope.month,
                     c_active: $scope.formData.c_active,
-                    description: $scope.formData.description
+                    description: $scope.formData.description || ""
                 }).toString(),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -3904,7 +3906,7 @@ app.controller('editRadioApp', function (addressService, $scope, $state, $stateP
                     province: $scope.formData.province,
                     districId: $scope.formData.districId,
                     communeId: $scope.formData.communeId,
-                    description: $scope.formData.description,
+                    description: $scope.formData.description || ""
                     // icecast_url: $scope.icecast_url
                 }).toString(),
                 headers: {
@@ -3981,7 +3983,7 @@ app.controller('addRadioApp', function (addressService, $scope, $state, $http, $
                     province: $scope.formData.province,
                     districId: $scope.formData.district,
                     communeId: $scope.formData.commune,
-                    description: $scope.formData.description,
+                    description: $scope.formData.description || ""
 
                     //icecast_url: $scope.icecast_url
                 }).toString(),
@@ -4415,7 +4417,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                                             <td style="width:100px">{{item.subscribe_expired}}</td>
 //                                             <td style="width:150px" class="text-right">{{item.total}}</td>                                
 //                                             <td style="width:150px" class="text-right">{{item.total_last}}</td>                                
-                                                                                
+
 //                                         </tr>
 //                                 </tbody>
 //                             </table>
@@ -7384,7 +7386,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                             <input class ="form-control" ng-model="bankingRef" name="bankingRef" placeholder="Nhập ghi chú xác nhận thông tin" required>
 //                         </div>
 //                 </form>
-            
+
 //             </div>`, "Xác nhận", function (res) {
 //             if (res) {
 //                 var _taikhoan = $("input[name='taikhoan']").val();
@@ -8121,7 +8123,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                             <input type="Number" class="form-control" placeholder="Nhập số lượng" name="quantity"  required>
 //                         </div>  
 //                 </form>
-            
+
 //             </div>`, "Lấy key theo sản phẩm", function (res) {
 //             if (res) {
 //                 $("div.overlay").addClass("show");
@@ -8178,7 +8180,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                                                         <td class="text-center" style="width:60px">{{$index+1}}</td>
 //                                                         <td>{{item.Item3}}</td>
 //                                                         <td style="width:250px">{{item.Item4}}</td>
-                                                       
+
 //                                                     </tr>
 //                                                 </tbody>
 //                                             </table>
@@ -8257,7 +8259,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                             <input type="text" class="form-control" placeholder="Nhập thời gian(yyyy-mm-dd)" name="dateTime"  required>
 //                         </div>
 //                 </form>
-            
+
 //             </div>`, "Hủy key theo sản phẩm", function (res) {
 //             if (res) {
 //                 $("div.overlay").addClass("show");

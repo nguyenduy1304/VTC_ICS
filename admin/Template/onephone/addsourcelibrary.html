@@ -52,9 +52,9 @@
             </div>
         </div>
         <div class="form-group" style="margin:0;margin-bottom:15px">
-            <label class="col-xs-2 control-label" for="address">Tỉnh/Tp</label>
+            <label class="col-xs-2 control-label" for="province">Tỉnh/Tp</label>
             <div class="col-xs-4">
-                <select ng-selected="dataForm.province" class="form-control" ng-model="dataForm.provinceID"
+                <select ng-selected="dataForm.province" class="form-control province" ng-model="dataForm.provinceID"
                     ng-change="listDistricts()" required>
                     <option value="" selected>--Chọn tỉnh thành--</option>
                     <option ng-repeat="item in cities" value={{item.name}}_{{item.id}}>
@@ -71,7 +71,7 @@
 
             <label class="col-xs-2 control-label" for="districId">Quận/Huyện</label>
             <div class="col-xs-4">
-                <select ng-selected="dataForm.districId" class="form-control" ng-model="dataForm.districId"
+                <select ng-selected="dataForm.districId" class="form-control distric"  ng-model="dataForm.districId"
                     ng-change="listWards()" required>
                     <option value="" selected>--Chọn huyện--</option>
                     <option ng-repeat="item in districts" value={{item.nameId}}>
@@ -94,7 +94,7 @@
         <div class="form-group" style="margin:0;margin-bottom:15px">
             <label class="col-xs-2 control-label" for="wardId">Phường/Xã</label>
             <div class="col-xs-4">
-                <select class="form-control" ng-selected="dataForm.wardId" ng-model="dataForm.wardId" required>
+                <select class="form-control ward" ng-selected="dataForm.wardId" ng-model="dataForm.wardId" required>
                     <option value="" selected>--Chọn phường xã--</option>
                     <option ng-repeat="item in wards" value={{item.nameId}}>{{item.nameId}}</option>
                 </select>
@@ -127,3 +127,10 @@
         </div>
     </form>
 </div>
+<script>
+     $(document).ready(function() {
+    $('.province').select2();
+    $('.district').select2();
+    $('.ward').select2();
+});
+</script>

@@ -1,8 +1,11 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung">Trang chủ</a>
+        <li class="breadcrumb-item"><a
+                href="/index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung">Trang
+                chủ</a>
         </li>
-        <li class="breadcrumb-item"><a href="/index.html#!/phat-thanh">Phát thanh</a>
+        <li class="breadcrumb-item"><a href="/index.html#!/phat-thanh">Phát
+                thanh</a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">Thêm mới</li>
     </ol>
@@ -15,21 +18,28 @@
                     <label for="name" class="col-sm-2 control-label">Tên phát
                         thanh</label>
                     <div class="col-sm-4">
-                        <input ng-model="dataForm.name" name="name" type="text" class="form-control" id="name"
+                        <input ng-model="dataForm.name" name="name" type="text"
+                            class="form-control" id="name"
                             placeholder="Nhập tên phát thanh" required>
                     </div>
                     <label for="playSearch" class="col-sm-2 control-label">Kế
                         hoạch PT</label>
                     <div class="col-sm-4" style="display: inline-block;">
-                        <a class="glyphicon glyphicon-plus icon" href="../index.html#!/quan-ly-thiet-bi/lich-phat/them"
-                            style="float:right; padding: 5px; font-size: 21px; color: #3fc241;"></a>
-                        <input id="playSearch" type="text" ng-model="dataForm.rule" ng-click="showList= true"
-                            style="width: 88%;" class="form-control" autocomplete="off"
+                        <a class="glyphicon glyphicon-plus icon"
+                            href="../index.html#!/quan-ly-thiet-bi/lich-phat/them"
+                            style="float:right; padding: 5px; font-size: 21px;
+                            color: #3fc241;"></a>
+                        <input id="playSearch" type="text"
+                            ng-model="dataForm.rule" ng-click="showList= true"
+                            style="width: 88%;" class="form-control"
+                            autocomplete="off"
                             placeholder="Nhập tìm kế hoạch phát thanh" required>
                         <ul ng-show="showList" class="radiostreaming_rule_ul">
                             <li ng-repeat="playschedule in playschedules |
-                                filter: dataForm.rule" ng-click="selectPlayschedule(playschedule.name,
-                                $event)" class="radiostreaming_rule_li form-control"
+                                filter: dataForm.rule"
+                                ng-click="selectPlayschedule(playschedule.name,
+                                $event)" class="radiostreaming_rule_li
+                                form-control"
                                 data-name-id="{{playschedule.nameId}}">
                                 {{playschedule.name}}
                             </li>
@@ -39,58 +49,73 @@
                 <div class="form-group">
                     <label for="city" class="col-xs-2 control-label">Địa chỉ</label>
                     <div class="col-xs-3">
-                        <select class="form-control" aria-label=".form-select-sm" style="padding: 5px;"
-                            ng-selected="dataForm.city" ng-model="dataForm.city" ng-change="listDistricts()" required>
+                        <select class="form-control city"
+                            aria-label=".form-select-sm" style="padding: 5px;"
+                            ng-selected="dataForm.city" ng-model="dataForm.city"
+                            ng-change="listDistricts()" required>
                             <option value="" selected>--Chọn tỉnh thành--</option>
-                            <option ng-repeat="item in cities" value={{item.name}}_{{item.id}}>
+                            <option ng-repeat="item in cities"
+                                value={{item.name}}_{{item.id}}>
                                 {{item.name}}</option>
                         </select>
                     </div>
 
                     <div class="col-xs-3">
-                        <select class="form-control" id="district" aria-label=".form-select-sm"
-                            ng-selected="dataForm.district" ng-model="dataForm.district" ng-change="listWards()"
+                        <select class="form-control district" id="district"
+                            aria-label=".form-select-sm"
+                            ng-selected="dataForm.district"
+                            ng-model="dataForm.district" ng-change="listWards()"
                             required>
                             <option value="" selected>--Chọn quân/huyện--</option>
-                            <option ng-repeat="item in districts" value={{item.nameId}}>
+                            <option ng-repeat="item in districts"
+                                value={{item.nameId}}>
                                 {{item.name}}</option>
                         </select>
                     </div>
                     <div class="col-xs-4">
-                        <select class="form-control" id="ward" aria-label=".form-select-sm" ng-selected="dataForm.ward"
+                        <select class="form-control ward" id="ward"
+                            aria-label=".form-select-sm"
+                            ng-selected="dataForm.ward"
                             ng-model="dataForm.ward" required>
                             <option value="" selected>--Chọn phường/xã--</option>
-                            <option ng-repeat="item in wards" value={{item.nameId}}>{{item.nameId}}</option>
+                            <option ng-repeat="item in wards"
+                                value={{item.nameId}}>{{item.nameId}}</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-2 control-label" for="ip">Địa chỉ IP</label>
                     <div class="col-xs-4">
-                        <input ng-model="dataForm.ip" name="ip" type="text" class="form-control" id="ip"
+                        <input ng-model="dataForm.ip" name="ip" type="text"
+                            class="form-control" id="ip"
                             placeholder="nhập địa chỉ IP" required>
                     </div>
                     <label class="col-xs-2 control-label" for="upload-file">File</label>
                     <div class="col-xs-4">
                         <label for="upload-file" class="btn btn-primary">Tải
                             file lên</label>
-                        <input type="file" id="upload-file" ng-model="dataForm.streamfile" accept=".mp3"
+                        <input type="file" id="upload-file"
+                            ng-model="dataForm.streamfile" accept=".mp3"
                             style="display: none;"><br>
                         <span id="file-name"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-2 control-label" for="c_content">Nội dung PT</label>
+                    <label class="col-xs-2 control-label" for="c_content">Nội
+                        dung PT</label>
                     <div class="col-xs-10">
-                        <textarea name="c_content" id="c_content" rows="4" ng-model="dataForm.c_content" type="text"
-                            class="form-control" placeholder="Nhập nội dung phát thanh"></textarea>
+                        <textarea name="c_content" id="c_content" rows="4"
+                            ng-model="dataForm.c_content" type="text"
+                            class="form-control" placeholder="Nhập nội dung phát
+                            thanh"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-2 control-label" for="c_approval">Tình
                         trạng duyệt</label>
                     <div class="col-xs-4">
-                        <select ng-selected="dataForm.c_approval" name="c_approval" ng-model="dataForm.c_approval"
+                        <select ng-selected="dataForm.c_approval"
+                            name="c_approval" ng-model="dataForm.c_approval"
                             class="form-control" required>
                             <option value="" selected>--Chọn một tùy chọn--</option>
                             <option value="A01" selected>Mới tạo</option>
@@ -104,11 +129,13 @@
                         khóa</label>
                     <div class="col-xs-4">
                         <label>
-                            <input type="radio" name="c_allowedit" ng-model="dataForm.c_allowedit" value="1">
+                            <input type="radio" name="c_allowedit"
+                                ng-model="dataForm.c_allowedit" value="1">
                             Có &emsp;
                         </label>
                         <label>
-                            <input type="radio" name="c_allowedit" ng-model="dataForm.c_allowedit" value="0">
+                            <input type="radio" name="c_allowedit"
+                                ng-model="dataForm.c_allowedit" value="0">
                             Không &emsp;
                         </label>
                     </div>
@@ -117,7 +144,8 @@
                     <label class="col-xs-2 control-label" for="status">Tình
                         trạng</label>
                     <div class="col-xs-4">
-                        <select ng-selected="dataForm.status" name="status" ng-model="dataForm.status"
+                        <select ng-selected="dataForm.status" name="status"
+                            ng-model="dataForm.status"
                             class="form-control" required>
                             <option value="" selected>--Chọn một tùy chọn--</option>
                             <option value="RS01" selected>Chờ phát thanh</option>
@@ -130,20 +158,24 @@
                     <label for="broadcaster" class="col-sm-2 control-label">Người
                         phát</label>
                     <div class="col-sm-4">
-                        <input ng-model="dataForm.broadcaster" name="broadcaster" type="text" class="form-control"
-                            id="broadcaster" placeholder="Nhập người phát" required>
+                        <input ng-model="dataForm.broadcaster"
+                            name="broadcaster" type="text" class="form-control"
+                            id="broadcaster" placeholder="Nhập người phát"
+                            required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-2 control-label" for="starttime">Bắt
                         đầu</label>
                     <div class="col-xs-4">
-                        <input ng-model="dataForm.starttime" name="starttime" type="datetime-local" class="form-control"
+                        <input ng-model="dataForm.starttime" name="starttime"
+                            type="datetime-local" class="form-control"
                             id="starttime" required>
                     </div>
                     <label class="col-xs-2 control-label" for="endtime">Kết thúc</label>
                     <div class="col-xs-4">
-                        <input ng-model="dataForm.endtime" name="endtime" type="datetime-local" class="form-control"
+                        <input ng-model="dataForm.endtime" name="endtime"
+                            type="datetime-local" class="form-control"
                             id="endtime" required>
                     </div>
                 </div>
@@ -151,8 +183,10 @@
                     <label for="description" class="col-sm-2 control-label">Ghi
                         chú</label>
                     <div class="col-xs-10">
-                        <textarea name="description" id="description" rows="2" ng-model="dataForm.description"
-                            type="text" class="form-control" placeholder="Nhập mô tả"></textarea>
+                        <textarea name="description" id="description" rows="2"
+                            ng-model="dataForm.description"
+                            type="text" class="form-control" placeholder="Nhập
+                            mô tả"></textarea>
                     </div>
                 </div>
 
@@ -168,6 +202,11 @@
 </div>
 
 <script>
+     $(document).ready(function() {
+    $('.city').select2();
+    $('.district').select2();
+    $('.ward').select2();
+});
     document.getElementById("starttime").addEventListener("change", checkBothDatesFilled);
     document.getElementById("endtime").addEventListener("change", checkBothDatesFilled);
 
@@ -183,14 +222,14 @@
         }
     }
     // ==========================================================
-    const input = document.getElementById("upload-file");
-    const fileName = document.getElementById("file-name");
-    input.addEventListener("change", function (event) {
-        const file = event.target.files[0];
-        fileName.textContent = file.name;
-    });
+    // const file_input = document.getElementById("upload-file");
+    // const fileName = document.getElementById("file-name");
+    // file_input.addEventListener("change", function (event) {
+    //     const file = event.target.files[0];
+    //     fileName.textContent = file.name;
+    // });
     // ==========================================================
-    const inputElement = document.getElementById('playSearch');
+    (function() {const inputElement = document.getElementById('playSearch');
     const ulElement = document.querySelector('.radiostreaming_rule_ul');
     document.addEventListener('click', (event) => {
         const isClickInsideInput = inputElement.contains(event.target);
@@ -201,4 +240,5 @@
     inputElement.addEventListener('click', () => {
         ulElement.style.display = 'block';
     });
+})();
 </script>

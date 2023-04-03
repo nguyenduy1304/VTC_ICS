@@ -40,7 +40,7 @@
             <div class="form-group">
                 <label for="city" class="col-xs-2 control-label">Địa chỉ</label>
                 <div class="col-xs-3">
-                    <select class="form-control" aria-label=".form-select-sm" style="padding: 5px;"
+                    <select class="form-control city" aria-label=".form-select-sm" style="padding: 5px;"
                         ng-selected="dataForm.city" ng-model="dataForm.city" ng-change="listDistricts()" required>
                         <option value="" selected>--Chọn tỉnh thành--</option>
                         <option ng-repeat="item in cities" value={{item.name}}_{{item.id}}>
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="col-xs-3">
-                    <select class="form-control" id="district" aria-label=".form-select-sm"
+                    <select class="form-control district" id="district" aria-label=".form-select-sm"
                         ng-selected="dataForm.district" ng-model="dataForm.district" ng-change="listWards()" required>
                         <option value="" selected>--Chọn quân/huyện--</option>
                         <option ng-repeat="item in districts" value={{item.nameId}}>
@@ -57,7 +57,7 @@
                     </select>
                 </div>
                 <div class="col-xs-4">
-                    <select class="form-control" id="ward" aria-label=".form-select-sm" ng-selected="dataForm.ward"
+                    <select class="form-control ward" id="ward" aria-label=".form-select-sm" ng-selected="dataForm.ward"
                         ng-model="dataForm.ward" required>
                         <option value="" selected>--Chọn phường/xã--</option>
                         <option ng-repeat="item in wards" value={{item.nameId}}>{{item.nameId}}</option>
@@ -365,9 +365,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-2 control-label" for="city">Tỉnh/Tp</label>
+                <label class="col-sm-2 control-label" for="city">Tỉnh/Tp</label>
                 <div class="col-xs-4">
-                    <select ng-selected="dataForm.city" class="form-control" ng-model="dataForm.city"
+                    <select ng-selected="dataForm.city" class="form-control city" ng-model="dataForm.city"
                         ng-change="listDistricts()" required>
                         <option value="" selected>--Chọn tỉnh thành--</option>
                         <option ng-repeat="item in cities" value={{item.name}}_{{item.id}}>
@@ -387,7 +387,7 @@
             <div class="form-group">
                 <label class="col-xs-2 control-label" for="district">Quận/Huyện</label>
                 <div class="col-xs-4">
-                    <select ng-selected="dataForm.district" class="form-control" ng-model="dataForm.district"
+                    <select ng-selected="dataForm.district" class="form-control district" ng-model="dataForm.district"
                         ng-change="listWards()" required>
                         <option value="" selected>--Chọn huyện--</option>
                         <option ng-repeat="item in districts" value={{item.nameId}}>
@@ -407,7 +407,7 @@
             <div class="form-group">
                 <label class="col-xs-2 control-label" for="ward">Phường/Xã</label>
                 <div class="col-xs-4">
-                    <select class="form-control" ng-selected="dataForm.ward" ng-model="dataForm.ward" required>
+                    <select class="form-control ward" ng-selected="dataForm.ward" ng-model="dataForm.ward" required>
                         <option value="" selected>--Chọn phường xã--</option>
                         <option ng-repeat="item in wards" value={{item.nameId}}>{{item.name}}</option>
                     </select>
@@ -563,6 +563,12 @@
 </div>
 
 <script>
+     $(document).ready(function() {
+    $('.city').select2();
+    $('.district').select2();
+    $('.ward').select2();
+});
+
     document.getElementById("starttime").addEventListener("change", checkBothDatesFilled);
     document.getElementById("endtime").addEventListener("change", checkBothDatesFilled);
 
@@ -576,14 +582,15 @@
         }
     }
     // //Edit========================================
-    const input = document.getElementById("upload-file");
-    const fileName = document.getElementById("file-name");
-    input.addEventListener("change", function (event) {
-        const file = event.target.files[0];
-        fileName.textContent = file.name;
-    });
+    // const input = document.getElementById("upload-file");
+    // const fileName = document.getElementById("file-name");
+    // input.addEventListener("change", function (event) {
+    //     const file = event.target.files[0];
+    //     fileName.textContent = file.name;
+    // });
     //===============================================================================
-    const inputElementc_radiolibraryId = document.getElementById('c_radiolibraryId');
+    (function() {
+        const inputElementc_radiolibraryId = document.getElementById('c_radiolibraryId');
     const ulElementc_radiolibraryId = document.querySelector('.c_radiolibraryId');
     document.addEventListener('click', (event) => {
         const isClickInsideInput = inputElementc_radiolibraryId.contains(event.target);
@@ -594,8 +601,12 @@
     inputElementc_radiolibraryId.addEventListener('click', () => {
         ulElementc_radiolibraryId.style.display = 'block';
     });
+    })();
+
+    
     //========
-    const inputElementdth = document.getElementById('dthIDSearch');
+    (function() {
+        const inputElementdth = document.getElementById('dthIDSearch');
     const ulElementdth = document.querySelector('.radionode_dthID');
     document.addEventListener('click', (event) => {
         const isClickInsideInput = inputElementdth.contains(event.target);
@@ -606,8 +617,11 @@
     inputElementdth.addEventListener('click', () => {
         ulElementdth.style.display = 'block';
     });
+    })();
+   
     //========
-    const inputElementdthtab3 = document.getElementById('dthID');
+    (function() {
+        const inputElementdthtab3 = document.getElementById('dthID');
     const ulElementdthtab3 = document.querySelector('.radionode_dthID_tab3');
     document.addEventListener('click', (event) => {
         const isClickInsideInput = inputElementdthtab3.contains(event.target);
@@ -618,8 +632,11 @@
     inputElementdthtab3.addEventListener('click', () => {
         ulElementdthtab3.style.display = 'block';
     });
+    })();
+   
     //========
-    const inputElementc_icecastlibrary = document.getElementById('c_icecastlibrary');
+    (function() {
+        const inputElementc_icecastlibrary = document.getElementById('c_icecastlibrary');
     const ulElementc_icecastlibrary = document.querySelector('.c_icecastlibrary');
     document.addEventListener('click', (event) => {
         const isClickInsideInput = inputElementc_icecastlibrary.contains(event.target);
@@ -630,8 +647,11 @@
     inputElementc_icecastlibrary.addEventListener('click', () => {
         ulElementc_icecastlibrary.style.display = 'block';
     });
+    })();
+   
     //========
-    const inputElement = document.getElementById('rule');
+    (function() {
+        const inputElement = document.getElementById('rule');
     const ulElement = document.querySelector('.radiostreaming_rule');
     document.addEventListener('click', (event) => {
         const isClickInsideInput = inputElement.contains(event.target);
@@ -642,6 +662,8 @@
     inputElement.addEventListener('click', () => {
         ulElement.style.display = 'block';
     });
+    })();
+    
     //Check ngày   
     document.getElementById("date_from").addEventListener("change", checkday);
     document.getElementById("date_to").addEventListener("change", checkday);
