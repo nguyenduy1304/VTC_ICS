@@ -21,8 +21,7 @@
                     <label for="dthID" class="col-sm-2 control-label">Trạm phát thanh</label>
                     <div class="col-sm-4">
                         <input id="dthIDSearch" type="text" ng-model="formData.dthID" ng-click="showList = true"
-                            required class="form-control" autocomplete="off" placeholder="Nhập tìm kế hoạch phát thanh"
-                            onBlur="hideList()">
+                            required class="form-control" autocomplete="off" placeholder="Nhập tìm kế hoạch phát thanh">
                         <ul ng-show="showList" class="radiostreaming_rule_ul">
                             <li ng-repeat="radionode in radionodes | filter: formData.dthID"
                                 ng-click="selectRadionode(radionode.name, $event)"
@@ -34,15 +33,17 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="lat" class="col-sm-2 control-label">Kinh độ</label>
+                    <label for="lat" class="col-sm-2 control-label">Vĩ độ</label>
                     <div class="col-xs-4">
                         <input ng-model="formData.lat" name="lat" type="text" class="form-control" id="lat"
                             placeholder="Nhập kinh độ" required>
+                        <div class="invalid-feedback"></div>
                     </div>
-                    <label for="lng" class="col-sm-2 control-label">Vĩ độ</label>
+                    <label for="lng" class="col-sm-2 control-label">Kinh độ</label>
                     <div class="col-xs-4">
                         <input ng-model="formData.lng" name="lng" type="text" class="form-control" id="lng"
                             placeholder="Nhập vĩ độ" required>
+                        <div class="invalid-feedback"></div>
                     </div>
                 </div>
 
@@ -109,16 +110,29 @@
         </div>
     </div>
 </div>
+
+<script src="./Content/js/validation.js"></script>
 <script>
-    const inputElement = document.getElementById('dthIDSearch');
-    const ulElement = document.querySelector('.radiostreaming_rule_ul');
-    document.addEventListener('click', (event) => {
-        const isClickInsideInput = inputElement.contains(event.target);
-        if (!isClickInsideInput) {
-            ulElement.style.display = 'none';
-        }
+    $(document).ready(function () {
+        $("#lng").on("input", function () {
+            validateLongitude($(this));
+        });
+        $("#lat").on("input", function () {
+            validateLatitude($(this));
+        });
     });
-    inputElement.addEventListener('click', () => {
-        ulElement.style.display = 'block';
-    });
+
+    (function () {
+        const inputElement = document.getElementById('dthIDSearch');
+        const ulElement = document.querySelector('.radiostreaming_rule_ul');
+        document.addEventListener('click', (event) => {
+            const isClickInsideInput = inputElement.contains(event.target);
+            if (!isClickInsideInput) {
+                ulElement.style.display = 'none';
+            }
+        });
+        inputElement.addEventListener('click', () => {
+            ulElement.style.display = 'block';
+        });
+    })();
 </script>

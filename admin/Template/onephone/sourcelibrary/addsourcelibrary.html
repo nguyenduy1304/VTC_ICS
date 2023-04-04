@@ -48,7 +48,8 @@
             <label class="col-xs-2 control-label" for="miclevel">Âm lượng</label>
             <div class="col-xs-4">
                 <input type="text" ng-model="dataForm.miclevel" id="miclevel" name="miclevel" class="form-control"
-                    placeholder="Nhập âm lượng MIC ( từ 0 - 54)" required min="1" max="54">
+                    placeholder="Nhập âm lượng MIC ( từ 0 - 54)" required>
+                <div class="invalid-feedback"></div>
             </div>
         </div>
         <div class="form-group" style="margin:0;margin-bottom:15px">
@@ -71,7 +72,7 @@
 
             <label class="col-xs-2 control-label" for="districId">Quận/Huyện</label>
             <div class="col-xs-4">
-                <select ng-selected="dataForm.districId" class="form-control distric"  ng-model="dataForm.districId"
+                <select ng-selected="dataForm.districId" class="form-control district" ng-model="dataForm.districId"
                     ng-change="listWards()" required>
                     <option value="" selected>--Chọn huyện--</option>
                     <option ng-repeat="item in districts" value={{item.nameId}}>
@@ -127,10 +128,15 @@
         </div>
     </form>
 </div>
+
 <script>
-     $(document).ready(function() {
-    $('.province').select2();
-    $('.district').select2();
-    $('.ward').select2();
-});
+    $(document).ready(function () {
+        $("#miclevel").on("input", function () {
+            validateMicLevel($(this));
+        });
+
+        $('.province').select2();
+        $('.district').select2();
+        $('.ward').select2();
+    });
 </script>

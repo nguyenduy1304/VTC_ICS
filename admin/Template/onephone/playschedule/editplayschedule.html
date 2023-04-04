@@ -245,8 +245,6 @@
 </div>
 
 <script>
-
-    //===============================================================================
     function edit_week_day() {
         var inputs = document.querySelectorAll("#week_day input[type='checkbox']");
         for (var i = 0; i < inputs.length; i++) {
@@ -268,19 +266,19 @@
             inputs[i].checked = false;
         }
     }
-
-    const inputElement = document.getElementById('dthIDSearch');
-    const ulElement = document.querySelector('.radiostreaming_rule_ul');
-    document.addEventListener('click', (event) => {
-        const isClickInsideInput = inputElement.contains(event.target);
-        if (!isClickInsideInput) {
-            ulElement.style.display = 'none';
-        }
-    });
-    inputElement.addEventListener('click', () => {
-        ulElement.style.display = 'block';
-    });
-
+    (function () {
+        const inputElement = document.getElementById('dthIDSearch');
+        const ulElement = document.querySelector('.radiostreaming_rule_ul');
+        document.addEventListener('click', (event) => {
+            const isClickInsideInput = inputElement.contains(event.target);
+            if (!isClickInsideInput) {
+                ulElement.style.display = 'none';
+            }
+        });
+        inputElement.addEventListener('click', () => {
+            ulElement.style.display = 'block';
+        });
+    })();
     //Check ngày   
     document.getElementById("date_from").addEventListener("change", checkday);
     document.getElementById("date_to").addEventListener("change", checkday);

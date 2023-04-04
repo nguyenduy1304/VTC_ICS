@@ -134,45 +134,47 @@
             </div>
         </div>
     </form>
-
-
 </div>
 <script>
-    //======================================================================
-    const inputElementc_radiolibraryId1 = document.getElementById('c_radiolibraryId');
-    const ulElementc_radiolibraryId1 = document.querySelector('.c_radiolibraryId');
-    document.addEventListener('click', (event) => {
-        const isClickInsideInput = inputElementc_radiolibraryId1.contains(event.target);
-        if (!isClickInsideInput) {
-            ulElementc_radiolibraryId1.style.display = 'none';
-        }
-    });
-    inputElementc_radiolibraryId1.addEventListener('click', () => {
-        ulElementc_radiolibraryId1.style.display = 'block';
-    });
+    (function () {
+        const inputElementc_radiolibraryId1 = document.getElementById('c_radiolibraryId');
+        const ulElementc_radiolibraryId1 = document.querySelector('.c_radiolibraryId');
+        document.addEventListener('click', (event) => {
+            const isClickInsideInput = inputElementc_radiolibraryId1.contains(event.target);
+            if (!isClickInsideInput) {
+                ulElementc_radiolibraryId1.style.display = 'none';
+            }
+        });
+        inputElementc_radiolibraryId1.addEventListener('click', () => {
+            ulElementc_radiolibraryId1.style.display = 'block';
+        });
+    })();
     //========
-    const inputElementdth1 = document.getElementById('dthIDSearch');
-    const ulElementdth1 = document.querySelector('.radionode_dthID');
-    document.addEventListener('click', (event) => {
-        const isClickInsideInput = inputElementdth1.contains(event.target);
-        if (!isClickInsideInput) {
-            ulElementdth1.style.display = 'none';
-        }
-    });
-    inputElementdth1.addEventListener('click', () => {
-        ulElementdth1.style.display = 'block';
-    });
+    (function () {
+        const inputElementdth1 = document.getElementById('dthIDSearch');
+        const ulElementdth1 = document.querySelector('.radionode_dthID');
+        document.addEventListener('click', (event) => {
+            const isClickInsideInput = inputElementdth1.contains(event.target);
+            if (!isClickInsideInput) {
+                ulElementdth1.style.display = 'none';
+            }
+        });
+        inputElementdth1.addEventListener('click', () => {
+            ulElementdth1.style.display = 'block';
+        });
+    })();
     //========
-    const inputElementc_icecastlibrary1 = document.getElementById('c_icecastlibrary');
-    const ulElementc_icecastlibrary1 = document.querySelector('.c_icecastlibrary');
-    document.addEventListener('click', (event) => {
-        const isClickInsideInput = inputElementc_icecastlibrary1.contains(event.target);
-        if (!isClickInsideInput) {
-            ulElementc_icecastlibrary1.style.display = 'none';
-        }
-    });
-    inputElementc_icecastlibrary1.addEventListener('click', () => {
-        ulElementc_icecastlibrary1.style.display = 'block';
-    });
-
+    (function () {
+        const inputElementc_icecastlibrary1 = document.getElementById('c_icecastlibrary');
+        const ulElementc_icecastlibrary1 = document.querySelector('.c_icecastlibrary');
+        document.addEventListener('click', (event) => {
+            const isClickInsideInput = inputElementc_icecastlibrary1.contains(event.target);
+            if (!isClickInsideInput) {
+                ulElementc_icecastlibrary1.style.display = 'none';
+            }
+        });
+        inputElementc_icecastlibrary1.addEventListener('click', () => {
+            ulElementc_icecastlibrary1.style.display = 'block';
+        });
+    })();
 </script>

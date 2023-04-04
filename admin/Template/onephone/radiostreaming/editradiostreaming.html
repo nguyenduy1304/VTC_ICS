@@ -24,68 +24,6 @@
                     <input ng-model="dataForm.name" name="name" type="text" class="form-control" id="name"
                         placeholder="Nhập tên phát thanh" required>
                 </div>
-                <label for="rule" class="col-sm-2 control-label">Kế hoạch PT</label>
-                <div class="col-sm-4">
-                    <input id="rule" type="text" ng-model="dataForm.rule" ng-click="showList = true"
-                        class="form-control" autocomplete="off" required>
-                    <ul ng-show="showList" class="radiostreaming_rule">
-                        <li ng-repeat="playschedule in playschedules | filter: dataForm.rule"
-                            ng-click="selectPlayschedule(playschedule.name, $event)"
-                            class="radiostreaming_rule form-control" data-name-id="{{playschedule.nameId}}">
-                            {{playschedule.name}}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="city" class="col-xs-2 control-label">Địa chỉ</label>
-                <div class="col-xs-3">
-                    <select class="form-control city" aria-label=".form-select-sm" style="padding: 5px;"
-                        ng-selected="dataForm.city" ng-model="dataForm.city" ng-change="listDistricts()" required>
-                        <option value="" selected>--Chọn tỉnh thành--</option>
-                        <option ng-repeat="item in cities" value={{item.name}}_{{item.id}}>
-                            {{item.name}}</option>
-                    </select>
-                </div>
-
-                <div class="col-xs-3">
-                    <select class="form-control district" id="district" aria-label=".form-select-sm"
-                        ng-selected="dataForm.district" ng-model="dataForm.district" ng-change="listWards()" required>
-                        <option value="" selected>--Chọn quân/huyện--</option>
-                        <option ng-repeat="item in districts" value={{item.nameId}}>
-                            {{item.name}}</option>
-                    </select>
-                </div>
-                <div class="col-xs-4">
-                    <select class="form-control ward" id="ward" aria-label=".form-select-sm" ng-selected="dataForm.ward"
-                        ng-model="dataForm.ward" required>
-                        <option value="" selected>--Chọn phường/xã--</option>
-                        <option ng-repeat="item in wards" value={{item.nameId}}>{{item.nameId}}</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-2 control-label" for="ip">Địa chỉ IP</label>
-                <div class="col-xs-4">
-                    <input ng-model="dataForm.ip" name="ip" type="text" class="form-control" id="ip"
-                        placeholder="nhập địa chỉ IP" required>
-                </div>
-                <label class="col-xs-2 control-label" for="upload-file">File</label>
-                <div class="col-xs-4">
-                    <label for="upload-file" class="btn btn-primary">Tải file lên</label>
-                    <input type="file" id="upload-file" ng-model="dataForm.streamfile" accept=".mp3"
-                        style="display: none;"><br>
-                    <span id="file-name"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-2 control-label" for="c_content">Nội dung PT</label>
-                <div class="col-xs-10">
-                    <textarea name="c_content" id="c_content" rows="4" ng-model="dataForm.c_content" type="text"
-                        class="form-control" placeholder="Nhập nội dung phát thanh"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-xs-2 control-label" for="c_approval">Tình trạng duyệt</label>
                 <div class="col-xs-4">
                     <select ng-selected="dataForm.c_approval" name="c_approval" ng-model="dataForm.c_approval"
@@ -98,19 +36,17 @@
                         <option value="A05" selected>Từ chối</option>
                     </select>
                 </div>
-                <label class="col-xs-2 control-label" for="c_allowedit">Đã khóa</label>
-                <div class="col-xs-4">
-                    <label>
-                        <input type="radio" name="c_allowedit" ng-model="dataForm.c_allowedit" value="1">
-                        Có &emsp;
-                    </label>
-                    <label>
-                        <input type="radio" name="c_allowedit" ng-model="dataForm.c_allowedit" value="0">
-                        Không &emsp;
-                    </label>
-                </div>
             </div>
             <div class="form-group">
+                <label for="city" class="col-xs-2 control-label">Tỉnh/Tp</label>
+                <div class="col-xs-4">
+                    <select class="form-control city" aria-label=".form-select-sm" style="padding: 5px;"
+                        ng-selected="dataForm.city" ng-model="dataForm.city" ng-change="listDistricts()" required>
+                        <option value="" selected>--Chọn tỉnh thành--</option>
+                        <option ng-repeat="item in cities" value={{item.name}}_{{item.id}}>
+                            {{item.name}}</option>
+                    </select>
+                </div>
                 <label class="col-xs-2 control-label" for="status">Tình trạng</label>
                 <div class="col-xs-4">
                     <select ng-selected="dataForm.status" name="status" ng-model="dataForm.status" class="form-control"
@@ -123,10 +59,24 @@
                         <option value="RS05" selected>Kết thúc</option>
                     </select>
                 </div>
-                <label for="broadcaster" class="col-sm-2 control-label">Người phát</label>
-                <div class="col-sm-4">
-                    <input ng-model="dataForm.broadcaster" name="broadcaster" type="text" class="form-control"
-                        id="broadcaster" placeholder="Nhập người phát" required>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-2 control-label" for="district">Quận/huyện</label>
+                <div class="col-xs-4">
+                    <select class="form-control district" id="district" aria-label=".form-select-sm"
+                        ng-selected="dataForm.district" ng-model="dataForm.district" ng-change="listWards()" required>
+                        <option value="" selected>--Chọn quân/huyện--</option>
+                        <option ng-repeat="item in districts" value={{item.nameId}}>
+                            {{item.name}}</option>
+                    </select>
+                </div>
+                <label for="city" class="col-xs-2 control-label">Phường/xã</label>
+                <div class="col-xs-4">
+                    <select class="form-control ward" id="ward" aria-label=".form-select-sm" ng-selected="dataForm.ward"
+                        ng-model="dataForm.ward" required>
+                        <option value="" selected>--Chọn phường/xã--</option>
+                        <option ng-repeat="item in wards" value={{item.nameId}}>{{item.nameId}}</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -178,7 +128,12 @@
                     <td>{{data.name}}</td>
                     <td>{{data.c_radiolibraryId}}</td>
                     <td>{{data.c_playOrder}}</td>
-                    <td>{{data.c_streamfile}}</td>
+                    <td>
+                        {{data.c_streamfile}}
+                        <audio controls ng-src="https://ttn.onephone.online/site/uploads/protected/2022/12/19/nhac_chuan.mp3">
+                        </audio>
+                    </td>
+
                     <td>{{data.c_durationtimeout}}</td>
                     <td>{{data.c_hour_from}}</td>
                     <td>{{data.c_hour_to}}</td>
@@ -345,13 +300,13 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="c_active" class="col-sm-2 control-label">Hoạt động</label>
+                <label for="field" class="col-sm-2 control-label">Lĩnh vực</label>
                 <div class="col-sm-4">
-                    <select ng-selected="dataplayschedules.c_active" name="c_active"
-                        ng-model="dataplayschedules.c_active" class="form-control" required>
-                        <option value="" selected>--Chọn--</option>
-                        <option value="1" selected>Có</option>
-                        <option value="0" selected>Không</option>
+                    <select ng-selected="dataplayschedules.field" name="field" ng-model="dataplayschedules.field "
+                        class="form-control" required>
+                        <option value="" selected>--Chọn một tùy chọn--</option>
+                        <option value="NEWS" selected>Tin tức</option>
+                        <option value="ECON" selected>Kinh tế</option>
                     </select>
                 </div>
                 <label for="c_scheduletype" class="col-sm-2 control-label">Loại kết hoạch</label>
@@ -368,46 +323,27 @@
                 <label class="col-sm-2 control-label" for="city">Tỉnh/Tp</label>
                 <div class="col-xs-4">
                     <select ng-selected="dataForm.city" class="form-control city" ng-model="dataForm.city"
-                        ng-change="listDistricts()" required>
+                        ng-change="listDistricts()" required style="width: 290px;">
                         <option value="" selected>--Chọn tỉnh thành--</option>
                         <option ng-repeat="item in cities" value={{item.name}}_{{item.id}}>
                             {{item.name}}</option>
                     </select>
                 </div>
-                <label for="field" class="col-sm-2 control-label">Lĩnh vực</label>
-                <div class="col-sm-4">
-                    <select ng-selected="dataplayschedules.field" name="field" ng-model="dataplayschedules.field "
-                        class="form-control" required>
-                        <option value="" selected>--Chọn một tùy chọn--</option>
-                        <option value="NEWS" selected>Tin tức</option>
-                        <option value="ECON" selected>Kinh tế</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-xs-2 control-label" for="district">Quận/Huyện</label>
                 <div class="col-xs-4">
                     <select ng-selected="dataForm.district" class="form-control district" ng-model="dataForm.district"
-                        ng-change="listWards()" required>
+                        ng-change="listWards()" required style="width: 290px;">
                         <option value="" selected>--Chọn huyện--</option>
                         <option ng-repeat="item in districts" value={{item.nameId}}>
                             {{item.name}}</option>
-                    </select>
-                </div>
-                <label class="col-xs-2 control-label" for="type">Phân loại</label>
-                <div class="col-xs-4">
-                    <select ng-selected="dataplayschedules.type" name="type" ng-model="dataplayschedules.type "
-                        class="form-control" required>
-                        <option value="" selected>--Chọn một tùy chọn--</option>
-                        <option value="TYPE1" selected>Loại 1</option>
-                        <option value="TYPE2" selected>Loại 2</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-2 control-label" for="ward">Phường/Xã</label>
                 <div class="col-xs-4">
-                    <select class="form-control ward" ng-selected="dataForm.ward" ng-model="dataForm.ward" required>
+                    <select class="form-control ward" ng-selected="dataForm.ward" ng-model="dataForm.ward" required
+                        style="width: 290px;">
                         <option value="" selected>--Chọn phường xã--</option>
                         <option ng-repeat="item in wards" value={{item.nameId}}>{{item.name}}</option>
                     </select>
@@ -511,7 +447,7 @@
                     <label>
                         <button type="button" class="btn_all" ng-click="select_all_WeekDay()" id="choose">Chọn tất
                             cả</button>
-                     </label>
+                    </label>
                 </div>
             </div>
 
@@ -561,13 +497,19 @@
     </div>
 </div>
 </div>
+<!-- 
+<style>
+    .select2-container--default .select2-selection--single {
+        width: 290px;
+    }
+</style> -->
 
 <script>
-     $(document).ready(function() {
-    $('.city').select2();
-    $('.district').select2();
-    $('.ward').select2();
-});
+    $(document).ready(function () {
+        $('.city').select2();
+        $('.district').select2();
+        $('.ward').select2();
+    });
 
     document.getElementById("starttime").addEventListener("change", checkBothDatesFilled);
     document.getElementById("endtime").addEventListener("change", checkBothDatesFilled);
@@ -589,81 +531,67 @@
     //     fileName.textContent = file.name;
     // });
     //===============================================================================
-    (function() {
+    (function () {
         const inputElementc_radiolibraryId = document.getElementById('c_radiolibraryId');
-    const ulElementc_radiolibraryId = document.querySelector('.c_radiolibraryId');
-    document.addEventListener('click', (event) => {
-        const isClickInsideInput = inputElementc_radiolibraryId.contains(event.target);
-        if (!isClickInsideInput) {
-            ulElementc_radiolibraryId.style.display = 'none';
-        }
-    });
-    inputElementc_radiolibraryId.addEventListener('click', () => {
-        ulElementc_radiolibraryId.style.display = 'block';
-    });
+        const ulElementc_radiolibraryId = document.querySelector('.c_radiolibraryId');
+        document.addEventListener('click', (event) => {
+            const isClickInsideInput = inputElementc_radiolibraryId.contains(event.target);
+            if (!isClickInsideInput) {
+                ulElementc_radiolibraryId.style.display = 'none';
+            }
+        });
+        inputElementc_radiolibraryId.addEventListener('click', () => {
+            ulElementc_radiolibraryId.style.display = 'block';
+        });
     })();
 
-    
+
     //========
-    (function() {
+    (function () {
         const inputElementdth = document.getElementById('dthIDSearch');
-    const ulElementdth = document.querySelector('.radionode_dthID');
-    document.addEventListener('click', (event) => {
-        const isClickInsideInput = inputElementdth.contains(event.target);
-        if (!isClickInsideInput) {
-            ulElementdth.style.display = 'none';
-        }
-    });
-    inputElementdth.addEventListener('click', () => {
-        ulElementdth.style.display = 'block';
-    });
+        const ulElementdth = document.querySelector('.radionode_dthID');
+        document.addEventListener('click', (event) => {
+            const isClickInsideInput = inputElementdth.contains(event.target);
+            if (!isClickInsideInput) {
+                ulElementdth.style.display = 'none';
+            }
+        });
+        inputElementdth.addEventListener('click', () => {
+            ulElementdth.style.display = 'block';
+        });
     })();
-   
+
     //========
-    (function() {
+    (function () {
         const inputElementdthtab3 = document.getElementById('dthID');
-    const ulElementdthtab3 = document.querySelector('.radionode_dthID_tab3');
-    document.addEventListener('click', (event) => {
-        const isClickInsideInput = inputElementdthtab3.contains(event.target);
-        if (!isClickInsideInput) {
-            ulElementdthtab3.style.display = 'none';
-        }
-    });
-    inputElementdthtab3.addEventListener('click', () => {
-        ulElementdthtab3.style.display = 'block';
-    });
+        const ulElementdthtab3 = document.querySelector('.radionode_dthID_tab3');
+        document.addEventListener('click', (event) => {
+            const isClickInsideInput = inputElementdthtab3.contains(event.target);
+            if (!isClickInsideInput) {
+                ulElementdthtab3.style.display = 'none';
+            }
+        });
+        inputElementdthtab3.addEventListener('click', () => {
+            ulElementdthtab3.style.display = 'block';
+        });
     })();
-   
+
     //========
-    (function() {
+    (function () {
         const inputElementc_icecastlibrary = document.getElementById('c_icecastlibrary');
-    const ulElementc_icecastlibrary = document.querySelector('.c_icecastlibrary');
-    document.addEventListener('click', (event) => {
-        const isClickInsideInput = inputElementc_icecastlibrary.contains(event.target);
-        if (!isClickInsideInput) {
-            ulElementc_icecastlibrary.style.display = 'none';
-        }
-    });
-    inputElementc_icecastlibrary.addEventListener('click', () => {
-        ulElementc_icecastlibrary.style.display = 'block';
-    });
+        const ulElementc_icecastlibrary = document.querySelector('.c_icecastlibrary');
+        document.addEventListener('click', (event) => {
+            const isClickInsideInput = inputElementc_icecastlibrary.contains(event.target);
+            if (!isClickInsideInput) {
+                ulElementc_icecastlibrary.style.display = 'none';
+            }
+        });
+        inputElementc_icecastlibrary.addEventListener('click', () => {
+            ulElementc_icecastlibrary.style.display = 'block';
+        });
     })();
-   
-    //========
-    (function() {
-        const inputElement = document.getElementById('rule');
-    const ulElement = document.querySelector('.radiostreaming_rule');
-    document.addEventListener('click', (event) => {
-        const isClickInsideInput = inputElement.contains(event.target);
-        if (!isClickInsideInput) {
-            ulElement.style.display = 'none';
-        }
-    });
-    inputElement.addEventListener('click', () => {
-        ulElement.style.display = 'block';
-    });
-    })();
-    
+
+
     //Check ngày   
     document.getElementById("date_from").addEventListener("change", checkday);
     document.getElementById("date_to").addEventListener("change", checkday);

@@ -2,10 +2,9 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung">Trang chủ</a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">Đài truyền thanh ứng dụng CNTT - VT</li>
+        <li class="breadcrumb-item active" aria-current="page">Lịch phát thanh</li>
     </ol>
 </nav>
-
 <div>
     <div class="input-group" style="width: 40%; float: left">
         <input class="form-control" type="text" ng-model="searchKeyword" placeholder="Nhập từ khóa tìm kiếm">
@@ -14,36 +13,47 @@
     <div class=" row" style="margin:0">
 
         <div class="function">
-            <a class="glyphicon glyphicon-plus icon"
-                href="../index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung/them"></a>
+            <a class="glyphicon glyphicon-plus icon" href="../index.html#!/quan-ly-thiet-bi/lich-phat/them"></a>
         </div>
     </div>
 </div>
-
 <div>
     <table class="table table-bordered table-hover table-striped table-actived" style="width:100%;margin-top:10px">
         <thead>
             <tr class="panel-info list-group-item-info">
-                <th style="text-align:center;width:60px">STT</th>
-                <th>Mã</th>
-                <th>Tỉnh</th>
-                <th>Huyện</th>
-                <th>Xã</th>
+                <th style="text-align:center;width:20px;">STT</th>
+                <th style="width:16%;">MÃ_ĐTH CNTT - VT</th>
+                <th style="width:20%;">LỊCH PHÁT</th>
+                <th style="width:18%;">LĨNH VỰC</th>
+                <th style="width:15%;">LOẠI</th>
+                <th style="width:10%;">TRẠNG THÁI</th>
+                <th >GHI CHÚ</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             <tr
                 ng-repeat="item in data | filter:searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
-                <td style="text-align:center">{{$index+1}}</td>
+                <td style="text-align:center">{{$index + 1}}</td>
                 <td>{{item.nameId}}</td>
-                <td>{{item.province}}</td>
-                <td>{{item.districId}}</td>
-                <td>{{item.communeId}}</td>
+                <td>{{item.dthID}}</td>
+                <td>
+                    <span ng-if="item.field == 'NEWS'">Tin tức</span>
+                    <span ng-if="item.field == 'ECON'">Kinh tế</span>
+                </td>
+                <td>
+                    <span ng-if="item.type == 'TYPE1'">Loại 1</span>
+                    <span ng-if="item.type == 'TYPE2'">Loại 2</span>
+                </td>
+                <td>
+                    <span ng-if="item.c_active == 1">Hoạt động</span>
+                    <span ng-if="item.c_active == 0">Đã dừng</span>
+                </td>
+                <td class="truncate">{{item.description}}</td>
                 <td style="text-align:center;">
-                    <a class="glyphicon glyphicon-pencil icon"
-                        href="../index.html#!/quan-ly-thiet-bi/truyen-thanh-ung-dung/cap-nhat/{{item.id}}"></a>
-                    <a class="glyphicon glyphicon-remove icon" ng-click="deleteRadioApp(item.id, item.nameId)"></a>
+                    <!-- <a class="glyphicon glyphicon-pencil icon"
+                        href="/index.html#!/quan-ly-thiet-bi/lich-phat/cap-nhat/{{item.id}}"></a> -->
+                    <a class="glyphicon glyphicon-remove icon" ng-click="deletePlayschedule(item.id,item.nameId)"></a>
                 </td>
             </tr>
         </tbody>

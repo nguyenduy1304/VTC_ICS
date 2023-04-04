@@ -10,7 +10,12 @@
 </nav>
 <div>
     <div style="min-height:1000px;" id="input-invalid">
-        <div>
+        <button class="tablinks active" ng-class="{active: currentTab === 'Tab1'}" ng-click="openTab('Tab1')">Trạm phát
+            thanh</button>
+        <button class="tablinks" ng-class="{active: currentTab === 'Tab2'}" ng-click="openTab('Tab2')">Thiết bị trạm
+            phát thanh </button>
+
+        <div class="tabcontent" ng-show="currentTab === 'Tab1'">
             <form ng-submit="editRadioApp()" class="form-horizontal">
                 <div class="form-group ">
                     <label class="col-xs-2 control-label" for="name">Tên đài</label>
@@ -93,14 +98,14 @@
                     </div>
                 </div>
                 <!-- <div class="form-group ">
-                    <label class="col-xs-2 control-label">Liên kết ICECAST</label>
-                    <div class="col-xs-10">
-                        <label for="upload-file" class="btn btn-primary">Tải file lên</label>
-                        <input type="file" id="upload-file" ng-model="formData.icecast_url" accept=".mp3"
-                            style="display: none;">
-                        <span id="file-name">{{formData.icecast_url}}</span>
-                    </div>
-                </div> -->
+                        <label class="col-xs-2 control-label">Liên kết ICECAST</label>
+                        <div class="col-xs-10">
+                            <label for="upload-file" class="btn btn-primary">Tải file lên</label>
+                            <input type="file" id="upload-file" ng-model="formData.icecast_url" accept=".mp3"
+                                style="display: none;">
+                            <span id="file-name">{{formData.icecast_url}}</span>
+                        </div>
+                    </div> -->
                 <div class="form-group">
                     <label for="description" class="col-sm-2 control-label">Mô tả</label>
                     <div class="col-sm-10">
@@ -115,6 +120,32 @@
                 </div>
             </form>
         </div>
+
+        <div class="tabcontent" ng-show="currentTab === 'Tab2'">
+            <table class="table table-bordered table-hover table-striped table-actived"
+                style="width:100%;margin-top:10px">
+                <thead>
+                    <tr class="panel-info list-group-item-info" style="text-transform: uppercase;font-weight: bold;">
+                        <th style="text-align:center;width:40px">STT</th>
+                        <th>Tên thiết bị</th>
+                        <th>Mã thiết bị</th>
+                        <th>Loại thiết bị</th>
+                        <th>Vị trí</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="data in ippbxextenlocations">
+                        <td style="text-align:center">{{$index +1}}</td>
+                        <td>{{data.name}}</td>
+                        <td>{{data.nameId}}</td>
+                        <td>{{data.c_endpointtype}}</td>
+                        <td>{{item.latitude}}, {{item.longitude}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
     </div>
 </div>
 <!-- <script>
@@ -127,9 +158,9 @@
     });
 </script> -->
 <script>
-    $(document).ready(function() {
-    $('.province').select2();
-    $('.districId').select2();
-    $('.communeId').select2();
-});
+    $(document).ready(function () {
+        $('.province').select2();
+        $('.districId').select2();
+        $('.communeId').select2();
+    });
 </script>

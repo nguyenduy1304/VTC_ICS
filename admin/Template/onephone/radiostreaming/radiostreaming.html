@@ -35,9 +35,9 @@
         <td style="text-align:center;">{{$index+1}}</td>
         <td>{{item.name}}</td>
         <td>{{item.confId}}</td>
-        <td>{{item.city}}</td>
-        <td>{{item.district}}</td>
-        <td>{{item.ward}}</td>
+        <td ng-bind="item.city.split('_')[0]"></td>
+        <td ng-bind="item.district.split('_')[0]"></td>
+        <td ng-bind="item.ward.split('_')[0]"></td>
         <td>
           <span ng-if="item.status == 'RS01'">Chờ phát thanh</span>
           <span ng-if="item.status == 'RS02'">Bắt đầu phát thanh</span>
@@ -48,7 +48,7 @@
         </td>
         <td style="text-align:center;">
           <a class="glyphicon glyphicon-pencil icon" href="../index.html#!/phat-thanh/cap-nhat/{{item.id}}"></a>
-          <a class="glyphicon glyphicon-remove icon" ng-click="deleteradiostreaming(item.id,item.name)"></a>
+          <a class="glyphicon glyphicon-remove icon" ng-click="deleteradiostreaming(item.id,item.name,item.rule)"></a>
         </td>
       </tr>
     </tbody>

@@ -51,241 +51,266 @@ var app = angular.module('WebStore', ['ui.router', 'ui.bootstrap', 'angular.filt
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $urlMatcherFactoryProvider) {
     $urlRouterProvider.otherwise('/');
     $stateProvider
-        //#region
+        //#region ĐÀI TRUYỀN THANH CNTT - VT
         .state('manageRadioApp', {
             url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung',
             cache: false,
             controller: 'manageRadioApp',
-            templateUrl: window.templateUrl + "/manageDevice/radioApp.html"
+            templateUrl: window.templateUrl + "/onephone/radioapp/radioApp.html"
         })
         .state('editRadioApp', {
             url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung/cap-nhat/:id',
             cache: false,
             controller: 'editRadioApp',
-            templateUrl: window.templateUrl + "/manageDevice/editRadioApp.html"
+            templateUrl: window.templateUrl + "/onephone/radioapp/editRadioApp.html"
         })
         .state('addRadioApp', {
             url: '/quan-ly-thiet-bi/truyen-thanh-ung-dung/them',
             cache: false,
             controller: 'addRadioApp',
-            templateUrl: window.templateUrl + "/manageDevice/addRadioApp.html"
+            templateUrl: window.templateUrl + "/onephone/radioapp/addRadioApp.html"
         })
+        //#endregion
+
+        //#region QUẢN LÝ THIẾT BỊ
         .state('manageDevice', {
             url: '/quan-ly-thiet-bi/thiet-bi',
             cache: false,
             controller: 'manageDevice',
-            templateUrl: window.templateUrl + "/manageDevice/device.html"
+            templateUrl: window.templateUrl + "/onephone/device/device.html"
         })
         .state('editDevice', {
             url: '/quan-ly-thiet-bi/thiet-bi/cap-nhat/:id',
             cache: false,
             controller: 'editDevice',
-            templateUrl: window.templateUrl + "/manageDevice/editDevice.html"
+            templateUrl: window.templateUrl + "/onephone/device/editDevice.html"
         })
         .state('addDevice', {
             url: '/quan-ly-thiet-bi/thiet-bi/them',
             cache: false,
             controller: 'addDevice',
-            templateUrl: window.templateUrl + "/manageDevice/addDevice.html"
+            templateUrl: window.templateUrl + "/onephone/device/addDevice.html"
         })
+        //#endregion
+
+        //#region LỊCH PHÁT THANH
         .state('managePlayschedule', {
             url: '/quan-ly-thiet-bi/lich-phat',
             cache: false,
             controller: 'managePlayschedule',
-            templateUrl: window.templateUrl + "/manageDevice/playschedule.html"
+            templateUrl: window.templateUrl + "/onephone/playschedule/playschedule.html"
         })
         .state('editPlayschedule', {
             url: '/quan-ly-thiet-bi/lich-phat/cap-nhat/:id',
             cache: false,
             controller: 'editPlayschedule',
-            templateUrl: window.templateUrl + "/manageDevice/editplayschedule.html"
+            templateUrl: window.templateUrl + "/onephone/playschedule/editplayschedule.html"
         })
         .state('addPlayschedule', {
             url: '/quan-ly-thiet-bi/lich-phat/them',
             cache: false,
             controller: 'addPlayschedule',
-            templateUrl: window.templateUrl + "/manageDevice/addplayschedule.html"
+            templateUrl: window.templateUrl + "/onephone/playschedule/addplayschedule.html"
         })
+        //#endregion
+
+        //#region BẢNG TIN CỘNG ĐỒNG
         .state('managePublicNews', {
             url: '/quan-ly-thiet-bi/bang-tin-cong-cong',
             cache: false,
             controller: 'managePublicNews',
-            templateUrl: window.templateUrl + "/manageDevice/publicNews.html"
+            templateUrl: window.templateUrl + "/onephone/publicnews/publicNews.html"
         })
         .state('editPublicNews', {
             url: '/quan-ly-thiet-bi/bang-tin-cong-cong/cap-nhat/:id',
             cache: false,
             controller: 'editPublicNews',
-            templateUrl: window.templateUrl + "/manageDevice/editPublicNews.html"
+            templateUrl: window.templateUrl + "/onephone/publicnews/editPublicNews.html"
         })
         .state('addPublicNews', {
             url: '/quan-ly-thiet-bi/bang-tin-cong-cong/them',
             cache: false,
             controller: 'addPublicNews',
-            templateUrl: window.templateUrl + "/manageDevice/addPublicNews.html"
+            templateUrl: window.templateUrl + "/onephone/publicnews/addPublicNews.html"
         })
         //#endregion
 
-        //thư viện nguồn============
+        //#region THƯ VIỆN NGUỒN
         .state('onephone-sourcelibrary', {
             url: '/thu-vien-nguon',
             allowAnonymous: true,
             controller: 'sourcelibraryCtrl',
-            templateUrl: window.templateUrl + "/onephone/index.html"
+            templateUrl: window.templateUrl + "/onephone/sourcelibrary/index.html"
         })
         .state('onephone-add_sourcelibrary', {
             url: '/them-thu-vien-nguon',
             allowAnonymous: true,
             controller: 'add_sourcelibraryCtrl',
-            templateUrl: window.templateUrl + "/onephone/addsourcelibrary.html"
+            templateUrl: window.templateUrl + "/onephone/sourcelibrary/addsourcelibrary.html"
         })
         .state('onephone-edit_sourcelibrary', {
             url: '/cap-nhat-thu-vien-nguon/:id',
             allowAnonymous: true,
             controller: 'edit_sourcelibraryCtrl',
-            templateUrl: window.templateUrl + "/onephone/editsourcelibrary.html"
+            templateUrl: window.templateUrl + "/onephone/sourcelibrary/editsourcelibrary.html"
         })
-        //Báo cáo thống kê=================
+        //#endregion
+
+        //#region BÁO CÁO - THỐNG KÊ
         .state('onephone-reportstatistical', {
             url: '/bao-cao-thong-ke',
             allowAnonymous: true,
             controller: 'reportstatisticalCtrl',
-            templateUrl: window.templateUrl + "/onephone/reportstatistical.html"
+            templateUrl: window.templateUrl + "/onephone/reports/reportstatistical.html"
         })
         .state('onephone-reportnews', {
             url: '/bao-cao-thong-ke-ban-tin',
             allowAnonymous: true,
             controller: 'reportnewsCtrl',
-            templateUrl: window.templateUrl + "/onephone/reportnews.html"
+            templateUrl: window.templateUrl + "/onephone/reports/reportnews.html"
         })
         .state('onephone-reportnewsmedia', {
             url: '/bao-cao-thong-ke-ban-tin-media',
             allowAnonymous: true,
             controller: 'reportnewsmediaCtrl',
-            templateUrl: window.templateUrl + "/onephone/reportnewsmedia.html"
+            templateUrl: window.templateUrl + "/onephone/reports/reportnewsmedia.html"
         })
-        //Kiến nghị người dân ================
+        //#endregion
+
+        //#region KIẾN NGHỊ NGƯỜI DÙNG
         .state('onephone-recommend', {
             url: '/kien-nghi-cua-nguoi-dan',
             allowAnonymous: true,
             controller: 'recommendCtrl',
-            templateUrl: window.templateUrl + "/onephone/recommend.html"
+            templateUrl: window.templateUrl + "/onephone/recommend/recommend.html"
         })
         .state('onephone-add_recommend', {
             url: '/them-kien-nghi-cua-nguoi-dan',
             allowAnonymous: true,
             controller: 'add_recommendCtrl',
-            templateUrl: window.templateUrl + "/onephone/addrecommend.html"
+            templateUrl: window.templateUrl + "/onephone/recommend/addrecommend.html"
         })
         .state('onephone-edit_recommend', {
             url: '/cap-nhat-kien-nghi-cua-nguoi-dan/:id',
             allowAnonymous: true,
             controller: 'edit_recommendCtrl',
-            templateUrl: window.templateUrl + "/onephone/editrecommend.html"
+            templateUrl: window.templateUrl + "/onephone/recommend/editrecommend.html"
         })
-        //Quản trị tài khoản người dùng ==================
+        //#endregion
+
+        //#region QUẢN TRỊ TÀI KHOẢN NGƯỜI DÙNG
         .state('onephone-manageruser', {
             url: '/quan-tri-tai-khoan-nguoi-dung',
             allowAnonymous: true,
             controller: 'manageruserCtrl',
-            templateUrl: window.templateUrl + "/onephone/manageruser.html"
+            templateUrl: window.templateUrl + "/onephone/manageruser/manageruser.html"
         })
         .state('onephone-add-manageruser', {
             url: '/quan-tri-tai-khoan-nguoi-dung/them-moi',
             allowAnonymous: true,
             controller: 'addmanageruserCtrl',
-            templateUrl: window.templateUrl + "/onephone/addmanageruser.html"
+            templateUrl: window.templateUrl + "/onephone/manageruser/addmanageruser.html"
         })
         .state('onephone-edit-manageruser', {
             url: '/cap-nhat-tai-khoan-nguoi-dung/:id',
             //allowAnonymous: true,
             cache: false,
             controller: 'editmanageruserCtrl',
-            templateUrl: window.templateUrl + "/onephone/editmanageruser.html"
+            templateUrl: window.templateUrl + "/onephone/manageruser/editmanageruser.html"
         })
-        //Quản trị group người dùng =================
+        //#endregion
+
+        //#region QUẢN TRỊ NHÓM NGƯỜI DÙNG
         .state('onephone-managergroupuser', {
             url: '/quan-tri-nhom-nguoi-dung',
             allowAnonymous: true,
             controller: 'managergroupuserCtrl',
-            templateUrl: window.templateUrl + "/onephone/managergroupuser.html"
+            templateUrl: window.templateUrl + "/onephone/managergroupuser/managergroupuser.html"
         })
         .state('onephone-add-managergroupuser', {
             url: '/them-nhom-nguoi-dung',
             allowAnonymous: true,
             controller: 'addmanagergroupuserCtrl',
-            templateUrl: window.templateUrl + "/onephone/addmanagergroupuser.html"
+            templateUrl: window.templateUrl + "/onephone/managergroupuser/addmanagergroupuser.html"
         })
         .state('onephone-edit-managergroupuser', {
             url: '/cap-nhat-nhom-nguoi-dung/:id',
             allowAnonymous: true,
             controller: 'editmanagergroupuserCtrl',
-            templateUrl: window.templateUrl + "/onephone/editmanagergroupuser.html"
+            templateUrl: window.templateUrl + "/onephone/managergroupuser/editmanagergroupuser.html"
         })
-        //Nhật ký người dùng ========================
+        //#endregion
+
+        //#region NHẬT KÝ NGƯỜI DÙNG
         .state('onephone-userlog', {
             url: '/nhat-ky-nguoi-su-dung',
             allowAnonymous: true,
             controller: 'userlogCtrl',
-            templateUrl: window.templateUrl + "/onephone/userlog.html"
+            templateUrl: window.templateUrl + "/onephone/userlog/userlog.html"
         })
         .state('onephone-add-userlog', {
             url: '/nhat-ky-nguoi-su-dung/them-moi',
             allowAnonymous: true,
             controller: 'adduserlogCtrl',
-            templateUrl: window.templateUrl + "/onephone/adduserlog.html"
+            templateUrl: window.templateUrl + "/onephone/userlog/adduserlog.html"
         })
         .state('onephone-edit-userlog', {
             url: '/nhat-ky-nguoi-su-dung/cap-nhat/:id',
             allowAnonymous: true,
             controller: 'edituserlogCtrl',
-            templateUrl: window.templateUrl + "/onephone/edituserlog.html"
+            templateUrl: window.templateUrl + "/onephone/userlog/edituserlog.html"
         })
-        //Phát thanh ========================
+        //#endregion
+
+        //#region PHÁT THANH
         .state('onephone-radiostreaming', {
             url: '/phat-thanh',
             allowAnonymous: true,
             controller: 'radiostreamingCtrl',
-            templateUrl: window.templateUrl + "/onephone/radiostreaming.html"
+            templateUrl: window.templateUrl + "/onephone/radiostreaming/radiostreaming.html"
         })
         .state('onephone-add-radiostreaming', {
             url: '/phat-thanh/them-moi',
             allowAnonymous: true,
             controller: 'addradiostreamingCtrl',
-            templateUrl: window.templateUrl + "/onephone/addradiostreaming.html"
+            templateUrl: window.templateUrl + "/onephone/radiostreaming/addradiostreaming.html"
         })
         .state('onephone-edit-radiostreaming', {
             url: '/phat-thanh/cap-nhat/:id',
             allowAnonymous: true,
             controller: 'editradiostreamingCtrl',
-            templateUrl: window.templateUrl + "/onephone/editradiostreaming.html"
+            templateUrl: window.templateUrl + "/onephone/radiostreaming/editradiostreaming.html"
         })
         .state('onephone-edit-playstream', {
             url: '/phat-thanh/cap-nhat/noi-dung/:id',
             allowAnonymous: true,
             controller: 'editplaystreamCtrl',
-            templateUrl: window.templateUrl + "/onephone/editplaystream.html"
+            templateUrl: window.templateUrl + "/onephone/radiostreaming/editplaystream.html"
         })
-        // //Kho dữ liệu ========================
+        //#endregion
+
+        //#region KHO DỮ LIỆU
         .state('onephone-sourcewharehouse', {
             url: '/kho-du-lieu',
             allowAnonymous: true,
             controller: 'sourcewharehouseCtrl',
-            templateUrl: window.templateUrl + "/onephone/sourcewharehouse.html"
+            templateUrl: window.templateUrl + "/onephone/sourcewharehouse/sourcewharehouse.html"
         })
         .state('onephone-add-sourcewharehouse', {
             url: '/kho-du-lieu/them-moi',
             allowAnonymous: true,
             controller: 'addsourcewharehouseCtrl',
-            templateUrl: window.templateUrl + "/onephone/addsourcewharehouse.html"
+            templateUrl: window.templateUrl + "/onephone/sourcewharehouse/addsourcewharehouse.html"
         })
         .state('onephone-edit-sourcewharehouse', {
             url: '/kho-du-lieu/cap-nhat/:id',
             allowAnonymous: true,
             controller: 'editsourcewharehouseCtrl',
-            templateUrl: window.templateUrl + "/onephone/editsourcewharehouse.html"
+            templateUrl: window.templateUrl + "/onephone/sourcewharehouse/editsourcewharehouse.html"
         })
-        // //Kho dữ liệu ========================
+        //#endregion
+
+        //#region ICECAST URL
         .state('icecast', {
             url: '/icecast-url',
             allowAnonymous: true,
@@ -304,6 +329,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $url
             controller: 'editicecastCtrl',
             templateUrl: window.templateUrl + "/onephone/icecast/editicecast.html"
         })
+    //#endregion
 });
 app.run(function ($window, $rootScope, $q, $http, $location, $log, $timeout, $state, $interval) {
     $rootScope.$watch('$user', function () {
@@ -648,7 +674,7 @@ app.controller('icecastCtrl', function ($dialogConfirm, $http, $scope, $state, $
 });
 //#endregion
 
-//#region PHÁT THANH
+//#region PHÁT THANH    
 app.controller('radiostreamingCtrl', function ($dialogConfirm, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     if (localStorage.getItem('token')) {
         //#region LIST PHÁT THANH
@@ -709,29 +735,50 @@ app.controller('radiostreamingCtrl', function ($dialogConfirm, $http, $scope, $s
         //#endregion
 
         //#region XÓA PHÁT THANH
-        $scope.deleteradiostreaming = function (id, name) {
+        $scope.deleteradiostreaming = function (id, name, rule) {
+            const playscheduleId = parseInt(rule.match(/\d+/)[0]);
+            console.log(playscheduleId);
             $dialogConfirm("Bạn chắc chắn muốn xóa phát thanh có tên <span style='color:red;font-weight:bold;'>" + name + "</span> khỏi hệ thống?", "Xác nhận", function (res) {
                 if (res) {
                     $http({
                         method: 'POST',
-                        url: domain_api + 'delete/model/Radiostreaming',
+                        url: domain_api + 'delete/model/Playschedule',
                         data: new URLSearchParams({
                             user: user,
                             userKey: user_Key,
-                            id: id
+                            id: playscheduleId
                         }).toString(),
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                         }
                     }).then(function successCallback(response) {
                         if (response.status == 200) {
-                            $dialogAlert("Đã xóa phát thanh thành công", "Thông báo!", "success", function (res) {
-                                $window.location.reload();
+                            $http({
+                                method: 'POST',
+                                url: domain_api + 'delete/model/Radiostreaming',
+                                data: new URLSearchParams({
+                                    user: user,
+                                    userKey: user_Key,
+                                    id: id
+                                }).toString(),
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                                }
+                            }).then(function successCallback(response) {
+                                if (response.status == 200) {
+                                    $dialogAlert("Đã xóa phát thanh thành công", "Thông báo!", "success", function (res) {
+                                        $window.location.reload();
+                                    });
+                                }
+                            }, function errorCallback(response) {
+                                $rootScope.checkError(response.data.message, $dialogAlert);
                             });
                         }
                     }, function errorCallback(response) {
                         $rootScope.checkError(response.data.message, $dialogAlert);
                     });
+
+
                 }
             })
         }
@@ -740,8 +787,69 @@ app.controller('radiostreamingCtrl', function ($dialogConfirm, $http, $scope, $s
         $state.go('account$signin');
     }
 });
-app.controller('addradiostreamingCtrl', function (addressService, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
+app.controller('addradiostreamingCtrl', function ($filter, addressService, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     if (localStorage.getItem('token')) {
+        // #region Tab, btn add, close
+        $scope.currentTab = 'Tab1';
+        $scope.openTab = function (tab) {
+            angular.element(document.querySelectorAll('.tab')).removeClass('active');
+            angular.element(document.querySelector('#' + tab)).addClass('active');
+            $scope.currentTab = tab;
+        };
+        //btn thêm, đóng ===================
+        $scope.toggleAdd = function () {
+            var add = document.getElementById("add");
+            if (add.style.display === "none") {
+                add.style.display = "block";
+                $scope.dataForm.dthID = "";
+            } else {
+                add.style.display = "none";
+            }
+        }
+        $scope.toggleClose = function () {
+            var add = document.getElementById("add");
+            if (add.style.display === "block") {
+                add.style.display = "none";
+            } else {
+                add.style.display = "block";
+            }
+        }
+        // #endregion
+
+        // #region TRẠM PHÁT THANH
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Radionode',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.radionodes = arr;
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.formData = {};
+        $scope.formData.dthID = "";
+        $scope.selectedRadionode = "";
+        $scope.showList = false;
+
+        $scope.selectRadionode = function (radionode, event) {
+            $scope.selectedRadionode = radionode;
+            $scope.formData.dthID = radionode;
+            $scope.showList = false;
+            $scope.dthID = event.target.getAttribute('data-name-id');
+        };
+        //#endregion
+
+        //#region ADDRESS
         //citys
         addressService.getCities(user, user_Key, domain_api).then(function (cities) {
             $scope.cities = cities;
@@ -774,76 +882,210 @@ app.controller('addradiostreamingCtrl', function (addressService, $http, $scope,
                 }
             }
         }
-        $http({
-            method: 'POST',
-            url: domain_api + 'lookups/model/Playschedule',
-            data: new URLSearchParams({
-                user: user,
-                userKey: user_Key
-            }).toString(),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            }
-        }).then(function successCallback(response) {
-            const arr = Object.values(response.data);
-            arr.sort(function (a, b) {
-                return b.id - a.id;
-            });
-            $scope.playschedules = arr;
-        }, function errorCallback(response) {
-            $rootScope.checkError(response.data.message, $dialogAlert);
-        });
-        $scope.dataForm = {};
-        $scope.dataForm.rule = "";
-        $scope.selectedPlayschedule = "";
-        $scope.showList = false;
+        //#endregion
 
-        $scope.selectPlayschedule = function (playschedule, event) {
-            $scope.selectedPlayschedule = playschedule;
-            $scope.dataForm.rule = playschedule;
-            $scope.showList = false;
-            $scope.nameId = event.target.getAttribute('data-name-id');
+        //#region Ngày, tuần, tháng
+        $scope.week = '';
+        $scope.day = '';
+        $scope.month = '';
+
+        $scope.toggleWeekDay = function (day) {
+            var index = $scope.week.split(",").indexOf(day.toString());
+            if (index === -1) {
+                $scope.week += day.toString() + ",";
+            } else {
+                var weekArray = $scope.week.split(",");
+                weekArray.splice(index, 1);
+                $scope.week = weekArray.join(",");
+            }
         };
+        $scope.select_all_WeekDay = function () {
+            var allSelected = true;
+            for (var i = 1; i <= 7; i++) {
+                if (!$scope.formData['week_day_' + i]) {
+                    allSelected = false;
+                }
+            }
+            for (var i = 1; i <= 7; i++) {
+                if (!allSelected && !$scope.formData['week_day_' + i]) {
+                    $scope.toggleWeekDay(i);
+                }
+                $scope.formData['week_day_' + i] = !allSelected;
+            }
+            if (allSelected) {
+                $scope.week = '';
+            }
+        };
+
+        $scope.toggleDay = function (day) {
+            var index = $scope.day.split(",").indexOf(day.toString());
+            if (index === -1) {
+                $scope.day += day.toString() + ",";
+            } else {
+                var dayArray = $scope.day.split(",");
+                dayArray.splice(index, 1);
+                $scope.day = dayArray.join(",");
+            }
+        };
+        $scope.select_all_Day = function () {
+            var allSelected = true;
+            for (var i = 1; i <= 31; i++) {
+                if (!$scope.formData['day_' + i]) {
+                    allSelected = false;
+                }
+            }
+            for (var i = 1; i <= 31; i++) {
+                if (!allSelected && !$scope.formData['day_' + i]) {
+                    $scope.toggleDay(i);
+                }
+                $scope.formData['day_' + i] = !allSelected;
+            }
+            if (allSelected) {
+                $scope.day = '';
+            }
+        };
+
+        $scope.toggleMonth = function (day) {
+            var index = $scope.month.split(",").indexOf(day.toString());
+            if (index === -1) {
+                $scope.month += day.toString() + ",";
+            } else {
+                var monthArray = $scope.month.split(",");
+                monthArray.splice(index, 1);
+                $scope.month = monthArray.join(",");
+            }
+        };
+        $scope.select_all_Month = function () {
+            var allSelected = true;
+            for (var i = 1; i <= 12; i++) {
+                if (!$scope.formData['month_' + i]) {
+                    allSelected = false;
+                }
+            }
+            for (var i = 1; i <= 12; i++) {
+                if (!allSelected && !$scope.formData['month_' + i]) {
+                    $scope.toggleMonth(i);
+                }
+                $scope.formData['month_' + i] = !allSelected;
+            }
+            if (allSelected) {
+                $scope.month = '';
+            }
+        };
+        //#endregion
+
         $scope.addradiostreaming = function () {
+            $scope.currentTab = 'Tab2';
+        };
+
+        $scope.add_radiostreaming_playschedule = function () {
             const starttime = new Date($scope.dataForm.starttime).getTime() / 1000;
             const endtime = new Date($scope.dataForm.endtime).getTime() / 1000;
+
+            $scope.date_from = new Date($scope.formData.date_from).getTime() / 1000;
+            $scope.date_to = new Date($scope.formData.date_to).getTime() / 1000;
+
+            const hour_from = $filter('date')($scope.formData.hour_from, 'HH:mm');
+            const hour_to = $filter('date')($scope.formData.hour_to, 'HH:mm');
+
+            const hour_from1 = $filter('date')($scope.formData.hour_from1, 'HH:mm');
+            const hour_to1 = $filter('date')($scope.formData.hour_to1, 'HH:mm');
+
+            const c_hour_from2 = $filter('date')($scope.formData.c_hour_from2, 'HH:mm');
+            const c_hour_to2 = $filter('date')($scope.formData.c_hour_to2, 'HH:mm');
+
+            const c_hour_from3 = $filter('date')($scope.formData.c_hour_from3, 'HH:mm');
+            const c_hour_to3 = $filter('date')($scope.formData.c_hour_to3, 'HH:mm');
+
+            const c_hour_from4 = $filter('date')($scope.formData.c_hour_from4, 'HH:mm');
+            const c_hour_to4 = $filter('date')($scope.formData.c_hour_to4, 'HH:mm');
+
+            const c_hour_from5 = $filter('date')($scope.formData.c_hour_from5, 'HH:mm');
+            const c_hour_to5 = $filter('date')($scope.formData.c_hour_to5, 'HH:mm');
             $http({
                 method: 'POST',
-                url: domain_api + 'create/model/Radiostreaming',
+                url: domain_api + 'create/model/Playschedule',
                 data: new URLSearchParams({
                     user: user,
                     userKey: user_Key,
-                    name: $scope.dataForm.name,
-                    rule: $scope.nameId,
+                    name: $scope.formData.name,
+                    dthID: $scope.dthID,
+                    c_scheduletype: $scope.formData.c_scheduletype,
                     city: $scope.dataForm.city,
                     district: $scope.dataForm.district,
                     ward: $scope.dataForm.ward,
-                    ip: $scope.dataForm.ip,
-                    // streamfile:  $scope.dataForm.file,
-                    c_content: $scope.dataForm.c_content || "",
-                    c_allowedit: $scope.dataForm.c_allowedit,
-                    c_approval: $scope.dataForm.c_approval,
+                    field: $scope.formData.field,
 
-                    status: $scope.dataForm.status,
-                    broadcaster: $scope.dataForm.broadcaster,
-                    starttime: starttime,
-                    endtime: endtime,
-                    description: $scope.dataForm.description || ""
+                    date_from: $scope.date_from,
+                    date_to: $scope.date_to,
+
+                    hour_from: hour_from,
+                    hour_to: hour_to,
+
+                    hour_from1: hour_from1 || "",
+                    hour_to1: hour_to1 || "",
+
+                    c_hour_from2: c_hour_from2 || "",
+                    c_hour_to2: c_hour_to2 || "",
+
+                    c_hour_from3: c_hour_from3 || "",
+                    c_hour_to3: c_hour_to3 || "",
+
+                    c_hour_from4: c_hour_from4 || "",
+                    c_hour_to4: c_hour_to4 || "",
+
+                    c_hour_from5: c_hour_from5 || "",
+                    c_hour_to5: c_hour_to5 || "",
+
+                    week_day: $scope.week,
+                    day: $scope.day,
+                    month: $scope.month,
+
+                    description: $scope.formData.description || ""
                 }).toString(),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                 }
             }).then(function successCallback(response) {
                 if (response.status != 404) {
-                    $dialogAlert("Thêm mới phát thanh thành công", "Thông báo!", "success", function (res) {
-                        $location.path("/phat-thanh");
+                    const playscheduleId = response.data.model.nameId;
+                    console.log(response.data.model.nameId);
+                    $http({
+                        method: 'POST',
+                        url: domain_api + 'create/model/Radiostreaming',
+                        data: new URLSearchParams({
+                            user: user,
+                            userKey: user_Key,
+                            name: $scope.dataForm.name,
+                            rule: playscheduleId,
+                            city: $scope.dataForm.city,
+                            district: $scope.dataForm.district,
+                            ward: $scope.dataForm.ward,
+                            c_approval: $scope.dataForm.c_approval,
+                            status: $scope.dataForm.status,
+                            starttime: starttime,
+                            endtime: endtime,
+                            description: $scope.dataForm.description || ""
+                        }).toString(),
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        }
+                    }).then(function successCallback(res) {
+                        if (res.status != 404) {
+                            $dialogAlert("Thêm mới phát thanh thành công", "Thông báo!", "success", function (res) {
+                                $location.path("/phat-thanh");
+                            });
+                        } else {
+                            $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
+                        }
+                    }, function errorCallback(res) {
+                        $rootScope.checkError(res.data.message, $dialogAlert);
                     });
-                } else {
-                    $dialogAlert("\n Thêm thất bại kiểm tra lại ", "Thông báo!", "warning");
                 }
             }, function errorCallback(response) {
                 $rootScope.checkError(response.data.message, $dialogAlert);
             });
+
         };
     } else {
         $state.go('account$signin');
@@ -852,7 +1094,7 @@ app.controller('addradiostreamingCtrl', function (addressService, $http, $scope,
 app.controller('editradiostreamingCtrl', function ($filter, addressService, $dialogConfirm, $stateParams, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     if (localStorage.getItem('token')) {
         var id = $stateParams.id;
-        console.log(id);
+
         $scope.dataForm = {};
         // #region Tab, btn add, close
         $scope.currentTab = 'Tab1';
@@ -892,7 +1134,6 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                 weekArray.splice(index, 1);
                 $scope.week = weekArray.join(",");
             }
-            //console.log($scope.week);
         };
         $scope.select_all_WeekDay = function () {
             var allSelected = true;
@@ -918,7 +1159,6 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                 }
                 $scope.week += daysToAdd;
             }
-            console.log($scope.week);
         };
         //#endregion
 
@@ -932,7 +1172,6 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                 weekArray.splice(index, 1);
                 $scope.day = weekArray.join(",");
             }
-            console.log($scope.day);
         };
 
         $scope.select_all_Day = function () {
@@ -959,7 +1198,6 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                 }
                 $scope.day += daysToAdd;
             }
-            console.log($scope.day);
         };
         //#endregion
 
@@ -973,7 +1211,6 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                 weekArray.splice(index, 1);
                 $scope.month = weekArray.join(",");
             }
-            console.log($scope.month);
         };
         $scope.select_all_Month = function () {
             var allSelected = true;
@@ -999,7 +1236,6 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                     }
                 }
             }
-            console.log($scope.month);
         };
         //#endregion
 
@@ -1175,7 +1411,6 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                 $scope.dataplayschedules.c_hour_to5 = new Date('1970-01-01T' + $scope.dataplayschedules.c_hour_to5);
 
                 $scope.week = $scope.dataplayschedules.week_day;
-                console.log($scope.week);
                 $scope.day = $scope.dataplayschedules.day;
                 $scope.month = $scope.dataplayschedules.month;
 
@@ -1400,43 +1635,32 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                     id: $scope.dataplayschedules.id,
                     name: $scope.dataplayschedules.name,
                     dthID: $scope.dthID,
-                    c_active: $scope.dataplayschedules.c_active,
                     c_scheduletype: $scope.dataplayschedules.c_scheduletype,
-
                     city: $scope.dataForm.city,
                     district: $scope.dataForm.district,
                     ward: $scope.dataForm.ward,
-
                     field: $scope.dataplayschedules.field,
-                    type: $scope.dataplayschedules.type,
 
                     date_from: $scope.date_from,
                     date_to: $scope.date_to,
-
                     hour_from: hour_from,
                     hour_to: hour_to,
-
-                    hour_from1: hour_from1,
-                    hour_to1: hour_to1,
-
-                    c_hour_from2: c_hour_from2,
-                    c_hour_to2: c_hour_to2,
-
-                    c_hour_from3: c_hour_from3,
-                    c_hour_to3: c_hour_to3,
-
-                    c_hour_from4: c_hour_from4,
-                    c_hour_to4: c_hour_to4,
-
-                    c_hour_from5: c_hour_from5,
-                    c_hour_to5: c_hour_to5,
+                    hour_from1: hour_from1 || "",
+                    hour_to1: hour_to1 || "",
+                    c_hour_from2: c_hour_from2 || "",
+                    c_hour_to2: c_hour_to2 || "",
+                    c_hour_from3: c_hour_from3 || "",
+                    c_hour_to3: c_hour_to3 || "",
+                    c_hour_from4: c_hour_from4 || "",
+                    c_hour_to4: c_hour_to4 || "",
+                    c_hour_from5: c_hour_from5 || "",
+                    c_hour_to5: c_hour_to5 || "",
 
                     week_day: $scope.week,
                     day: $scope.day,
                     month: $scope.month,
 
-                    c_active: $scope.dataplayschedules.c_active,
-                    description: $scope.dataplayschedules.description
+                    description: $scope.dataplayschedules.description || ""
                 }).toString(),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -1489,17 +1713,11 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                     userKey: user_Key,
                     id: id,
                     name: $scope.dataForm.name,
-                    rule: $scope.nameId,
                     city: $scope.dataForm.city,
                     district: $scope.dataForm.district,
                     ward: $scope.dataForm.ward,
-                    ip: $scope.dataForm.ip,
-                    // streamfile:  $scope.dataForm.file,
-                    c_content: $scope.dataForm.c_content,
-                    c_allowedit: $scope.dataForm.c_allowedit,
                     c_approval: $scope.dataForm.c_approval,
                     status: $scope.dataForm.status,
-                    broadcaster: $scope.dataForm.broadcaster,
                     starttime: starttime_edit,
                     endtime: endtime_edit,
                     description: $scope.dataForm.description
@@ -2747,6 +2965,40 @@ app.controller('manageDevice', function ($scope, $state, $http, $window, $dialog
 app.controller('editDevice', function (addressService, $scope, $state, $stateParams, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     if (localStorage.getItem('token')) {
         var id = $stateParams.id;
+
+        // #region TRẠM PHÁT THANH
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Radionode',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.radionodes = arr;
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.dataForm = {};
+        $scope.dataForm.dthID = "";
+        $scope.selectedRadionode = "";
+        $scope.showList = false;
+
+        $scope.selectRadionode = function (radionode, event) {
+            $scope.selectedRadionode = radionode;
+            $scope.dataForm.dthID = radionode;
+            $scope.showList = false;
+            $scope.dthID = event.target.getAttribute('data-name-id');
+        };
+        //#endregion
+
         $http({
             method: 'POST',
             url: domain_api + 'lookups/model/Ippbxextenlocation',
@@ -2760,6 +3012,7 @@ app.controller('editDevice', function (addressService, $scope, $state, $statePar
             }
         }).then(function successCallback(response) {
             $scope.dataForm = response.data[id];
+            $scope.dthID = $scope.dataForm.dthID;
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
@@ -2821,6 +3074,7 @@ app.controller('editDevice', function (addressService, $scope, $state, $statePar
                     userKey: user_Key,
                     id: id,
                     name: $scope.dataForm.name,
+                    dthID: $scope.dthID,
                     latitude: $scope.dataForm.latitude,
                     longitude: $scope.dataForm.longitude,
                     deviceId: $scope.dataForm.deviceId,
@@ -2829,16 +3083,11 @@ app.controller('editDevice', function (addressService, $scope, $state, $statePar
                     c_techinterface: $scope.dataForm.c_techinterface,
                     miclevel: $scope.dataForm.miclevel,
                     spklevel: $scope.dataForm.spklevel,
-                    broadcaster: $scope.dataForm.broadcaster,
-                    c_micstatus: $scope.dataForm.c_micstatus,
                     city: $scope.dataForm.city,
                     district: $scope.dataForm.district,
                     ward: $scope.dataForm.ward,
                     c_endpointtype: $scope.dataForm.c_endpointtype,
-                    c_channelId: $scope.dataForm.c_channelId,
                     issetting: $scope.dataForm.issetting,
-                    status: $scope.dataForm.status || "",
-                    c_playstatus: $scope.dataForm.c_playstatus || "",
                     note: $scope.dataForm.note || ""
                 }).toString(),
                 headers: {
@@ -2860,7 +3109,39 @@ app.controller('editDevice', function (addressService, $scope, $state, $statePar
 })
 app.controller('addDevice', function (addressService, $scope, $state, $http, $window, $dialogAlert, $rootScope, $dialogConfirm) {
     if (localStorage.getItem('token')) {
-        $scope.formData = {};
+        // #region TRẠM PHÁT THANH
+        $http({
+            method: 'POST',
+            url: domain_api + 'lookups/model/Radionode',
+            data: new URLSearchParams({
+                user: user,
+                userKey: user_Key
+            }).toString(),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then(function successCallback(response) {
+            const arr = Object.values(response.data);
+            arr.sort(function (a, b) {
+                return b.id - a.id;
+            });
+            $scope.radionodes = arr;
+        }, function errorCallback(response) {
+            $rootScope.checkError(response.data.message, $dialogAlert);
+        });
+        $scope.dataForm = {};
+        $scope.dataForm.dthID = "";
+        $scope.selectedRadionode = "";
+        $scope.showList = false;
+
+        $scope.selectRadionode = function (radionode, event) {
+            $scope.selectedRadionode = radionode;
+            $scope.dataForm.dthID = radionode;
+            $scope.showList = false;
+            $scope.dthID = event.target.getAttribute('data-name-id');
+        };
+        //#endregion
+
         //Citys
         addressService.getCities(user, user_Key, domain_api)
             .then(function (cities) {
@@ -2904,6 +3185,7 @@ app.controller('addDevice', function (addressService, $scope, $state, $http, $wi
                     user: user,
                     userKey: user_Key,
                     name: $scope.dataForm.name,
+                    dthID: $scope.dthID,
                     latitude: $scope.dataForm.latitude,
                     longitude: $scope.dataForm.longitude,
                     deviceId: $scope.dataForm.deviceId,
@@ -2912,16 +3194,11 @@ app.controller('addDevice', function (addressService, $scope, $state, $http, $wi
                     c_techinterface: $scope.dataForm.c_techinterface,
                     miclevel: $scope.dataForm.miclevel,
                     spklevel: $scope.dataForm.spklevel,
-                    broadcaster: $scope.dataForm.broadcaster,
-                    c_micstatus: $scope.dataForm.c_micstatus,
                     city: $scope.dataForm.city,
                     district: $scope.dataForm.district,
                     ward: $scope.dataForm.ward,
                     c_endpointtype: $scope.dataForm.c_endpointtype,
-                    c_channelId: $scope.dataForm.c_channelId,
                     issetting: $scope.dataForm.issetting,
-                    status: $scope.dataForm.status || "",
-                    c_playstatus: $scope.dataForm.c_playstatus || "",
                     note: $scope.dataForm.note || ""
                 }).toString(),
                 headers: {
@@ -3821,7 +4098,16 @@ app.controller('editRadioApp', function (addressService, $scope, $state, $stateP
     if (localStorage.getItem('token')) {
         $scope.formData = {};
         var id = $stateParams.id;
+        // #region Tab
+        $scope.currentTab = 'Tab1';
+        $scope.openTab = function (tab) {
+            angular.element(document.querySelectorAll('.tab')).removeClass('active');
+            angular.element(document.querySelector('#' + tab)).addClass('active');
+            $scope.currentTab = tab;
+        };
+        // #endregion
 
+        //#region TỈNH/TP - QUẬN/HUYỆN - PHƯỜNG/XÃ
         //Citys
         addressService.getCities(user, user_Key, domain_api)
             .then(function (cities) {
@@ -3871,6 +4157,9 @@ app.controller('editRadioApp', function (addressService, $scope, $state, $stateP
                 }
             }
         }
+        //#endregion
+
+        //#region ĐÀI PHÁT THANH BY ID
         $http({
             method: 'POST',
             url: domain_api + 'lookups/model/Radionode',
@@ -3884,13 +4173,34 @@ app.controller('editRadioApp', function (addressService, $scope, $state, $stateP
             }
         }).then(function successCallback(response) {
             $scope.formData = response.data[id];
+            
+            //#region THIẾT BỊ CỦA ĐÀI PHÁT THANH
+            $http({
+                method: 'POST',
+                url: domain_api + 'lookups/model/Ippbxextenlocation',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    dthID: $scope.formData.nameId
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                $scope.ippbxextenlocations = response.data;
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+            //#endregion
+       
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
+        //#endregion
+
+
+
         $scope.editRadioApp = function () {
-            // const file = document.getElementById("file-name").textContent;
-            // $scope.icecast_url = file;
-            // console.log($scope.icecast_url);
             $http({
                 method: 'POST',
                 url: domain_api + 'update/model/Radionode',
@@ -4287,7 +4597,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                             <tr><td><strong>Chiết khấu: </strong></td><td>${detailProduct.description}</td></tr>
 //                         </table>
 //                     </div>
-//                     <div class ="modal-footer">\                           
+//                     <div class ="modal-footer">\
 //                         <button class ="btn btn-default" ng-click="cancel()" >Đóng</button>\
 //                     </div>`,
 //                     controller: function ($scope, $uibModalInstance) {
@@ -4296,7 +4606,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                         };
 //                     },
 
-//                     size: 'xs',//size sm,xs,lg   
+//                     size: 'xs',//size sm,xs,lg
 //                     windowClass: 'your-modal-class',
 
 //                 });
@@ -4336,7 +4646,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                             <tr><td><strong>Mô tả: </strong></td><td>${detailProduct.description}</td></tr>
 //                         </table>
 //                     </div>
-//                     <div class ="modal-footer">\                           
+//                     <div class ="modal-footer">\
 //                         <button class ="btn btn-default" ng-click="cancel()"  >Đóng</button>\
 //                     </div>`,
 //                     controller: function ($scope, $uibModalInstance) {
@@ -4346,7 +4656,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                         };
 //                     },
 //                     //controllerAs: $scope,
-//                     size: 'xs',//size sm,xs,lg   
+//                     size: 'xs',//size sm,xs,lg
 //                     windowClass: 'your-modal-class',
 
 //                 });
@@ -4398,32 +4708,32 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                                     <tr class="panel-info list-group-item-info">
 //                                         <th style="text-align:center;width:58px">STT</th>
 //                                         <th style="width: 196px;">Tên sản phẩm </th>
-//                                         <th style="width: 132px;">Gói</th>                                            
+//                                         <th style="width: 132px;">Gói</th>
 //                                         <th style="width: 132px;">Ngày kích hoạt</th>
 //                                         <th style="width: 136px;">Ngày hết hạn</th>
 //                                         <th style="width: 190px;">Doanh thu</th>
 //                                         <th style="width: 220px;">Lợi nhuận</th>
 //                                     </tr>
-//                                 </thead>                                   
+//                                 </thead>
 //                         </table>
 //                         <div style="max-height: 300px;overflow-y: scroll;">
 //                             <table class="table table-bordered table-striped" style="width:100%;margin-bottom:0">
-//                                 <tbody>   
+//                                 <tbody>
 //                                         <tr ng-repeat="item in detailProduct">
 //                                             <td style="width:50px;text-align:center;">{{$index+1}}</td>
-//                                             <td style="width:150px">{{item.product.code}}:{{item.product.name}}</td>                                                            
-//                                             <td style="width:100px">{{item.type}}</td>                      
-//                                             <td style="width:100px">{{item.subscribe_date.substring(0,10)}}</td>                                
+//                                             <td style="width:150px">{{item.product.code}}:{{item.product.name}}</td>
+//                                             <td style="width:100px">{{item.type}}</td>
+//                                             <td style="width:100px">{{item.subscribe_date.substring(0,10)}}</td>
 //                                             <td style="width:100px">{{item.subscribe_expired}}</td>
-//                                             <td style="width:150px" class="text-right">{{item.total}}</td>                                
-//                                             <td style="width:150px" class="text-right">{{item.total_last}}</td>                                
+//                                             <td style="width:150px" class="text-right">{{item.total}}</td>
+//                                             <td style="width:150px" class="text-right">{{item.total_last}}</td>
 
 //                                         </tr>
 //                                 </tbody>
 //                             </table>
 //                         </div>
 //                     </div>
-//                     <div class ="modal-footer">\                           
+//                     <div class ="modal-footer">\
 //                         <button class ="btn btn-default" ng-click="cancel()" >Đóng</button>\
 //                     </div>`,
 //                     controller: function ($scope, $uibModalInstance) {
@@ -4433,7 +4743,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                         };
 //                     },
 //                     controllerAs: $scope,
-//                     size: 'lg',//size sm,xs,lg   
+//                     size: 'lg',//size sm,xs,lg
 //                     windowClass: 'your-modal-class',
 
 //                 });
@@ -4673,7 +4983,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                     'Authorization': "Bearer " + $window.localStorage.token
 //                 }
 //             }).then(function (res) {
-//                 //console.log(res)                  
+//                 //console.log(res)
 //                 if (res.data.result > 0) {
 //                     $scope.data = res.data.data.detail;
 //                     $scope.totalRow = res.data.data.total_row;
@@ -4851,7 +5161,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                             <tr><td><strong>Mô tả: </strong></td><td>${detailProduct.description}</td></tr>
 //                         </table>
 //                     </div>
-//                     <div class ="modal-footer">\                           
+//                     <div class ="modal-footer">\
 //                         <button class ="btn btn-default" ng-click="cancel()"  >Đóng</button>\
 //                     </div>`,
 //                     controller: function ($scope, $uibModalInstance) {
@@ -4861,7 +5171,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                         };
 //                     },
 //                     //controllerAs: $scope,
-//                     size: 'xs',//size sm,xs,lg   
+//                     size: 'xs',//size sm,xs,lg
 //                     windowClass: 'your-modal-class',
 
 //                 });
@@ -5237,7 +5547,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                     <h4 class="modal-title" style="color:#fff" >Thông tin tài khoản </h4>\
 //                     </div>\
 //                     <div style="max-height:500px;overflow-y:scroll" id="print">
-//                         <table class="table table-bordered" style="width:100%;">                               
+//                         <table class="table table-bordered" style="width:100%;">
 //                             <tr><td style="width:200px">Họ tên</td><td>{{dataInfoUser.fullname}}</td></tr>
 //                             <tr><td>Tài khoản đăng nhập</td><td>{{dataInfoUser.username}}</td></tr>
 //                             <tr><td>Số điện thoại</td><td>{{dataInfoUser.phone}}</td></tr>
@@ -5254,7 +5564,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                         $scope.dataInfoUser = dataInfo;
 //                     },
 //                     controllerAs: $scope,
-//                     size: 'xs',//size,   
+//                     size: 'xs',//size,
 //                     windowClass: 'your-modal-class',
 
 //                 });
@@ -5699,7 +6009,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                             <tr><td>Địa chỉ</td><td>${dataInvoice.comp.address}</td></tr>
 //                             <tr><td>Mã số thuế</td><td>${dataInvoice.comp.taxcode}</td></tr>
 //                             <tr><td>Người đại diện</td><td>${dataInvoice.comp.represent ? dataInvoice.comp.represent.name : ""}</td></tr>
-//                             <tr><td>SĐT người đại diện</td><td>${dataInvoice.comp.represent ? dataInvoice.comp.represent.phone : ""}</td></tr>  
+//                             <tr><td>SĐT người đại diện</td><td>${dataInvoice.comp.represent ? dataInvoice.comp.represent.phone : ""}</td></tr>
 //                         </table>
 //                     </div>
 //                     <div class ="modal-footer">\
@@ -5711,7 +6021,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                         };
 //                     },
 //                     controllerAs: $scope,
-//                     size: 'xs',//size,   
+//                     size: 'xs',//size,
 //                     windowClass: 'your-modal-class',
 
 //                 });
@@ -5759,7 +6069,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                 'Authorization': "Bearer " + $window.localStorage.token
 //             }
 //         }).then(function (res) {
-//             //console.log(res)                  
+//             //console.log(res)
 //             if (res.data.result > 0) {
 //                 $scope.data = res.data.data.detail;
 //                 $scope.totalRow = res.data.data.total_row;
@@ -5911,7 +6221,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                             <tr><td>Địa chỉ</td><td>${dataInvoice.comp.address}</td></tr>
 //                             <tr><td>Mã số thuế</td><td>${dataInvoice.comp.taxcode}</td></tr>
 //                             <tr><td>Người đại diện</td><td>${dataInvoice.comp.represent ? dataInvoice.comp.represent.name : ""}</td></tr>
-//                             <tr><td>SĐT người đại diện</td><td>${dataInvoice.comp.represent ? dataInvoice.comp.represent.phone : ""}</td></tr>  
+//                             <tr><td>SĐT người đại diện</td><td>${dataInvoice.comp.represent ? dataInvoice.comp.represent.phone : ""}</td></tr>
 //                         </table>
 //                     </div>
 //                     <div class ="modal-footer">\
@@ -5923,7 +6233,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                         };
 //                     },
 //                     controllerAs: $scope,
-//                     size: 'xs',//size,   
+//                     size: 'xs',//size,
 //                     windowClass: 'your-modal-class',
 
 //                 });
@@ -5971,7 +6281,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                 'Authorization': "Bearer " + $window.localStorage.token
 //             }
 //         }).then(function (res) {
-//             //console.log(res)                  
+//             //console.log(res)
 //             if (res.data.result > 0) {
 //                 $scope.data = res.data.data.detail;
 //                 $scope.totalRow = res.data.data.total_row;
@@ -6136,7 +6446,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                 'Authorization': "Bearer " + $window.localStorage.token
 //             }
 //         }).then(function (res) {
-//             //console.log(res)                  
+//             //console.log(res)
 //             if (res.data.result > 0) {
 //                 $scope.data = res.data.data.detail;
 //                 $scope.bigTotalItems = res.data.data.total_row;
@@ -6224,7 +6534,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                     'Authorization': "Bearer " + $window.localStorage.token
 //                 }
 //             }).then(function (res) {
-//                 //console.log(res)                  
+//                 //console.log(res)
 //                 if (res.data.result > 0) {
 //                     $scope.data = res.data.data;
 //                     $scope.totalRow = res.data.data.total_row;
@@ -6247,7 +6557,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //             })
 //         }
 //     }
-//     // bieu do doi tac cung cap dich 
+//     // bieu do doi tac cung cap dich
 //     // biểu đồ hình tròn
 
 //     var options_pie = {
@@ -7468,7 +7778,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                             <tr><td>Địa chỉ</td><td>${dataInvoice.comp.address}</td></tr>
 //                             <tr><td>Mã số thuế</td><td>${dataInvoice.comp.taxcode}</td></tr>
 //                             <tr><td>Người đại diện</td><td>${dataInvoice.comp.represent ? dataInvoice.comp.represent.name : ""}</td></tr>
-//                             <tr><td>SĐT người đại diện</td><td>${dataInvoice.comp.represent ? dataInvoice.comp.represent.phone : ""}</td></tr>  
+//                             <tr><td>SĐT người đại diện</td><td>${dataInvoice.comp.represent ? dataInvoice.comp.represent.phone : ""}</td></tr>
 //                         </table>
 //                     </div>
 //                     <div class ="modal-footer">\
@@ -7480,7 +7790,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                         };
 //                     },
 //                     controllerAs: $scope,
-//                     size: 'xs',//size,   
+//                     size: 'xs',//size,
 //                     windowClass: 'your-modal-class',
 
 //                 });
@@ -7528,7 +7838,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                 'Authorization': "Bearer " + $window.localStorage.token
 //             }
 //         }).then(function (res) {
-//             //console.log(res)                  
+//             //console.log(res)
 //             if (res.data.result > 0) {
 //                 $scope.data = res.data.data.detail;
 //                 $scope.totalRow = res.data.data.total_row;
@@ -8089,7 +8399,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //     var selectText = `<select id="selectText" name='productTiki' class="form-control" >
 //                             <option value=''>Chọn sản phẩm</option>
 //                           </select>`;
-//     // xac nhan don hang da khoi tao thong tin cho khach hang thanh cong        
+//     // xac nhan don hang da khoi tao thong tin cho khach hang thanh cong
 //     $scope.fnconfirm = function () {
 //         $http({
 //             method: 'GET',
@@ -8121,7 +8431,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                          <div class="form-group">
 //                             <span for="signin-password" class="control-label sr-only">Số lượng:</span>
 //                             <input type="Number" class="form-control" placeholder="Nhập số lượng" name="quantity"  required>
-//                         </div>  
+//                         </div>
 //                 </form>
 
 //             </div>`, "Lấy key theo sản phẩm", function (res) {
@@ -8171,7 +8481,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                                                     <tr class="panel-info list-group-item-info">
 //                                                         <th style="text-align:center;width:60px">STT</th>
 //                                                         <th>Key</th>
-//                                                         <th>Mã code</th>                                                       
+//                                                         <th>Mã code</th>
 //                                                     </tr>
 //                                                 </thead>
 //                                                 <tbody>
@@ -8209,7 +8519,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                                     }
 
 //                                 },
-//                                 size: 'xs',//size,   
+//                                 size: 'xs',//size,
 //                                 windowClass: 'your-modal-class',
 
 //                             });
@@ -8308,8 +8618,8 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                                         <div style="max-height:500px;overflow-y:scroll" id="print">
 //                                             <div class='item list' style="padding:0 15px;"><p> <strong>Tên sản phẩm</strong> <span style='float:right'><strong>code</strong></span></p></div>
 //                                             <div ng-repeat="item in dataKeys" class='item list' style="padding:0 15px;">
-//                                                 <p >{{item.Item4}} <span style='float:right'>{{item.Item3}}</span></p>                                                
-//                                             </div>                                           
+//                                                 <p >{{item.Item4}} <span style='float:right'>{{item.Item3}}</span></p>
+//                                             </div>
 //                                         </div>
 //                                         <div class ="modal-footer">\
 //                                             <button class ="btn btn-default" ng-click="cancel()" data-dismiss="modal" >Đóng</button>\
@@ -8321,7 +8631,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                                     };
 //                                     $scope.dataKeys = response.data.data;
 //                                 },
-//                                 size: 'xs',//size,   
+//                                 size: 'xs',//size,
 //                                 windowClass: 'your-modal-class',
 
 //                             });
@@ -8465,7 +8775,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                 }
 //             },
 //             controllerAs: $scope,
-//             size: 'xs',//size,   
+//             size: 'xs',//size,
 //             windowClass: 'your-modal-class',
 
 //         });
@@ -8495,7 +8805,7 @@ app.controller('edituserlogCtrl', function ($http, $scope, $state, $rootScope, $
 //                 'Authorization': "Bearer " + $window.localStorage.token
 //             }
 //         }).then(function (res) {
-//             //console.log(res)                  
+//             //console.log(res)
 //             if (res.data.result > 0) {
 //                 $scope.data = res.data.data.detail;
 //                 $scope.bigTotalItems = res.data.data.total_row;
