@@ -54,7 +54,7 @@
             <label for="c_radiolibraryId" class="col-sm-2 control-label">Thư viện âm thanh</label>
             <div class="col-sm-4">
                 <input id="c_radiolibraryId" type="text" ng-model="dataForm.c_radiolibraryId" ng-click="showList = true"
-                    class="form-control" autocomplete="off" placeholder="Nhập tìm kế hoạch phát thanh" required>
+                    class="form-control" autocomplete="off" placeholder="Nhập tìm kế hoạch phát thanh" >
                 <ul ng-show="showList" class="c_radiolibraryId">
                     <li ng-repeat="radiolibrary in radiolibrarys | filter: dataForm.c_radiolibraryId | limitTo:5"
                         ng-click="selectRadiolibrary(radiolibrary.name, $event)" class="c_radiolibraryId form-control"
@@ -105,7 +105,7 @@
             <label for="c_icecastlibrary" class="col-sm-2 control-label">Liên kết ICECAST</label>
             <div class="col-sm-4">
                 <input id="c_icecastlibrary" type="text" ng-model="dataForm.c_icecastlibrary" ng-click="showList = true"
-                    class="form-control" autocomplete="off" placeholder="Nhập tìm ICECAST" required>
+                    class="form-control" autocomplete="off" placeholder="Nhập tìm ICECAST">
                 <ul ng-show="showList" class="c_icecastlibrary">
                     <li ng-repeat="icecaststore in icecaststores | filter: dataForm.c_icecastlibrary | limitTo:5"
                         ng-click="selectIcecaststore(icecaststore.name, $event)" class="c_icecastlibrary form-control"
