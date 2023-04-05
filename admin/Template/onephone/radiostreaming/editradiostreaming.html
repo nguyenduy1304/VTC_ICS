@@ -114,10 +114,9 @@
             <thead>
                 <tr class="panel-info list-group-item-info" style="text-transform: uppercase;font-weight: bold;">
                     <th style="text-align:center;width:60px">Tên</th>
-                    <th style="width:200px">Thư viện âm thanh</th>
                     <th>Thứ tự phát</th>
                     <th>File âm thanh</th>
-                    <th>Tổng thời gian</th>
+                    <th>ICECAST URL</th>
                     <th>Từ giờ</th>
                     <th>Đến giờ</th>
                     <th></th>
@@ -126,17 +125,23 @@
             <tbody>
                 <tr ng-repeat="data in dataplaystreamss">
                     <td>{{data.name}}</td>
-                    <td>{{data.c_radiolibraryId}}</td>
-                    <td>{{data.c_playOrder}}</td>
-                    <td>
-                        {{data.c_streamfile}}
-                        <audio controls ng-src="https://ttn.onephone.online/site/uploads/protected/2022/12/19/nhac_chuan.mp3">
+                    <td style="text-align: center;">{{data.c_playOrder}}</td>
+                    <td ng-if="data.c_streamfile != ''">
+                        <audio controls
+                            ng-src="https://ttn.onephone.online/site/uploads/protected/2022/12/19/nhac_chuan.mp3">
                         </audio>
                     </td>
+                    <td ng-if="data.c_streamfile == ''">
+                    </td>
 
-                    <td>{{data.c_durationtimeout}}</td>
-                    <td>{{data.c_hour_from}}</td>
-                    <td>{{data.c_hour_to}}</td>
+                    <td ng-if="data.c_icecastlibrary != ''" style="text-align:center;">
+                        <a class="fa fa-volume-up icon_volume" ng-click="listen_ice(data.c_icecastlibrary)" ></a><br>
+                        {{data.c_icecastlibrary.replace('_35','')}}
+                    </td>
+                    <td ng-if="data.c_icecastlibrary == ''">
+                    </td>
+                    <td style="text-align:center;">{{data.c_hour_from}}</td>
+                    <td style="text-align:center;">{{data.c_hour_to}}</td>
                     <td style="text-align:center;">
                         <a class="glyphicon glyphicon-pencil icon"
                             href="../index.html#!/phat-thanh/cap-nhat/noi-dung/{{data.id}}"></a>
@@ -249,7 +254,7 @@
                             placeholder="Nhập tìm ICECAST">
                         <ul ng-show="showList" class="c_icecastlibrary">
                             <li ng-repeat="icecaststore in icecaststores | filter: dataForm.c_icecastlibrary | limitTo:5"
-                                ng-click="selectIcecaststore(icecaststore.name, $event)"
+                                ng-click="select_Icecaststore(icecaststore.name, $event)"
                                 class="c_icecastlibrary form-control" data-name-id="{{icecaststore.nameId}}">
                                 {{icecaststore.name}}
                             </li>
@@ -275,6 +280,12 @@
                     </div>
                 </div>
             </form>
+        </div>
+
+        <div id="ice" style="display: none; width: 26%; position:fixed">
+            <span ng-click="close_ice()" class="close-btn btn btn-primary glyphicon glyphicon-remove" id="close"></span>
+            <div class="clearfix"></div>
+            <audio controls ng-src="{{ice.c_urlstream}}"></audio>
         </div>
     </div>
 
@@ -497,12 +508,7 @@
     </div>
 </div>
 </div>
-<!-- 
-<style>
-    .select2-container--default .select2-selection--single {
-        width: 290px;
-    }
-</style> -->
+
 
 <script>
     $(document).ready(function () {
@@ -523,13 +529,6 @@
             }
         }
     }
-    // //Edit========================================
-    // const input = document.getElementById("upload-file");
-    // const fileName = document.getElementById("file-name");
-    // input.addEventListener("change", function (event) {
-    //     const file = event.target.files[0];
-    //     fileName.textContent = file.name;
-    // });
     //===============================================================================
     (function () {
         const inputElementc_radiolibraryId = document.getElementById('c_radiolibraryId');

@@ -1094,9 +1094,9 @@ app.controller('addradiostreamingCtrl', function ($filter, addressService, $http
 app.controller('editradiostreamingCtrl', function ($filter, addressService, $dialogConfirm, $stateParams, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     if (localStorage.getItem('token')) {
         var id = $stateParams.id;
-
         $scope.dataForm = {};
-        // #region Tab, btn add, close
+
+        // #region Tab, btn add, close, close_ice
         $scope.currentTab = 'Tab1';
         $scope.openTab = function (tab) {
             angular.element(document.querySelectorAll('.tab')).removeClass('active');
@@ -1119,6 +1119,14 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                 add.style.display = "none";
             } else {
                 add.style.display = "block";
+            }
+        }
+        $scope.close_ice = function () {
+            var ice = document.getElementById("ice");
+            if (ice.style.display === "block") {
+                ice.style.display = "none";
+            } else {
+                ice.style.display = "block";
             }
         }
         // #endregion
@@ -1328,7 +1336,7 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
         $scope.selectIcecaststore = "";
         $scope.showList = false;
 
-        $scope.selectIcecaststore = function (icecaststore, event) {
+        $scope.select_Icecaststore = function (icecaststore, event) {
             $scope.selectIcecaststore = icecaststore;
             $scope.dataForm.c_icecastlibrary = icecaststore;
             $scope.showList = false;
@@ -1552,7 +1560,7 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                     c_playStyle: $scope.dataForm.c_playStyle,
                     c_contenttype: $scope.dataForm.c_contenttype,
 
-                    c_radiolibraryId: $scope.c_radiolibraryId,
+                    c_radiolibraryId: $scope.c_radiolibraryId || "",
                     dthID: $scope.dthID,
 
                     c_hour_from: c_hour_from,
@@ -1561,7 +1569,7 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                     c_datefrom: c_datefrom,
                     c_dateto: c_dateto,
 
-                    c_icecastlibrary: $scope.c_icecastlibrary,
+                    c_icecastlibrary: $scope.c_icecastlibrary || "",
                     c_playOrder: c_playOrder,
                     c_durationtimeout: c_durationtimeout
 
@@ -1580,6 +1588,37 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
             }, function errorCallback(response) {
                 $rootScope.checkError(response.data.message, $dialogAlert);
             });
+        };
+        // #endregion
+
+        // #region Nge ICECAST
+        $scope.listen_ice = function (nameId) {
+            
+            $http({
+                method: 'POST',
+                url: domain_api + 'lookups/model/Icecaststore',
+                data: new URLSearchParams({
+                    user: user,
+                    userKey: user_Key,
+                    nameId: nameId
+                }).toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
+            }).then(function successCallback(response) {
+                const arr = Object.values(response.data);
+                $scope.ice = arr[0];
+                console.log($scope.ice);
+                var icecast = document.getElementById("ice");
+                if (icecast.style.display === "none") {
+                    icecast.style.display = "block";
+                } else {
+                    icecast.style.display = "none";
+                }
+            }, function errorCallback(response) {
+                $rootScope.checkError(response.data.message, $dialogAlert);
+            });
+
         };
         // #endregion
 
@@ -1913,7 +1952,7 @@ app.controller('editplaystreamCtrl', function ($filter, $stateParams, $http, $sc
                     c_playStyle: $scope.dataForm.c_playStyle,
                     c_contenttype: $scope.dataForm.c_contenttype,
 
-                    c_radiolibraryId: $scope.c_radiolibraryId,
+                    c_radiolibraryId: $scope.c_radiolibraryId || "",
                     dthID: $scope.dthID,
 
                     c_hour_from: c_hour_from,
@@ -1922,7 +1961,7 @@ app.controller('editplaystreamCtrl', function ($filter, $stateParams, $http, $sc
                     c_datefrom: c_datefrom,
                     c_dateto: c_dateto,
 
-                    c_icecastlibrary: $scope.c_icecastlibrary,
+                    c_icecastlibrary: $scope.c_icecastlibrary || "",
                     c_playOrder: c_playOrder,
                     c_durationtimeout: c_durationtimeout
                 }).toString(),
@@ -4173,7 +4212,7 @@ app.controller('editRadioApp', function (addressService, $scope, $state, $stateP
             }
         }).then(function successCallback(response) {
             $scope.formData = response.data[id];
-            
+
             //#region THIẾT BỊ CỦA ĐÀI PHÁT THANH
             $http({
                 method: 'POST',
@@ -4192,13 +4231,11 @@ app.controller('editRadioApp', function (addressService, $scope, $state, $stateP
                 $rootScope.checkError(response.data.message, $dialogAlert);
             });
             //#endregion
-       
+
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
         //#endregion
-
-
 
         $scope.editRadioApp = function () {
             $http({
@@ -4320,12 +4357,6 @@ app.controller('addRadioApp', function (addressService, $scope, $state, $http, $
 
 })
 //#endregion
-
-
-
-
-
-
 
 
 

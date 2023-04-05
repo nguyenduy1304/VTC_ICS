@@ -131,6 +131,7 @@
                         <th>Mã thiết bị</th>
                         <th>Loại thiết bị</th>
                         <th>Vị trí</th>
+                        <th> </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -139,7 +140,11 @@
                         <td>{{data.name}}</td>
                         <td>{{data.nameId}}</td>
                         <td>{{data.c_endpointtype}}</td>
-                        <td>{{item.latitude}}, {{item.longitude}}</td>
+                        <td>{{data.latitude}}, {{data.longitude}}</td>
+                        <td style="text-align:center;">
+                            <a class="glyphicon glyphicon-pencil icon"
+                                href="../index.html#!/quan-ly-thiet-bi/thiet-bi/cap-nhat/{{data.id}}"></a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

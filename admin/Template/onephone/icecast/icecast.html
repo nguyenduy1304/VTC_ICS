@@ -36,7 +36,10 @@
                 ng-repeat="item in items | filter: searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
                 <td style="text-align:center;">{{$index+1}}</td>
                 <td>{{item.name}}</td>
-                <td class="truncate">{{item.c_urlstream}}</td>
+                <td>
+                    <audio controls ng-src="{{item.c_urlstream}}">
+                    </audio>
+                </td>
                 <td>{{item.createDate*1000 | date:'dd/MM/yyyy'}}</td>
                 <td class="truncate">{{item.description}}</td>
                 <td style="text-align:center;">
@@ -116,20 +119,17 @@
 
 <div class="pagelist">
     <div class="pagination-wrapper">
-        <div class="pagination">
-            <a class="prev page-numbers" href="javascript:;" ng-click="prevPage()">Trước</a>
-            <a class="page-numbers" href="javascript:;" ng-repeat="page in range()"
-                ng-class="{active: currentPage == page}" ng-click="setPage(page)">{{ page }}</a>
-            <a class="next page-numbers" href="javascript:;" ng-click="nextPage()">Sau</a>
-        </div>
+      <div class="pagination">
+        <a class="prev page-numbers" href="javascript:;" ng-click="prevPage()"><i class="fas fa-angle-double-left"></i></a>
+        <a class="page-numbers" href="javascript:;"ng-repeat="page in range()" ng-class="{active: currentPage == page}" ng-click="setPage(page)">{{ page }}</a>
+        <a class="next page-numbers" href="javascript:;" ng-click="nextPage()"><i class="fas fa-angle-double-right"></i></a>
+      </div>
     </div>
-</div>
-
-<style>
-    .truncate {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100px;
+  </div>
+  <style>
+    .fas{
+      font-size: 14px;
+      color: #000;
+      padding: 3px 10px;
     }
-</style>
+  </style>

@@ -34,7 +34,7 @@
       <tr ng-repeat="item in items | filter: searchKeyword | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
         <td style="text-align:center;">{{$index+1}}</td>
         <td>{{item.name}}</td>
-        <td>{{item.confId}}</td>
+        <td style="text-align:center;">{{item.confId}}</td>
         <td ng-bind="item.city.split('_')[0]"></td>
         <td ng-bind="item.district.split('_')[0]"></td>
         <td ng-bind="item.ward.split('_')[0]"></td>
@@ -55,13 +55,20 @@
   </table>
 </div>
 </div>
+
 <div class="pagelist">
   <div class="pagination-wrapper">
     <div class="pagination">
-      <a class="prev page-numbers" href="javascript:;" ng-click="prevPage()">Trước</a>
-      <a class="page-numbers" href="javascript:;" ng-repeat="page in range()" ng-class="{active: currentPage == page}"
-        ng-click="setPage(page)">{{ page }}</a>
-      <a class="next page-numbers" href="javascript:;" ng-click="nextPage()">Sau</a>
+      <a class="prev page-numbers" href="javascript:;" ng-click="prevPage()"><i class="fas fa-angle-double-left"></i></a>
+      <a class="page-numbers" href="javascript:;"ng-repeat="page in range()" ng-class="{active: currentPage == page}" ng-click="setPage(page)">{{ page }}</a>
+      <a class="next page-numbers" href="javascript:;" ng-click="nextPage()"><i class="fas fa-angle-double-right"></i></a>
     </div>
   </div>
 </div>
+<style>
+  .fas{
+    font-size: 14px;
+    color: #000;
+    padding: 3px 10px;
+  }
+</style>

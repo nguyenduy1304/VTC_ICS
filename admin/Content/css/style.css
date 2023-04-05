@@ -574,19 +574,17 @@ table.table-style-three td {
 .pagination a {
     color: black;
     float: left;
-    padding: 5px 11px;
+    padding: 0 10px;
     text-decoration: none;
 }
 
 .pagination a.active {
     background-color: dodgerblue;
     color: white;
-    border-radius: 50%;
 }
 
 .pagination a:hover:not(.active) {
     background-color: #ddd;
-    border-radius: 50%;
 }
 
 .radiostreaming_rule_ul,
@@ -651,6 +649,15 @@ textarea {
     position: absolute;
     top: 12%;
     background-color: #efefef;
+    z-index: 999;
+}
+#ice {
+    text-align: center;
+    border: 1px solid #cbcbcb;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: #2f2828;
     z-index: 999;
 }
 
@@ -741,8 +748,23 @@ textarea {
     font-size: 13px;
     font-family: Arial, Helvetica, sans-serif;
 }
+audio{
+    padding: 10px
+}
+.icon_volume {
+    font-size: 15px;
+    padding: 5px;
+    color: #00AAFF;
+}
+
+.icon_volume:hover {
+    font-size: 17px;
+    padding: 4px;
+    cursor: pointer;
+    color: #508e9e;
 
 
+}
 
 
 footer {
