@@ -153,6 +153,11 @@
                         <option ng-repeat="item in wards" value={{item.nameId}}>{{item.name}}</option>
                     </select>
                 </div>
+                <label class="col-xs-2 control-label" for="c_channelId">Kênh kết nối</label>
+                <div class="col-xs-4">
+                    <input ng-model="dataForm.c_channelId" name="c_channelId" type="text" class="form-control"
+                    id="c_channelId">
+                </div>
             </div>
             <div class="form-group">
                 <label for="note" class="col-sm-2 control-label">Ghi chú</label>
