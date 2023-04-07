@@ -47,7 +47,16 @@
                             {{item.name}}</option>
                     </select>
                 </div>
-                <label class="col-xs-2 control-label" for="status">Tình trạng</label>
+                <label class="col-xs-2 control-label" for="district">Quận/huyện</label>
+                <div class="col-xs-4">
+                    <select class="form-control district" id="district" aria-label=".form-select-sm"
+                        ng-selected="dataForm.district" ng-model="dataForm.district" ng-change="listWards()" required>
+                        <option value="" selected>--Chọn quân/huyện--</option>
+                        <option ng-repeat="item in districts" value={{item.nameId}}>
+                            {{item.name}}</option>
+                    </select>
+                </div>
+                <!-- <label class="col-xs-2 control-label" for="status">Tình trạng</label>
                 <div class="col-xs-4">
                     <select ng-selected="dataForm.status" name="status" ng-model="dataForm.status" class="form-control"
                         required>
@@ -58,18 +67,10 @@
                         <option value="RS04" selected>Tạm dừng</option>
                         <option value="RS05" selected>Kết thúc</option>
                     </select>
-                </div>
+                </div> -->
             </div>
             <div class="form-group">
-                <label class="col-xs-2 control-label" for="district">Quận/huyện</label>
-                <div class="col-xs-4">
-                    <select class="form-control district" id="district" aria-label=".form-select-sm"
-                        ng-selected="dataForm.district" ng-model="dataForm.district" ng-change="listWards()" required>
-                        <option value="" selected>--Chọn quân/huyện--</option>
-                        <option ng-repeat="item in districts" value={{item.nameId}}>
-                            {{item.name}}</option>
-                    </select>
-                </div>
+               
                 <label for="city" class="col-xs-2 control-label">Phường/xã</label>
                 <div class="col-xs-4">
                     <select class="form-control ward" id="ward" aria-label=".form-select-sm" ng-selected="dataForm.ward"
@@ -273,6 +274,23 @@
                             class="form-control" id="c_durationtimeout">
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="week_day_content" class="col-sm-2 control-label">Ngày trong tuần</label>
+                    <div class="col-sm-10" id="week_day_content">
+                        <label
+                            ng-repeat="(index, day) in ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7']">
+                            <input type="checkbox" ng-model="dataForm['week_day_' + (index + 1)]"
+                                value="{{ index + 1 }}"
+                                ng-click="week_day_content(index + 1)">
+                            {{ day }} &emsp;
+                        </label>
+                        <label>
+                            <button type="button" class="btn_all" ng-click="select_all_WeekDay()" id="choose">Chọn tất
+                                cả</button>
+                        </label>
+                    </div>
+                </div>
+
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-8">

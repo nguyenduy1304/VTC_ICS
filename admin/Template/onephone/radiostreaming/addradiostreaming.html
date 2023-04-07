@@ -21,11 +21,11 @@
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">Tên phát
                     thanh</label>
-                <div class="col-sm-4">
+                <div class="col-sm-10">
                     <input ng-model="dataForm.name" name="name" type="text" class="form-control" id="name"
                         placeholder="Nhập tên phát thanh" required>
                 </div>
-                <label class="col-xs-2 control-label" for="c_approval">Tình
+                <!-- <label class="col-xs-2 control-label" for="c_approval">Tình
                     trạng duyệt</label>
                 <div class="col-xs-4">
                     <select ng-selected="dataForm.c_approval" name="c_approval" ng-model="dataForm.c_approval"
@@ -37,7 +37,7 @@
                         <option value="A04" selected>Đã duyệt</option>
                         <option value="A05" selected>Từ chối</option>
                     </select>
-                </div>
+                </div> -->
             </div>
             <div class="form-group">
                 <label for="city" class="col-xs-2 control-label">Tỉnh/Tp</label>
@@ -49,7 +49,16 @@
                             {{item.name}}</option>
                     </select>
                 </div>
-                <label class="col-xs-2 control-label" for="status">Tình
+                <label for="district" class="col-xs-2 control-label">Quận/huyện</label>
+                <div class="col-xs-4">
+                    <select class="form-control district" id="district" aria-label=".form-select-sm"
+                        ng-selected="dataForm.district" ng-model="dataForm.district" ng-change="listWards()" required>
+                        <option value="" selected>--Chọn quân/huyện--</option>
+                        <option ng-repeat="item in districts" value={{item.nameId}}>
+                            {{item.name}}</option>
+                    </select>
+                </div>
+                <!-- <label class="col-xs-2 control-label" for="status">Tình
                     trạng</label>
                 <div class="col-xs-4">
                     <select ng-selected="dataForm.status" name="status" ng-model="dataForm.status" class="form-control"
@@ -61,19 +70,11 @@
                         <option value="RS04" selected>Tạm dừng</option>
                         <option value="RS05" selected>Kết thúc</option>
                     </select>
-                </div>
+                </div> -->
 
             </div>
             <div class="form-group">
-                <label for="district" class="col-xs-2 control-label">Quận/huyện</label>
-                <div class="col-xs-4">
-                    <select class="form-control district" id="district" aria-label=".form-select-sm"
-                        ng-selected="dataForm.district" ng-model="dataForm.district" ng-change="listWards()" required>
-                        <option value="" selected>--Chọn quân/huyện--</option>
-                        <option ng-repeat="item in districts" value={{item.nameId}}>
-                            {{item.name}}</option>
-                    </select>
-                </div>
+                
                 <label for="ward" class="col-xs-2 control-label">Phường/xã</label>
                 <div class="col-xs-4">
                     <select class="form-control ward" id="ward" aria-label=".form-select-sm" ng-selected="dataForm.ward"

@@ -1061,8 +1061,8 @@ app.controller('addradiostreamingCtrl', function ($filter, addressService, $http
                             city: $scope.dataForm.city,
                             district: $scope.dataForm.district,
                             ward: $scope.dataForm.ward,
-                            c_approval: $scope.dataForm.c_approval,
-                            status: $scope.dataForm.status,
+                            // c_approval: $scope.dataForm.c_approval,
+                            // status: $scope.dataForm.status,
                             starttime: starttime,
                             endtime: endtime,
                             description: $scope.dataForm.description || ""
@@ -1756,7 +1756,7 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                     district: $scope.dataForm.district,
                     ward: $scope.dataForm.ward,
                     c_approval: $scope.dataForm.c_approval,
-                    status: $scope.dataForm.status,
+                    // status: $scope.dataForm.status,
                     starttime: starttime_edit,
                     endtime: endtime_edit,
                     description: $scope.dataForm.description
