@@ -1168,6 +1168,35 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
                 $scope.week += daysToAdd;
             }
         };
+
+        $scope.week_content = '';
+        $scope.week_day_content = function (day) {
+            var index = $scope.week_content.split(",").indexOf(day.toString());
+            if (index === -1) {
+                $scope.week_content += day.toString() + ",";
+            } else {
+                var weekArray = $scope.week_content.split(",");
+                weekArray.splice(index, 1);
+                $scope.week_content = weekArray.join(",");
+            }
+        };
+        $scope.select_all_WeekDayContent = function () {
+            var allSelected = true;
+            for (var i = 1; i <= 7; i++) {
+                if (!$scope.dataForm['week_day_' + i]) {
+                    allSelected = false;
+                }
+            }
+            for (var i = 1; i <= 7; i++) {
+                if (!allSelected && !$scope.dataForm['week_day_' + i]) {
+                    $scope.week_day_content(i);
+                }
+                $scope.dataForm['week_day_' + i] = !allSelected;
+            }
+            if (allSelected) {
+                $scope.week_content = '';
+            }
+        };
         //#endregion
 
         //#region Ngày
@@ -1571,8 +1600,8 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
 
                     c_icecastlibrary: $scope.c_icecastlibrary || "",
                     c_playOrder: c_playOrder,
-                    c_durationtimeout: c_durationtimeout
-
+                    c_durationtimeout: c_durationtimeout,
+                    c_weekday: $scope.week_content
                 }).toString(),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -1593,7 +1622,7 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
 
         // #region Nge ICECAST
         $scope.listen_ice = function (nameId) {
-            
+
             $http({
                 method: 'POST',
                 url: domain_api + 'lookups/model/Icecaststore',
@@ -1813,6 +1842,47 @@ app.controller('editradiostreamingCtrl', function ($filter, addressService, $dia
 app.controller('editplaystreamCtrl', function ($filter, $stateParams, $http, $scope, $state, $rootScope, $dialogShowForm, $dialogAlert, $log, $uibModal, $location, $window) {
     if (localStorage.getItem('token')) {
         var id = $stateParams.id;
+        //#region  TUẦN
+        $scope.week_day_content = function (day) {
+            var index = $scope.week_content.split(",").indexOf(day.toString());
+            if (index === -1) {
+                $scope.week_content += day.toString() + ",";
+            } else {
+                var weekArray = $scope.week_content.split(",");
+                weekArray.splice(index, 1);
+                $scope.week_content = weekArray.join(",");
+            }
+            console.log($scope.week_content);
+        };
+        $scope.select_all_WeekDayContent = function () {
+            var allSelected = true;
+            for (var i = 1; i <= 7; i++) {
+                if (!$scope.dataForm['week_day_' + i]) {
+                    allSelected = false;
+                }
+            }
+            for (var i = 1; i <= 7; i++) {
+                if (!allSelected && !$scope.dataForm['week_day_' + i]) {
+                    $scope.week_day_content(i);
+                }
+                $scope.dataForm['week_day_' + i] = !allSelected;
+            }
+            if (allSelected) {
+                $scope.week_content = '';
+            } else {
+                var daysToAdd = '';
+                for (var i = 1; i <= 7; i++) {
+                    if ($scope.dataForm['week_day_' + i] && $scope.week_content.indexOf(i.toString()) === -1) {
+                        daysToAdd += i.toString() + ',';
+                    }
+                }
+                $scope.week_content += daysToAdd;
+            console.log($scope.week_content);
+
+            }
+        };
+        //#endregion
+
         //=========== Lấy danh sách Radionode ==========
         $http({
             method: 'POST',
@@ -1926,6 +1996,7 @@ app.controller('editplaystreamCtrl', function ($filter, $stateParams, $http, $sc
             $scope.c_radiolibraryId = $scope.dataForm.c_radiolibraryId;
             $scope.dthID = $scope.dataForm.dthID;
             $scope.c_icecastlibrary = $scope.dataForm.c_icecastlibrary;
+           $scope.week_content =  $scope.dataForm.c_weekday;
         }, function errorCallback(response) {
             $rootScope.checkError(response.data.message, $dialogAlert);
         });
@@ -1963,7 +2034,8 @@ app.controller('editplaystreamCtrl', function ($filter, $stateParams, $http, $sc
 
                     c_icecastlibrary: $scope.c_icecastlibrary || "",
                     c_playOrder: c_playOrder,
-                    c_durationtimeout: c_durationtimeout
+                    c_durationtimeout: c_durationtimeout,
+                    c_weekday: $scope.week_content
                 }).toString(),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
